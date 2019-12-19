@@ -1,0 +1,71 @@
+{
+    "name": "eToro",
+    "description": "Using eToro\u2019s innovative trading platform, you can trade and invest in stocks, cryptocurrencies, ETFs, currencies, indices and commodities or copy leading investors using our patented CopyTrader system. Become part of the Fintech revolution today: Join...",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/28338-api-portal-etoro-com.jpg",
+    "tags": [
+        "api provider",
+        "financial services",
+        "have api",
+        "marketplaces",
+        "social"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/etoro\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "eToro",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/28338-api-portal-etoro-com.jpg",
+            "humanURL": "https:\/\/etoro.com",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/etoro-openapi.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/etoro"
+        },
+        {
+            "type": "Developers",
+            "url": "https:\/\/api-portal.etoro.com"
+        },
+        {
+            "type": "Email",
+            "url": "pr@eToro.com"
+        },
+        {
+            "type": "Email",
+            "url": "bizdev@eToro.com"
+        },
+        {
+            "type": "Email",
+            "url": "ukpremium@etoro.com"
+        },
+        {
+            "type": "Email",
+            "url": "ev@eToro.com"
+        },
+        {
+            "type": "Github",
+            "url": "https:\/\/github.com\/etoro"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/eToro"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/etoro.com"
+        }
+    ]
+}
