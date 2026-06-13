@@ -1,0 +1,45 @@
+plans:
+  - name: Verified Account Access (Early Access)
+    description: >
+      Free API access available to verified eToro account holders who join the
+      eToro Builders early access program. Developers obtain API credentials
+      (x-api-key and x-user-key) through the eToro API Portal under Settings →
+      Trading → API Key Management. A fully verified eToro account is required;
+      unverified accounts do not receive API key provisioning. Access covers all
+      public API products including Trading, Market Data, Portfolio & Account,
+      Watchlists, Social & Discovery, Price Alerts, and Agent Portfolios. No
+      separate API subscription fee is charged.
+    url: https://builders.etoro.com/
+    status: active
+    pricingModel: free-with-account
+    audience: individual
+    rate:
+      reads:
+        limit: 60
+        unit: minute
+        scope: GET requests (market data, portfolio, social, watchlists)
+      writes:
+        limit: 20
+        unit: minute
+        scope: POST/PUT/DELETE requests (trading, watchlist management, social writes)
+    features:
+      - Trading execution (real and demo accounts)
+      - Real-time market data (REST and WebSocket)
+      - Portfolio and account management
+      - Watchlist creation and management
+      - Social feed read and write access
+      - Price alert management
+      - Agent portfolio management (v2)
+      - eToro CLI tool access
+      - MCP server for AI IDE integration
+    requirements:
+      - Active and fully verified eToro account
+      - Early access enrollment via the eToro Builders program
+      - API key generation through the eToro API Portal
+
+notes: >
+  The eToro Public API was in early access as of 2026. Access is gated behind
+  account verification and Builders program enrollment. No paid API tiers or
+  commercial licensing terms were publicly disclosed at the time of catalog
+  creation. The eToro App Store (a marketplace for developer-published tools)
+  was announced as a forthcoming capability.

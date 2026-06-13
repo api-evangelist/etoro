@@ -1,0 +1,67 @@
+rate-limits:
+  - name: GET Request Rate Limit (Read Operations)
+    description: >
+      All read-only GET requests are throttled to 60 requests per minute per
+      user key, measured over a 1-minute rolling window. This limit covers market
+      data retrieval, portfolio information, social feed reads, and watchlist reads.
+      Exceeding this limit results in an HTTP 429 Too Many Requests response.
+      Callers should check the X-RateLimit-Remaining header on every response and
+      proactively throttle requests before the limit is reached.
+    url: https://builders.etoro.com/learn/rate-limits-and-429-handling
+    limit: 60
+    unit: minute
+    scope: GET requests — market data, portfolio info, social reads, watchlist reads
+    errorCode: 429
+    enforcement: per user key, rolling 1-minute window
+    headers:
+      - name: Retry-After
+        description: Seconds to wait before retrying after a 429 response
+      - name: X-RateLimit-Limit
+        description: Maximum requests allowed in the current window
+      - name: X-RateLimit-Remaining
+        description: Requests remaining in the current window
+      - name: X-RateLimit-Reset
+        description: Unix timestamp when the rate limit window resets
+
+  - name: Write and Execution Request Rate Limit
+    description: >
+      All write and state-changing requests are throttled to 20 requests per minute
+      per user key, measured over a 1-minute rolling window. This covers trading
+      execution endpoints (order placement, order cancellation, position closing),
+      watchlist management writes, and social feed write operations (posting,
+      commenting, liking). Exceeding this limit returns HTTP 429. Exponential
+      backoff with jitter is recommended for retry handling.
+    url: https://builders.etoro.com/learn/rate-limits-and-429-handling
+    limit: 20
+    unit: minute
+    scope: POST/PUT/DELETE requests — trading execution, watchlist writes, social writes
+    errorCode: 429
+    enforcement: per user key, rolling 1-minute window
+    headers:
+      - name: Retry-After
+        description: Seconds to wait before retrying after a 429 response
+      - name: X-RateLimit-Limit
+        description: Maximum requests allowed in the current window
+      - name: X-RateLimit-Remaining
+        description: Requests remaining in the current window
+      - name: X-RateLimit-Reset
+        description: Unix timestamp when the rate limit window resets
+
+  - name: WebSocket Streaming Connection
+    description: >
+      Real-time price data is available via WebSocket at wss://ws.etoro.com/ws
+      using topic-based subscriptions (e.g., quotes.{instrumentId}). Using
+      WebSocket for real-time prices is recommended over polling REST rate
+      endpoints, as it avoids consuming read quota. Reconnection should use
+      exponential backoff capping at 30 seconds.
+    url: https://builders.etoro.com/blog/building-a-real-time-price-dashboard
+    scope: Real-time market data streaming
+    enforcement: connection-based; polling rate limits bypassed via streaming
+
+notes: >
+  Rate limits are tracked per user key over a rolling 1-minute window. No tiered
+  rate limit system (e.g., elevated limits for paid tiers) was publicly documented
+  as of the catalog creation date. Caching static reference data (instrument
+  metadata, exchange lists, industry types) with a multi-hour TTL is recommended
+  to reduce read quota consumption. Always honor the Retry-After header value
+  when handling 429 responses.

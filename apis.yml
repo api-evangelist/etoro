@@ -1,0 +1,292 @@
+aid: etoro
+url: https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/apis.yml
+name: eToro
+tags:
+  - Social Trading
+  - Copy Trading
+  - Investing
+  - Market Data
+  - Portfolio Management
+  - Fintech
+  - Trading
+  - Stocks
+  - Cryptocurrency
+  - ETFs
+type: Index
+kind: company
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+created: '2026-06-13'
+modified: '2026-06-13'
+position: Consumer
+description: >-
+  eToro is a leading social trading and multi-asset investment platform enabling
+  individuals to trade and invest in stocks, cryptocurrencies, ETFs, commodities,
+  currencies, and indices. The eToro Public API (available via the eToro Builders
+  program) exposes REST endpoints and WebSocket streams for trading execution,
+  real-time market data, portfolio and account management, watchlists, social feed
+  interactions, price alerts, and AI-managed agent portfolios. Authentication uses
+  API key headers (x-api-key and x-user-key) obtained from the eToro API Portal.
+  The API is currently in early access and free for eligible verified eToro account
+  holders.
+specificationVersion: '0.19'
+apis:
+  - aid: etoro:trading-api
+    name: eToro Trading API
+    tags:
+      - Trading
+      - Orders
+      - Positions
+      - Demo Trading
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v1
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+      - url: https://builders.etoro.com/learn/getting-started-with-etoro-api-v2
+        type: GettingStarted
+    description: >-
+      Provides REST endpoints for executing and managing trades on eToro for both
+      real and demo (paper trading) accounts. Supports creating market and limit
+      orders, canceling pending orders, closing open positions, and retrieving
+      comprehensive portfolio information including open positions, pending orders,
+      and account status. Demo account endpoints mirror production, enabling safe
+      algorithmic strategy development without risking real capital.
+    x-features:
+      - Market and limit order placement
+      - Order cancellation and position closing
+      - Real and demo (paper trading) account support
+      - Portfolio snapshot with positions and orders
+      - Per-account-type endpoint routing via {accountType} path parameter
+    x-use-cases:
+      - Automate trade execution based on algorithmic signals
+      - Build and test trading bots in the demo environment
+      - Manage open positions programmatically
+      - Retrieve live P&L snapshots for dashboards
+
+  - aid: etoro:market-data-api
+    name: eToro Market Data API
+    tags:
+      - Market Data
+      - Instruments
+      - Quotes
+      - OHLCV
+      - Real-Time
+      - WebSocket
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v1
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+      - url: https://builders.etoro.com/blog/developers-guide-to-instrument-discovery
+        type: GettingStarted
+      - url: https://builders.etoro.com/blog/building-a-real-time-price-dashboard
+        type: Tutorial
+    description: >-
+      Provides REST and WebSocket access to real-time and historical market data
+      for all asset classes available on eToro including stocks, cryptocurrencies,
+      ETFs, commodities, currencies, and indices. REST endpoints cover instrument
+      search, metadata, real-time bid/ask rates, end-of-day closing prices, and
+      OHLCV candlestick history. The WebSocket stream at wss://ws.etoro.com/ws
+      delivers low-latency tick-level price updates via topic-based subscriptions
+      such as quotes.{instrumentId}.
+    x-features:
+      - Instrument search and metadata retrieval
+      - Real-time bid/ask rates for multiple symbols
+      - OHLCV historical candlesticks (up to 1000 bars)
+      - End-of-day closing price bulk history
+      - Exchange and sector/industry reference data
+      - WebSocket streaming for live price ticks
+    x-use-cases:
+      - Build real-time price dashboards and market monitors
+      - Backtest trading strategies with historical OHLCV data
+      - Discover and map instruments by ticker, type, or exchange
+      - Stream live quotes into algorithmic trading systems
+
+  - aid: etoro:portfolio-account-api
+    name: eToro Portfolio and Account API
+    tags:
+      - Portfolio
+      - Account
+      - Balance
+      - Transactions
+      - Cash
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v1
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+    description: >-
+      Provides REST endpoints for accessing account-level financial data including
+      aggregated balances across all account types, cash account details, and
+      paginated transaction history. Supports creating and managing cash accounts
+      and retrieving the authenticated user's profile. Designed to support portfolio
+      analytics, accounting integrations, and account-level reporting workflows.
+    x-features:
+      - Aggregated balance across all account types
+      - Cash account creation and retrieval
+      - Paginated transaction history
+      - Authenticated user profile retrieval
+    x-use-cases:
+      - Sync transaction history into accounting or tax software
+      - Display consolidated account balances in portfolio apps
+      - Monitor cash flow and funding activity programmatically
+
+  - aid: etoro:social-discovery-api
+    name: eToro Social and Discovery API
+    tags:
+      - Social Trading
+      - Feeds
+      - Copy Trading
+      - Pro Investors
+      - Analytics
+      - Community
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v1
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+    description: >-
+      Provides REST endpoints for accessing eToro's social trading layer. Supports
+      reading and writing to personalized, news, and instrument-specific feeds,
+      posting comments, toggling likes, and querying public user portfolios and
+      performance statistics. Enables access to Pro Investor and Smart Portfolio
+      analytics, supporting social copy-trading discovery and leaderboard-style
+      analytics applications.
+    x-features:
+      - Read and write feed posts (personalized, news, instrument)
+      - Comment and like functionality on posts
+      - Public user portfolio and performance statistics
+      - Pro Investor and Smart Portfolio analytics
+    x-use-cases:
+      - Build social trading dashboards and leaderboards
+      - Analyze top Pro Investor performance and copy-trading signals
+      - Surface community sentiment around specific instruments
+      - Power copy-trading discovery features
+
+  - aid: etoro:watchlists-api
+    name: eToro Watchlists API
+    tags:
+      - Watchlists
+      - Instruments
+      - Portfolio Management
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v1
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+    description: >-
+      Provides REST endpoints for programmatically creating, retrieving, and
+      managing custom instrument watchlists on eToro. Supports adding and removing
+      instruments from watchlists and managing both private and public watchlists.
+      Useful for building curated market-tracking tools and portfolio monitoring
+      applications.
+    x-features:
+      - Create custom watchlists
+      - Retrieve all user watchlists
+      - Add and remove instruments from watchlists
+      - Private and public watchlist support
+    x-use-cases:
+      - Programmatically maintain curated instrument watchlists
+      - Sync screened instruments into eToro from external tools
+      - Build portfolio monitoring and alerting applications
+
+  - aid: etoro:price-alerts-api
+    name: eToro Price Alerts API
+    tags:
+      - Price Alerts
+      - Notifications
+      - Market Data
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v1
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+    description: >-
+      Provides REST endpoints for creating, listing, and deleting price threshold
+      alerts on eToro instruments. Enables programmatic configuration of price
+      notifications so that applications can be notified when specific instruments
+      reach defined price levels, supporting automated trading triggers and
+      monitoring workflows.
+    x-features:
+      - Create price threshold alerts on any instrument
+      - List all active price alerts
+      - Delete existing price alerts
+    x-use-cases:
+      - Trigger automated trading actions on price level breaches
+      - Monitor watchlist instruments for key price events
+      - Build notification systems for retail traders
+
+  - aid: etoro:agent-portfolios-api
+    name: eToro Agent Portfolios API
+    tags:
+      - AI
+      - Agent Portfolios
+      - Automation
+      - Portfolio Management
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://public-api.etoro.com/api/v2
+    humanURL: https://builders.etoro.com/
+    properties:
+      - url: https://builders.etoro.com/
+        type: Documentation
+      - url: https://api-portal.etoro.com/
+        type: Portal
+    description: >-
+      Provides v2 REST endpoints for creating and managing AI-managed agent
+      portfolios on eToro. Supports portfolio creation with named scopes, retrieval
+      of all agent portfolios belonging to the authenticated user, deletion of
+      portfolios, and generation of delegated user-access tokens. Designed for
+      AI agent frameworks and automated portfolio management workflows.
+    x-features:
+      - Create agent portfolios with named scope definitions
+      - Retrieve all agent portfolios for the authenticated user
+      - Delete agent portfolios by ID
+      - Generate delegated user access tokens per portfolio
+    x-use-cases:
+      - Power AI-driven portfolio management agents
+      - Delegate scoped trading authority to autonomous agents
+      - Build multi-portfolio management workflows for AI trading systems
+
+common:
+  - url: https://builders.etoro.com/
+    type: Portal
+  - url: https://api-portal.etoro.com/
+    type: Documentation
+  - url: https://builders.etoro.com/learn/getting-started-with-etoro-api-v2
+    type: GettingStarted
+  - url: https://builders.etoro.com/learn/rate-limits-and-429-handling
+    type: RateLimits
+  - url: plans/plans.yml
+    type: Plans
+  - url: rate-limits/rate-limits.yml
+    type: RateLimits
+  - url: finops/finops.yml
+    type: FinOps
+  - url: https://builders.etoro.com/tools/mcp
+    type: MCP
+  - url: https://api-portal.etoro.com/mcp
+    type: MCPServer
+
+maintainers:
+  - FN: API Evangelist
+    url: https://apievangelist.com
+    email: info@apievangelist.com

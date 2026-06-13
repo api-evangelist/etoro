@@ -1,0 +1,72 @@
+finops:
+  model: free-with-account
+  description: >
+    eToro provides API access at no direct cost to verified account holders
+    enrolled in the eToro Builders early access program. There are no API
+    subscription fees, per-call charges, or data licensing fees for using the
+    public API. eToro's revenue is generated through the underlying brokerage
+    and investment platform relationship rather than API monetization. The
+    primary revenue sources include the spread on trades (the difference between
+    buy and sell prices), overnight rollover fees, withdrawal fees, currency
+    conversion fees, and inactivity fees on dormant accounts.
+
+  cost-to-consumer:
+    api-subscription: $0
+    per-call: $0
+    data-licensing: $0
+    notes: >
+      Free for any verified eToro account holder enrolled in the Builders
+      program. No API-specific fees apply. Standard platform fees (spreads,
+      overnight fees, withdrawal charges) apply to trades placed via the API
+      in the same way they apply to trades placed via the eToro web or mobile
+      platform.
+
+  revenue-model:
+    primary:
+      - type: Trading Spreads
+        description: >
+          eToro earns revenue through the spread — the difference between the
+          buy (ask) and sell (bid) price on trades. Spreads vary by asset class
+          and instrument. Crypto assets typically carry wider spreads than
+          equities. This applies to all trades including those placed via API.
+      - type: Overnight Rollover (CFD) Fees
+        description: >
+          Contracts for Difference (CFD) positions held overnight incur a
+          rollover fee. Rates vary by instrument and direction (long/short).
+          This fee applies to leveraged positions on stocks, commodities,
+          currencies, and indices held beyond market close.
+      - type: Currency Conversion Fee
+        description: >
+          eToro charges a conversion fee (up to 1.5%) when a trade is executed
+          in a currency other than USD, or when depositing/withdrawing in a
+          non-USD currency. This applies to API-placed trades as well.
+    secondary:
+      - type: Withdrawal Fee
+        description: >
+          eToro charges a flat withdrawal fee of $5 per withdrawal request,
+          with a minimum withdrawal amount of $30.
+      - type: Inactivity Fee
+        description: >
+          Accounts with no login activity for 12 consecutive months are charged
+          a $10 per month inactivity fee, applied against available cash balance.
+      - type: eToro App Store (Forthcoming)
+        description: >
+          eToro announced an App Store marketplace enabling developers to
+          distribute trading tools and dashboards to eToro users. Commercial
+          revenue sharing or listing terms were not disclosed as of the catalog
+          creation date.
+
+  platform-fees:
+    url: https://www.etoro.com/trading/fees/
+    notes: >
+      All platform fees (spreads, overnight rates, withdrawal charges) apply
+      equally to activity initiated via the API. API access itself is free;
+      the cost of trading on eToro is embedded in the trading fees and spreads
+      charged by the platform.
+
+notes: >
+  The eToro Public API was in early access as of mid-2026. No paid API tiers,
+  commercial data licensing programs, or volume-based API pricing were publicly
+  disclosed. Financial data reflects publicly available eToro fee disclosures.
+  eToro is regulated in multiple jurisdictions; fee structures may vary by
+  country of registration.
