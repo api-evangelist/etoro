@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/EquityDetailsData.json",
+  "title": "EquityDetailsData",
+  "type": "object",
+  "description": "Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account's provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex.",
+  "properties": {
+    "available": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Available balance or buying power (Trading, Options, MoneyFarm, Cash)."
+    },
+    "frozenCash": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Cash frozen by the platform pending settlement (Trading)."
+    },
+    "currentPNL": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Current unrealized profit and loss on open positions (Trading)."
+    },
+    "totalUsedMargin": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Total margin used by open positions (Trading)."
+    },
+    "cryptoId": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true,
+      "description": "eToro internal crypto asset identifier (Crypto)."
+    },
+    "balance": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Balance in native crypto units (Crypto)."
+    },
+    "totalBalance": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Total balance in native crypto units, including pending (Crypto)."
+    },
+    "spendableBalance": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Spendable balance in native crypto units (Crypto)."
+    },
+    "balanceInFiat": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Balance converted to fiat (Crypto)."
+    },
+    "totalBalanceInFiat": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Total balance converted to fiat, including pending (Crypto)."
+    },
+    "spendableBalanceInFiat": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Spendable balance converted to fiat (Crypto)."
+    },
+    "fiatConversionCurrency": {
+      "type": "string",
+      "nullable": true,
+      "description": "ISO 4217 currency code used for the InFiat values (Crypto)."
+    },
+    "orderIndex": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true,
+      "description": "Display order index for sorting (Crypto)."
+    }
+  },
+  "additionalProperties": false
+}

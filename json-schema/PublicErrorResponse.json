@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PublicErrorResponse.json",
+  "title": "PublicErrorResponse",
+  "type": "object",
+  "description": "Error response with code and message.",
+  "required": [
+    "errorCode",
+    "errorMessage"
+  ],
+  "properties": {
+    "errorCode": {
+      "type": "string",
+      "description": "Machine-readable error code.",
+      "example": "GeneralError"
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "Human-readable error message.",
+      "example": "Internal server error. Please retry or contact support"
+    }
+  }
+}

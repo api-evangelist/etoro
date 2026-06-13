@@ -1,0 +1,10 @@
+{
+  "path": "/api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}",
+  "method": "patch",
+  "status": "401",
+  "type": "response",
+  "example": {
+    "errorCode": "Unauthorized",
+    "errorMessage": "Unauthorized"
+  }
+}

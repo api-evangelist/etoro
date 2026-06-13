@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CommentUpdateRequest.json",
+  "title": "CommentUpdateRequest",
+  "type": "object",
+  "description": "Request body for updating a comment or reply. Owner is derived from the auth token \u2014 do not supply it.",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Updated text content",
+      "example": "Great point, I updated my view after reading more."
+    },
+    "attachments": {
+      "$ref": "#/components/schemas/Attachments"
+    }
+  }
+}

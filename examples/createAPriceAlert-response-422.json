@@ -1,0 +1,14 @@
+{
+  "path": "/api/v1/price-alerts",
+  "method": "post",
+  "status": "422",
+  "type": "response",
+  "example": {
+    "success": false,
+    "error": {
+      "code": "MAX_ALERTS_EXCEEDED",
+      "message": "Maximum number of alerts reached",
+      "details": "You have reached the maximum number of active price alerts"
+    }
+  }
+}

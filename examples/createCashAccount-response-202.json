@@ -1,0 +1,11 @@
+{
+  "path": "/api/v1/money/accounts/cash",
+  "method": "post",
+  "status": "202",
+  "type": "response",
+  "example": {
+    "requestReferenceId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "eligibilityStatus": "CardAndIbanEligible",
+    "status": "Accepted"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PriceAlertCollectionResponse.json",
+  "title": "PriceAlertCollectionResponse",
+  "type": "object",
+  "description": "Collection of price alerts for the authenticated user",
+  "properties": {
+    "results": {
+      "type": "array",
+      "description": "List of price alerts matching the query criteria",
+      "items": {
+        "$ref": "#/components/schemas/PriceAlert"
+      }
+    }
+  }
+}

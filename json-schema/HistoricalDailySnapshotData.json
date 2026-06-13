@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/HistoricalDailySnapshotData.json",
+  "title": "HistoricalDailySnapshotData",
+  "type": "object",
+  "description": "End-of-day balance snapshot for a specific date.",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The snapshot date (ISO 8601)."
+    },
+    "totalCurrencyIso": {
+      "type": "string",
+      "nullable": true,
+      "description": "ISO 4217 currency code for the total figures in native currency."
+    },
+    "totalCash": {
+      "type": "number",
+      "format": "double",
+      "description": "Total cash across all accounts in native currency."
+    },
+    "totalInvestedAmount": {
+      "type": "number",
+      "format": "double",
+      "description": "Total invested amount across all accounts in native currency."
+    },
+    "totalPnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Total profit and loss across all accounts in native currency."
+    },
+    "totalBalance": {
+      "type": "number",
+      "format": "double",
+      "description": "Total balance across all accounts in native currency."
+    },
+    "displayTotalCash": {
+      "type": "number",
+      "format": "double",
+      "description": "Total cash converted to the requested display currency."
+    },
+    "displayTotalInvestedAmount": {
+      "type": "number",
+      "format": "double",
+      "description": "Total invested amount converted to the requested display currency."
+    },
+    "displayTotalPnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Total profit and loss converted to the requested display currency."
+    },
+    "displayTotalBalance": {
+      "type": "number",
+      "format": "double",
+      "description": "Total balance converted to the requested display currency."
+    },
+    "totalExchangeRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Exchange rate applied to convert totals to displayCurrency."
+    },
+    "accountSnapshots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/HistoricalAccountData"
+      },
+      "nullable": true,
+      "description": "Individual account breakdowns within this snapshot."
+    }
+  },
+  "additionalProperties": false
+}

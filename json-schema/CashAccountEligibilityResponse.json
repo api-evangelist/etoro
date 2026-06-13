@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CashAccountEligibilityResponse.json",
+  "title": "CashAccountEligibilityResponse",
+  "type": "object",
+  "required": [
+    "eligibilityStatus"
+  ],
+  "properties": {
+    "eligibilityStatus": {
+      "type": "string",
+      "enum": [
+        "Ineligible",
+        "CardAndIbanEligible",
+        "IbanEligible"
+      ]
+    },
+    "ineligibilityReasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "nullable": true
+    },
+    "prerequisite": {
+      "$ref": "#/components/schemas/CashAccountPrerequisite",
+      "nullable": true
+    },
+    "contactInfo": {
+      "$ref": "#/components/schemas/CashAccountContactInfo",
+      "nullable": true
+    },
+    "userInfo": {
+      "$ref": "#/components/schemas/CashAccountUserInfo",
+      "nullable": true
+    }
+  }
+}

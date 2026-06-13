@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InstrumentsResponse.json",
+  "title": "InstrumentsResponse",
+  "type": "object",
+  "properties": {
+    "instrumentDisplayDatas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "instrumentID": {
+            "type": "integer"
+          },
+          "instrumentDisplayName": {
+            "type": "string"
+          },
+          "instrumentTypeID": {
+            "type": "integer"
+          },
+          "exchangeID": {
+            "type": "integer"
+          },
+          "symbolFull": {
+            "type": "string"
+          },
+          "stocksIndustryId": {
+            "type": "integer"
+          },
+          "priceSource": {
+            "type": "string",
+            "description": "The data provider or market source for the price, such as Nasdaq, LSE, or CME."
+          },
+          "hasExpirationDate": {
+            "type": "boolean"
+          },
+          "isInternalInstrument": {
+            "type": "boolean",
+            "description": "If set to true, the instrument is restricted from public access."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "instrumentID": {
+                  "type": "integer"
+                },
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "uri": {
+                  "type": "string"
+                },
+                "backgroundColor": {
+                  "type": "string"
+                },
+                "textColor": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

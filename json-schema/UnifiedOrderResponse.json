@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/UnifiedOrderResponse.json",
+  "title": "UnifiedOrderResponse",
+  "type": "object",
+  "description": "Response payload after successfully submitting an order.",
+  "properties": {
+    "token": {
+      "type": "string",
+      "format": "uuid",
+      "description": "A tracking token for the order request, used for correlation and debugging.",
+      "example": "066faaee-e1e9-49d2-a568-c6e1cc336ad8"
+    },
+    "orderId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The unique identifier of the created order.",
+      "example": 13902598
+    },
+    "referenceId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The client reference identifier for the order, matching the X-Request-Id header if provided.",
+      "example": "1c94300c-90aa-4303-9d00-dec376d74efb"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InstrumentEligibilityRequest.json",
+  "title": "InstrumentEligibilityRequest",
+  "type": "object",
+  "description": "Request payload for checking instrument eligibility. At least one of `instrumentIds` or `symbols` must be provided; combined length must not exceed 100 instruments.",
+  "properties": {
+    "instrumentIds": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "nullable": true,
+      "description": "Optional list of instrument IDs to check."
+    },
+    "symbols": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "nullable": true,
+      "description": "Optional list of instrument symbols to check."
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Requested currency for financial amounts in the eligibility response (e.g. minimum position size). Currently only USD is supported."
+    }
+  }
+}

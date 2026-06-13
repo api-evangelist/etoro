@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/LiveRatesResponse.json",
+  "title": "LiveRatesResponse",
+  "type": "object",
+  "description": "Container for real-time market rates data",
+  "properties": {
+    "rates": {
+      "type": "array",
+      "description": "Array of current market rates for requested instruments",
+      "items": {
+        "type": "object",
+        "description": "Individual instrument rate information",
+        "properties": {
+          "instrumentID": {
+            "type": "integer",
+            "description": "Unique identifier for the financial instrument"
+          },
+          "ask": {
+            "type": "number",
+            "format": "float",
+            "description": "Current asking price (offer) for the instrument. This is the price at which you can buy the asset."
+          },
+          "bid": {
+            "type": "number",
+            "format": "float",
+            "description": "Current bid price for the instrument. This is the price at which you can sell the asset."
+          },
+          "lastExecution": {
+            "type": "number",
+            "format": "float",
+            "description": "Price of the most recent trade execution for this instrument"
+          },
+          "conversionRateAsk": {
+            "type": "number",
+            "format": "float",
+            "description": "Current conversion rate (ask) from instrument's currency to USD, used for position value calculations"
+          },
+          "conversionRateBid": {
+            "type": "number",
+            "format": "float",
+            "description": "Current conversion rate (bid) from instrument's currency to USD, used for position value calculations"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date-time of the price in the system"
+          },
+          "unitMargin": {
+            "type": "number",
+            "format": "float",
+            "description": "(Obsolete) USD equivalent of the instrument price"
+          },
+          "unitMarginAsk": {
+            "type": "number",
+            "format": "float",
+            "description": "(Obsolete) USD equivalent of the instrument ask price"
+          },
+          "unitMarginBid": {
+            "type": "number",
+            "format": "float",
+            "description": "(Obsolete) USD equivalent of the instrument bid price"
+          },
+          "priceRateID": {
+            "type": "integer"
+          },
+          "bidDiscounted": {
+            "type": "number",
+            "format": "float",
+            "description": "Obsolete"
+          },
+          "askDiscounted": {
+            "type": "number",
+            "format": "float",
+            "description": "Obsolete"
+          },
+          "unitMarginBidDiscounted": {
+            "type": "number",
+            "format": "float",
+            "description": "Obsolete"
+          },
+          "unitMarginAskDiscounted": {
+            "type": "number",
+            "format": "float",
+            "description": "Obsolete"
+          }
+        }
+      }
+    }
+  }
+}

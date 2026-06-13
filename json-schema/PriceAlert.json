@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PriceAlert.json",
+  "title": "PriceAlert",
+  "type": "object",
+  "description": "A price alert set by the user on a financial instrument",
+  "required": [
+    "alertId",
+    "instrumentId",
+    "symbol",
+    "targetPrice",
+    "currentPrice",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "alertId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the price alert",
+      "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    "instrumentId": {
+      "type": "integer",
+      "description": "Unique instrument identifier used across all trading operations",
+      "example": 1001
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Trading symbol displayed to users (e.g. AAPL, TSLA)",
+      "example": "AAPL"
+    },
+    "targetPrice": {
+      "type": "number",
+      "format": "decimal",
+      "description": "Target price at which the alert will trigger",
+      "example": 185.5
+    },
+    "currentPrice": {
+      "type": "number",
+      "format": "decimal",
+      "description": "Market bid price at the time the alert was created or last updated",
+      "example": 182.3
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the alert was created (ISO 8601 UTC)",
+      "example": "2026-04-20T10:00:00Z"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the alert was last updated (ISO 8601 UTC)",
+      "example": "2026-04-25T14:30:00Z"
+    }
+  }
+}

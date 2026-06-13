@@ -1,0 +1,3870 @@
+{
+  "name": "eToro API Vocabulary",
+  "description": "Terms derived from the eToro Public API OpenAPI specification",
+  "version": "v1.244.0",
+  "terms": [
+    {
+      "term": "users",
+      "description": "Array of user profiles with their associated information",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "gcid",
+      "description": "Global Customer ID - Unique identifier across all systems",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "realCID",
+      "description": "Customer ID for real trading account",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "demoCID",
+      "description": "Customer ID for demo/practice account if available",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "username",
+      "description": "Unique username identifier for the user",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "language",
+      "description": "User's preferred language ID based on system language codes",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "languageIsoCode",
+      "description": "ISO 639-1 language code for user's preferred language",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "country",
+      "description": "User's registered country ID based on system country codes",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "allowDisplayFullName",
+      "description": "Indicates whether the user has consented to displaying their full name publicly",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "userBio",
+      "description": "Structured biographical information including trading strategy",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "whiteLabel",
+      "description": "White label partner identifier if user belongs to a partner program",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "optOut",
+      "description": "Indicates if user has opted out of public profile features",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "homepage",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "playerStatus",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "piLevel",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "isPi",
+      "description": "Indicates if user is a Professional Investor with special privileges",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "avatars",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "masterAccountCid",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "accountType",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "fundType",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "isVerified",
+      "description": "",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "verificationLevel",
+      "description": "User's current verification level (0-3, where 3 is fully verified)",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "accountStatus",
+      "description": "Current account status code indicating active, suspended, or other states",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "gdprInfo",
+      "description": "",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "firstName",
+      "description": "User's first name (visible if allowDisplayFullName is true)",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "middleName",
+      "description": "User's middle name",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "lastName",
+      "description": "User's last name (visible if allowDisplayFullName is true)",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "aboutMe",
+      "description": "User's full about me text",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "aboutMeShort",
+      "description": "Short summary of user's about me text",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "customerRestrictions",
+      "description": "List of customer restrictions applied to the account",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "userFlowSignature",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "languageCode",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "strategyID",
+      "description": "ID of the user's trading strategy",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "url",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "width",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "height",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "type",
+      "description": "Type of avatar image",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "1",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "2",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "3",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "4",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "5",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "6",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "7",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "8",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "9",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "10",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "11",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "12",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "13",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "14",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "15",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "16",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "17",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "18",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "19",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "20",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "21",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "22",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "23",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "24",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "25",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "26",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "27",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "28",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "29",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "30",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "31",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "32",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "33",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "34",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "35",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "36",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "37",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "38",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "39",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "40",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "41",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "42",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "CurrMonth",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "OneMonthAgo",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "TwoMonthsAgo",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "CurrQuarter",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "ThreeMonthsAgo",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "SixMonthsAgo",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "CurrYear",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "OneYearAgo",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "LastYear",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "LastTwoYears",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "userName",
+      "description": "Echoes the requested username.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "results",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "date",
+      "description": "Date of this snapshot (YYYY-MM-DD)",
+      "type": "string",
+      "format": "date"
+    },
+    {
+      "term": "cashPct",
+      "description": "Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "cashOfTotalEquityPct",
+      "description": "Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "assets",
+      "description": "Per-instrument breakdown. Mirror allocations are excluded.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "instrumentId",
+      "description": "",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "symbol",
+      "description": "Trading symbol for this instrument (e.g. AAPL, TSLA)",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "investedPct",
+      "description": "Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "valuePct",
+      "description": "Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "success",
+      "description": "",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "error",
+      "description": "",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "timestamp",
+      "description": "",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "requestId",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "title",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "status",
+      "description": "",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "detail",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "instance",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "trading",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "options",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "cash",
+      "description": "",
+      "type": "enum"
+    },
+    {
+      "term": "interval",
+      "description": "Time interval of the returned candles. Matches the interval parameter from the request.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "candles",
+      "description": "List of candle data grouped by instrument",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "tncDocId",
+      "description": "Identifier to send back on withdrawal creation.",
+      "type": "integer",
+      "format": "int64"
+    },
+    {
+      "term": "errorCode",
+      "description": "Machine-readable error code.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "errorMessage",
+      "description": "Human-readable error message.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "name",
+      "description": "The permission scope name.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "scopes",
+      "description": "The permission scope names that may be assigned to agent-portfolio user tokens.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "investmentAmountInUsd",
+      "description": "The amount in USD deducted from the CALLER's account balance to copy-trade this agent-portfolio. This is NOT the agent-portfolio's own balance \u2014 the agent-portfolio receives a separate fixed virtual balance (returned as agentPortfolioVirtualBalance). Positions are mirrored proportionally: e.g. $2,000 with a $10,000 virtual balance = 20% position sizing.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "agentPortfolioName",
+      "description": "A unique display name for the agent-portfolio (6-10 characters).",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "agentPortfolioDescription",
+      "description": "An optional description of the agent-portfolio's purpose or strategy.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "userTokenName",
+      "description": "A human-readable name for the user token provisioned with the agent-portfolio.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "scopeNames",
+      "description": "The set of permission scope names to grant to the provisioned user token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "ipsWhitelist",
+      "description": "An optional set of IPv4 addresses allowed to use the provisioned user token.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "expiresAt",
+      "description": "An optional expiration date and time (UTC) for the provisioned user token.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "agentPortfolioId",
+      "description": "The unique identifier of the newly created agent-portfolio.",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "agentPortfolioGcid",
+      "description": "The GCID associated with the agent-portfolio.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "agentPortfolioVirtualBalance",
+      "description": "The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "mirrorId",
+      "description": "The Trading API mirror ID for this agent-portfolio's copy trade.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "userTokens",
+      "description": "The user tokens generated during agent-portfolio creation.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "userTokenId",
+      "description": "The unique identifier of the newly created user token.",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "userToken",
+      "description": "The generated user token secret. Only available at creation time.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "clientId",
+      "description": "The OAuth client identifier associated with the user token.",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "agentPortfolios",
+      "description": "The collection of agent-portfolios owned by the user.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "createdAt",
+      "description": "When this agent-portfolio was created.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "externalApplicationName",
+      "description": "The name of the external application registered for this token.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "scopeIds",
+      "description": "[DEPRECATED \u2014 use scopeNames instead] The set of permission scope identifiers granted to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "userTokenCreated",
+      "description": "Always false \u2014 indicates that the user token was not created.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "itemId",
+      "description": "Unique identifier of the financial instrument",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "itemType",
+      "description": "Type of the financial instrument (e.g., 'Instrument', 'Person')",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "itemRank",
+      "description": "Ranking position of the item in the watchlist",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "itemAddedReason",
+      "description": "Reason the item was added to the watchlist",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "itemAddedDate",
+      "description": "Date and time the item was added",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "market",
+      "description": "Market metadata for the instrument when included",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "watchlistId",
+      "description": "Unique identifier of the watchlist",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "Gcid",
+      "description": "Global Customer ID of the watchlist owner",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "watchlistType",
+      "description": "Type of the watchlist",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "totalItems",
+      "description": "Total number of items in the watchlist",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "isDefault",
+      "description": "Whether this is a default system watchlist",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "isUserSelectedDefault",
+      "description": "Whether this is the user's selected default watchlist",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "watchlistRank",
+      "description": "Display order rank of the watchlist",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "dynamicUrl",
+      "description": "URL for dynamic watchlist queries",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "items",
+      "description": "Items contained in the watchlist",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "relatedAssets",
+      "description": "Related asset IDs",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "watchlists",
+      "description": "List of user watchlists",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "exception",
+      "description": "Exception details when the request partially failed",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "meta",
+      "description": "Response metadata including pagination info",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "isSucceeded",
+      "description": "Whether the request succeeded",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "curatedLists",
+      "description": "List of curated investment lists",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "uuid",
+      "description": "Unique identifier of the curated list",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "description",
+      "description": "Description of the curated list",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "listImageUrl",
+      "description": "URL of the list's image",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "ResponseType",
+      "description": "Type of recommendation response",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "Recommendations",
+      "description": "List of recommended instrument IDs",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "monthly",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "yearly",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "gain",
+      "description": "",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "clientPortfolio",
+      "description": "Container for all portfolio-related information",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "positions",
+      "description": "List of currently open trading positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "credit",
+      "description": "Available trading balance in USD, representing funds available for new actions",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "mirrors",
+      "description": "Copy trading configurations and positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "orders",
+      "description": "List of pending orders",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "ordersForOpen",
+      "description": "Active orders to open positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "ordersForClose",
+      "description": "Active orders to close positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "ordersForCloseMultiple",
+      "description": "Active orders to close multiple positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "bonusCredit",
+      "description": "Bonus credit amount in USD in the account",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "unrealizedPnL",
+      "description": "Total unrealized profit and loss across all open positions in the portfolio",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "accountCurrencyId",
+      "description": "Currency ID of the account (1 = USD)",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "stockOrders",
+      "description": "Stock-specific pending orders",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "entryOrders",
+      "description": "Entry orders awaiting execution",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "exitOrders",
+      "description": "Exit orders awaiting execution",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "positionID",
+      "description": "Unique identifier for the position",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "CID",
+      "description": "Customer ID associated with the position",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "openDateTime",
+      "description": "Timestamp when the position was opened in ISO 8601 format",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "openRate",
+      "description": "Entry price of the position in the instrument's currency",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "instrumentID",
+      "description": "Identifier of the traded instrument",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "mirrorID",
+      "description": "Mirror ID if the position is part of copy trading, 0 otherwise",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "parentPositionID",
+      "description": "Parent position ID for mirrored positions, 0 otherwise",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "isBuy",
+      "description": "Position direction: true for long (buy) positions, false for short (sell) positions",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "takeProfitRate",
+      "description": "Rate at which TakeProfit will trigger and send MarketOrder to close the position",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "stopLossRate",
+      "description": "Rate at which StopLoss will trigger and send MarketOrder to close the position",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "amount",
+      "description": "USD amount allocated to the position. This amount includes both the initial investment, and additional margin allocated to the position as collateral",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "leverage",
+      "description": "Leverage multiplier applied to the position",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "orderID",
+      "description": "Original orderID the position was opened by. Need to match together with orderType",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "orderType",
+      "description": "Original orderType of the order the position was opened by. Need to match together with orderId",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "units",
+      "description": "Number of units in the position",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "totalFees",
+      "description": "Total overnight fees and dividends charged/paid on the position in USD. Negative amount represents refund",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "initialAmountInDollars",
+      "description": "Initial investment USD amount in the position. This value does not change in case the position was partially closed",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "isTslEnabled",
+      "description": "Indication if TrailingStopLoss feature is active on this position",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "stopLossVersion",
+      "description": "Manual stop loss edit version. Each time StopLossRate is manually update this value is incremented",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "isSettled",
+      "description": "Obsolete",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "redeemStatusID",
+      "description": "If the position is currently in redeem process, this value represents the current status",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "initialUnits",
+      "description": "Initial invested units in the position. This value does not change in case the position was partially closed",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "isPartiallyAltered",
+      "description": "Indication whether this position was partially closed",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "unitsBaseValueDollars",
+      "description": "USD value of the current units in the position, based on the initial investment. If the position was not partially altered, this value equals initialAmountInDollars",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "isDiscounted",
+      "description": "Obsolete. This value is used to indicate if the relevant prices for the position are Ask/Bid or AskDiscounted/BidDiscounted",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "openPositionActionType",
+      "description": "Position open reason",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "settlementTypeID",
+      "description": "Position investment type. 0 - CFD, 1 - Real Asset, 2 - SWAP, 3 - Crypto MarginTrade, 4 - Future Contract",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "isDetached",
+      "description": "Indication if the position was originally opened inside a mirror and detached from it",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "openConversionRate",
+      "description": "Conversion rate from the asset currency to USD at the time the position was opened",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "pnlVersion",
+      "description": "Pnl formula used for calculating profit and loss",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "totalExternalFees",
+      "description": "Total fees in USD charged on the position. Example - TicketFee. This value does not include overnight fees and dividends",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "totalExternalTaxes",
+      "description": "Total taxes in USD charged on the position. Example - SDRT",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "isNoTakeProfit",
+      "description": "Indication if TakeProfit is enabled for the position. false = enabled, true = disabled",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "isNoStopLoss",
+      "description": "Indication if StopLoss is enabled for the position. false = enabled, true = disabled",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "lotCount",
+      "description": "Number of lots the position represents. For FutureContracts, this value represents the number of contracts acquired. This property is not relevant for instruments that are not futures instruments",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "parentCID",
+      "description": "Customer ID of the trader being copied",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "stopLossPercentage",
+      "description": "The precentage of the mirror value that the StopLossAmount represented at the time of the last edit. Adding or removing funds from the mirror will trigger recalculation of StopLossAmount based on this value compared to the current mirror value",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "isPaused",
+      "description": "Indication if the mirror is currently paused, restricting open of additional positions inside the mirror",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "copyExistingPositions",
+      "description": "Indication if mirror originally copied all parent existing position on mirror registration",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "availableAmount",
+      "description": "Available to trade USD balance in the mirror. This balance is reserved for mirror operations",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "stopLossAmount",
+      "description": "USD value of the mirror at which MirrorStopLoss will be triggered and cause liquidation of the mirror. Adding or removing funds from the mirror will trigger recalculation of this value based on StopLossPercentage compared to the current mirror value",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "initialInvestment",
+      "description": "USD amount initially invested in the mirror",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "depositSummary",
+      "description": "Total USD amount deposited into the mirror after initial investment",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "withdrawalSummary",
+      "description": "Total USD amount withdrawn from the mirror",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "parentUsername",
+      "description": "Username of the trader being copied",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "closedPositionsNetProfit",
+      "description": "Total USD net profit of all positions that closed in the mirror",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "startedCopyDate",
+      "description": "Date and time when the mirror trading was initiated",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "pendingForClosure",
+      "description": "Indication if the mirror is in closure process",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "parentMirrors",
+      "description": "Parent mirrors for this mirror (if any)",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "mirrorCalculationType",
+      "description": "(Obsolete) Mirror positions weights calculation methodology",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "mirrorStatusID",
+      "description": "Current status of the mirror. 0 - Active, 1 - Paused, 2 - Pending Closure, 3 - In Alignment Process",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "delayedOrderForClose",
+      "description": "Delayed orders for closing positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "delayedOrderForOpen",
+      "description": "Delayed orders for opening positions",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "orderId",
+      "description": "Unique identifier for the order",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "cid",
+      "description": "Customer ID associated with the order",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "rate",
+      "description": "Asset rate at which to send market order to the market",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "executionType",
+      "description": "Type of order execution",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "statusId",
+      "description": "Status of the order",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "lastUpdate",
+      "description": "The last update timestamp of the order.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "amountInUnits",
+      "description": "The number of units to trade.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "frozenAmount",
+      "description": "Amount frozen for the order.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "totalExternalCosts",
+      "description": "Total external costs associated with the trade.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "externalOperation",
+      "description": "External operation details, if any.",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "unitsToDeduct",
+      "description": "The number of units closed in this order.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "lotsToDeduct",
+      "description": "The number of lots closed in this order.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "positionId",
+      "description": "The ID of the closed position.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "pendingClosePositionIds",
+      "description": "IDs of positions pending close in this order.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "token",
+      "description": "Tracking token for the request, used for correlation and debugging purposes. This token is generated by the system and can be used to track the request through various system components.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "referenceID",
+      "description": "Reference tracking ID for the order request.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "statusID",
+      "description": "Current status of the order. Common values: 0 = Pending, 1 = Executed, 2 = Cancelled, 3 = Rejected, 4 = Partially Executed. The exact meaning of status codes may vary based on order type and system configuration.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "openActionType",
+      "description": "The action type that triggered the order creation. This indicates the reason or context for opening the position, such as manual trade, copy trading, automated strategy, etc.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "requestOccurred",
+      "description": "The timestamp when the order request was initially created and submitted to the system. This is in ISO 8601 format (UTC).",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "occurred",
+      "description": "The exact timestamp when this position was opened and executed. This is in ISO 8601 format (UTC) and represents when the position became active in the trading system.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "conversionRate",
+      "description": "The currency conversion rate that was applied when opening the position. This rate is used to convert between the instrument's base currency and the account currency (typically USD) at the time of execution.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "isOpen",
+      "description": "Indicates whether the position is currently open (true) or has been closed (false). This status reflects the current state of the position at the time the order information was retrieved.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "accountId",
+      "description": "The account identifier associated with this order.",
+      "type": "integer",
+      "format": "int64"
+    },
+    {
+      "term": "portfolioId",
+      "description": "The portfolio identifier.",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "action",
+      "description": "The order action. Possible values: open, close.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "transaction",
+      "description": "The transaction direction. Possible values: buy, sell, sellShort, buyToCover.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "etoroOrderTypeId",
+      "description": "The internal eToro order type identifier.",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "asset",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "orderCurrency",
+      "description": "The currency used for the order.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "requestedAmount",
+      "description": "The requested monetary amount for the order.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "requestedUnits",
+      "description": "The requested number of units for the order.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "requestedContracts",
+      "description": "The requested number of contracts for the order.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "requestedTriggerRate",
+      "description": "The trigger rate for limit or stop orders.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "openStopLossRate",
+      "description": "The stop-loss rate at order open.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "openTakeProfitRate",
+      "description": "The take-profit rate at order open.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "stopLossType",
+      "description": "The stop-loss type. Possible values: fixed, trailing.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "totalCosts",
+      "description": "Total costs associated with the order.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "positionsToClose",
+      "description": "List of position IDs to close as part of a close order.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "positionExecutions",
+      "description": "List of position executions resulting from this order.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "requestTime",
+      "description": "The timestamp when the order was requested.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "requestType",
+      "description": "The request sizing type. Possible values: byAmount, byUnits, byContracts.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "id",
+      "description": "Status identifier. Common values: 1 = Executed, 2 = Cancelled, 3 = Rejected.",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "currency",
+      "description": "The asset's base currency.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "settlementType",
+      "description": "Settlement type. Possible values: cfd, real, realFutures, marginTrade.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "side",
+      "description": "The position side. Possible values: long, short.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "state",
+      "description": "The current state of the position. Possible values: open, closed.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "investedAmountCurrency",
+      "description": "The invested amount in the account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "initialExposureAccountCurrency",
+      "description": "The initial exposure in the account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "initialExposureAssetCurrency",
+      "description": "The initial exposure in the asset currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "addedFunds",
+      "description": "Additional funds added to the position.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "marginAccountCurrency",
+      "description": "Margin held in the account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "marginAssetCurrency",
+      "description": "Margin held in the asset currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "remainingUnits",
+      "description": "Remaining units in the position.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "remainingContracts",
+      "description": "Remaining contracts in the position.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "openingData",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "openTime",
+      "description": "The timestamp when the position was opened.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "executionTime",
+      "description": "The execution timestamp.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "contracts",
+      "description": "Number of contracts executed.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "avgPrice",
+      "description": "The average execution price.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "avgConversionRate",
+      "description": "The average currency conversion rate applied.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "marketSpread",
+      "description": "The market spread at execution time.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "markup",
+      "description": "The markup applied to the spread.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "priceId",
+      "description": "The price snapshot identifier used for execution.",
+      "type": "integer",
+      "format": "int64"
+    },
+    {
+      "term": "fees",
+      "description": "Fees charged for the execution.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "taxes",
+      "description": "Taxes applied to the execution.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "triggerRate",
+      "description": "The trigger rate for mit orders. Required for mit orders.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "additionalMargin",
+      "description": "Additional margin to allocate to the position.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "positionIds",
+      "description": "List of position IDs to close. Required for close orders.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "referenceId",
+      "description": "The client reference identifier for the order, matching the X-Request-Id header if provided.",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "costs",
+      "description": "Cost components that would apply to the proposed order.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "lastUpdated",
+      "description": "Timestamp (ISO 8601) at which the cost figures were generated.",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "costType",
+      "description": "Identifies which cost component this entry represents.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "accountCurrency",
+      "description": "ISO 4217 code of the account's base currency (e.g. 'USD').",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "accountTotals",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "instrumentAggregates",
+      "description": "Positions held directly (not via copy trading), grouped by instrument.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "accountAvailableCash",
+      "description": "Cash available for new trades: accountBalance minus accountFrozenCash.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountFrozenCash",
+      "description": "Cash reserved for pending open orders.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountCurrentPnl",
+      "description": "Unrealized P&L across all manual positions and copy-trading mirrors in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountTotalValue",
+      "description": "Total portfolio value: accountAvailableCash + accountTotalUsedMargin + accountCurrentPnl.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountTotalUsedMargin",
+      "description": "Total margin in use: manual position margins + frozen order amounts + mirror active margins.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountBalance",
+      "description": "Total cash balance (available + frozen), excluding invested amounts.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "assetCurrency",
+      "description": "ISO 4217 code of the instrument's base currency (e.g. 'USD', 'EUR').",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "totalMarginAccountCurrency",
+      "description": "Sum of margins across all positions for this instrument, in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalFeesAcctCcy",
+      "description": "Sum of transaction fees taken on positions of this instrument, in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalTaxes",
+      "description": "Sum of taxes for this instrument, in asset currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalTaxesAcctCcy",
+      "description": "Sum of taxes for this instrument, in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalMarginAssetCurrency",
+      "description": "Sum of margins across all positions for this instrument, in asset currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "pnlAssetCurrency",
+      "description": "Unrealized P&L for this instrument in asset currency. Null when P&L calculation is not requested.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountCurrencyRoePercent",
+      "description": "Return on equity in account currency: accountCurrencyReturn / totalMarginAccountCurrency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "netContracts",
+      "description": "Net contracts across all positions (positive = net long, negative = net short).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "netUnits",
+      "description": "Net units across all positions (positive = net long, negative = net short).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "netCurrentExposureAssetCurrency",
+      "description": "Net current market exposure in asset currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "netCurrentExposureAccountCurrency",
+      "description": "Net current market exposure in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "netInitialExposureAccountCurrency",
+      "description": "Net initial exposure at open in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountCurrencyReturn",
+      "description": "Unrealized P&L for this instrument in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "liquidationValueAccountCurrency",
+      "description": "Current liquidation value in account currency: totalMarginAccountCurrency + accountCurrencyReturn.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "liquidationValueAssetCurrency",
+      "description": "Current liquidation value in asset currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "avgLeverage",
+      "description": "Average leverage across all positions for this instrument.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "avgOpenRate",
+      "description": "Weighted average open rate across all positions for this instrument.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "netAvgOpenRate",
+      "description": "Direction-aware weighted average open rate (long contributions minus short).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorAvailableCash",
+      "description": "Cash available within this mirror for new copy positions.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorDepositTotal",
+      "description": "Total amount ever deposited into this mirror: initialInvestment + depositSummary.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorWithdrawalTotal",
+      "description": "Total amount ever withdrawn from this mirror.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorStopLossPercentage",
+      "description": "Stop-loss threshold as a percentage of the mirror's current value.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorStopLoss",
+      "description": "Stop-loss threshold in account currency. The mirror liquidates when its value falls to this level.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorClosedPositionsPnl",
+      "description": "Accumulated net profit from all closed positions within this mirror.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorTotals",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "mirrorNetFunding",
+      "description": "Net amount funded into the mirror: mirrorDepositTotal minus mirrorWithdrawalTotal.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorPositionsPnl",
+      "description": "Total P&L from open and closed positions within the mirror, in account currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorLiquidationValue",
+      "description": "Current mirror value: mirrorActiveMargin + mirrorPositionsPnl.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorPositionsPnlPercent",
+      "description": "mirrorPositionsPnl as a percentage of mirrorLiquidationValue.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorMarginPercent",
+      "description": "This mirror's active margin as a percentage of the account's total used margin.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorValuePercent",
+      "description": "This mirror's liquidation value as a percentage of the account's total value.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "mirrorActiveMargin",
+      "description": "Total margin in active use within this mirror: mirrorAvailableCash + sum of position margins minus closed positions P&L.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "instrumentIds",
+      "description": "Optional list of instrument IDs to check.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "symbols",
+      "description": "Optional list of instrument symbols to check.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "eligibilities",
+      "description": "Trading configuration for each resolved instrument.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "notFoundInstrumentIds",
+      "description": "Instrument IDs that were requested but could not be found.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "notFoundSymbols",
+      "description": "Symbols that were requested but could not be found.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "minPositionExposure",
+      "description": "Minimum exposure value required to open a position on this instrument.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "maxUnitsPerOrder",
+      "description": "Maximum number of units allowed per single order.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "allowOpenPosition",
+      "description": "Whether opening new positions is currently permitted.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "allowClosePosition",
+      "description": "Whether closing existing positions is currently permitted.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "allowPartialClosePosition",
+      "description": "Whether partially closing an existing position is permitted.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "allowMitOrders",
+      "description": "Whether Market-if-Touched (limit) orders are supported.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "allowEntryOrders",
+      "description": "Whether submitting open orders when the market is closed is allowed.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "allowExitOrders",
+      "description": "Whether submitting close orders when the market is closed is allowed.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "allowTrailingStopLoss",
+      "description": "Whether a trailing stop-loss can be set on positions for this instrument.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "requiresW8Ben",
+      "description": "Whether a W-8BEN tax form is required to trade this instrument. Null if not applicable.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "unitsQuantityType",
+      "description": "What trade quantity type is allowed. Possible values: `WholeUnits`, `FractionalUnits`.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "orderFillBehaviorType",
+      "description": "How orders are filled for this instrument. Possible values: `BestEffort`, `FillOrKill`.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "allowedOrderQuantityType",
+      "description": "How order size can be specified. Possible values: `Units`, `Amount`, `Both`.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "tradeUnitType",
+      "description": "Unit type used to express trade size. Possible values: `Units`, `Lots`.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "initialMarginInAssetCurrency",
+      "description": "Initial margin expressed in the asset currency. Null if not applicable.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "stopLossMarginInAssetCurrency",
+      "description": "Stop-loss margin expressed in the asset currency. Null if not applicable.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "additionalBufferPercent",
+      "description": "Additional buffer applied to the current rate to limit the order execution price - usually for low-liquidity assets. This also causes additional funds to be reserved for the order. Null if no buffer.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "leverageConfigs",
+      "description": "Available leverage configurations, each specific to a settlement type and direction.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "direction",
+      "description": "The trade direction. Possible values: LONG, SHORT.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "leverageValues",
+      "description": "Available leverage multipliers for this settlement type and direction.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "isPotential",
+      "description": "Additional user questionnaire may be required to allow the user to trade with this setup of settlement and leverages.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "minPositionAmount",
+      "description": "Minimum monetary collateral required to open a position under this leverage configuration.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "allowEditStopLoss",
+      "description": "Whether the stop-loss can be edited for positions under this configuration.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "minStopLossPercentage",
+      "description": "Minimum stop-loss percentage allowed from the allocated margin of the position.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "maxStopLossPercentage",
+      "description": "Maximum stop-loss percentage allowed from the allocated margin of the position.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "defaultStopLossPercentage",
+      "description": "Default stop-loss percentage applied when no explicit value is provided.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "allowEditTakeProfit",
+      "description": "Whether the take-profit can be edited.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "minTakeProfitPercentage",
+      "description": "Minimum take-profit percentage allowed from the allocated margin of the position.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "maxTakeProfitPercentage",
+      "description": "Maximum take-profit percentage allowed from the allocated margin of the position.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "defaultTakeProfitPercentage",
+      "description": "Default take-profit percentage applied when no explicit value is provided.",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "allowStopLossTakeProfit",
+      "description": "Whether stop-loss and take-profit can be set on a position.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "page",
+      "description": "The current page number.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "pageSize",
+      "description": "The number of items per page.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "displayname",
+      "description": "The display name of the instrument.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "popularityUniques7Day",
+      "description": "The number of unique users who viewed this instrument in the last 7 days.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "instrumentTypeID",
+      "description": "The type ID of the instrument.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "instrumentType",
+      "description": "The type of the instrument.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "exchangeID",
+      "description": "The ID of the exchange where the instrument is traded.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalAssetClassId",
+      "description": "The internal asset class ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalInstrumentDisplayName",
+      "description": "The internal display name of the instrument.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "isInternalInstrument",
+      "description": "Indicates whether the instrument is internal.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "internalSymbolFull",
+      "description": "The full internal symbol of the instrument.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "isHiddenFromClient",
+      "description": "Indicates whether the instrument is hidden from clients.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "internalInstrumentId",
+      "description": "The internal instrument ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalCryptoTypeId",
+      "description": "The internal crypto type ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalExchangeId",
+      "description": "The internal exchange ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalExchangeName",
+      "description": "The internal exchange name.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "internalAssetClassName",
+      "description": "The internal asset class name.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "logo35x35",
+      "description": "The URL of the 35x35 logo.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "logo50x50",
+      "description": "The URL of the 50x50 logo.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "logo150x150",
+      "description": "The URL of the 150x150 logo.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "dailyPriceChange",
+      "description": "The daily price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "absDailyPriceChange",
+      "description": "The absolute daily price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "weeklyPriceChange",
+      "description": "The weekly price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "monthlyPriceChange",
+      "description": "The monthly price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "isDelisted",
+      "description": "Indicates whether the instrument is delisted.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "isCurrentlyTradable",
+      "description": "Indicates whether the instrument is currently tradable.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "isExchangeOpen",
+      "description": "Indicates whether the exchange is open.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "internalClosingPrice",
+      "description": "The internal closing price.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "isActiveInPlatform",
+      "description": "Indicates whether the instrument is active in the platform.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "isBuyEnabled",
+      "description": "Indicates whether buying is enabled for the instrument.",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "currentRate",
+      "description": "The current rate of the instrument.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "threeMonthPriceChange",
+      "description": "The three-month price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "sixMonthPriceChange",
+      "description": "The six-month price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "oneYearPriceChange",
+      "description": "The one-year price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "currMonthPriceChange",
+      "description": "The current month price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "currQuarterPriceChange",
+      "description": "The current quarter price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "currYearPriceChange",
+      "description": "The current year price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "lastYearPriceChange",
+      "description": "The last year price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "lastTwoYearsPriceChange",
+      "description": "The last two years price change.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "oneMonthAgoPriceChange",
+      "description": "The price change from one month ago.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "twoMonthsAgoPriceChange",
+      "description": "The price change from two months ago.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "threeMonthsAgoPriceChange",
+      "description": "The price change from three months ago.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "sixMonthsAgoPriceChange",
+      "description": "The price change from six months ago.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "oneYearAgoPriceChange",
+      "description": "The price change from one year ago.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "cvtBid",
+      "description": "The converted bid price.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "cvtAsk",
+      "description": "The converted ask price.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "cvtBiNoSpread",
+      "description": "The converted bid price without spread.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "cvtAskNoSpread",
+      "description": "The converted ask price without spread.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "traders7DayChange",
+      "description": "The change in the number of traders over the last 7 days.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "traders14DayChange",
+      "description": "The change in the number of traders over the last 14 days.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "traders30DayChange",
+      "description": "The change in the number of traders over the last 30 days.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "popularityUniques14Day",
+      "description": "The number of unique users who viewed this instrument in the last 14 days.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "popularityUniques30Day",
+      "description": "The number of unique users who viewed this instrument in the last 30 days.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalIndustryId",
+      "description": "The internal industry ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "internalStockIndustryName",
+      "description": "The internal stock industry name.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "popularityUniques",
+      "description": "Total number of unique users interested in this instrument.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "holdingPct",
+      "description": "The holding percentage of this instrument.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "buyHoldingPct",
+      "description": "The buy holding percentage.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "sellHoldingPct",
+      "description": "The sell holding percentage.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "buyPctChange24Hours",
+      "description": "The buy percentage change in the last 24 hours.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "absBuyPctChange24Hours",
+      "description": "The absolute buy percentage change in the last 24 hours.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "industryNameId",
+      "description": "The industry name ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "sectorNameId",
+      "description": "The sector name ID.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "rates",
+      "description": "Array of current market rates for requested instruments",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "accounts",
+      "description": "List of cash accounts",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "eligibilityStatus",
+      "description": "User's creation eligibility status for cash accounts",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "bankAccount",
+      "description": "Bank account linked to this cash account",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "cards",
+      "description": "Payment cards linked to this cash account",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "value",
+      "description": "Identifier value as returned by the bank.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "accountName",
+      "description": "Name on the bank account",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "identifiers",
+      "description": "List of bank identifiers represented as key/value entries. Identifier type availability is bank and country specific.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "region",
+      "description": "Region of the bank account",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "countryCode",
+      "description": "ISO 3166-1 alpha-2 country code",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "bankProvider",
+      "description": "Banking provider name",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "institutionName",
+      "description": "Name of the banking institution",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "maskedPan",
+      "description": "Masked card number",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "isVirtual",
+      "description": "Whether this is a virtual card",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "created",
+      "description": "Date and time the card was created",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "expirationDate",
+      "description": "Card expiration date",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "pagination",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "transactionType",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "transactionSubtype",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "originalAmount",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "originalCurrency",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "postedAt",
+      "description": "",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "counterparty",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "cardTransactionDetails",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "bankTransferTransactionDetails",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "internalTransferTransactionDetails",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "nextPageToken",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "hasNext",
+      "description": "",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "cardId",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "merchantName",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "authorizationStatus",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "bankIdentifier",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "paymentReference",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "transferId",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "ineligibilityReasons",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "prerequisite",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "contactInfo",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "userInfo",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "tncInfo",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "address",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "buildingNumber",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "city",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "zipCode",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "phone",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "requestReferenceId",
+      "description": "Client-generated idempotency key",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "updatedAt",
+      "description": "",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "account",
+      "description": "Present only when status is Success",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "realCid",
+      "description": "Real account Customer ID - the identifier for the user's real trading account.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "demoCid",
+      "description": "Demo account Customer ID - the identifier for the user's virtual/demo trading account.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "playerLevel",
+      "description": "Player level. Possible values: 1 (Bronze), 2 (Platinum), 3 (Gold), 4 (Internal), 5 (Silver), 6 (PlatinumPlus), 7 (Diamond).",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "gender",
+      "description": "Gender. Possible values: 0 (Unknown), 1 (Male), 2 (Female).",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "dateOfBirth",
+      "description": "Date of birth.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "lei",
+      "description": "Legal Entity Identifier (LEI), when applicable.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "absExposurePct",
+      "description": "Sum of absolute exposure across all instruments as a ratio of total daily investment. Decimal fraction: 0.5 = 50%.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "exposureItems",
+      "description": "Per-instrument exposure breakdown",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "netExposurePct",
+      "description": "Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "host",
+      "description": "Host domain of the attachment",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "mediaType",
+      "description": "Type of media",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "media",
+      "description": "Media content details",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "small",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "medium",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "large",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "svg",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "entity",
+      "description": "Core comment data",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "repliesCount",
+      "description": "Number of direct replies to this comment",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "replies",
+      "description": "Inline reply preview. Each entry has the same shape as Comment; nested `replies` arrays are not populated at this level.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "emotionsData",
+      "description": "Aggregated emotions (likes) on an entity",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "requesterContext",
+      "description": "Requester's relationship state with the comment",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "message",
+      "description": "Updated text content",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "attachments",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "owner",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "obsoleteId",
+      "description": "Legacy numeric emotion ID",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "parent",
+      "description": "Parent entity reference",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "symbolName",
+      "description": "Ticker symbol",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "displayName",
+      "description": "Human-readable name",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "updated",
+      "description": "Last update timestamp",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "assetType",
+      "description": "Asset class",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "internalId",
+      "description": "Internal numeric market ID",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "avatar",
+      "description": "Market logo images",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "application",
+      "description": "Source application",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "metadata",
+      "description": "Opaque JSON metadata string",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "assetTypeId",
+      "description": "Numeric asset type ID",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "assetTypeSubCategoryId",
+      "description": "Numeric asset sub-category ID",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "isDeleted",
+      "description": "True when the post has been soft-deleted",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "tags",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "mentions",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "isSpam",
+      "description": "True when the post is classified as spam",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "editStatus",
+      "description": "Edit lifecycle status",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "backgroundColor",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "textColor",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "roles",
+      "description": "User roles",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "isBlocked",
+      "description": "Owner has blocked the requester",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "isPrivate",
+      "description": "User's profile is private",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "discussions",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "paging",
+      "description": "Pagination info",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "post",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "commentsData",
+      "description": "Inline comments preview",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "summary",
+      "description": "Post-level engagement counters",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "reason",
+      "description": "Why this post appears in the feed (ForYou only). May be null or an object: { type: 'followed-user'|'instrument-trending', sourceId, owner }",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "reactionPaging",
+      "description": "Pagination info",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "comments",
+      "description": "List of comment/reply items",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "sharedOriginDiscussion",
+      "description": "Required. ID of the post being shared.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "sharedDiscussionId",
+      "description": "Optional. Only set this when `sharedOriginDiscussion` itself points to a share \u2014 it identifies the intermediate share, so the created Post's `metadata.share.sharedPost` is set to this post and `metadata.share.sharedOriginPost` to `sharedOriginDiscussion`, collapsing the chain to a 2-level reference in subsequent reads. Leave unset for first-level shares.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "postShares",
+      "description": "List of share entries",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "poll",
+      "description": "Poll configuration",
+      "type": "object",
+      "format": ""
+    },
+    {
+      "term": "alertId",
+      "description": "Unique identifier of the price alert",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "targetPrice",
+      "description": "Target price at which the alert will trigger",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "currentPrice",
+      "description": "Market bid price at the time the alert was created or last updated",
+      "type": "number",
+      "format": "decimal"
+    },
+    {
+      "term": "data",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "totalBalance",
+      "description": "Sum of all account balances converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayCurrency",
+      "description": "ISO 4217 currency code used for totalBalance and displayBalance values.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "balances",
+      "description": "Individual account balances.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "subType",
+      "description": "Account sub-type, where applicable.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "balance",
+      "description": "Account balance in the account's native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayBalance",
+      "description": "Account balance converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "exchangeRate",
+      "description": "Exchange rate applied to convert balance to displayCurrency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "equityDetails",
+      "description": "",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "available",
+      "description": "Available balance or buying power (Trading, Options, MoneyFarm, Cash).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "frozenCash",
+      "description": "Cash frozen by the platform pending settlement (Trading).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "currentPNL",
+      "description": "Current unrealized profit and loss on open positions (Trading).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalUsedMargin",
+      "description": "Total margin used by open positions (Trading).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "cryptoId",
+      "description": "eToro internal crypto asset identifier (Crypto).",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "spendableBalance",
+      "description": "Spendable balance in native crypto units (Crypto).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "balanceInFiat",
+      "description": "Balance converted to fiat (Crypto).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalBalanceInFiat",
+      "description": "Total balance converted to fiat, including pending (Crypto).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "spendableBalanceInFiat",
+      "description": "Spendable balance converted to fiat (Crypto).",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "fiatConversionCurrency",
+      "description": "ISO 4217 currency code used for the InFiat values (Crypto).",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "orderIndex",
+      "description": "Display order index for sorting (Crypto).",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "fromDate",
+      "description": "Start of the returned date range (inclusive, ISO 8601).",
+      "type": "string",
+      "format": "date"
+    },
+    {
+      "term": "toDate",
+      "description": "End of the returned date range (inclusive, ISO 8601).",
+      "type": "string",
+      "format": "date"
+    },
+    {
+      "term": "snapshots",
+      "description": "End-of-day balance snapshots, one entry per day in the requested range.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "totalCurrencyIso",
+      "description": "ISO 4217 currency code for the total figures in native currency.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "totalCash",
+      "description": "Total cash across all accounts in native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalInvestedAmount",
+      "description": "Total invested amount across all accounts in native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalPnl",
+      "description": "Total profit and loss across all accounts in native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayTotalCash",
+      "description": "Total cash converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayTotalInvestedAmount",
+      "description": "Total invested amount converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayTotalPnl",
+      "description": "Total profit and loss converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayTotalBalance",
+      "description": "Total balance converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "totalExchangeRate",
+      "description": "Exchange rate applied to convert totals to displayCurrency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "accountSnapshots",
+      "description": "Individual account breakdowns within this snapshot.",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "investedAmount",
+      "description": "Invested amount in the account's native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "pnl",
+      "description": "Profit and loss in the account's native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "total",
+      "description": "Total balance in the account's native currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "usdRate",
+      "description": "Exchange rate to USD.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayCash",
+      "description": "Cash balance converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayInvestedAmount",
+      "description": "Invested amount converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayPnl",
+      "description": "Profit and loss converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "displayTotal",
+      "description": "Total balance converted to the requested display currency.",
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "term": "code",
+      "description": "Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "messages",
+      "description": "List of notification messages",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "messageId",
+      "description": "Unique identifier of the notification message",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "correlationId",
+      "description": "Correlation ID for request tracing",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "actionLink",
+      "description": "URL for the notification action",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "imageTitle",
+      "description": "Title for the notification image",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "imageUrl",
+      "description": "URL of the notification image",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "notificationType",
+      "description": "Type of notification",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "version",
+      "description": "Version of the notification format",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "aggregatable",
+      "description": "Whether this notification can be aggregated",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "grouped",
+      "description": "Whether this notification is grouped",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "aggregationId",
+      "description": "ID for aggregation grouping",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "readStatus",
+      "description": "Current read status of the notification",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "publishDate",
+      "description": "When the notification was published",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "subCategory",
+      "description": "Sub-category of the notification",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "category",
+      "description": "Category of the notification",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "rtlLanguage",
+      "description": "Whether the notification content is in an RTL language",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "section",
+      "description": "Section the notification belongs to",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "notSeen",
+      "description": "Count of unseen notifications",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "copiers",
+      "description": "Current number of copiers.",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "aumTier",
+      "description": "Assets-under-management tier level.",
+      "type": "integer",
+      "format": "int32"
+    },
+    {
+      "term": "aumTierDesc",
+      "description": "Human-readable AUM tier label; null when not provided upstream.",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "instrumentTypes",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "instrumentDisplayDatas",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "exchangeInfo",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "stocksIndustries",
+      "description": "",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "clubs",
+      "description": "List of club tiers with equity thresholds",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "contacts",
+      "description": "Account manager contact information for eligible users",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "downgradeRisk",
+      "description": "Club tier downgrade risk assessment",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "offers",
+      "description": "Club benefit offers categorized by tier availability",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "webinars",
+      "description": "Upcoming and past club webinars",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "minRealizedEquity",
+      "description": "Minimum realized equity threshold for this tier",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "maxRealizedEquity",
+      "description": "Maximum realized equity threshold for this tier",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "rank",
+      "description": "Display rank of this tier",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "manager",
+      "description": "Assigned account manager profile",
+      "type": "",
+      "format": ""
+    },
+    {
+      "term": "email",
+      "description": "Account manager email address",
+      "type": "string",
+      "format": "email"
+    },
+    {
+      "term": "calendarUrl",
+      "description": "Calendar booking URL for scheduling meetings",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "upcomingWebinars",
+      "description": "List of upcoming webinars the user can join",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "previousWebinars",
+      "description": "List of past webinars with recordings",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "topic",
+      "description": "Webinar topic",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "startTime",
+      "description": "Scheduled start time in UTC",
+      "type": "string",
+      "format": "date-time"
+    },
+    {
+      "term": "joinUrl",
+      "description": "URL to join the webinar (upcoming webinars only)",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "recordUrl",
+      "description": "URL to the recording (past webinars only)",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "isAtRisk",
+      "description": "Whether the user is at risk of club tier downgrade",
+      "type": "boolean",
+      "format": ""
+    },
+    {
+      "term": "daysUntilDowngrade",
+      "description": "Days remaining until potential downgrade. Present only when isAtRisk is true.",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "currentPlayerLevelAvailableOffers",
+      "description": "Offers available at the user's current club tier",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "nextPlayerLevelAvailableOffers",
+      "description": "Offers that become available at the next club tier",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "staticEligibleOffers",
+      "description": "Offers eligible across specific club tiers",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "deliveryMethod",
+      "description": "Delivery method",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "minimumClubLevel",
+      "description": "Minimum club tier required for this offer",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "offerUrl",
+      "description": "URL with more information about the offer",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "offersInBundle",
+      "description": "Offers bundled together with this offer",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "subOffers",
+      "description": "Sub-offers within this offer",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "eligibleClubLevels",
+      "description": "Club tier names eligible for this offer",
+      "type": "array",
+      "format": ""
+    },
+    {
+      "term": "offerLimit",
+      "description": "Maximum number of offers in this bundle",
+      "type": "integer",
+      "format": ""
+    },
+    {
+      "term": "granularity",
+      "description": "",
+      "type": "string",
+      "format": ""
+    },
+    {
+      "term": "totalGain",
+      "description": "Compound gain over the returned series as a decimal fraction. Null when gains is empty.",
+      "type": "number",
+      "format": ""
+    },
+    {
+      "term": "gains",
+      "description": "",
+      "type": "array",
+      "format": ""
+    }
+  ]
+}

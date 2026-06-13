@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ClubDashboardDataResponse.json",
+  "title": "ClubDashboardDataResponse",
+  "type": "object",
+  "description": "Club dashboard data for a user",
+  "properties": {
+    "clubs": {
+      "type": "array",
+      "description": "List of club tiers with equity thresholds",
+      "items": {
+        "$ref": "#/components/schemas/ClubInfo"
+      }
+    },
+    "contacts": {
+      "description": "Account manager contact information for eligible users",
+      "$ref": "#/components/schemas/ContactsResponse"
+    },
+    "downgradeRisk": {
+      "description": "Club tier downgrade risk assessment",
+      "$ref": "#/components/schemas/DowngradeRiskResponse"
+    },
+    "offers": {
+      "description": "Club benefit offers categorized by tier availability",
+      "$ref": "#/components/schemas/UserOffersData"
+    },
+    "webinars": {
+      "description": "Upcoming and past club webinars",
+      "$ref": "#/components/schemas/WebinarsResponse"
+    }
+  }
+}

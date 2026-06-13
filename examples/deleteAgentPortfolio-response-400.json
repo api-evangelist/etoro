@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}",
+  "method": "delete",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "errorCode": "ValidationFailed",
+    "errorMessage": "Invalid agent-portfolio ID"
+  }
+}

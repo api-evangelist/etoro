@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Order.json",
+  "title": "Order",
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "integer",
+      "description": "Unique identifier for the order"
+    },
+    "cid": {
+      "type": "integer",
+      "description": "Customer ID associated with the order"
+    },
+    "openDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time when the order was created"
+    },
+    "instrumentId": {
+      "type": "integer",
+      "description": "Identifier of the instrument being traded"
+    },
+    "isBuy": {
+      "type": "boolean",
+      "description": "Direction of the position. true - Long, false - Short"
+    },
+    "takeProfitRate": {
+      "type": "number",
+      "format": "float",
+      "description": "Rate at which TakeProfit will trigger and send MarketOrder to close the position once it is open"
+    },
+    "stopLossRate": {
+      "type": "number",
+      "format": "float",
+      "description": "Rate at which StopLoss will trigger and send MarketOrder to close the position once it is open"
+    },
+    "rate": {
+      "type": "number",
+      "format": "float",
+      "description": "Asset rate at which to send market order to the market"
+    },
+    "amount": {
+      "type": "number",
+      "format": "float",
+      "description": "USD amount to invest in the position"
+    },
+    "leverage": {
+      "type": "integer",
+      "description": "Leverage multiplier to apply to the position"
+    },
+    "units": {
+      "type": "number",
+      "format": "float",
+      "description": "Units to open the position. If this value is greater than zero the position will open on the requested units, and not amount"
+    },
+    "isTslEnabled": {
+      "type": "boolean",
+      "description": "Indication if to enable TSL feature on the position once it is open"
+    },
+    "executionType": {
+      "type": "integer",
+      "description": "Type of order execution"
+    },
+    "isDiscounted": {
+      "type": "boolean",
+      "description": "Obsolete"
+    },
+    "isNoTakeProfit": {
+      "type": "boolean",
+      "description": "Indication if TakeProfit is enabled for the order. false = enabled, true = disabled"
+    },
+    "isNoStopLoss": {
+      "type": "boolean",
+      "description": "Indication if StopLoss is enabled for the order. false = enabled, true = disabled"
+    }
+  }
+}

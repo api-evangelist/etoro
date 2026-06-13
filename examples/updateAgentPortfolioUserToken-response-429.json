@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}",
+  "method": "patch",
+  "status": "429",
+  "type": "response",
+  "example": {
+    "errorCode": "TooManyRequests",
+    "errorMessage": "Too many requests"
+  }
+}

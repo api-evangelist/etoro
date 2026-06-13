@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/UpdatePriceAlertRequest.json",
+  "title": "UpdatePriceAlertRequest",
+  "type": "object",
+  "description": "Request body for updating an existing price alert",
+  "required": [
+    "targetPrice"
+  ],
+  "properties": {
+    "targetPrice": {
+      "type": "number",
+      "format": "decimal",
+      "description": "New target price for the alert. Must be greater than 0.",
+      "exclusiveMinimum": true,
+      "example": 190.0,
+      "minimum": 0
+    }
+  }
+}

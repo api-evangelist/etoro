@@ -1,0 +1,14 @@
+{
+  "path": "/api/v2/trading/info/eligibility",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "instrumentIds": [
+      1001
+    ],
+    "symbols": [
+      "AAPL"
+    ],
+    "currency": "USD"
+  }
+}

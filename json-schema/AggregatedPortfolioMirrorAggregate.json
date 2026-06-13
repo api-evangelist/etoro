@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AggregatedPortfolioMirrorAggregate.json",
+  "title": "AggregatedPortfolioMirrorAggregate",
+  "type": "object",
+  "description": "Aggregated data for a single copy-trading relationship.",
+  "properties": {
+    "mirrorId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Mirror identifier. A value of 0 represents manually held positions."
+    },
+    "mirrorAvailableCash": {
+      "type": "number",
+      "format": "double",
+      "description": "Cash available within this mirror for new copy positions."
+    },
+    "mirrorDepositTotal": {
+      "type": "number",
+      "format": "double",
+      "description": "Total amount ever deposited into this mirror: initialInvestment + depositSummary."
+    },
+    "mirrorWithdrawalTotal": {
+      "type": "number",
+      "format": "double",
+      "description": "Total amount ever withdrawn from this mirror."
+    },
+    "mirrorStopLossPercentage": {
+      "type": "number",
+      "format": "double",
+      "description": "Stop-loss threshold as a percentage of the mirror's current value."
+    },
+    "mirrorStopLoss": {
+      "type": "number",
+      "format": "double",
+      "description": "Stop-loss threshold in account currency. The mirror liquidates when its value falls to this level."
+    },
+    "mirrorClosedPositionsPnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Accumulated net profit from all closed positions within this mirror."
+    },
+    "mirrorTotals": {
+      "$ref": "#/components/schemas/AggregatedPortfolioMirrorTotals"
+    },
+    "instrumentAggregates": {
+      "type": "array",
+      "description": "Positions held within this copy-trading mirror, grouped by instrument.",
+      "items": {
+        "$ref": "#/components/schemas/AggregatedPortfolioInstrumentAggregate"
+      }
+    }
+  }
+}

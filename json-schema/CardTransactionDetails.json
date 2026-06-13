@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CardTransactionDetails.json",
+  "title": "CardTransactionDetails",
+  "type": "object",
+  "properties": {
+    "cardId": {
+      "type": "string"
+    },
+    "merchantName": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "authorizationStatus": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "normal",
+        "preAuthorize",
+        "finalAuthorize",
+        "incremental",
+        "instalment",
+        "preferredCustomer",
+        "recurring",
+        "delayedCharges",
+        "noShow",
+        "authorizeAdvice",
+        "refund",
+        "reversal",
+        "sysReversal",
+        "accountFunding"
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "path": "/api/v2/portfolios/{username}/assets/history",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "userName": "john.smith",
+    "results": [
+      {
+        "date": "2024-01-31",
+        "cashPct": 0.28,
+        "cashOfTotalEquityPct": 0.24,
+        "assets": [
+          {
+            "instrumentId": 1001,
+            "symbol": "AAPL",
+            "investedPct": 0.45,
+            "valuePct": 0.51
+          }
+        ]
+      }
+    ]
+  }
+}

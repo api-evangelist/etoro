@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/StaticEligibleOffer.json",
+  "title": "StaticEligibleOffer",
+  "type": "object",
+  "description": "An offer eligible across specific club tiers",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Offer identifier",
+      "example": "80"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Offer display name",
+      "example": "Tax Return Offer"
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Detailed offer description",
+      "example": "Discounted assistance with preparing annual tax returns from certified tax companies in your country."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Available",
+        "Reserved",
+        "Claimed",
+        "Expired",
+        "Claim Cancelled",
+        "Inventory Order Cancelled"
+      ],
+      "description": "Offer status",
+      "example": "Claimed"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Entertainment",
+        "Gifts",
+        "News",
+        "Signals",
+        "Tools",
+        "Exclusive events",
+        "Tickets",
+        "Zoom meetings",
+        "Educational",
+        "Services",
+        "Association Membership",
+        "Financial",
+        "Travel",
+        "Gift card",
+        "Client meetup",
+        "Emotional",
+        "Bundle"
+      ],
+      "description": "Offer type",
+      "example": "Financial"
+    },
+    "deliveryMethod": {
+      "type": "string",
+      "nullable": true,
+      "enum": [
+        "Inventory Managed",
+        "On-demand",
+        "Static",
+        "API"
+      ],
+      "description": "Delivery method",
+      "example": "Static"
+    },
+    "eligibleClubLevels": {
+      "type": "array",
+      "description": "Club tier names eligible for this offer",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Internal",
+          "Bronze",
+          "Silver",
+          "Gold",
+          "Platinum",
+          "PlatinumPlus",
+          "Diamond"
+        ]
+      },
+      "example": [
+        "Gold",
+        "Silver",
+        "Platinum",
+        "PlatinumPlus",
+        "Diamond"
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AggregatedPortfolioAccountTotals.json",
+  "title": "AggregatedPortfolioAccountTotals",
+  "type": "object",
+  "description": "Account-level balance and equity totals.",
+  "properties": {
+    "accountAvailableCash": {
+      "type": "number",
+      "format": "double",
+      "description": "Cash available for new trades: accountBalance minus accountFrozenCash."
+    },
+    "accountFrozenCash": {
+      "type": "number",
+      "format": "double",
+      "description": "Cash reserved for pending open orders."
+    },
+    "accountCurrentPnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Unrealized P&L across all manual positions and copy-trading mirrors in account currency."
+    },
+    "accountTotalValue": {
+      "type": "number",
+      "format": "double",
+      "description": "Total portfolio value: accountAvailableCash + accountTotalUsedMargin + accountCurrentPnl."
+    },
+    "accountTotalUsedMargin": {
+      "type": "number",
+      "format": "double",
+      "description": "Total margin in use: manual position margins + frozen order amounts + mirror active margins."
+    },
+    "accountBalance": {
+      "type": "number",
+      "format": "double",
+      "description": "Total cash balance (available + frozen), excluding invested amounts."
+    }
+  }
+}

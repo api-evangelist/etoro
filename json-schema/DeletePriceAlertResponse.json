@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/DeletePriceAlertResponse.json",
+  "title": "DeletePriceAlertResponse",
+  "type": "object",
+  "description": "Response for price alert delete operation",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Indicates the operation completed successfully",
+      "example": true
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "alertId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier of the deleted price alert",
+          "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        }
+      }
+    }
+  }
+}

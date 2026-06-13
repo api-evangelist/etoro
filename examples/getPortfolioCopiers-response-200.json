@@ -1,0 +1,15 @@
+{
+  "path": "/api/v2/portfolios/{username}/copiers",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "populated": {
+      "value": {
+        "copiers": 42,
+        "aumTier": 3,
+        "aumTierDesc": "Gold"
+      }
+    }
+  }
+}

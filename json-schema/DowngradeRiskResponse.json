@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/DowngradeRiskResponse.json",
+  "title": "DowngradeRiskResponse",
+  "type": "object",
+  "description": "Club tier downgrade risk assessment",
+  "properties": {
+    "isAtRisk": {
+      "type": "boolean",
+      "description": "Whether the user is at risk of club tier downgrade",
+      "example": false
+    },
+    "daysUntilDowngrade": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Days remaining until potential downgrade. Present only when isAtRisk is true.",
+      "example": 30
+    }
+  }
+}

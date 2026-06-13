@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ClubInfo.json",
+  "title": "ClubInfo",
+  "type": "object",
+  "description": "A single club tier with equity thresholds",
+  "properties": {
+    "name": {
+      "type": "string",
+      "enum": [
+        "Internal",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "PlatinumPlus",
+        "Diamond"
+      ],
+      "description": "Display name of the club tier",
+      "example": "Silver"
+    },
+    "minRealizedEquity": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Minimum realized equity threshold for this tier",
+      "example": 5000
+    },
+    "maxRealizedEquity": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Maximum realized equity threshold for this tier",
+      "example": 10000
+    },
+    "rank": {
+      "type": "integer",
+      "description": "Display rank of this tier",
+      "example": 2
+    }
+  }
+}

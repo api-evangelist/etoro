@@ -1,0 +1,12 @@
+{
+  "path": "/api/v1/money/accounts/cash/status",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "requestReferenceId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "status": "Pending",
+    "updatedAt": "2026-05-13T10:00:00Z",
+    "account": null
+  }
+}

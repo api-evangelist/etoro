@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/StandardErrorResponse.json",
+  "title": "StandardErrorResponse",
+  "type": "object",
+  "description": "Standard public API error envelope.",
+  "required": [
+    "success",
+    "error",
+    "timestamp",
+    "requestId"
+  ],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": false
+    },
+    "error": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code.",
+          "example": "UserNotFound"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error message.",
+          "example": "Username not found."
+        },
+        "field": {
+          "type": "string",
+          "description": "Request field associated with the error, when applicable."
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when the error was generated."
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Correlation identifier for support and tracing."
+    }
+  }
+}

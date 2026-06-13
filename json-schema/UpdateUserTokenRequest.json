@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/UpdateUserTokenRequest.json",
+  "title": "UpdateUserTokenRequest",
+  "type": "object",
+  "properties": {
+    "scopeIds": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "deprecated": true,
+      "description": "[DEPRECATED \u2014 use scopeNames instead] An updated set of permission scope identifiers for the token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.",
+      "example": [
+        211,
+        212
+      ]
+    },
+    "scopeNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.",
+      "example": [
+        "etoro-public:trade.real:read",
+        "etoro-public:trade.real:write"
+      ]
+    },
+    "ipsWhitelist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An updated set of IPv4 addresses allowed to use this token.",
+      "example": [
+        "192.168.1.1"
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "An updated expiration date and time (UTC) for the token.",
+      "example": "2026-12-31T23:59:59Z"
+    }
+  }
+}

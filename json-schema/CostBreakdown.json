@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CostBreakdown.json",
+  "title": "CostBreakdown",
+  "type": "object",
+  "description": "Individual cost component (markup, fees, SDRT) in the requested order currency.",
+  "properties": {
+    "costType": {
+      "type": "string",
+      "description": "Identifies which cost component this entry represents.",
+      "enum": [
+        "markup",
+        "marketSpread",
+        "transactionFee",
+        "overnightFee",
+        "overWeekendFee",
+        "sdrt"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "description": "The monetary value of this cost component, expressed in `currency`."
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code in which `amount` is denominated."
+    }
+  }
+}

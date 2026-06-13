@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PublicAggregatedInfoUser.json",
+  "title": "PublicAggregatedInfoUser",
+  "type": "object",
+  "description": "Comprehensive user profile information including account details, verification status, and preferences",
+  "properties": {
+    "gcid": {
+      "type": "integer",
+      "description": "Global Customer ID - Unique identifier across all systems"
+    },
+    "realCID": {
+      "type": "integer",
+      "description": "Customer ID for real trading account"
+    },
+    "demoCID": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Customer ID for demo/practice account if available"
+    },
+    "username": {
+      "type": "string",
+      "description": "Unique username identifier for the user"
+    },
+    "language": {
+      "type": "integer",
+      "nullable": true,
+      "description": "User's preferred language ID based on system language codes"
+    },
+    "languageIsoCode": {
+      "type": "string",
+      "description": "ISO 639-1 language code for user's preferred language"
+    },
+    "country": {
+      "type": "integer",
+      "nullable": true,
+      "description": "User's registered country ID based on system country codes"
+    },
+    "allowDisplayFullName": {
+      "type": "boolean",
+      "description": "Indicates whether the user has consented to displaying their full name publicly"
+    },
+    "userBio": {
+      "$ref": "#/components/schemas/PublicAggregatedInfoUiUserBio",
+      "description": "Structured biographical information including trading strategy"
+    },
+    "whiteLabel": {
+      "type": "integer",
+      "nullable": true,
+      "description": "White label partner identifier if user belongs to a partner program"
+    },
+    "optOut": {
+      "type": "boolean",
+      "description": "Indicates if user has opted out of public profile features"
+    },
+    "homepage": {
+      "type": "integer",
+      "nullable": true
+    },
+    "playerStatus": {
+      "type": "integer",
+      "nullable": true
+    },
+    "piLevel": {
+      "type": "integer",
+      "nullable": true
+    },
+    "isPi": {
+      "type": "boolean",
+      "description": "Indicates if user is a Professional Investor with special privileges"
+    },
+    "avatars": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PublicAggregatedInfoUiUserAvatar"
+      }
+    },
+    "masterAccountCid": {
+      "type": "integer",
+      "nullable": true
+    },
+    "accountType": {
+      "type": "integer",
+      "nullable": true
+    },
+    "fundType": {
+      "type": "string",
+      "nullable": true
+    },
+    "isVerified": {
+      "type": "boolean"
+    },
+    "verificationLevel": {
+      "type": "integer",
+      "description": "User's current verification level (0-3, where 3 is fully verified)"
+    },
+    "accountStatus": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Current account status code indicating active, suspended, or other states"
+    },
+    "gdprInfo": {
+      "type": "object",
+      "nullable": true,
+      "properties": {
+        "accountStatus": {
+          "$ref": "#/components/schemas/PublicAggregatedInfoAccountStatus"
+        },
+        "playerStatus": {
+          "$ref": "#/components/schemas/PublicAggregatedInfoPlayerStatus"
+        },
+        "playerStatusReason": {
+          "$ref": "#/components/schemas/PublicAggregatedInfoPlayerStatusReason"
+        }
+      }
+    },
+    "firstName": {
+      "type": "string",
+      "nullable": true,
+      "description": "User's first name (visible if allowDisplayFullName is true)"
+    },
+    "middleName": {
+      "type": "string",
+      "nullable": true,
+      "description": "User's middle name"
+    },
+    "lastName": {
+      "type": "string",
+      "nullable": true,
+      "description": "User's last name (visible if allowDisplayFullName is true)"
+    },
+    "aboutMe": {
+      "type": "string",
+      "nullable": true,
+      "description": "User's full about me text"
+    },
+    "aboutMeShort": {
+      "type": "string",
+      "nullable": true,
+      "description": "Short summary of user's about me text"
+    },
+    "customerRestrictions": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "CID": {
+            "type": "integer",
+            "description": "Customer ID"
+          },
+          "restrictionTypeID": {
+            "type": "integer",
+            "description": "Type of restriction"
+          },
+          "reasonID": {
+            "type": "integer",
+            "description": "Reason for restriction"
+          },
+          "occured": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the restriction occurred"
+          }
+        }
+      },
+      "description": "List of customer restrictions applied to the account"
+    },
+    "userFlowSignature": {
+      "type": "string"
+    }
+  }
+}

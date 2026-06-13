@@ -1,0 +1,20 @@
+{
+  "path": "/api/v1/trading/execution/market-close-orders/positions/{positionId}",
+  "method": "post",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "orderForClose": {
+      "positionID": 2150941015,
+      "instrumentID": 1111,
+      "unitsToDeduct": 2,
+      "orderID": 13904638,
+      "orderType": 19,
+      "statusID": 1,
+      "CID": 7765437,
+      "openDateTime": "2025-04-02T16:07:54.0880338Z",
+      "lastUpdate": "2025-04-02T16:07:54.0880338Z"
+    },
+    "token": "5fe065bc-f6f9-4897-a2ce-c4fccef73ff8"
+  }
+}

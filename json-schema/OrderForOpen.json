@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/OrderForOpen.json",
+  "title": "OrderForOpen",
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "integer",
+      "description": "Unique identifier for the order"
+    },
+    "orderType": {
+      "type": "integer",
+      "description": "Type of order executed"
+    },
+    "statusId": {
+      "type": "integer",
+      "description": "Status of the order"
+    },
+    "cid": {
+      "type": "integer",
+      "description": "Customer ID associated with the order"
+    },
+    "openDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was opened."
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The last update timestamp of the order."
+    },
+    "instrumentId": {
+      "type": "integer",
+      "description": "The unique identifier of the financial instrument to trade."
+    },
+    "amount": {
+      "type": "number",
+      "format": "float",
+      "description": "The amount of money to invest in the trade."
+    },
+    "amountInUnits": {
+      "type": "number",
+      "format": "float",
+      "description": "The number of units to trade."
+    },
+    "isBuy": {
+      "type": "boolean",
+      "description": "True for a buy (long) order, false for a sell (short) order."
+    },
+    "leverage": {
+      "type": "integer",
+      "description": "The leverage multiplier for the trade."
+    },
+    "stopLossRate": {
+      "type": "number",
+      "format": "float",
+      "description": "The stop-loss rate at which the trade will automatically close to limit losses."
+    },
+    "takeProfitRate": {
+      "type": "number",
+      "format": "float",
+      "description": "The take-profit rate at which the trade will automatically close to secure profits."
+    },
+    "isTslEnabled": {
+      "type": "boolean",
+      "description": "Indicates whether a trailing stop-loss is enabled."
+    },
+    "isDiscounted": {
+      "type": "boolean",
+      "description": "Indicates if the order is eligible for a discount."
+    },
+    "mirrorId": {
+      "type": "integer",
+      "description": "ID related to mirrored trades, if applicable."
+    },
+    "frozenAmount": {
+      "type": "number",
+      "format": "float",
+      "description": "Amount frozen for the order."
+    },
+    "totalExternalCosts": {
+      "type": "number",
+      "format": "float",
+      "description": "Total external costs associated with the trade."
+    },
+    "isNoTakeProfit": {
+      "type": "boolean",
+      "description": "True if no take-profit is set for this order."
+    },
+    "isNoStopLoss": {
+      "type": "boolean",
+      "description": "True if no stop-loss is set for this order."
+    },
+    "lotCount": {
+      "type": "number",
+      "format": "float",
+      "description": "The number of lots in the order."
+    },
+    "openPositionActionType": {
+      "type": "integer",
+      "description": "Position open reason."
+    },
+    "externalOperation": {
+      "type": "object",
+      "description": "External operation details, if any.",
+      "nullable": true
+    }
+  }
+}

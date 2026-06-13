@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InstrumentEligibilityResponse.json",
+  "title": "InstrumentEligibilityResponse",
+  "type": "object",
+  "description": "Response containing trading configuration for all requested instruments.",
+  "properties": {
+    "currency": {
+      "type": "string",
+      "description": "The currency used for all monetary values in this response."
+    },
+    "eligibilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/InstrumentEligibility"
+      },
+      "description": "Trading configuration for each resolved instrument."
+    },
+    "notFoundInstrumentIds": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "description": "Instrument IDs that were requested but could not be found."
+    },
+    "notFoundSymbols": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Symbols that were requested but could not be found."
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/UserOffersData.json",
+  "title": "UserOffersData",
+  "type": "object",
+  "description": "Club offers categorized by availability",
+  "properties": {
+    "currentPlayerLevelAvailableOffers": {
+      "type": "array",
+      "description": "Offers available at the user's current club tier",
+      "items": {
+        "$ref": "#/components/schemas/ClubOffer"
+      }
+    },
+    "nextPlayerLevelAvailableOffers": {
+      "type": "array",
+      "description": "Offers that become available at the next club tier",
+      "items": {
+        "$ref": "#/components/schemas/ClubOffer"
+      }
+    },
+    "staticEligibleOffers": {
+      "type": "array",
+      "description": "Offers eligible across specific club tiers",
+      "items": {
+        "$ref": "#/components/schemas/StaticEligibleOffer"
+      }
+    }
+  }
+}

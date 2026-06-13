@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Attachment.json",
+  "title": "Attachment",
+  "type": "object",
+  "description": "Media or link attachment",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "Full URL of the attachment",
+      "example": "https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the attachment",
+      "example": "Tesla Q4 Earnings Chart"
+    },
+    "host": {
+      "type": "string",
+      "description": "Host domain of the attachment",
+      "example": "cdn.etoro.com"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the attachment",
+      "example": "Tesla quarterly earnings breakdown"
+    },
+    "mediaType": {
+      "type": "string",
+      "enum": [
+        "None",
+        "Link",
+        "Image",
+        "Video"
+      ],
+      "description": "Type of media",
+      "example": "Image"
+    },
+    "media": {
+      "type": "object",
+      "description": "Media content details",
+      "properties": {
+        "image": {
+          "type": "object",
+          "description": "Image dimensions and URL",
+          "properties": {
+            "width": {
+              "type": "integer",
+              "description": "Width in pixels",
+              "example": 1200
+            },
+            "height": {
+              "type": "integer",
+              "description": "Height in pixels",
+              "example": 630
+            },
+            "url": {
+              "type": "string",
+              "description": "Image URL",
+              "example": "https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg"
+            }
+          }
+        },
+        "video": {
+          "type": "object",
+          "description": "Video source details",
+          "properties": {
+            "videoSourceId": {
+              "type": "string",
+              "description": "External video ID",
+              "example": "dQw4w9WgXcQ"
+            },
+            "videoSource": {
+              "type": "string",
+              "enum": [
+                "None",
+                "YouTube",
+                "Vimeo"
+              ],
+              "description": "Video provider",
+              "example": "YouTube"
+            },
+            "image": {
+              "type": "object",
+              "description": "Video thumbnail",
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "description": "Thumbnail width in pixels",
+                  "example": 1280
+                },
+                "height": {
+                  "type": "integer",
+                  "description": "Thumbnail height in pixels",
+                  "example": 720
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Thumbnail URL",
+                  "example": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

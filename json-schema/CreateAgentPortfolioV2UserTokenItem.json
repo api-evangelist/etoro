@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CreateAgentPortfolioV2UserTokenItem.json",
+  "title": "CreateAgentPortfolioV2UserTokenItem",
+  "type": "object",
+  "properties": {
+    "userTokenId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier of the newly created user token.",
+      "example": "f9e8d7c6-b5a4-3210-fedc-ba9876543210"
+    },
+    "userToken": {
+      "type": "string",
+      "description": "The generated user token secret. Only available at creation time.",
+      "example": "sk_live_a1b2c3d4e5f6..."
+    },
+    "userTokenName": {
+      "type": "string",
+      "description": "The user-defined name for the user token.",
+      "example": "my-trading-token"
+    },
+    "clientId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The OAuth client identifier associated with the user token.",
+      "example": "c1d2e3f4-a5b6-7890-cdef-123456789abc"
+    },
+    "ipsWhitelist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The set of whitelisted IP addresses authorized to use this token.",
+      "example": [
+        "192.168.1.1"
+      ]
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ScopeNameItem"
+      },
+      "description": "The permission scopes (by name) granted to this token.",
+      "example": [
+        {
+          "name": "etoro-public:trade.real:read"
+        }
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The expiration date and time of the user token in UTC.",
+      "example": "2026-12-31T23:59:59Z"
+    }
+  }
+}

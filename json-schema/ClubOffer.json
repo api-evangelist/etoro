@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ClubOffer.json",
+  "title": "ClubOffer",
+  "type": "object",
+  "description": "A club benefit offer",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Offer identifier",
+      "example": "80"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Offer display name",
+      "example": "Tax Return Offer"
+    },
+    "description": {
+      "type": "string",
+      "nullable": true,
+      "description": "Detailed offer description",
+      "example": "Discounted assistance with preparing annual tax returns from certified tax companies in your country."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Available",
+        "Reserved",
+        "Claimed",
+        "Expired",
+        "Claim Cancelled",
+        "Inventory Order Cancelled"
+      ],
+      "description": "Offer status",
+      "example": "Claimed"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Entertainment",
+        "Gifts",
+        "News",
+        "Signals",
+        "Tools",
+        "Exclusive events",
+        "Tickets",
+        "Zoom meetings",
+        "Educational",
+        "Services",
+        "Association Membership",
+        "Financial",
+        "Travel",
+        "Gift card",
+        "Client meetup",
+        "Emotional",
+        "Bundle"
+      ],
+      "description": "Offer type",
+      "example": "Financial"
+    },
+    "subType": {
+      "type": "string",
+      "nullable": true,
+      "enum": [
+        "High",
+        "Low"
+      ],
+      "description": "Offer sub-type"
+    },
+    "deliveryMethod": {
+      "type": "string",
+      "nullable": true,
+      "enum": [
+        "Inventory Managed",
+        "On-demand",
+        "Static",
+        "API"
+      ],
+      "description": "Delivery method",
+      "example": "Static"
+    },
+    "minimumClubLevel": {
+      "type": "string",
+      "enum": [
+        "Internal",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "PlatinumPlus",
+        "Diamond"
+      ],
+      "description": "Minimum club tier required for this offer",
+      "example": "Silver"
+    },
+    "offerUrl": {
+      "type": "string",
+      "nullable": true,
+      "description": "URL with more information about the offer",
+      "example": "https://www.etoro.com/club/offers/80"
+    },
+    "offersInBundle": {
+      "type": "array",
+      "nullable": true,
+      "description": "Offers bundled together with this offer",
+      "items": {
+        "$ref": "#/components/schemas/OfferInBundle"
+      }
+    },
+    "subOffers": {
+      "type": "array",
+      "nullable": true,
+      "description": "Sub-offers within this offer",
+      "items": {
+        "$ref": "#/components/schemas/ClubOffer"
+      }
+    }
+  }
+}

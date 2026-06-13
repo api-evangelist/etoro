@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/UnifiedOrderRequestForRealCreateOrderDocs.json",
+  "title": "UnifiedOrderRequestForRealCreateOrderDocs",
+  "type": "object",
+  "description": "Request payload for creating an order to open or close a position.",
+  "required": [
+    "action",
+    "transaction"
+  ],
+  "properties": {
+    "action": {
+      "type": "string",
+      "description": "The order action type. Possible values: open, close.",
+      "enum": [
+        "open",
+        "close"
+      ],
+      "example": "open"
+    },
+    "transaction": {
+      "type": "string",
+      "description": "The transaction direction. Possible values: buy, sell, sellShort, buyToCover.",
+      "enum": [
+        "buy",
+        "sell",
+        "sellShort",
+        "buyToCover"
+      ],
+      "example": "buy"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "The asset ticker symbol. Required for open orders.",
+      "nullable": true,
+      "example": "AAPL"
+    },
+    "instrumentId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The eToro instrument identifier. Required for open orders.",
+      "nullable": true,
+      "example": 101
+    },
+    "orderType": {
+      "type": "string",
+      "description": "The order execution type. Possible values: mkt (market), mit (market if touched).",
+      "enum": [
+        "mkt",
+        "mit"
+      ],
+      "example": "mkt"
+    },
+    "triggerRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The trigger rate for mit orders. Required for mit orders."
+    },
+    "leverage": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The leverage multiplier to apply. Required for open orders.",
+      "nullable": true,
+      "example": 2
+    },
+    "amount": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The monetary amount to invest in the order currency. Mutually exclusive with units and contracts.",
+      "example": 1000.0
+    },
+    "orderCurrency": {
+      "type": "string",
+      "description": "The currency for the order amount. Typically usd.",
+      "nullable": true,
+      "example": "usd"
+    },
+    "units": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The number of units to trade. Mutually exclusive with amount and contracts."
+    },
+    "contracts": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The number of contracts to trade. Mutually exclusive with amount and units."
+    },
+    "stopLossRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The stop-loss rate at which the position will automatically close.",
+      "example": 1.2
+    },
+    "takeProfitRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The take-profit rate at which the position will automatically close.",
+      "example": 1.5
+    },
+    "stopLossType": {
+      "type": "string",
+      "nullable": true,
+      "description": "The stop-loss type. Possible values: fixed, trailing.",
+      "enum": [
+        "fixed",
+        "trailing"
+      ],
+      "example": "fixed"
+    },
+    "additionalMargin": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Additional margin to allocate to the position."
+    },
+    "positionIds": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "nullable": true,
+      "description": "List of position IDs to close. Required for close orders."
+    }
+  }
+}

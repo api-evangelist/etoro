@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/clubs",
+  "method": "get",
+  "status": "403",
+  "type": "response",
+  "example": {
+    "errorCode": "InsufficientPermissions",
+    "errorMessage": "Insufficient permissions to access this resource"
+  }
+}

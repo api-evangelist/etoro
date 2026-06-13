@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/money/accounts/cash",
+  "method": "post",
+  "status": "422",
+  "type": "response",
+  "example": {
+    "errorCode": "NotEligibleForCashAccountCreation",
+    "errorMessage": "User is not eligible to create a cash account"
+  }
+}

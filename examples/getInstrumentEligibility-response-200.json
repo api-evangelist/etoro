@@ -1,0 +1,56 @@
+{
+  "path": "/api/v2/trading/info/eligibility",
+  "method": "post",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "currency": "USD",
+    "eligibilities": [
+      {
+        "instrumentId": 1001,
+        "symbol": "AAPL",
+        "minPositionExposure": 50.0,
+        "maxUnitsPerOrder": 10000.0,
+        "allowOpenPosition": true,
+        "allowClosePosition": true,
+        "allowPartialClosePosition": true,
+        "allowMitOrders": true,
+        "allowEntryOrders": false,
+        "allowExitOrders": false,
+        "allowTrailingStopLoss": true,
+        "requiresW8Ben": null,
+        "unitsQuantityType": "FractionalUnits",
+        "orderFillBehaviorType": "BestEffort",
+        "allowedOrderQuantityType": "Both",
+        "tradeUnitType": "Units",
+        "initialMarginInAssetCurrency": null,
+        "stopLossMarginInAssetCurrency": null,
+        "additionalBufferPercent": null,
+        "leverageConfigs": [
+          {
+            "settlementType": "CFD",
+            "direction": "LONG",
+            "leverageValues": [
+              1,
+              2,
+              5
+            ],
+            "isPotential": false,
+            "minPositionAmount": 50.0,
+            "allowEditStopLoss": true,
+            "minStopLossPercentage": 5.0,
+            "maxStopLossPercentage": 50.0,
+            "defaultStopLossPercentage": 50.0,
+            "allowEditTakeProfit": true,
+            "minTakeProfitPercentage": 5.0,
+            "maxTakeProfitPercentage": 1000.0,
+            "defaultTakeProfitPercentage": 1000.0,
+            "allowStopLossTakeProfit": true
+          }
+        ]
+      }
+    ],
+    "notFoundInstrumentIds": [],
+    "notFoundSymbols": []
+  }
+}

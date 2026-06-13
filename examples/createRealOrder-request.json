@@ -1,0 +1,23 @@
+{
+  "path": "/api/v2/trading/execution/orders",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "action": "open",
+    "transaction": "buy",
+    "symbol": "AAPL",
+    "instrumentId": 101,
+    "orderType": "mkt",
+    "triggerRate": null,
+    "leverage": 2,
+    "amount": 1000.0,
+    "orderCurrency": "usd",
+    "units": null,
+    "contracts": null,
+    "stopLossRate": 1.2,
+    "takeProfitRate": 1.5,
+    "stopLossType": "fixed",
+    "additionalMargin": null,
+    "positionIds": null
+  }
+}

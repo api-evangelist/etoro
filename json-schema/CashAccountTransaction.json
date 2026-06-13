@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CashAccountTransaction.json",
+  "title": "CashAccountTransaction",
+  "type": "object",
+  "required": [
+    "id",
+    "accountId",
+    "transactionType",
+    "transactionSubtype",
+    "direction",
+    "status",
+    "amount",
+    "currency",
+    "postedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "accountId": {
+      "type": "string"
+    },
+    "transactionType": {
+      "type": "string",
+      "enum": [
+        "card",
+        "internalTransfer",
+        "bankTransfer",
+        "balanceAdjustment"
+      ]
+    },
+    "transactionSubtype": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "cardPayment",
+        "contactless",
+        "onlinePayment",
+        "cashWithdrawal",
+        "transferReceived",
+        "transfer",
+        "paymentReceived",
+        "payment",
+        "refund",
+        "fee",
+        "creditBalanceAdjustment",
+        "debitBalanceAdjustment",
+        "directDebit",
+        "cryptoToFiat"
+      ]
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "debit",
+        "credit"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "failed",
+        "authorized",
+        "settled",
+        "rejected",
+        "returned",
+        "expired",
+        "unknown"
+      ]
+    },
+    "amount": {
+      "type": "string",
+      "description": "Decimal amount as string"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 alphabetic currency code"
+    },
+    "originalAmount": {
+      "type": "string",
+      "nullable": true
+    },
+    "originalCurrency": {
+      "type": "string",
+      "nullable": true
+    },
+    "conversionRate": {
+      "type": "string",
+      "nullable": true
+    },
+    "postedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "counterparty": {
+      "$ref": "#/components/schemas/Counterparty"
+    },
+    "cardTransactionDetails": {
+      "$ref": "#/components/schemas/CardTransactionDetails",
+      "nullable": true
+    },
+    "bankTransferTransactionDetails": {
+      "$ref": "#/components/schemas/BankTransferDetails",
+      "nullable": true
+    },
+    "internalTransferTransactionDetails": {
+      "$ref": "#/components/schemas/InternalTransferDetails",
+      "nullable": true
+    }
+  }
+}

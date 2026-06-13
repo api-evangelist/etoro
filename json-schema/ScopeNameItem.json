@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ScopeNameItem.json",
+  "title": "ScopeNameItem",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The permission scope name.",
+      "example": "etoro-public:trade.real:read"
+    }
+  }
+}

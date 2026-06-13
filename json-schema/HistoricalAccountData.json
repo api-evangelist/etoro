@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/HistoricalAccountData.json",
+  "title": "HistoricalAccountData",
+  "type": "object",
+  "description": "Individual account balance within a historical daily snapshot.",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Unique identifier of the account."
+    },
+    "accountType": {
+      "$ref": "#/components/schemas/AccountType"
+    },
+    "currency": {
+      "type": "string",
+      "nullable": true,
+      "description": "The account's native currency (ISO 4217)."
+    },
+    "cash": {
+      "type": "number",
+      "format": "double",
+      "description": "Cash balance in the account's native currency."
+    },
+    "investedAmount": {
+      "type": "number",
+      "format": "double",
+      "description": "Invested amount in the account's native currency."
+    },
+    "pnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Profit and loss in the account's native currency."
+    },
+    "total": {
+      "type": "number",
+      "format": "double",
+      "description": "Total balance in the account's native currency."
+    },
+    "usdRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Exchange rate to USD."
+    },
+    "displayCash": {
+      "type": "number",
+      "format": "double",
+      "description": "Cash balance converted to the requested display currency."
+    },
+    "displayInvestedAmount": {
+      "type": "number",
+      "format": "double",
+      "description": "Invested amount converted to the requested display currency."
+    },
+    "displayPnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Profit and loss converted to the requested display currency."
+    },
+    "displayTotal": {
+      "type": "number",
+      "format": "double",
+      "description": "Total balance converted to the requested display currency."
+    },
+    "exchangeRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Exchange rate applied to convert to displayCurrency."
+    }
+  },
+  "additionalProperties": false
+}

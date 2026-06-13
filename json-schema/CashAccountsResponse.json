@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CashAccountsResponse.json",
+  "title": "CashAccountsResponse",
+  "type": "object",
+  "description": "Response containing the user's cash accounts and creation eligibility status",
+  "required": [
+    "accounts",
+    "eligibilityStatus"
+  ],
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "description": "List of cash accounts",
+      "items": {
+        "$ref": "#/components/schemas/CashAccount"
+      }
+    },
+    "eligibilityStatus": {
+      "type": "string",
+      "description": "User's creation eligibility status for cash accounts",
+      "enum": [
+        "Ineligible",
+        "CardAndIbanEligible",
+        "IbanEligible"
+      ],
+      "example": "CardAndIbanEligible"
+    }
+  }
+}

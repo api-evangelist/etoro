@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Svg.json",
+  "title": "Svg",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "nullable": true
+    },
+    "backgroundColor": {
+      "type": "string",
+      "nullable": true
+    },
+    "textColor": {
+      "type": "string",
+      "nullable": true
+    }
+  },
+  "additionalProperties": false
+}

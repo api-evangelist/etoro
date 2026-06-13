@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Avatar.json",
+  "title": "Avatar",
+  "type": "object",
+  "properties": {
+    "small": {
+      "type": "string",
+      "nullable": true
+    },
+    "medium": {
+      "type": "string",
+      "nullable": true
+    },
+    "large": {
+      "type": "string",
+      "nullable": true
+    },
+    "svg": {
+      "$ref": "#/components/schemas/Svg"
+    }
+  },
+  "additionalProperties": false
+}

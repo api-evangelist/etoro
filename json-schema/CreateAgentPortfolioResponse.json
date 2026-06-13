@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CreateAgentPortfolioResponse.json",
+  "title": "CreateAgentPortfolioResponse",
+  "type": "object",
+  "properties": {
+    "agentPortfolioId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier of the newly created agent-portfolio.",
+      "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    "agentPortfolioName": {
+      "type": "string",
+      "description": "The display name assigned to the agent-portfolio.",
+      "example": "MyPort1"
+    },
+    "agentPortfolioGcid": {
+      "type": "integer",
+      "description": "The GCID associated with the agent-portfolio.",
+      "example": 12345678
+    },
+    "agentPortfolioVirtualBalance": {
+      "type": "number",
+      "description": "The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.",
+      "example": 10000
+    },
+    "mirrorId": {
+      "type": "integer",
+      "description": "The Trading API mirror ID for this agent-portfolio's copy trade.",
+      "example": 12345
+    },
+    "userTokens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CreateAgentPortfolioUserTokenItem"
+      },
+      "description": "The user tokens generated during agent-portfolio creation."
+    }
+  }
+}

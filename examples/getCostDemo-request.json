@@ -1,0 +1,31 @@
+{
+  "path": "/api/v2/trading/info/demo/costs",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "open": {
+      "summary": "Cost for opening a position",
+      "value": {
+        "action": "open",
+        "transaction": "buy",
+        "instrumentId": 101,
+        "settlementType": "cfd",
+        "orderType": "mkt",
+        "leverage": 2,
+        "amount": 1000.0,
+        "orderCurrency": "usd"
+      }
+    },
+    "close": {
+      "summary": "Cost for closing one or more positions",
+      "value": {
+        "action": "close",
+        "transaction": "sell",
+        "positionIds": [
+          13902598,
+          13902599
+        ]
+      }
+    }
+  }
+}

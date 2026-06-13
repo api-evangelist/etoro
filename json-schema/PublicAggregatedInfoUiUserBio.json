@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PublicAggregatedInfoUiUserBio.json",
+  "title": "PublicAggregatedInfoUiUserBio",
+  "type": "object",
+  "properties": {
+    "gcid": {
+      "type": "integer"
+    },
+    "languageCode": {
+      "type": "string",
+      "nullable": true
+    },
+    "aboutMe": {
+      "type": "string",
+      "nullable": true,
+      "description": "User's full about me text"
+    },
+    "aboutMeShort": {
+      "type": "string",
+      "nullable": true,
+      "description": "Short summary of user's about me text"
+    },
+    "strategyID": {
+      "type": "integer",
+      "nullable": true,
+      "description": "ID of the user's trading strategy"
+    }
+  }
+}

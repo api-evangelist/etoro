@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CreateUserTokenV2Request.json",
+  "title": "CreateUserTokenV2Request",
+  "type": "object",
+  "properties": {
+    "userTokenName": {
+      "type": "string",
+      "description": "A human-readable name to identify the user token.",
+      "example": "my-trading-token"
+    },
+    "scopeNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The set of permission scope names to grant to this token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.",
+      "example": [
+        "etoro-public:trade.real:read",
+        "etoro-public:trade.real:write"
+      ]
+    },
+    "ipsWhitelist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An optional set of IPv4 addresses allowed to use this token.",
+      "example": [
+        "192.168.1.1"
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "An optional expiration date and time for the token in UTC.",
+      "example": "2026-12-31T23:59:59Z"
+    }
+  },
+  "required": [
+    "userTokenName",
+    "scopeNames"
+  ]
+}

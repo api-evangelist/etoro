@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetAgentPortfoliosResponse.json",
+  "title": "GetAgentPortfoliosResponse",
+  "type": "object",
+  "properties": {
+    "agentPortfolios": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AgentPortfolioItem"
+      },
+      "description": "The collection of agent-portfolios owned by the user."
+    }
+  }
+}

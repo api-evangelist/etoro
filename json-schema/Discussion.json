@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Discussion.json",
+  "title": "Discussion",
+  "type": "object",
+  "description": "A single discussion entry in a feed \u2014 wraps a Post with its interaction data",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Discussion wrapper ID (same as post ID)",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "post": {
+      "$ref": "#/components/schemas/DiscussionsPost"
+    },
+    "commentsData": {
+      "type": "object",
+      "description": "Inline comments preview",
+      "properties": {
+        "reactionPaging": {
+          "type": "object",
+          "properties": {
+            "totalCount": {
+              "type": "integer",
+              "description": "Total comment count on this post",
+              "example": 14
+            }
+          }
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Comment"
+          }
+        }
+      }
+    },
+    "emotionsData": {
+      "type": "object",
+      "description": "Aggregated emotions (likes) on an entity",
+      "properties": {
+        "like": {
+          "type": "object",
+          "properties": {
+            "paging": {
+              "type": "object",
+              "description": "Pagination cursor info",
+              "properties": {
+                "totalCount": {
+                  "type": "integer",
+                  "description": "Total number of items",
+                  "example": 42
+                },
+                "offsetEntityId": {
+                  "type": "string",
+                  "description": "Opaque cursor for next page",
+                  "example": "b2c3d4e5-f6a7-4890-bcde-f23456789012"
+                },
+                "next": {
+                  "type": "string",
+                  "description": "URL to next page",
+                  "example": "/api/v1/reactions/3fa85f64-5717-4562-b3fc-2c963f66afa6/emotions?offset=10&take=10"
+                }
+              }
+            },
+            "emotions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Emotion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "requesterContext": {
+      "type": "object",
+      "description": "Requester's relationship state with the post",
+      "properties": {
+        "isOwner": {
+          "type": "boolean",
+          "description": "Requester is the post owner",
+          "example": false
+        },
+        "isFlaggingAsSpam": {
+          "type": "boolean",
+          "description": "Requester flagged this as spam",
+          "example": false
+        },
+        "isSubscribed": {
+          "type": "boolean",
+          "description": "Requester is subscribed to notifications",
+          "example": false
+        },
+        "isLiking": {
+          "type": "boolean",
+          "description": "Requester has liked this post",
+          "example": true
+        },
+        "isSaved": {
+          "type": "boolean",
+          "description": "Requester has saved this post",
+          "example": false
+        },
+        "isPinned": {
+          "type": "boolean",
+          "description": "Post is pinned for the requester",
+          "example": false
+        },
+        "isRequesterBlocking": {
+          "type": "boolean",
+          "description": "Requester is blocking the post owner",
+          "example": false
+        },
+        "isInteractionRestricted": {
+          "type": "boolean",
+          "description": "Owner has blocked the requester",
+          "example": false
+        },
+        "isFollowing": {
+          "type": "boolean",
+          "description": "Requester is following this post",
+          "example": true
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "Post-level engagement counters",
+      "properties": {
+        "totalCommentsAndReplies": {
+          "type": "integer",
+          "description": "Sum of all comments and replies",
+          "example": 14
+        },
+        "sharedCount": {
+          "type": "integer",
+          "description": "Number of times this post has been shared",
+          "example": 3
+        }
+      }
+    },
+    "reason": {
+      "nullable": true,
+      "description": "Why this post appears in the feed (ForYou only). May be null or an object: { type: 'followed-user'|'instrument-trending', sourceId, owner }",
+      "example": {
+        "type": "followed-user",
+        "sourceId": "7890",
+        "owner": "johndoe"
+      }
+    }
+  }
+}

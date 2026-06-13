@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/closingPricesResponse.json",
+  "title": "closingPricesResponse",
+  "type": "array",
+  "description": "List of closing prices for all instruments",
+  "items": {
+    "type": "object",
+    "description": "Closing price information for a specific instrument",
+    "properties": {
+      "instrumentId": {
+        "type": "integer",
+        "description": "Unique identifier of the instrument"
+      },
+      "officialClosingPrice": {
+        "type": "number",
+        "format": "float",
+        "description": "Most recent official closing price for the instrument"
+      },
+      "isMarketOpen": {
+        "type": "boolean",
+        "description": "Obsolete - Do not use"
+      },
+      "closingPrices": {
+        "type": "object",
+        "description": "Historical closing prices at different time intervals",
+        "properties": {
+          "daily": {
+            "type": "object",
+            "description": "Official closing price from the previous trading day",
+            "properties": {
+              "price": {
+                "type": "number",
+                "format": "float",
+                "description": "Closing price value"
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time of the closing price in ISO 8601 format"
+              }
+            }
+          },
+          "weekly": {
+            "type": "object",
+            "description": "Official closing price from the previous trading week",
+            "properties": {
+              "price": {
+                "type": "number",
+                "format": "float",
+                "description": "Closing price value"
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time of the closing price in ISO 8601 format"
+              }
+            }
+          },
+          "monthly": {
+            "type": "object",
+            "description": "Official closing price from the previous trading month",
+            "properties": {
+              "price": {
+                "type": "number",
+                "format": "float",
+                "description": "Closing price value. A value of -1 indicates no data available."
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time of the closing price in ISO 8601 format. Default date (0001-01-01) indicates no data available."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

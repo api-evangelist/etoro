@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CreateUserTokenResponse.json",
+  "title": "CreateUserTokenResponse",
+  "type": "object",
+  "properties": {
+    "userTokenId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier of the newly created user token.",
+      "example": "f9e8d7c6-b5a4-3210-fedc-ba9876543210"
+    },
+    "userToken": {
+      "type": "string",
+      "description": "The generated user token secret. Only available at creation time.",
+      "example": "sk_live_a1b2c3d4e5f6..."
+    },
+    "userTokenName": {
+      "type": "string",
+      "description": "The display name of the user token.",
+      "example": "my-trading-token"
+    },
+    "clientId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The client identifier of the application the token is associated with.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "ipsWhitelist": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The IPv4 addresses from which the token is allowed to be used. Null or empty when unrestricted.",
+      "example": [
+        "192.168.1.1"
+      ]
+    },
+    "scopeNames": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The authorized scope names granted to the token.",
+      "example": [
+        "etoro-public:trade.real:read"
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "The UTC expiration date of the token. Null when the token does not expire.",
+      "example": "2026-12-31T23:59:59Z"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The UTC timestamp at which the token was created.",
+      "example": "2026-03-06T12:00:00Z"
+    }
+  }
+}

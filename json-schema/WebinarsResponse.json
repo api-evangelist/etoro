@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/WebinarsResponse.json",
+  "title": "WebinarsResponse",
+  "type": "object",
+  "description": "Upcoming and past webinars",
+  "properties": {
+    "upcomingWebinars": {
+      "type": "array",
+      "description": "List of upcoming webinars the user can join",
+      "items": {
+        "$ref": "#/components/schemas/Webinar"
+      }
+    },
+    "previousWebinars": {
+      "type": "array",
+      "description": "List of past webinars with recordings",
+      "items": {
+        "$ref": "#/components/schemas/Webinar"
+      }
+    }
+  }
+}

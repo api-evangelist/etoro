@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InAppNotificationMessage.json",
+  "title": "InAppNotificationMessage",
+  "type": "object",
+  "description": "A single in-app notification message",
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the notification message",
+      "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Correlation ID for request tracing"
+    },
+    "actionLink": {
+      "type": "string",
+      "description": "URL for the notification action"
+    },
+    "imageTitle": {
+      "type": "string",
+      "description": "Title for the notification image"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "URL of the notification image"
+    },
+    "notificationType": {
+      "type": "string",
+      "description": "Type of notification"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the notification format"
+    },
+    "aggregatable": {
+      "type": "boolean",
+      "description": "Whether this notification can be aggregated"
+    },
+    "grouped": {
+      "type": "boolean",
+      "description": "Whether this notification is grouped"
+    },
+    "aggregationId": {
+      "type": "string",
+      "description": "ID for aggregation grouping"
+    },
+    "message": {
+      "type": "string",
+      "description": "Notification content text"
+    },
+    "readStatus": {
+      "type": "string",
+      "enum": [
+        "New",
+        "Seen",
+        "Read"
+      ],
+      "description": "Current read status of the notification"
+    },
+    "publishDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the notification was published"
+    },
+    "subCategory": {
+      "type": "string",
+      "description": "Sub-category of the notification"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the notification"
+    },
+    "rtlLanguage": {
+      "type": "boolean",
+      "description": "Whether the notification content is in an RTL language"
+    },
+    "section": {
+      "type": "string",
+      "description": "Section the notification belongs to"
+    }
+  }
+}

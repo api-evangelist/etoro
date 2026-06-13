@@ -1,0 +1,481 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Post.json",
+  "title": "Post",
+  "type": "object",
+  "description": "A feed post returned by create / update / get-by-ID",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique post ID",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "owner": {
+      "$ref": "#/components/schemas/User"
+    },
+    "obsoleteId": {
+      "type": "string",
+      "description": "Legacy numeric post ID",
+      "example": "12345"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp",
+      "example": "2025-01-15T10:30:00Z"
+    },
+    "message": {
+      "type": "object",
+      "description": "Post/comment text content",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Text content",
+          "example": "Excited about $TSLA earnings next week!"
+        },
+        "languageCode": {
+          "type": "string",
+          "description": "BCP-47 language code",
+          "example": "en"
+        }
+      }
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "Last-edited timestamp",
+      "example": "2025-01-16T08:00:00Z"
+    },
+    "isDeleted": {
+      "type": "boolean",
+      "description": "True when the post has been soft-deleted",
+      "example": false
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Default",
+        "Share",
+        "MarketEvent",
+        "Trade",
+        "Order",
+        "Copy",
+        "Poll",
+        "Article"
+      ],
+      "description": "Post type",
+      "example": "Default"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Post type\u2013specific metadata \u2014 only the relevant key is populated",
+      "properties": {
+        "share": {
+          "type": "object",
+          "description": "Share metadata \u2014 present when type is Share",
+          "properties": {
+            "sharedPost": {
+              "$ref": "#/components/schemas/Post"
+            },
+            "sharedOriginPost": {
+              "$ref": "#/components/schemas/Post"
+            }
+          }
+        },
+        "marketEvent": {
+          "type": "object",
+          "description": "Market event metadata \u2014 present when type is MarketEvent",
+          "properties": {
+            "earningReportId": {
+              "type": "integer",
+              "description": "Earnings report ID",
+              "example": 1042
+            },
+            "market": {
+              "$ref": "#/components/schemas/Market"
+            },
+            "stocksIndustryId": {
+              "type": "integer",
+              "description": "Industry sector ID",
+              "example": 15
+            },
+            "earningsDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Earnings announcement date",
+              "example": "2025-01-15T10:30:00Z"
+            },
+            "isBeforeMarketOpen": {
+              "type": "boolean",
+              "description": "Event occurs before market open",
+              "example": true
+            },
+            "earningsYear": {
+              "type": "integer",
+              "description": "Fiscal year of earnings",
+              "example": 2025
+            },
+            "earningsQuarter": {
+              "type": "integer",
+              "description": "Fiscal quarter (1\u20134)",
+              "example": 1
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "Whether the event data is verified",
+              "example": true
+            },
+            "marketCap": {
+              "type": "number",
+              "format": "double",
+              "description": "Market capitalisation in USD",
+              "example": 800000000000
+            },
+            "estimatedEps": {
+              "type": "number",
+              "format": "double",
+              "description": "Estimated earnings per share",
+              "example": 1.42
+            },
+            "estimatedSales": {
+              "type": "number",
+              "format": "double",
+              "description": "Estimated revenue in USD",
+              "example": 25000000000
+            },
+            "tagName": {
+              "type": "string",
+              "enum": [
+                "Reports",
+                "Dividends",
+                "Split",
+                "ReverseSplit"
+              ],
+              "description": "Event tag",
+              "example": "Reports"
+            },
+            "textKey": {
+              "type": "integer",
+              "description": "Localisation key for event label",
+              "example": 3
+            }
+          }
+        },
+        "trade": {
+          "type": "object",
+          "description": "Trade metadata \u2014 present when type is Trade",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Open",
+                "Close"
+              ],
+              "description": "Trade lifecycle stage",
+              "example": "Open"
+            },
+            "positionId": {
+              "type": "integer",
+              "description": "Internal position ID",
+              "example": 987654321
+            },
+            "market": {
+              "$ref": "#/components/schemas/Market"
+            },
+            "gain": {
+              "type": "number",
+              "format": "float",
+              "description": "P&L gain/loss percentage",
+              "example": 12.5
+            },
+            "rate": {
+              "type": "number",
+              "format": "float",
+              "description": "Entry/exit rate",
+              "example": 245.3
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "Long",
+                "Short"
+              ],
+              "description": "Trade direction",
+              "example": "Long"
+            }
+          }
+        },
+        "order": {
+          "type": "object",
+          "description": "Order metadata \u2014 present when type is Order",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Open",
+                "Close"
+              ],
+              "description": "Order lifecycle stage",
+              "example": "Open"
+            },
+            "orderId": {
+              "type": "integer",
+              "description": "Internal order ID",
+              "example": 123456789
+            },
+            "market": {
+              "$ref": "#/components/schemas/Market"
+            },
+            "rate": {
+              "type": "number",
+              "format": "float",
+              "description": "Limit/entry rate",
+              "example": 240
+            },
+            "direction": {
+              "type": "string",
+              "enum": [
+                "Long",
+                "Short"
+              ],
+              "description": "Order direction",
+              "example": "Long"
+            }
+          }
+        },
+        "copy": {
+          "type": "object",
+          "description": "Copy metadata \u2014 present when type is Copy",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "Start",
+                "Stop"
+              ],
+              "description": "Copy event type",
+              "example": "Start"
+            },
+            "user": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "poll": {
+          "type": "object",
+          "description": "Poll metadata \u2014 present when type is Poll",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "Poll ID",
+              "example": 55
+            },
+            "title": {
+              "type": "string",
+              "description": "Poll question",
+              "example": "Where do you see $TSLA by year-end?"
+            },
+            "gcid": {
+              "type": "integer",
+              "description": "Poll creator GCID",
+              "example": 7890
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Option ID",
+                    "example": 1
+                  },
+                  "index": {
+                    "type": "integer",
+                    "description": "Display order (1-based, matches the index supplied at poll creation)",
+                    "example": 1,
+                    "minimum": 1
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Option label",
+                    "example": "Bullish"
+                  },
+                  "isUserVoted": {
+                    "type": "boolean",
+                    "description": "Requester voted for this option",
+                    "example": false
+                  },
+                  "votesCount": {
+                    "type": "integer",
+                    "description": "Total votes for this option",
+                    "example": 128
+                  }
+                }
+              }
+            }
+          }
+        },
+        "article": {
+          "type": "object",
+          "description": "Article metadata \u2014 present when post type is Article",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "Article ID",
+              "example": 9001
+            },
+            "title": {
+              "type": "string",
+              "description": "Article title",
+              "example": "Why TSLA Could Hit $500 This Year"
+            },
+            "url": {
+              "type": "string",
+              "description": "Canonical article URL",
+              "example": "https://etoro.com/news/markets/articles/why-tsla-could-hit-500"
+            },
+            "rating": {
+              "type": "string",
+              "enum": [
+                "Bearish",
+                "Bullish"
+              ],
+              "nullable": true,
+              "description": "Analyst rating",
+              "example": "Bullish"
+            },
+            "featuredImage": {
+              "$ref": "#/components/schemas/Attachment"
+            },
+            "body": {
+              "type": "string",
+              "description": "Full article HTML body",
+              "example": "<p>Tesla has shown strong fundamentals...</p>"
+            },
+            "bodyPreview": {
+              "type": "string",
+              "description": "Plain-text preview (\u2248200 chars)",
+              "example": "Tesla has shown strong fundamentals this quarter..."
+            },
+            "aiSummary": {
+              "type": "string",
+              "description": "AI-generated summary",
+              "example": "Analyst argues Tesla's pipeline supports a $500 target by year-end."
+            },
+            "languageCode": {
+              "type": "string",
+              "description": "BCP-47 language code",
+              "example": "en"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "Draft",
+                "Published",
+                "Deleted"
+              ],
+              "description": "Publication status",
+              "example": "Published"
+            },
+            "editStatus": {
+              "type": "string",
+              "enum": [
+                "None",
+                "Edited",
+                "Moderated"
+              ],
+              "description": "Edit status",
+              "example": "None"
+            },
+            "ownerId": {
+              "type": "integer",
+              "description": "Author's internal user ID",
+              "example": 7890
+            },
+            "created": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When the article was created",
+              "example": "2025-01-15T10:30:00Z"
+            },
+            "updated": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true,
+              "description": "Last edit timestamp",
+              "example": "2025-01-16T08:00:00Z"
+            },
+            "published": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true,
+              "description": "Publication timestamp",
+              "example": "2025-01-16T09:00:00Z"
+            },
+            "readingTimeMinutes": {
+              "type": "number",
+              "format": "float",
+              "description": "Estimated reading time",
+              "example": 3.5
+            },
+            "wordCount": {
+              "type": "integer",
+              "description": "Word count",
+              "example": 750
+            }
+          }
+        }
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Attachment"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "market": {
+            "$ref": "#/components/schemas/Market"
+          }
+        }
+      }
+    },
+    "mentions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "isDirect": {
+            "type": "boolean",
+            "description": "Direct @-mention",
+            "example": true
+          }
+        }
+      }
+    },
+    "isSpam": {
+      "type": "boolean",
+      "description": "True when the post is classified as spam",
+      "example": false
+    },
+    "editStatus": {
+      "type": "string",
+      "enum": [
+        "None",
+        "Edited",
+        "Moderated"
+      ],
+      "description": "Edit lifecycle status",
+      "example": "None"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "path": "/api/v1/money/accounts/cash/{accountId}",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "id": "f0995efc-25a1-465e-bec3-d309aaf00ede",
+    "currency": "GBP",
+    "status": "Active",
+    "bankAccount": {
+      "id": "0f5270fe-200a-4c35-b788-bda212973fa2",
+      "accountName": "John Doe",
+      "identifiers": [
+        {
+          "type": "bankAccountNumber",
+          "value": "11549380"
+        },
+        {
+          "type": "ncc",
+          "value": "041335"
+        },
+        {
+          "type": "iban",
+          "value": "GB08MRMI04133511549380"
+        },
+        {
+          "type": "bic",
+          "value": "MRMIGB22XXX"
+        }
+      ],
+      "region": "UK",
+      "countryCode": "GB",
+      "bankProvider": "ClearBank",
+      "institutionName": "ClearBank"
+    },
+    "cards": [
+      {
+        "id": "7f446164-57d8-4b87-9f0f-958083c7f459",
+        "status": "Activated",
+        "maskedPan": "459688******0196",
+        "isVirtual": false,
+        "name": "John Doe",
+        "created": "2026-04-27T12:40:55.7766667",
+        "expirationDate": "2029-04-30T23:59:59"
+      }
+    ]
+  }
+}

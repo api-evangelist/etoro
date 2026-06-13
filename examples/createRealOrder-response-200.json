@@ -1,0 +1,11 @@
+{
+  "path": "/api/v2/trading/execution/orders",
+  "method": "post",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "token": "066faaee-e1e9-49d2-a568-c6e1cc336ad8",
+    "orderId": 13902598,
+    "referenceId": "1c94300c-90aa-4303-9d00-dec376d74efb"
+  }
+}

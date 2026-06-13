@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetOrderInfoAsset.json",
+  "title": "GetOrderInfoAsset",
+  "type": "object",
+  "description": "Asset information associated with the order.",
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "The asset ticker symbol."
+    },
+    "instrumentId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The eToro instrument identifier."
+    },
+    "currency": {
+      "type": "string",
+      "description": "The asset's base currency."
+    },
+    "settlementType": {
+      "type": "string",
+      "description": "Settlement type. Possible values: cfd, real, realFutures, marginTrade."
+    },
+    "leverage": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The leverage applied to the order."
+    },
+    "side": {
+      "type": "string",
+      "description": "The position side. Possible values: long, short."
+    }
+  }
+}

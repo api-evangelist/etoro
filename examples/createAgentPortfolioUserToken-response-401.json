@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "401",
+  "type": "response",
+  "example": {
+    "errorCode": "Unauthorized",
+    "errorMessage": "Unauthorized"
+  }
+}

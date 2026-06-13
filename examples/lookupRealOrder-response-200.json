@@ -1,0 +1,75 @@
+{
+  "path": "/api/v2/trading/info/orders:lookup",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "accountId": 7765437,
+    "gcid": 987654321,
+    "portfolioId": 1,
+    "orderId": 13902598,
+    "action": "open",
+    "transaction": "buy",
+    "type": "mkt",
+    "etoroOrderTypeId": 17,
+    "status": {
+      "id": 1,
+      "name": "Executed",
+      "errorCode": 0,
+      "errorMessage": null
+    },
+    "asset": {
+      "symbol": "AAPL",
+      "instrumentId": 101,
+      "currency": "USD",
+      "settlementType": "cfd",
+      "leverage": 2,
+      "side": "long"
+    },
+    "orderCurrency": "usd",
+    "requestedAmount": 1000.0,
+    "requestedUnits": null,
+    "requestedContracts": null,
+    "frozenAmount": 1002.5,
+    "requestedTriggerRate": null,
+    "openStopLossRate": 1.2,
+    "openTakeProfitRate": 1.5,
+    "stopLossType": "fixed",
+    "totalCosts": 2.5,
+    "positionsToClose": [],
+    "positionExecutions": [
+      {
+        "positionId": 9001,
+        "state": "open",
+        "investedAmountCurrency": 1000,
+        "initialExposureAccountCurrency": 1000.0,
+        "initialExposureAssetCurrency": 1000.0,
+        "addedFunds": 0.0,
+        "marginAccountCurrency": 1000.0,
+        "marginAssetCurrency": 1000.0,
+        "remainingUnits": 10.5,
+        "remainingContracts": 10.5,
+        "stopLossRate": 1.2,
+        "takeProfitRate": 1.5,
+        "openingData": {
+          "openTime": "2024-01-01T09:00:00Z",
+          "orderId": 5001,
+          "executionTime": "2024-01-01T09:00:01Z",
+          "units": 10.5,
+          "contracts": null,
+          "avgPrice": 95.238095,
+          "avgConversionRate": 1.0,
+          "marketSpread": 0.0002,
+          "markup": 0.0,
+          "priceId": 9876543210,
+          "fees": 2.5,
+          "taxes": 0.0
+        }
+      }
+    ],
+    "requestTime": "2024-01-01T09:00:00Z",
+    "lastUpdate": "2024-01-01T09:00:01Z",
+    "openActionType": "customer",
+    "requestType": "byUnits"
+  }
+}

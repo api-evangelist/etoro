@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetHistoricalBalancesResponse.json",
+  "title": "GetHistoricalBalancesResponse",
+  "type": "object",
+  "description": "Historical end-of-day balance snapshots for the authenticated user.",
+  "properties": {
+    "gcid": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The user's global customer ID."
+    },
+    "displayCurrency": {
+      "type": "string",
+      "nullable": true,
+      "description": "ISO 4217 currency code used for display values."
+    },
+    "fromDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Start of the returned date range (inclusive, ISO 8601)."
+    },
+    "toDate": {
+      "type": "string",
+      "format": "date",
+      "description": "End of the returned date range (inclusive, ISO 8601)."
+    },
+    "snapshots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/HistoricalDailySnapshotData"
+      },
+      "nullable": true,
+      "description": "End-of-day balance snapshots, one entry per day in the requested range."
+    }
+  },
+  "additionalProperties": false
+}

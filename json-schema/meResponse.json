@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/meResponse.json",
+  "title": "meResponse",
+  "type": "object",
+  "description": "Profile of the authenticated user across eToro account types, including granted OAuth scopes.",
+  "required": [
+    "gcid",
+    "realCid",
+    "demoCid",
+    "username",
+    "playerLevel",
+    "gender",
+    "language",
+    "dateOfBirth",
+    "scopes"
+  ],
+  "properties": {
+    "gcid": {
+      "type": "integer",
+      "description": "Global Customer ID - the unique identifier for the user across all eToro systems."
+    },
+    "realCid": {
+      "type": "integer",
+      "description": "Real account Customer ID - the identifier for the user's real trading account."
+    },
+    "demoCid": {
+      "type": "integer",
+      "description": "Demo account Customer ID - the identifier for the user's virtual/demo trading account."
+    },
+    "username": {
+      "type": "string",
+      "description": "The user's unique username."
+    },
+    "firstName": {
+      "type": "string",
+      "nullable": true,
+      "description": "The user's first name."
+    },
+    "middleName": {
+      "type": "string",
+      "nullable": true,
+      "description": "The user's middle name."
+    },
+    "lastName": {
+      "type": "string",
+      "nullable": true,
+      "description": "The user's last name."
+    },
+    "playerLevel": {
+      "type": "integer",
+      "description": "Player level. Possible values: 1 (Bronze), 2 (Platinum), 3 (Gold), 4 (Internal), 5 (Silver), 6 (PlatinumPlus), 7 (Diamond)."
+    },
+    "gender": {
+      "type": "integer",
+      "description": "Gender. Possible values: 0 (Unknown), 1 (Male), 2 (Female)."
+    },
+    "language": {
+      "type": "integer",
+      "description": "Language ID (e.g. 1 = English, 2 = German)."
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "description": "Date of birth."
+    },
+    "lei": {
+      "type": "string",
+      "nullable": true,
+      "description": "Legal Entity Identifier (LEI), when applicable."
+    },
+    "scopes": {
+      "type": "array",
+      "description": "OAuth scopes granted to the authenticated token.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

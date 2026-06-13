@@ -1,0 +1,9 @@
+{
+  "path": "/api/v1/trading/execution/market-close-orders/{orderId}",
+  "method": "delete",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "token": "7f1da128-f516-4710-8474-915566c4b22e"
+  }
+}

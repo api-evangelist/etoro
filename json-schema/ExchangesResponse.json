@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ExchangesResponse.json",
+  "title": "ExchangesResponse",
+  "type": "object",
+  "properties": {
+    "exchangeInfo": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "exchangeID": {
+            "type": "integer"
+          },
+          "exchangeDescription": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

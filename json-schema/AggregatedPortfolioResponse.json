@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AggregatedPortfolioResponse.json",
+  "title": "AggregatedPortfolioResponse",
+  "type": "object",
+  "description": "Complete snapshot of the authenticated user's investment portfolio, organized by asset.",
+  "properties": {
+    "cid": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Customer ID."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time at which this portfolio snapshot was calculated."
+    },
+    "accountCurrency": {
+      "type": "string",
+      "description": "ISO 4217 code of the account's base currency (e.g. 'USD')."
+    },
+    "accountTotals": {
+      "$ref": "#/components/schemas/AggregatedPortfolioAccountTotals"
+    },
+    "instrumentAggregates": {
+      "type": "array",
+      "description": "Positions held directly (not via copy trading), grouped by instrument.",
+      "items": {
+        "$ref": "#/components/schemas/AggregatedPortfolioInstrumentAggregate"
+      }
+    },
+    "mirrors": {
+      "type": "array",
+      "description": "Copy-trading relationships the user has active.",
+      "items": {
+        "$ref": "#/components/schemas/AggregatedPortfolioMirrorAggregate"
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AggregatedPortfolioMirrorTotals.json",
+  "title": "AggregatedPortfolioMirrorTotals",
+  "type": "object",
+  "description": "Aggregated totals for a copy-trading mirror.",
+  "properties": {
+    "mirrorNetFunding": {
+      "type": "number",
+      "format": "double",
+      "description": "Net amount funded into the mirror: mirrorDepositTotal minus mirrorWithdrawalTotal."
+    },
+    "mirrorPositionsPnl": {
+      "type": "number",
+      "format": "double",
+      "description": "Total P&L from open and closed positions within the mirror, in account currency."
+    },
+    "mirrorLiquidationValue": {
+      "type": "number",
+      "format": "double",
+      "description": "Current mirror value: mirrorActiveMargin + mirrorPositionsPnl."
+    },
+    "mirrorPositionsPnlPercent": {
+      "type": "number",
+      "format": "double",
+      "description": "mirrorPositionsPnl as a percentage of mirrorLiquidationValue."
+    },
+    "mirrorMarginPercent": {
+      "type": "number",
+      "format": "double",
+      "description": "This mirror's active margin as a percentage of the account's total used margin."
+    },
+    "mirrorValuePercent": {
+      "type": "number",
+      "format": "double",
+      "description": "This mirror's liquidation value as a percentage of the account's total value."
+    },
+    "mirrorActiveMargin": {
+      "type": "number",
+      "format": "double",
+      "description": "Total margin in active use within this mirror: mirrorAvailableCash + sum of position margins minus closed positions P&L."
+    }
+  }
+}

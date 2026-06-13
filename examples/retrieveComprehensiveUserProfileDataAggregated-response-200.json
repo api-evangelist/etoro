@@ -1,0 +1,58 @@
+{
+  "path": "/api/v1/user-info/people",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "users": [
+      {
+        "gcid": 1536861,
+        "realCID": 1563191,
+        "demoCID": 1563191,
+        "username": "exampleuser",
+        "language": 1,
+        "languageIsoCode": "en-GB",
+        "country": 54,
+        "allowDisplayFullName": false,
+        "userBio": {
+          "gcid": 1536861,
+          "languageCode": null
+        },
+        "whiteLabel": 1,
+        "optOut": true,
+        "homepage": null,
+        "playerStatus": null,
+        "piLevel": 0,
+        "isPi": false,
+        "avatars": [
+          {
+            "url": "https://***.s3.amazonaws.com/images/avatoros/35x35/cy.png",
+            "width": 35,
+            "height": 35,
+            "type": "Resized"
+          },
+          {
+            "url": "https://***.s3.amazonaws.com/images/avatoros/50x50/cy.png",
+            "width": 50,
+            "height": 50,
+            "type": "Resized"
+          },
+          {
+            "url": "https://***.s3.amazonaws.com/images/avatoros/150x150/cy.png",
+            "width": 150,
+            "height": 150,
+            "type": "Resized"
+          }
+        ],
+        "masterAccountCid": null,
+        "accountType": 1,
+        "fundType": null,
+        "isVerified": false,
+        "verificationLevel": 1,
+        "accountStatus": 1,
+        "gdprInfo": null,
+        "userFlowSignature": "233a065f3f8d7e344516fc75f7e6c4646a0c0d38798c00e4655fa0a9447ea223"
+      }
+    ]
+  }
+}

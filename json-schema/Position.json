@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Position.json",
+  "title": "Position",
+  "type": "object",
+  "properties": {
+    "positionID": {
+      "type": "integer",
+      "description": "Unique identifier for the position"
+    },
+    "CID": {
+      "type": "integer",
+      "description": "Customer ID associated with the position"
+    },
+    "openDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the position was opened in ISO 8601 format"
+    },
+    "openRate": {
+      "type": "number",
+      "format": "float",
+      "description": "Entry price of the position in the instrument's currency"
+    },
+    "instrumentID": {
+      "type": "integer",
+      "description": "Identifier of the traded instrument"
+    },
+    "mirrorID": {
+      "type": "integer",
+      "description": "Mirror ID if the position is part of copy trading, 0 otherwise"
+    },
+    "parentPositionID": {
+      "type": "integer",
+      "description": "Parent position ID for mirrored positions, 0 otherwise"
+    },
+    "isBuy": {
+      "type": "boolean",
+      "description": "Position direction: true for long (buy) positions, false for short (sell) positions"
+    },
+    "takeProfitRate": {
+      "type": "number",
+      "format": "float",
+      "description": "Rate at which TakeProfit will trigger and send MarketOrder to close the position"
+    },
+    "stopLossRate": {
+      "type": "number",
+      "format": "float",
+      "description": "Rate at which StopLoss will trigger and send MarketOrder to close the position"
+    },
+    "amount": {
+      "type": "number",
+      "format": "float",
+      "description": "USD amount allocated to the position. This amount includes both the initial investment, and additional margin allocated to the position as collateral"
+    },
+    "leverage": {
+      "type": "integer",
+      "description": "Leverage multiplier applied to the position"
+    },
+    "orderID": {
+      "type": "integer",
+      "description": "Original orderID the position was opened by. Need to match together with orderType"
+    },
+    "orderType": {
+      "type": "integer",
+      "description": "Original orderType of the order the position was opened by. Need to match together with orderId"
+    },
+    "units": {
+      "type": "number",
+      "format": "float",
+      "description": "Number of units in the position"
+    },
+    "totalFees": {
+      "type": "number",
+      "format": "float",
+      "description": "Total overnight fees and dividends charged/paid on the position in USD. Negative amount represents refund"
+    },
+    "initialAmountInDollars": {
+      "type": "number",
+      "format": "float",
+      "description": "Initial investment USD amount in the position. This value does not change in case the position was partially closed"
+    },
+    "isTslEnabled": {
+      "type": "boolean",
+      "description": "Indication if TrailingStopLoss feature is active on this position"
+    },
+    "stopLossVersion": {
+      "type": "integer",
+      "description": "Manual stop loss edit version. Each time StopLossRate is manually update this value is incremented"
+    },
+    "isSettled": {
+      "type": "boolean",
+      "description": "Obsolete"
+    },
+    "redeemStatusID": {
+      "type": "integer",
+      "description": "If the position is currently in redeem process, this value represents the current status"
+    },
+    "initialUnits": {
+      "type": "number",
+      "format": "float",
+      "description": "Initial invested units in the position. This value does not change in case the position was partially closed"
+    },
+    "isPartiallyAltered": {
+      "type": "boolean",
+      "description": "Indication whether this position was partially closed"
+    },
+    "unitsBaseValueDollars": {
+      "type": "number",
+      "format": "float",
+      "description": "USD value of the current units in the position, based on the initial investment. If the position was not partially altered, this value equals initialAmountInDollars"
+    },
+    "isDiscounted": {
+      "type": "boolean",
+      "description": "Obsolete. This value is used to indicate if the relevant prices for the position are Ask/Bid or AskDiscounted/BidDiscounted"
+    },
+    "openPositionActionType": {
+      "type": "integer",
+      "description": "Position open reason"
+    },
+    "settlementTypeID": {
+      "type": "integer",
+      "description": "Position investment type. 0 - CFD, 1 - Real Asset, 2 - SWAP, 3 - Crypto MarginTrade, 4 - Future Contract"
+    },
+    "isDetached": {
+      "type": "boolean",
+      "description": "Indication if the position was originally opened inside a mirror and detached from it"
+    },
+    "openConversionRate": {
+      "type": "number",
+      "format": "float",
+      "description": "Conversion rate from the asset currency to USD at the time the position was opened"
+    },
+    "pnlVersion": {
+      "type": "integer",
+      "description": "Pnl formula used for calculating profit and loss"
+    },
+    "totalExternalFees": {
+      "type": "number",
+      "format": "float",
+      "description": "Total fees in USD charged on the position. Example - TicketFee. This value does not include overnight fees and dividends"
+    },
+    "totalExternalTaxes": {
+      "type": "number",
+      "format": "float",
+      "description": "Total taxes in USD charged on the position. Example - SDRT"
+    },
+    "isNoTakeProfit": {
+      "type": "boolean",
+      "description": "Indication if TakeProfit is enabled for the position. false = enabled, true = disabled"
+    },
+    "isNoStopLoss": {
+      "type": "boolean",
+      "description": "Indication if StopLoss is enabled for the position. false = enabled, true = disabled"
+    },
+    "lotCount": {
+      "type": "number",
+      "format": "float",
+      "description": "Number of lots the position represents. For FutureContracts, this value represents the number of contracts acquired. This property is not relevant for instruments that are not futures instruments"
+    },
+    "unrealizedPnL": {
+      "type": "object",
+      "nullable": true,
+      "description": "Unrealized profit/loss details for the position (only present in PnL endpoints)",
+      "properties": {
+        "pnL": {
+          "type": "number",
+          "format": "float",
+          "description": "Unrealized P&L in account currency"
+        },
+        "pnlAssetCurrency": {
+          "type": "number",
+          "format": "float",
+          "description": "Unrealized P&L in asset currency"
+        },
+        "exposureInAccountCurrency": {
+          "type": "number",
+          "format": "float",
+          "description": "Current exposure in account currency"
+        },
+        "exposureInAssetCurrency": {
+          "type": "number",
+          "format": "float",
+          "description": "Current exposure in asset currency"
+        },
+        "marginInAccountCurrency": {
+          "type": "number",
+          "format": "float",
+          "description": "Margin in account currency"
+        },
+        "marginInAssetCurrency": {
+          "type": "number",
+          "format": "float",
+          "description": "Margin in asset currency"
+        },
+        "marginCurrencyId": {
+          "type": "integer",
+          "description": "Currency ID for margin"
+        },
+        "assetCurrencyId": {
+          "type": "integer",
+          "description": "Currency ID for the asset"
+        },
+        "closeRate": {
+          "type": "number",
+          "format": "float",
+          "description": "Current close rate"
+        },
+        "closeConversionRate": {
+          "type": "number",
+          "format": "float",
+          "description": "Current close conversion rate"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the PnL calculation"
+        }
+      }
+    }
+  }
+}

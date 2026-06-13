@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AggregatedPortfolioInstrumentAggregate.json",
+  "title": "AggregatedPortfolioInstrumentAggregate",
+  "type": "object",
+  "description": "Aggregated data across all positions for a single instrument.",
+  "properties": {
+    "instrumentId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "eToro instrument identifier."
+    },
+    "assetCurrency": {
+      "type": "string",
+      "description": "ISO 4217 code of the instrument's base currency (e.g. 'USD', 'EUR')."
+    },
+    "totalMarginAccountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of margins across all positions for this instrument, in account currency."
+    },
+    "totalFees": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of transaction fees taken on positions of this instrument, in asset currency."
+    },
+    "totalFeesAcctCcy": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of transaction fees taken on positions of this instrument, in account currency."
+    },
+    "totalTaxes": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of taxes for this instrument, in asset currency."
+    },
+    "totalTaxesAcctCcy": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of taxes for this instrument, in account currency."
+    },
+    "totalMarginAssetCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of margins across all positions for this instrument, in asset currency."
+    },
+    "pnlAssetCurrency": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Unrealized P&L for this instrument in asset currency. Null when P&L calculation is not requested."
+    },
+    "accountCurrencyRoePercent": {
+      "type": "number",
+      "format": "double",
+      "description": "Return on equity in account currency: accountCurrencyReturn / totalMarginAccountCurrency."
+    },
+    "netContracts": {
+      "type": "number",
+      "format": "double",
+      "description": "Net contracts across all positions (positive = net long, negative = net short)."
+    },
+    "netUnits": {
+      "type": "number",
+      "format": "double",
+      "description": "Net units across all positions (positive = net long, negative = net short)."
+    },
+    "netCurrentExposureAssetCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Net current market exposure in asset currency."
+    },
+    "netCurrentExposureAccountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Net current market exposure in account currency."
+    },
+    "netInitialExposureAccountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Net initial exposure at open in account currency."
+    },
+    "accountCurrencyReturn": {
+      "type": "number",
+      "format": "double",
+      "description": "Unrealized P&L for this instrument in account currency."
+    },
+    "liquidationValueAccountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Current liquidation value in account currency: totalMarginAccountCurrency + accountCurrencyReturn."
+    },
+    "liquidationValueAssetCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Current liquidation value in asset currency."
+    },
+    "avgLeverage": {
+      "type": "number",
+      "format": "double",
+      "description": "Average leverage across all positions for this instrument."
+    },
+    "avgOpenRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Weighted average open rate across all positions for this instrument."
+    },
+    "netAvgOpenRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Direction-aware weighted average open rate (long contributions minus short)."
+    },
+    "avgConversionRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Weighted average asset-to-account-currency conversion rate at position open."
+    }
+  }
+}

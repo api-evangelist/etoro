@@ -1,0 +1,28 @@
+{
+  "path": "/api/v1/price-alerts",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "results": [
+      {
+        "alertId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "instrumentId": 1001,
+        "symbol": "AAPL",
+        "targetPrice": 185.5,
+        "currentPrice": 182.3,
+        "createdAt": "2026-04-20T10:00:00Z",
+        "updatedAt": "2026-04-25T14:30:00Z"
+      },
+      {
+        "alertId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+        "instrumentId": 1002,
+        "symbol": "TSLA",
+        "targetPrice": 250.0,
+        "currentPrice": 265.1,
+        "createdAt": "2026-04-22T08:15:00Z",
+        "updatedAt": "2026-04-22T08:15:00Z"
+      }
+    ]
+  }
+}

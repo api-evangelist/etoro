@@ -285,6 +285,14 @@ common:
     type: MCP
   - url: https://api-portal.etoro.com/mcp
     type: MCPServer
+  - url: openapi/openapi.json
+    type: OpenAPI
+  - url: openapi/deprecated-openapi.json
+    type: OpenAPI
+  - url: json-ld/jsonld.json
+    type: JSONLd
+  - url: vocabulary/vocabulary.json
+    type: Vocabulary
 
 maintainers:
   - FN: API Evangelist

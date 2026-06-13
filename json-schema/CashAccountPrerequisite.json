@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CashAccountPrerequisite.json",
+  "title": "CashAccountPrerequisite",
+  "type": "object",
+  "properties": {
+    "tncInfo": {
+      "$ref": "#/components/schemas/TncInfo"
+    }
+  }
+}

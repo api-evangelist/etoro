@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CuratedListsResponse.json",
+  "title": "CuratedListsResponse",
+  "type": "object",
+  "description": "Response containing curated investment lists",
+  "properties": {
+    "curatedLists": {
+      "type": "array",
+      "description": "List of curated investment lists",
+      "items": {
+        "$ref": "#/components/schemas/CuratedList"
+      }
+    }
+  }
+}

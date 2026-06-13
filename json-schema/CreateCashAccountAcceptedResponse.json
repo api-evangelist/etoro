@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CreateCashAccountAcceptedResponse.json",
+  "title": "CreateCashAccountAcceptedResponse",
+  "type": "object",
+  "required": [
+    "requestReferenceId",
+    "eligibilityStatus",
+    "status"
+  ],
+  "properties": {
+    "requestReferenceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "eligibilityStatus": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "example": "Accepted"
+    }
+  }
+}

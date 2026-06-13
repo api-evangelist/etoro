@@ -1,0 +1,22 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}",
+  "method": "patch",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "NoChanges": {
+      "summary": "No changes provided",
+      "value": {
+        "errorCode": "NoChangesDetected",
+        "errorMessage": "At least one field must be provided"
+      }
+    },
+    "InvalidScopes": {
+      "summary": "Invalid scope IDs",
+      "value": {
+        "errorCode": "ScopeIdNotAllowed",
+        "errorMessage": "ScopeIds contains values not in the allowed set"
+      }
+    }
+  }
+}

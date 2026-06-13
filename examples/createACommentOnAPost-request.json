@@ -1,0 +1,25 @@
+{
+  "path": "/api/v1/posts/{postId}/comments",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "textComment": {
+      "summary": "Plain text comment",
+      "value": {
+        "message": "Great analysis \u2014 I've been watching $TSLA closely too."
+      }
+    },
+    "commentWithAttachment": {
+      "summary": "Comment with an image attachment",
+      "value": {
+        "message": "Check out this chart I made!",
+        "attachments": [
+          {
+            "url": "https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg",
+            "mediaType": "Image"
+          }
+        ]
+      }
+    }
+  }
+}

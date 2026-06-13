@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InstrumentTypesResponse.json",
+  "title": "InstrumentTypesResponse",
+  "type": "object",
+  "properties": {
+    "instrumentTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "instrumentTypeID": {
+            "type": "integer"
+          },
+          "instrumentTypeDescription": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

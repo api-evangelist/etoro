@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CopiersCurrentResponse.json",
+  "title": "CopiersCurrentResponse",
+  "type": "object",
+  "description": "Current copiers snapshot and AUM tier for portfolio display.",
+  "required": [
+    "copiers",
+    "aumTier"
+  ],
+  "properties": {
+    "copiers": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 0,
+      "description": "Current number of copiers."
+    },
+    "aumTier": {
+      "type": "integer",
+      "format": "int32",
+      "minimum": 0,
+      "description": "Assets-under-management tier level."
+    },
+    "aumTierDesc": {
+      "type": "string",
+      "nullable": true,
+      "description": "Human-readable AUM tier label; null when not provided upstream."
+    }
+  }
+}

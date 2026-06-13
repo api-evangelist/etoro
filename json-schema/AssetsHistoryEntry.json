@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AssetsHistoryEntry.json",
+  "title": "AssetsHistoryEntry",
+  "type": "object",
+  "required": [
+    "date",
+    "cashPct",
+    "cashOfTotalEquityPct",
+    "assets"
+  ],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of this snapshot (YYYY-MM-DD)"
+    },
+    "cashPct": {
+      "type": "number",
+      "description": "Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%."
+    },
+    "cashOfTotalEquityPct": {
+      "type": "number",
+      "description": "Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%."
+    },
+    "assets": {
+      "type": "array",
+      "description": "Per-instrument breakdown. Mirror allocations are excluded.",
+      "items": {
+        "$ref": "#/components/schemas/AssetsHistoryAsset"
+      }
+    }
+  }
+}

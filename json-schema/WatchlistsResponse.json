@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/WatchlistsResponse.json",
+  "title": "WatchlistsResponse",
+  "type": "object",
+  "description": "Response containing multiple watchlists with metadata",
+  "properties": {
+    "status": {
+      "type": "integer",
+      "format": "int32",
+      "description": "HTTP status code of the response",
+      "example": 200
+    },
+    "watchlists": {
+      "type": "array",
+      "description": "List of user watchlists",
+      "items": {
+        "$ref": "#/components/schemas/WatchlistResponse"
+      }
+    },
+    "exception": {
+      "type": "object",
+      "description": "Exception details when the request partially failed",
+      "properties": {
+        "invalidItems": {
+          "type": "array",
+          "description": "List of invalid item identifiers",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for the exception"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable exception message"
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "description": "Response metadata including pagination info",
+      "properties": {
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Current page number",
+          "example": 0
+        },
+        "itemsPerPage": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of items per page",
+          "example": 100
+        },
+        "maxItemsInWatchlistLimit": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum allowed items per watchlist",
+          "example": 1000
+        },
+        "maxWatchlistsLimit": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Maximum allowed watchlists per user",
+          "example": 10
+        }
+      }
+    },
+    "isSucceeded": {
+      "type": "boolean",
+      "description": "Whether the request succeeded",
+      "example": true
+    }
+  }
+}

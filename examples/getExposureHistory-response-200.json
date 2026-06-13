@@ -1,0 +1,29 @@
+{
+  "path": "/api/v2/portfolios/{username}/exposure/history",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "userName": "john.smith",
+    "results": [
+      {
+        "date": "2024-01-31",
+        "absExposurePct": 0.72,
+        "exposureItems": [
+          {
+            "instrumentId": 1001,
+            "symbol": "AAPL",
+            "netExposurePct": 0.43,
+            "absExposurePct": 0.43
+          },
+          {
+            "instrumentId": 2005,
+            "symbol": "TSLA",
+            "netExposurePct": -0.25,
+            "absExposurePct": 0.25
+          }
+        ]
+      }
+    ]
+  }
+}

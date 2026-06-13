@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/price-alerts/{alertId}",
+  "method": "patch",
+  "status": "429",
+  "type": "response",
+  "example": {
+    "errorCode": "TooManyRequests",
+    "errorMessage": "Too many requests"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/User.json",
+  "title": "User",
+  "type": "object",
+  "description": "eToro user profile (slim projection)",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "User's GCID (string form)",
+      "example": "7890"
+    },
+    "username": {
+      "type": "string",
+      "description": "Unique username",
+      "example": "johndoe"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name",
+      "example": "John"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name",
+      "example": "Doe"
+    },
+    "avatar": {
+      "type": "object",
+      "description": "Profile picture URLs",
+      "properties": {
+        "small": {
+          "type": "string",
+          "description": "32 px avatar URL",
+          "example": "https://etoro-cdn.etorostatic.com/avatars/150X150/johndoe.jpg"
+        },
+        "medium": {
+          "type": "string",
+          "description": "64 px avatar URL",
+          "example": "https://etoro-cdn.etorostatic.com/avatars/200X200/johndoe.jpg"
+        },
+        "large": {
+          "type": "string",
+          "description": "128 px avatar URL",
+          "example": "https://etoro-cdn.etorostatic.com/avatars/300X300/johndoe.jpg"
+        },
+        "svg": {
+          "type": "object",
+          "nullable": true,
+          "description": "SVG avatar with brand colours (null when not available)",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "SVG URL",
+              "example": "https://etoro-cdn.etorostatic.com/avatars/svg/johndoe.svg"
+            },
+            "backgroundColor": {
+              "type": "string",
+              "description": "Background colour hex",
+              "example": "#2196F3"
+            },
+            "textColor": {
+              "type": "string",
+              "description": "Text colour hex",
+              "example": "#FFFFFF"
+            }
+          }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "description": "User roles",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Regular",
+          "PI",
+          "Moderator",
+          "Anonymous",
+          "eToroTeam",
+          "eTorian",
+          "CopyPortfolio",
+          "Depositor",
+          "Admin",
+          "Verified",
+          "Analyst"
+        ]
+      },
+      "example": [
+        "Regular"
+      ]
+    },
+    "isBlocked": {
+      "type": "boolean",
+      "description": "Owner has blocked the requester",
+      "example": false
+    },
+    "isPrivate": {
+      "type": "boolean",
+      "description": "User's profile is private",
+      "example": false
+    },
+    "countryCode": {
+      "type": "integer",
+      "description": "ISO numeric country code",
+      "example": 840
+    },
+    "piLevel": {
+      "type": "integer",
+      "description": "Popular Investor level (0 = not PI)",
+      "example": 0
+    }
+  }
+}

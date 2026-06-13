@@ -1,0 +1,228 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Comment.json",
+  "title": "Comment",
+  "type": "object",
+  "description": "A comment (or reply) on a post, wrapped with interaction data",
+  "properties": {
+    "entity": {
+      "type": "object",
+      "description": "Core comment data",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Comment ID",
+          "example": "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/User"
+        },
+        "obsoleteId": {
+          "type": "string",
+          "description": "Legacy numeric comment ID",
+          "example": "98765"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp",
+          "example": "2025-01-15T10:30:00Z"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "Last-edited timestamp",
+          "example": "2025-01-15T11:00:00Z"
+        },
+        "message": {
+          "type": "object",
+          "description": "Post/comment text content",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "Text content",
+              "example": "Excited about $TSLA earnings next week!"
+            },
+            "languageCode": {
+              "type": "string",
+              "description": "BCP-47 language code",
+              "example": "en"
+            }
+          }
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Attachment"
+          }
+        },
+        "mentions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "$ref": "#/components/schemas/User"
+              },
+              "isDirect": {
+                "type": "boolean",
+                "description": "Direct @-mention",
+                "example": true
+              }
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "market": {
+                "$ref": "#/components/schemas/Market"
+              }
+            }
+          }
+        },
+        "isSpam": {
+          "type": "boolean",
+          "description": "True when classified as spam",
+          "example": false
+        },
+        "editStatus": {
+          "type": "string",
+          "enum": [
+            "None",
+            "Edited",
+            "Moderated"
+          ],
+          "description": "Edit lifecycle status",
+          "example": "None"
+        },
+        "parent": {
+          "type": "object",
+          "description": "Parent entity reference",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Parent entity ID",
+              "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            },
+            "obsoleteId": {
+              "type": "string",
+              "description": "Legacy parent ID",
+              "example": "12345"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "Unknown",
+                "Post",
+                "Comment",
+                "Reply"
+              ],
+              "description": "Parent entity type",
+              "example": "Post"
+            }
+          }
+        }
+      }
+    },
+    "repliesCount": {
+      "type": "integer",
+      "description": "Number of direct replies to this comment",
+      "example": 2
+    },
+    "replies": {
+      "type": "array",
+      "description": "Inline reply preview. Each entry has the same shape as Comment; nested `replies` arrays are not populated at this level.",
+      "items": {
+        "$ref": "#/components/schemas/Comment"
+      }
+    },
+    "emotionsData": {
+      "type": "object",
+      "description": "Aggregated emotions (likes) on an entity",
+      "properties": {
+        "like": {
+          "type": "object",
+          "properties": {
+            "paging": {
+              "type": "object",
+              "description": "Pagination cursor info",
+              "properties": {
+                "totalCount": {
+                  "type": "integer",
+                  "description": "Total number of items",
+                  "example": 42
+                },
+                "offsetEntityId": {
+                  "type": "string",
+                  "description": "Opaque cursor for next page",
+                  "example": "b2c3d4e5-f6a7-4890-bcde-f23456789012"
+                },
+                "next": {
+                  "type": "string",
+                  "description": "URL to next page",
+                  "example": "/api/v1/reactions/3fa85f64-5717-4562-b3fc-2c963f66afa6/emotions?offset=10&take=10"
+                }
+              }
+            },
+            "emotions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Emotion"
+              }
+            }
+          }
+        }
+      }
+    },
+    "requesterContext": {
+      "type": "object",
+      "description": "Requester's relationship state with the comment",
+      "properties": {
+        "isOwner": {
+          "type": "boolean",
+          "description": "Requester is the comment owner",
+          "example": false
+        },
+        "isFlaggingAsSpam": {
+          "type": "boolean",
+          "description": "Requester flagged this as spam",
+          "example": false
+        },
+        "isSubscribed": {
+          "type": "boolean",
+          "description": "Requester is subscribed to notifications",
+          "example": false
+        },
+        "isLiking": {
+          "type": "boolean",
+          "description": "Requester has liked this comment",
+          "example": false
+        },
+        "isSaved": {
+          "type": "boolean",
+          "description": "Requester has saved this comment",
+          "example": false
+        },
+        "isPinned": {
+          "type": "boolean",
+          "description": "Comment is pinned",
+          "example": false
+        },
+        "isRequesterBlocking": {
+          "type": "boolean",
+          "description": "Requester is blocking the comment owner",
+          "example": false
+        },
+        "isInteractionRestricted": {
+          "type": "boolean",
+          "description": "Owner has blocked the requester",
+          "example": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/balances/{accountType}/{accountId}/history",
+  "method": "get",
+  "status": "401",
+  "type": "response",
+  "example": {
+    "errorCode": "Unauthorized",
+    "errorMessage": "Unauthorized"
+  }
+}

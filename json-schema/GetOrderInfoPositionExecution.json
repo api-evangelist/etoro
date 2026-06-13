@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetOrderInfoPositionExecution.json",
+  "title": "GetOrderInfoPositionExecution",
+  "type": "object",
+  "description": "Details of a position execution resulting from the order.",
+  "properties": {
+    "positionId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The unique identifier of the executed position."
+    },
+    "state": {
+      "type": "string",
+      "description": "The current state of the position. Possible values: open, closed."
+    },
+    "investedAmountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "The invested amount in the account currency."
+    },
+    "initialExposureAccountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "The initial exposure in the account currency."
+    },
+    "initialExposureAssetCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "The initial exposure in the asset currency."
+    },
+    "addedFunds": {
+      "type": "number",
+      "format": "double",
+      "description": "Additional funds added to the position."
+    },
+    "marginAccountCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Margin held in the account currency."
+    },
+    "marginAssetCurrency": {
+      "type": "number",
+      "format": "double",
+      "description": "Margin held in the asset currency."
+    },
+    "remainingUnits": {
+      "type": "number",
+      "format": "double",
+      "description": "Remaining units in the position."
+    },
+    "remainingContracts": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Remaining contracts in the position."
+    },
+    "stopLossRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The stop-loss rate for the position."
+    },
+    "takeProfitRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The take-profit rate for the position."
+    },
+    "openingData": {
+      "$ref": "#/components/schemas/GetOrderInfoOpeningData"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "ScopeIdsRequired": {
+      "summary": "Scope IDs are required",
+      "value": {
+        "errorCode": "ScopeIdsRequired",
+        "errorMessage": "ScopeIds is required"
+      }
+    },
+    "InvalidIp": {
+      "summary": "Invalid IP address",
+      "value": {
+        "errorCode": "IpsWhitelistInvalidIp",
+        "errorMessage": "IpsWhitelist contains an invalid IPv4 address"
+      }
+    }
+  }
+}

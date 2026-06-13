@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CashAccount.json",
+  "title": "CashAccount",
+  "type": "object",
+  "description": "A single cash account with bank details and cards (account type is implied by the cash-accounts API surface)",
+  "required": [
+    "id",
+    "currency"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the cash account",
+      "example": "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code (e.g. GBP, EUR, AUD, DKK)",
+      "example": "GBP"
+    },
+    "status": {
+      "type": "string",
+      "description": "Cash account status",
+      "enum": [
+        "Active",
+        "ReceiveOnly",
+        "SpendOnly",
+        "Suspended",
+        "Blocked"
+      ],
+      "example": "Active"
+    },
+    "bankAccount": {
+      "$ref": "#/components/schemas/BankAccount",
+      "description": "Bank account linked to this cash account"
+    },
+    "cards": {
+      "type": "array",
+      "description": "Payment cards linked to this cash account",
+      "items": {
+        "$ref": "#/components/schemas/Card"
+      }
+    }
+  }
+}

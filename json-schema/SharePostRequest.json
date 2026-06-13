@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/SharePostRequest.json",
+  "title": "SharePostRequest",
+  "type": "object",
+  "description": "Request body for sharing a post. Both `message` and `sharedOriginDiscussion` are required. Use `message = \"\"` for a reshare or a non-empty `message` for a quote share.",
+  "required": [
+    "message",
+    "sharedOriginDiscussion"
+  ],
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Required. Set to `\"\"` (empty string) for a reshare, or to the commentary text for a quote share. Cannot be null or omitted.",
+      "example": ""
+    },
+    "sharedOriginDiscussion": {
+      "type": "string",
+      "description": "Required. ID of the post being shared.",
+      "example": "d9020c00-c364-11ee-8080-80005148990b"
+    },
+    "sharedDiscussionId": {
+      "type": "string",
+      "description": "Optional. Only set this when `sharedOriginDiscussion` itself points to a share \u2014 it identifies the intermediate share, so the created Post's `metadata.share.sharedPost` is set to this post and `metadata.share.sharedOriginPost` to `sharedOriginDiscussion`, collapsing the chain to a 2-level reference in subsequent reads. Leave unset for first-level shares.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "attachments": {
+      "$ref": "#/components/schemas/Attachments"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "path": "/api/v1/agent-portfolios",
+  "method": "post",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "NameTooShort": {
+      "summary": "Agent-portfolio name too short",
+      "value": {
+        "errorCode": "ValidationFailed",
+        "errorMessage": "Agent-portfolio name must be between 6 and 10 characters"
+      }
+    },
+    "InvestmentBelowMinimum": {
+      "summary": "Investment amount below minimum",
+      "value": {
+        "errorCode": "ValidationFailed",
+        "errorMessage": "Investment amount is below the minimum threshold"
+      }
+    }
+  }
+}

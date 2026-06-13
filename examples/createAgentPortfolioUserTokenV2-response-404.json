@@ -1,0 +1,10 @@
+{
+  "path": "/api/v2/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "404",
+  "type": "response",
+  "example": {
+    "errorCode": "NotFound",
+    "errorMessage": "Agent-portfolio not found"
+  }
+}

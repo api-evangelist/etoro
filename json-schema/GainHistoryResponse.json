@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GainHistoryResponse.json",
+  "title": "GainHistoryResponse",
+  "type": "object",
+  "required": [
+    "username",
+    "granularity",
+    "gains"
+  ],
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "granularity": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "monthly",
+        "yearly"
+      ]
+    },
+    "totalGain": {
+      "type": "number",
+      "nullable": true,
+      "description": "Compound gain over the returned series as a decimal fraction. Null when gains is empty."
+    },
+    "gains": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GainPoint"
+      }
+    }
+  }
+}

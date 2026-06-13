@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetBalancesResponse.json",
+  "title": "GetBalancesResponse",
+  "type": "object",
+  "description": "Aggregated balances for the authenticated user.",
+  "properties": {
+    "gcid": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The user's global customer ID."
+    },
+    "totalBalance": {
+      "type": "number",
+      "format": "double",
+      "description": "Sum of all account balances converted to the requested display currency."
+    },
+    "displayCurrency": {
+      "type": "string",
+      "nullable": true,
+      "description": "ISO 4217 currency code used for totalBalance and displayBalance values."
+    },
+    "balances": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AccountBalanceData"
+      },
+      "nullable": true,
+      "description": "Individual account balances."
+    }
+  },
+  "additionalProperties": false
+}

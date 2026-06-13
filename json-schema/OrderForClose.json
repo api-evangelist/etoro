@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/OrderForClose.json",
+  "title": "OrderForClose",
+  "type": "object",
+  "properties": {
+    "orderId": {
+      "type": "integer",
+      "description": "Unique identifier for the closing order."
+    },
+    "orderType": {
+      "type": "integer",
+      "description": "Type of order executed."
+    },
+    "statusId": {
+      "type": "integer",
+      "description": "Status of the closing order."
+    },
+    "cid": {
+      "type": "integer",
+      "description": "Customer ID associated with the order."
+    },
+    "openDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was placed."
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp of the last update to this order."
+    },
+    "instrumentId": {
+      "type": "integer",
+      "description": "The ID of the instrument traded."
+    },
+    "unitsToDeduct": {
+      "type": "number",
+      "format": "float",
+      "description": "The number of units closed in this order."
+    },
+    "lotsToDeduct": {
+      "type": "number",
+      "format": "float",
+      "description": "The number of lots closed in this order."
+    },
+    "positionId": {
+      "type": "integer",
+      "description": "The ID of the closed position."
+    }
+  }
+}

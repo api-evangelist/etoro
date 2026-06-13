@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CreatePriceAlertRequest.json",
+  "title": "CreatePriceAlertRequest",
+  "type": "object",
+  "description": "Request body for creating a new price alert",
+  "required": [
+    "symbol",
+    "targetPrice"
+  ],
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "Trading symbol to identify the instrument (e.g. AAPL, TSLA)",
+      "example": "AAPL"
+    },
+    "targetPrice": {
+      "type": "number",
+      "format": "decimal",
+      "description": "Target price at which the alert should trigger. Must be greater than 0.",
+      "exclusiveMinimum": true,
+      "example": 185.5,
+      "minimum": 0
+    }
+  }
+}

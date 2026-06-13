@@ -1,0 +1,25 @@
+{
+  "path": "/api/v1/posts/{postId}/comments/{commentId}/replies",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "textReply": {
+      "summary": "Plain text reply",
+      "value": {
+        "message": "Totally agree \u2014 and the latest earnings back this up."
+      }
+    },
+    "replyWithAttachment": {
+      "summary": "Reply with an image attachment",
+      "value": {
+        "message": "Here's the chart I was talking about!",
+        "attachments": [
+          {
+            "url": "https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg",
+            "mediaType": "Image"
+          }
+        ]
+      }
+    }
+  }
+}

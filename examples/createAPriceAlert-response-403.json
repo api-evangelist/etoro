@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/price-alerts",
+  "method": "post",
+  "status": "403",
+  "type": "response",
+  "example": {
+    "errorCode": "InsufficientPermissions",
+    "errorMessage": "Insufficient permissions to access this resource"
+  }
+}

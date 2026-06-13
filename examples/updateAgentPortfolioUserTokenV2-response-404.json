@@ -1,0 +1,22 @@
+{
+  "path": "/api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}",
+  "method": "patch",
+  "status": "404",
+  "type": "response",
+  "example": {
+    "AgentPortfolioNotFound": {
+      "summary": "Agent-portfolio not found",
+      "value": {
+        "errorCode": "NotFound",
+        "errorMessage": "Agent-portfolio not found"
+      }
+    },
+    "UserTokenNotFound": {
+      "summary": "User token not found",
+      "value": {
+        "errorCode": "NotFound",
+        "errorMessage": "User token not found"
+      }
+    }
+  }
+}

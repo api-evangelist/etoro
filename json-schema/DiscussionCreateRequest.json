@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/DiscussionCreateRequest.json",
+  "title": "DiscussionCreateRequest",
+  "type": "object",
+  "description": "Request body for creating a new discussion post",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Post text content (max 1000 chars)",
+      "example": "Just opened a long position on $TSLA \u2014 strong earnings ahead!"
+    },
+    "attachments": {
+      "$ref": "#/components/schemas/Attachments"
+    }
+  }
+}

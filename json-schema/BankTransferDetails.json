@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/BankTransferDetails.json",
+  "title": "BankTransferDetails",
+  "type": "object",
+  "properties": {
+    "bankIdentifier": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/BankIdentifierEntry"
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "paymentReference": {
+      "type": "string"
+    }
+  }
+}

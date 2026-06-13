@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/WatchlistItemDto.json",
+  "title": "WatchlistItemDto",
+  "type": "object",
+  "description": "Represents an item in a watchlist",
+  "required": [
+    "itemId",
+    "itemType"
+  ],
+  "properties": {
+    "itemId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Unique identifier of the financial instrument",
+      "example": 12345
+    },
+    "itemType": {
+      "type": "string",
+      "description": "Type of the financial instrument (e.g., 'Instrument', 'Person')",
+      "example": "Instrument"
+    },
+    "itemRank": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Ranking position of the item in the watchlist",
+      "default": 0,
+      "example": 1
+    },
+    "itemAddedReason": {
+      "type": "string",
+      "description": "Reason the item was added to the watchlist",
+      "example": "Manual"
+    },
+    "itemAddedDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time the item was added"
+    },
+    "market": {
+      "type": "object",
+      "description": "Market metadata for the instrument when included",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "symbolName": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "assetTypeId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "assetTypeSubCategoryId": {
+          "type": "integer",
+          "format": "int32",
+          "nullable": true
+        },
+        "exchangeId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hasExpirationDate": {
+          "type": "boolean"
+        },
+        "avatar": {
+          "type": "object",
+          "properties": {
+            "small": {
+              "type": "string"
+            },
+            "medium": {
+              "type": "string"
+            },
+            "large": {
+              "type": "string"
+            },
+            "svg": {
+              "type": "object",
+              "nullable": true,
+              "description": "SVG avatar with background and text colors",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "backgroundColor": {
+                  "type": "string"
+                },
+                "textColor": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

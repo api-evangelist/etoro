@@ -1,0 +1,9 @@
+{
+  "path": "/api/v1/trading/execution/demo/limit-orders",
+  "method": "post",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "token": "9af05785-be29-482d-a892-9d9be4fd34bc"
+  }
+}

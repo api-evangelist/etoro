@@ -1,0 +1,15 @@
+{
+  "path": "/api/v2/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "ScopeNamesRequired": {
+      "summary": "Scope names are required",
+      "value": {
+        "errorCode": "ScopeIdsRequired",
+        "errorMessage": "ScopeNames is required"
+      }
+    }
+  }
+}

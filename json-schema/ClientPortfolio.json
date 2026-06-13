@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ClientPortfolio.json",
+  "title": "ClientPortfolio",
+  "type": "object",
+  "properties": {
+    "positions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Position"
+      },
+      "description": "List of currently open trading positions"
+    },
+    "credit": {
+      "type": "number",
+      "format": "float",
+      "description": "Available trading balance in USD, representing funds available for new actions"
+    },
+    "mirrors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Mirror"
+      },
+      "description": "Copy trading configurations and positions"
+    },
+    "orders": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Order"
+      },
+      "description": "List of pending orders"
+    },
+    "ordersForOpen": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OrderForOpen"
+      },
+      "description": "Active orders to open positions"
+    },
+    "ordersForClose": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OrderForClose"
+      },
+      "description": "Active orders to close positions"
+    },
+    "ordersForCloseMultiple": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OrderForCloseMultiple"
+      },
+      "description": "Active orders to close multiple positions"
+    },
+    "bonusCredit": {
+      "type": "number",
+      "format": "float",
+      "description": "Bonus credit amount in USD in the account"
+    },
+    "unrealizedPnL": {
+      "type": "number",
+      "format": "float",
+      "description": "Total unrealized profit and loss across all open positions in the portfolio"
+    },
+    "accountCurrencyId": {
+      "type": "integer",
+      "description": "Currency ID of the account (1 = USD)"
+    },
+    "stockOrders": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Stock-specific pending orders"
+    },
+    "entryOrders": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Entry orders awaiting execution"
+    },
+    "exitOrders": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Exit orders awaiting execution"
+    }
+  }
+}

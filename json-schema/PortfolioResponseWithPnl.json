@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PortfolioResponseWithPnl.json",
+  "title": "PortfolioResponseWithPnl",
+  "type": "object",
+  "description": "Comprehensive portfolio information including positions, orders, and account status",
+  "properties": {
+    "clientPortfolio": {
+      "$ref": "#/components/schemas/ClientPortfolio",
+      "description": "Container for all portfolio-related information"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}",
+  "method": "delete",
+  "status": "500",
+  "type": "response",
+  "example": {
+    "errorCode": "UnhandledException",
+    "errorMessage": "Global Error"
+  }
+}

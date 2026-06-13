@@ -1,0 +1,35 @@
+{
+  "path": "/api/v1/user-info/people/{username}/daily-gain",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "dailyExample": {
+      "summary": "Daily Gains Example",
+      "value": [
+        {
+          "timestamp": "2023-01-01T00:00:00Z",
+          "gain": 0.0
+        },
+        {
+          "timestamp": "2023-01-02T00:00:00Z",
+          "gain": 0.14
+        },
+        {
+          "timestamp": "2023-01-03T00:00:00Z",
+          "gain": -0.26
+        },
+        {
+          "timestamp": "2023-01-04T00:00:00Z",
+          "gain": 0.68
+        }
+      ]
+    },
+    "periodExample": {
+      "summary": "Period Gain Example",
+      "value": {
+        "gain": 7.52
+      }
+    }
+  }
+}

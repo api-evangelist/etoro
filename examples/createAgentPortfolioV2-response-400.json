@@ -1,0 +1,22 @@
+{
+  "path": "/api/v2/agent-portfolios",
+  "method": "post",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "ScopeNameNotAllowed": {
+      "summary": "Scope name not allowed",
+      "value": {
+        "errorCode": "ScopeNameNotAllowed",
+        "errorMessage": "Scope name not allowed"
+      }
+    },
+    "NameTooShort": {
+      "summary": "Agent-portfolio name too short",
+      "value": {
+        "errorCode": "ValidationFailed",
+        "errorMessage": "Agent-portfolio name must be between 6 and 10 characters"
+      }
+    }
+  }
+}

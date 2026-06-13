@@ -1,0 +1,29 @@
+{
+  "path": "/api/v1/me",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "example": {
+      "summary": "User Profile Response",
+      "value": {
+        "gcid": 123456,
+        "realCid": 789012,
+        "demoCid": 345678,
+        "username": "johndoe",
+        "firstName": "John",
+        "middleName": "Q",
+        "lastName": "Doe",
+        "playerLevel": 3,
+        "gender": 1,
+        "language": 1,
+        "dateOfBirth": "1990-01-01",
+        "lei": "5493001KJTIIGC8Y1R12",
+        "scopes": [
+          "etoro-public:real:read",
+          "etoro-public:user-info:read"
+        ]
+      }
+    }
+  }
+}

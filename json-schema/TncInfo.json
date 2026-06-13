@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/TncInfo.json",
+  "title": "TncInfo",
+  "type": "object",
+  "description": "Terms and conditions the client must show and the user must accept before withdrawal.",
+  "required": [
+    "tncDocId",
+    "url"
+  ],
+  "properties": {
+    "tncDocId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Identifier to send back on withdrawal creation.",
+      "example": 12345
+    },
+    "url": {
+      "type": "string",
+      "description": "Link the client displays to user (webview/browser).",
+      "example": "https://example.com/tnc/withdraw-crypto-from-trading"
+    }
+  }
+}

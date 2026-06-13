@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GeCopiersResponse.json",
+  "title": "GeCopiersResponse",
+  "type": "object",
+  "description": "Response object containing a list of portfolio copiers.",
+  "properties": {
+    "copiers": {
+      "type": "array",
+      "nullable": true,
+      "description": "List of users copying your portfolio, with demographic and financial info.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Gender": {
+            "type": "string",
+            "example": "M",
+            "description": "Gender of the copier"
+          },
+          "Club": {
+            "type": "string",
+            "example": "Gold",
+            "description": "Membership club level"
+          },
+          "Country": {
+            "type": "string",
+            "example": "Germany",
+            "description": "Country of residence"
+          },
+          "CopyStartedAtCategory": {
+            "type": "string",
+            "enum": [
+              "less than 1 day",
+              "less than 1 week",
+              "less than 1 month",
+              "less than 1 year",
+              "more than 1 year"
+            ],
+            "description": "How long ago the copy relationship started",
+            "example": "more than 1 year"
+          },
+          "AmountCategory": {
+            "type": "string",
+            "enum": [
+              "<100",
+              "100-500",
+              "500-1000",
+              "1000-5000",
+              ">5000"
+            ],
+            "description": "Amount being copied",
+            "example": "100-500"
+          },
+          "AgeCategory": {
+            "type": "string",
+            "enum": [
+              "Under 18",
+              "18-29",
+              "30-44",
+              "45-59",
+              "60+"
+            ],
+            "description": "Age range of the copier",
+            "example": "30-44"
+          },
+          "CopyRealizedEquity_pnl": {
+            "type": "string",
+            "description": "Total realized equity PnL of the copier",
+            "example": "1589.2"
+          },
+          "AvailableCopyBalance": {
+            "type": "string",
+            "description": "Available copy balance of the copier",
+            "example": "55.2"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

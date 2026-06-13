@@ -1,0 +1,9 @@
+{
+  "path": "/api/v1/price-alerts",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "symbol": "AAPL",
+    "targetPrice": 185.5
+  }
+}

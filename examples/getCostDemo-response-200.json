@@ -1,0 +1,43 @@
+{
+  "path": "/api/v2/trading/info/demo/costs",
+  "method": "post",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "instrumentId": 101,
+    "symbol": "AAPL",
+    "costs": [
+      {
+        "costType": "markup",
+        "amount": 0.15,
+        "currency": "USD"
+      },
+      {
+        "costType": "marketSpread",
+        "amount": 0.03,
+        "currency": "USD"
+      },
+      {
+        "costType": "transactionFee",
+        "amount": 1.0,
+        "currency": "USD"
+      },
+      {
+        "costType": "overnightFee",
+        "amount": 0.25,
+        "currency": "USD"
+      },
+      {
+        "costType": "overWeekendFee",
+        "amount": 0.75,
+        "currency": "USD"
+      },
+      {
+        "costType": "sdrt",
+        "amount": 0.5,
+        "currency": "USD"
+      }
+    ],
+    "lastUpdated": "2026-05-25T08:30:00Z"
+  }
+}

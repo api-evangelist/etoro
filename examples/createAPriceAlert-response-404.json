@@ -1,0 +1,14 @@
+{
+  "path": "/api/v1/price-alerts",
+  "method": "post",
+  "status": "404",
+  "type": "response",
+  "example": {
+    "success": false,
+    "error": {
+      "code": "INSTRUMENT_NOT_FOUND",
+      "message": "Instrument not found",
+      "details": "No instrument found for symbol 'INVALID'"
+    }
+  }
+}

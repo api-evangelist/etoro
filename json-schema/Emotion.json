@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Emotion.json",
+  "title": "Emotion",
+  "type": "object",
+  "description": "A like reaction on a post or comment",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "Like"
+      ],
+      "description": "Emotion type (currently only Like is supported)",
+      "example": "Like"
+    },
+    "id": {
+      "type": "string",
+      "description": "Emotion ID",
+      "example": "b2c3d4e5-f6a7-4890-bcde-f23456789012"
+    },
+    "owner": {
+      "$ref": "#/components/schemas/User"
+    },
+    "obsoleteId": {
+      "type": "string",
+      "description": "Legacy numeric emotion ID",
+      "example": "54321"
+    },
+    "parent": {
+      "type": "object",
+      "description": "Parent entity reference",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Parent entity ID",
+          "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        },
+        "obsoleteId": {
+          "type": "string",
+          "description": "Legacy parent ID",
+          "example": "12345"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Unknown",
+            "Post",
+            "Comment",
+            "Reply"
+          ],
+          "description": "Parent entity type",
+          "example": "Post"
+        }
+      }
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the like was created",
+      "example": "2025-01-15T10:30:00Z"
+    }
+  }
+}

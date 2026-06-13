@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Market.json",
+  "title": "Market",
+  "type": "object",
+  "description": "Financial instrument / market",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Market identifier",
+      "example": "TSLA"
+    },
+    "symbolName": {
+      "type": "string",
+      "description": "Ticker symbol",
+      "example": "TSLA"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-readable name",
+      "example": "Tesla"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "Last update timestamp",
+      "example": "2025-01-15T00:00:00Z"
+    },
+    "assetType": {
+      "type": "string",
+      "enum": [
+        "Stocks",
+        "Bonds",
+        "ETF",
+        "Index",
+        "Warrants",
+        "Options",
+        "Futures",
+        "CFD",
+        "TRS",
+        "FOREX",
+        "CommodityMetals",
+        "CommodityEnergyAgriculture",
+        "CryptoCoin",
+        "NFT"
+      ],
+      "description": "Asset class",
+      "example": "Stocks"
+    },
+    "internalId": {
+      "type": "integer",
+      "description": "Internal numeric market ID",
+      "example": 59114
+    },
+    "avatar": {
+      "type": "object",
+      "description": "Market logo images",
+      "properties": {
+        "small": {
+          "type": "string",
+          "description": "Small logo URL (32 px)",
+          "example": "https://cdn.etoro.com/assets/img/markets/TSLA/small.png"
+        },
+        "medium": {
+          "type": "string",
+          "description": "Medium logo URL (64 px)",
+          "example": "https://cdn.etoro.com/assets/img/markets/TSLA/medium.png"
+        },
+        "large": {
+          "type": "string",
+          "description": "Large logo URL (128 px)",
+          "example": "https://cdn.etoro.com/assets/img/markets/TSLA/large.png"
+        },
+        "svg": {
+          "type": "object",
+          "nullable": true,
+          "description": "SVG logo with brand colours",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "SVG URL",
+              "example": "https://cdn.etoro.com/assets/img/markets/TSLA/logo.svg"
+            },
+            "backgroundColor": {
+              "type": "string",
+              "description": "Brand background colour (hex)",
+              "example": "#CC0000"
+            },
+            "textColor": {
+              "type": "string",
+              "description": "Brand text colour (hex)",
+              "example": "#FFFFFF"
+            }
+          }
+        }
+      }
+    },
+    "application": {
+      "type": "string",
+      "enum": [
+        "eToro",
+        "Delta",
+        "Gatsby"
+      ],
+      "description": "Source application",
+      "example": "eToro"
+    },
+    "metadata": {
+      "type": "string",
+      "description": "Opaque JSON metadata string",
+      "example": "{}"
+    },
+    "assetTypeId": {
+      "type": "integer",
+      "description": "Numeric asset type ID",
+      "example": 10
+    },
+    "assetTypeSubCategoryId": {
+      "type": "integer",
+      "description": "Numeric asset sub-category ID",
+      "example": 101
+    }
+  }
+}

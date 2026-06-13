@@ -1,0 +1,66 @@
+{
+  "path": "/api/v1/trading/info/demo/aggregate-portfolio",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "cid": 4498,
+    "timestamp": "2026-05-26T15:24:25.267Z",
+    "accountCurrency": "USD",
+    "accountTotals": {
+      "accountAvailableCash": 4320.84,
+      "accountFrozenCash": 0,
+      "accountCurrentPnl": -300.35,
+      "accountTotalValue": 5154.48,
+      "accountTotalUsedMargin": 1133.99,
+      "accountBalance": 4320.84
+    },
+    "instrumentAggregates": [
+      {
+        "instrumentId": 100000,
+        "assetCurrency": "USD",
+        "totalMarginAccountCurrency": 849.86,
+        "totalFees": 0,
+        "totalFeesAcctCcy": 0,
+        "totalTaxes": 0,
+        "totalTaxesAcctCcy": 0,
+        "totalMarginAssetCurrency": 849.86,
+        "pnlAssetCurrency": -225.3,
+        "accountCurrencyRoePercent": -26.51,
+        "netContracts": 0.008076,
+        "netUnits": 0.008076,
+        "netCurrentExposureAssetCurrency": 624.57,
+        "netCurrentExposureAccountCurrency": 624.57,
+        "netInitialExposureAccountCurrency": 849.87,
+        "accountCurrencyReturn": -225.3,
+        "liquidationValueAccountCurrency": 624.56,
+        "liquidationValueAssetCurrency": 624.56,
+        "avgLeverage": 1,
+        "avgOpenRate": 105233.5041183754,
+        "netAvgOpenRate": 105233.5041183754,
+        "avgConversionRate": 1
+      }
+    ],
+    "mirrors": [
+      {
+        "mirrorId": 1869651,
+        "mirrorAvailableCash": 0.04,
+        "mirrorDepositTotal": 290,
+        "mirrorWithdrawalTotal": 0,
+        "mirrorStopLossPercentage": 5,
+        "mirrorStopLoss": 14.5,
+        "mirrorClosedPositionsPnl": -0.26,
+        "mirrorTotals": {
+          "mirrorNetFunding": 290,
+          "mirrorPositionsPnl": -75.05,
+          "mirrorLiquidationValue": 209.08,
+          "mirrorPositionsPnlPercent": -0.35,
+          "mirrorMarginPercent": 25.06,
+          "mirrorValuePercent": 4.06,
+          "mirrorActiveMargin": 284.13
+        },
+        "instrumentAggregates": []
+      }
+    ]
+  }
+}

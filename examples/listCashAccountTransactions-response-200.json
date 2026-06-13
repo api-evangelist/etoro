@@ -1,0 +1,41 @@
+{
+  "path": "/api/v1/money/accounts/cash/{accountId}/transactions",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "results": [
+      {
+        "id": "12345",
+        "accountId": "f0995efc-25a1-465e-bec3-d309aaf00ede",
+        "transactionType": "card",
+        "transactionSubtype": "cardPayment",
+        "direction": "debit",
+        "status": "settled",
+        "amount": "100.00",
+        "currency": "USD",
+        "originalAmount": "90.00",
+        "originalCurrency": "EUR",
+        "conversionRate": "1.1111",
+        "postedAt": "2026-05-03T10:16:12Z",
+        "counterparty": {
+          "name": "Acme Store",
+          "type": "merchant"
+        },
+        "cardTransactionDetails": {
+          "cardId": "101",
+          "merchantName": "Acme Store",
+          "country": "US",
+          "authorizationStatus": "normal"
+        },
+        "bankTransferTransactionDetails": null,
+        "internalTransferTransactionDetails": null
+      }
+    ],
+    "pagination": {
+      "pageSize": 50,
+      "nextPageToken": "eyJsYXN0SWQiOjEyMzk1fQ==",
+      "hasNext": true
+    }
+  }
+}

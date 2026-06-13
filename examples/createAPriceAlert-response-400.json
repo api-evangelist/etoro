@@ -1,0 +1,15 @@
+{
+  "path": "/api/v1/price-alerts",
+  "method": "post",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "success": false,
+    "error": {
+      "code": "INVALID_PARAMETER",
+      "message": "Invalid request parameters",
+      "details": "Field 'targetPrice' must be greater than 0",
+      "field": "targetPrice"
+    }
+  }
+}

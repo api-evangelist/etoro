@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/OfferInBundle.json",
+  "title": "OfferInBundle",
+  "type": "object",
+  "description": "An offer included in a bundle",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "Entertainment",
+        "Gifts",
+        "News",
+        "Signals",
+        "Tools",
+        "Exclusive events",
+        "Tickets",
+        "Zoom meetings",
+        "Educational",
+        "Services",
+        "Association Membership",
+        "Financial",
+        "Travel",
+        "Gift card",
+        "Client meetup",
+        "Emotional",
+        "Bundle"
+      ],
+      "description": "Bundle offer type",
+      "example": "Services"
+    },
+    "offerLimit": {
+      "type": "integer",
+      "description": "Maximum number of offers in this bundle",
+      "example": 3
+    }
+  }
+}

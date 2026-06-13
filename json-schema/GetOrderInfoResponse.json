@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetOrderInfoResponse.json",
+  "title": "GetOrderInfoResponse",
+  "type": "object",
+  "description": "Detailed information about a specific order retrieved via the orders lookup endpoint.",
+  "properties": {
+    "accountId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The account identifier associated with this order."
+    },
+    "gcid": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The global customer identifier."
+    },
+    "portfolioId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The portfolio identifier."
+    },
+    "orderId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The unique identifier of the order."
+    },
+    "action": {
+      "type": "string",
+      "description": "The order action. Possible values: open, close."
+    },
+    "transaction": {
+      "type": "string",
+      "description": "The transaction direction. Possible values: buy, sell, sellShort, buyToCover."
+    },
+    "type": {
+      "type": "string",
+      "description": "The order type. Possible values: mkt, mit."
+    },
+    "etoroOrderTypeId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "The internal eToro order type identifier."
+    },
+    "status": {
+      "$ref": "#/components/schemas/GetOrderInfoStatus"
+    },
+    "asset": {
+      "$ref": "#/components/schemas/GetOrderInfoAsset"
+    },
+    "orderCurrency": {
+      "type": "string",
+      "description": "The currency used for the order."
+    },
+    "requestedAmount": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The requested monetary amount for the order."
+    },
+    "requestedUnits": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The requested number of units for the order."
+    },
+    "requestedContracts": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The requested number of contracts for the order."
+    },
+    "frozenAmount": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The amount frozen/reserved for the order including costs."
+    },
+    "requestedTriggerRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The trigger rate for limit or stop orders."
+    },
+    "openStopLossRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The stop-loss rate at order open."
+    },
+    "openTakeProfitRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "The take-profit rate at order open."
+    },
+    "stopLossType": {
+      "type": "string",
+      "nullable": true,
+      "description": "The stop-loss type. Possible values: fixed, trailing."
+    },
+    "totalCosts": {
+      "type": "number",
+      "format": "double",
+      "description": "Total costs associated with the order."
+    },
+    "positionsToClose": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "description": "List of position IDs to close as part of a close order."
+    },
+    "positionExecutions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GetOrderInfoPositionExecution"
+      },
+      "description": "List of position executions resulting from this order."
+    },
+    "requestTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was requested."
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp of the last update to the order."
+    },
+    "openActionType": {
+      "type": "string",
+      "description": "The action type that initiated the order."
+    },
+    "requestType": {
+      "type": "string",
+      "description": "The request sizing type. Possible values: byAmount, byUnits, byContracts."
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/AccountBalanceData.json",
+  "title": "AccountBalanceData",
+  "type": "object",
+  "description": "Balance data for a single account.",
+  "properties": {
+    "accountId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Unique identifier of the account."
+    },
+    "accountType": {
+      "$ref": "#/components/schemas/AccountType"
+    },
+    "subType": {
+      "type": "string",
+      "nullable": true,
+      "description": "Account sub-type, where applicable."
+    },
+    "balance": {
+      "type": "number",
+      "format": "double",
+      "description": "Account balance in the account's native currency."
+    },
+    "currency": {
+      "type": "string",
+      "nullable": true,
+      "description": "The account's native currency (ISO 4217)."
+    },
+    "displayBalance": {
+      "type": "number",
+      "format": "double",
+      "description": "Account balance converted to the requested display currency."
+    },
+    "displayCurrency": {
+      "type": "string",
+      "nullable": true,
+      "description": "The display currency (ISO 4217) used for displayBalance."
+    },
+    "exchangeRate": {
+      "type": "number",
+      "format": "double",
+      "description": "Exchange rate applied to convert balance to displayCurrency."
+    },
+    "equityDetails": {
+      "$ref": "#/components/schemas/EquityDetailsData"
+    }
+  },
+  "additionalProperties": false
+}

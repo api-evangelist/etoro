@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/candlesResponse.json",
+  "title": "candlesResponse",
+  "type": "object",
+  "description": "Response containing historical price data in candlestick format",
+  "properties": {
+    "interval": {
+      "type": "string",
+      "description": "Time interval of the returned candles. Matches the interval parameter from the request.",
+      "enum": [
+        "OneMinute",
+        "FiveMinutes",
+        "TenMinutes",
+        "FifteenMinutes",
+        "ThirtyMinutes",
+        "OneHour",
+        "FourHours",
+        "OneDay",
+        "OneWeek"
+      ]
+    },
+    "candles": {
+      "type": "array",
+      "description": "List of candle data grouped by instrument",
+      "items": {
+        "type": "object",
+        "description": "Candle data for a specific instrument",
+        "properties": {
+          "instrumentId": {
+            "type": "integer",
+            "description": "Identifier of the instrument these candles belong to"
+          },
+          "candles": {
+            "type": "array",
+            "description": "List of individual candles representing price action over time",
+            "items": {
+              "type": "object",
+              "description": "Individual candle data point",
+              "properties": {
+                "instrumentID": {
+                  "type": "integer",
+                  "description": "Identifier of the instrument this candle belongs to"
+                },
+                "fromDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Start time of the candle period in ISO 8601 format"
+                },
+                "open": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Opening price at the start of the candle period"
+                },
+                "high": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Highest price reached during the candle period"
+                },
+                "low": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Lowest price reached during the candle period"
+                },
+                "close": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Closing price at the end of the candle period"
+                },
+                "volume": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Trading volume during the candle period"
+                }
+              }
+            }
+          },
+          "rangeOpen": {
+            "type": "number",
+            "format": "float",
+            "description": "Opening price of the first candle in the range"
+          },
+          "rangeClose": {
+            "type": "number",
+            "format": "float",
+            "description": "Closing price of the last candle in the range"
+          },
+          "rangeHigh": {
+            "type": "number",
+            "format": "float",
+            "description": "Highest price across all candles in the range"
+          },
+          "rangeLow": {
+            "type": "number",
+            "format": "float",
+            "description": "Lowest price across all candles in the range"
+          },
+          "volume": {
+            "type": "number",
+            "format": "float",
+            "description": "Total trading volume across all candles in the range"
+          }
+        }
+      }
+    }
+  }
+}

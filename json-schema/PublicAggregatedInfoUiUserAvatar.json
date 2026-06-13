@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PublicAggregatedInfoUiUserAvatar.json",
+  "title": "PublicAggregatedInfoUiUserAvatar",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Original",
+        "OriginalCropped",
+        "Resized",
+        "Retouched"
+      ],
+      "description": "Type of avatar image"
+    }
+  }
+}

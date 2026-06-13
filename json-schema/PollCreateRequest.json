@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/PollCreateRequest.json",
+  "title": "PollCreateRequest",
+  "type": "object",
+  "description": "Request body for creating a poll post",
+  "required": [
+    "message",
+    "poll"
+  ],
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Text content of the post (max 1000 chars)",
+      "example": "Where do you think $TSLA will be in 6 months?"
+    },
+    "poll": {
+      "type": "object",
+      "description": "Poll configuration",
+      "required": [
+        "title",
+        "options"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Poll question / title",
+          "example": "TSLA price target in 6 months?"
+        },
+        "options": {
+          "type": "array",
+          "description": "Poll answer options (min 2, max 4)",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "text",
+              "index"
+            ],
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Option label",
+                "example": "Above $300"
+              },
+              "index": {
+                "type": "integer",
+                "description": "One-based position index of the option (starts at 1)",
+                "example": 1,
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "attachments": {
+      "$ref": "#/components/schemas/Attachments"
+    }
+  }
+}

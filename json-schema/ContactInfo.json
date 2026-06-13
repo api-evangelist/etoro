@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ContactInfo.json",
+  "title": "ContactInfo",
+  "type": "object",
+  "description": "Account manager profile",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "description": "Account manager first name",
+      "example": "John"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Account manager last name",
+      "example": "Smith"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Account manager email address",
+      "example": "john.smith@etoro.com"
+    },
+    "calendarUrl": {
+      "type": "string",
+      "nullable": true,
+      "description": "Calendar booking URL for scheduling meetings",
+      "example": "https://calendly.com/etoro-club"
+    },
+    "avatars": {
+      "type": "array",
+      "description": "Manager avatar images in different sizes",
+      "items": {
+        "$ref": "#/components/schemas/Avatar"
+      }
+    }
+  }
+}

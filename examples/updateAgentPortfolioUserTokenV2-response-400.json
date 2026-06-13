@@ -1,0 +1,15 @@
+{
+  "path": "/api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}",
+  "method": "patch",
+  "status": "400",
+  "type": "response",
+  "example": {
+    "NoChanges": {
+      "summary": "No changes provided",
+      "value": {
+        "errorCode": "NoChangesDetected",
+        "errorMessage": "At least one field must be provided"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/ExposureHistoryEntry.json",
+  "title": "ExposureHistoryEntry",
+  "type": "object",
+  "required": [
+    "date",
+    "absExposurePct",
+    "exposureItems"
+  ],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of this snapshot (YYYY-MM-DD)"
+    },
+    "absExposurePct": {
+      "type": "number",
+      "description": "Sum of absolute exposure across all instruments as a ratio of total daily investment. Decimal fraction: 0.5 = 50%."
+    },
+    "exposureItems": {
+      "type": "array",
+      "description": "Per-instrument exposure breakdown",
+      "items": {
+        "$ref": "#/components/schemas/ExposureItem"
+      }
+    }
+  }
+}

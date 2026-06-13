@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/BankAccountIdentifier.json",
+  "title": "BankAccountIdentifier",
+  "type": "object",
+  "required": [
+    "type",
+    "value"
+  ],
+  "description": "One bank identifier entry as key/value pair. `type` defines the identifier kind and `value` contains the identifier as a string.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Identifier type key. Allowed examples include bankAccountNumber, ncc, iban, bic, sortCode, and bsbCode.",
+      "example": "iban"
+    },
+    "value": {
+      "type": "string",
+      "description": "Identifier value as returned by the bank.",
+      "example": "GB08MRMI04133511549380"
+    }
+  }
+}

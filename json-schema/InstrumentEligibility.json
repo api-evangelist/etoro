@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InstrumentEligibility.json",
+  "title": "InstrumentEligibility",
+  "type": "object",
+  "description": "Full trading configuration for a single instrument, including position limits, trading permissions, order configuration, margin settings, and available leverage.",
+  "properties": {
+    "instrumentId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Unique identifier for the instrument."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Trading symbol of the instrument (e.g. AAPL, EURUSD)."
+    },
+    "minPositionExposure": {
+      "type": "number",
+      "format": "decimal",
+      "description": "Minimum exposure value required to open a position on this instrument."
+    },
+    "maxUnitsPerOrder": {
+      "type": "number",
+      "format": "decimal",
+      "description": "Maximum number of units allowed per single order."
+    },
+    "allowOpenPosition": {
+      "type": "boolean",
+      "description": "Whether opening new positions is currently permitted."
+    },
+    "allowClosePosition": {
+      "type": "boolean",
+      "description": "Whether closing existing positions is currently permitted."
+    },
+    "allowPartialClosePosition": {
+      "type": "boolean",
+      "description": "Whether partially closing an existing position is permitted."
+    },
+    "allowMitOrders": {
+      "type": "boolean",
+      "description": "Whether Market-if-Touched (limit) orders are supported."
+    },
+    "allowEntryOrders": {
+      "type": "boolean",
+      "description": "Whether submitting open orders when the market is closed is allowed."
+    },
+    "allowExitOrders": {
+      "type": "boolean",
+      "description": "Whether submitting close orders when the market is closed is allowed."
+    },
+    "allowTrailingStopLoss": {
+      "type": "boolean",
+      "description": "Whether a trailing stop-loss can be set on positions for this instrument."
+    },
+    "requiresW8Ben": {
+      "type": "boolean",
+      "nullable": true,
+      "description": "Whether a W-8BEN tax form is required to trade this instrument. Null if not applicable."
+    },
+    "unitsQuantityType": {
+      "type": "string",
+      "description": "What trade quantity type is allowed. Possible values: `WholeUnits`, `FractionalUnits`."
+    },
+    "orderFillBehaviorType": {
+      "type": "string",
+      "description": "How orders are filled for this instrument. Possible values: `BestEffort`, `FillOrKill`."
+    },
+    "allowedOrderQuantityType": {
+      "type": "string",
+      "description": "How order size can be specified. Possible values: `Units`, `Amount`, `Both`."
+    },
+    "tradeUnitType": {
+      "type": "string",
+      "description": "Unit type used to express trade size. Possible values: `Units`, `Lots`."
+    },
+    "initialMarginInAssetCurrency": {
+      "type": "number",
+      "format": "decimal",
+      "nullable": true,
+      "description": "Initial margin expressed in the asset currency. Null if not applicable."
+    },
+    "stopLossMarginInAssetCurrency": {
+      "type": "number",
+      "format": "decimal",
+      "nullable": true,
+      "description": "Stop-loss margin expressed in the asset currency. Null if not applicable."
+    },
+    "additionalBufferPercent": {
+      "type": "number",
+      "format": "decimal",
+      "nullable": true,
+      "description": "Additional buffer applied to the current rate to limit the order execution price - usually for low-liquidity assets. This also causes additional funds to be reserved for the order. Null if no buffer."
+    },
+    "leverageConfigs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LeverageConfiguration"
+      },
+      "description": "Available leverage configurations, each specific to a settlement type and direction."
+    }
+  }
+}

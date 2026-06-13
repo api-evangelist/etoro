@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "etoro": "https://builders.etoro.com/"
+  },
+  "@type": "WebAPI",
+  "@id": "https://public-api.etoro.com/api/v1",
+  "name": "eToro Api",
+  "description": "eToro\u2019s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro\u2019s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.\n\nFor more details on integrating with eToro's public WebSocket service, please refer to the dedicated [WebSocket documentation](./websocket/websocket-doc.html).",
+  "version": "v1.244.0",
+  "url": "https://builders.etoro.com/",
+  "documentation": "https://api-portal.etoro.com/",
+  "provider": {
+    "@type": "Organization",
+    "name": "eToro",
+    "url": "https://www.etoro.com"
+  },
+  "license": "https://builders.etoro.com/legal",
+  "termsOfService": "https://www.etoro.com/terms",
+  "endpointURL": "https://public-api.etoro.com/api/v1",
+  "availableChannel": [
+    {
+      "@type": "ServiceChannel",
+      "name": "Trading API",
+      "serviceUrl": "https://public-api.etoro.com/api/v1/trading"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Market Data API",
+      "serviceUrl": "https://public-api.etoro.com/api/v1/instruments"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Portfolio and Account API",
+      "serviceUrl": "https://public-api.etoro.com/api/v1/balances"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Social and Discovery API",
+      "serviceUrl": "https://public-api.etoro.com/api/v1/feeds"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Watchlists API",
+      "serviceUrl": "https://public-api.etoro.com/api/v1/watchlists"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Price Alerts API",
+      "serviceUrl": "https://public-api.etoro.com/api/v1/price-alerts"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Agent Portfolios API",
+      "serviceUrl": "https://public-api.etoro.com/api/v2/agent-portfolios"
+    }
+  ]
+}

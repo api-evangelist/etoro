@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/SharesResponse.json",
+  "title": "SharesResponse",
+  "type": "object",
+  "description": "Paginated list of shares on a post",
+  "properties": {
+    "paging": {
+      "type": "object",
+      "description": "Pagination info",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "description": "Total number of shares",
+          "example": 17
+        },
+        "offsetEntityId": {
+          "type": "string",
+          "description": "Opaque cursor for next page",
+          "example": "c3d4e5f6-a7b8-4901-cdef-345678901234"
+        },
+        "next": {
+          "type": "string",
+          "description": "URL to fetch the next page",
+          "example": "/api/v1/feeds/post/d9020c00-c364-11ee-8080-80005148990b/shares?take=20&offsetEntityId=c3d4e5f6-a7b8-4901-cdef-345678901234"
+        }
+      }
+    },
+    "postShares": {
+      "type": "array",
+      "description": "List of share entries",
+      "items": {
+        "type": "object",
+        "description": "A single share record",
+        "properties": {
+          "shareReactionId": {
+            "type": "string",
+            "description": "ID of the share reaction",
+            "example": "e5f6a7b8-c9d0-4123-efab-567890123456"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the share was created",
+            "example": "2025-01-15T10:30:00Z",
+            "nullable": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      }
+    }
+  }
+}

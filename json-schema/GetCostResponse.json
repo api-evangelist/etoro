@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetCostResponse.json",
+  "title": "GetCostResponse",
+  "type": "object",
+  "description": "Cost breakdown for a hypothetical open or close order.",
+  "properties": {
+    "instrumentId": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Identifier of the instrument the cost breakdown applies to."
+    },
+    "symbol": {
+      "type": "string",
+      "nullable": true,
+      "description": "Symbol of the instrument"
+    },
+    "costs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CostBreakdown"
+      },
+      "description": "Cost components that would apply to the proposed order."
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp (ISO 8601) at which the cost figures were generated."
+    }
+  }
+}

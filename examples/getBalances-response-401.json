@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/balances",
+  "method": "get",
+  "status": "401",
+  "type": "response",
+  "example": {
+    "errorCode": "Unauthorized",
+    "errorMessage": "Unauthorized"
+  }
+}

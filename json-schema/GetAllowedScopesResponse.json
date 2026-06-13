@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetAllowedScopesResponse.json",
+  "title": "GetAllowedScopesResponse",
+  "type": "object",
+  "properties": {
+    "scopes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ScopeNameItem"
+      },
+      "description": "The permission scope names that may be assigned to agent-portfolio user tokens.",
+      "example": [
+        {
+          "name": "etoro-public:trade.real:read"
+        },
+        {
+          "name": "etoro-public:trade.real:write"
+        }
+      ]
+    }
+  }
+}

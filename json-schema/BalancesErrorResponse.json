@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/BalancesErrorResponse.json",
+  "title": "BalancesErrorResponse",
+  "type": "object",
+  "description": "Error response returned for client-side errors (4xx).",
+  "properties": {
+    "code": {
+      "type": "string",
+      "nullable": true,
+      "description": "Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND)."
+    },
+    "message": {
+      "type": "string",
+      "nullable": true,
+      "description": "Human-readable error message."
+    },
+    "requestId": {
+      "type": "string",
+      "nullable": true,
+      "description": "Request ID for tracing and support."
+    }
+  },
+  "additionalProperties": false
+}

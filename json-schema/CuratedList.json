@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/CuratedList.json",
+  "title": "CuratedList",
+  "type": "object",
+  "description": "Represents a curated investment list",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "description": "Unique identifier of the curated list",
+      "example": "12345"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the curated list",
+      "example": "Tech Watchlist"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the curated list",
+      "example": "A list of tech stocks"
+    },
+    "listImageUrl": {
+      "type": "string",
+      "description": "URL of the list's image",
+      "example": "https://example.com/tech-watchlist.jpg"
+    },
+    "items": {
+      "type": "array",
+      "description": "Items in the curated list",
+      "items": {
+        "$ref": "#/components/schemas/CuratedListItem"
+      },
+      "example": [
+        {
+          "instrumentId": 12345
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InAppNotificationsResult.json",
+  "title": "InAppNotificationsResult",
+  "type": "object",
+  "description": "Response containing notifications and metadata",
+  "properties": {
+    "messages": {
+      "type": "array",
+      "description": "List of notification messages",
+      "items": {
+        "$ref": "#/components/schemas/InAppNotificationMessage"
+      }
+    },
+    "meta": {
+      "$ref": "#/components/schemas/InAppNotificationsMetadata"
+    }
+  }
+}

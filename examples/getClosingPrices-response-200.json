@@ -1,0 +1,46 @@
+{
+  "path": "/api/v1/market-data/instruments/history/closing-price",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": [
+    {
+      "instrumentId": 1002,
+      "officialClosingPrice": 175.75,
+      "isMarketOpen": true,
+      "closingPrices": {
+        "daily": {
+          "price": 175.75,
+          "date": "2025-03-07 00:00:00Z"
+        },
+        "weekly": {
+          "price": 175.75,
+          "date": "2025-03-07 00:00:00Z"
+        },
+        "monthly": {
+          "price": 172.22,
+          "date": "2025-02-28 00:00:00Z"
+        }
+      }
+    },
+    {
+      "instrumentId": 999,
+      "officialClosingPrice": 68,
+      "isMarketOpen": false,
+      "closingPrices": {
+        "daily": {
+          "price": 68,
+          "date": "2024-11-16 00:00:00Z"
+        },
+        "weekly": {
+          "price": 68,
+          "date": "2024-11-16 00:00:00Z"
+        },
+        "monthly": {
+          "price": -1,
+          "date": "0001-01-01 00:00:00Z"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "429",
+  "type": "response",
+  "example": {
+    "errorCode": "MaxUserTokensExceeded",
+    "errorMessage": "Maximum number of user tokens exceeded"
+  }
+}

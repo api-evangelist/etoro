@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "409",
+  "type": "response",
+  "example": {
+    "errorCode": "UserKeyNameAlreadyExists",
+    "errorMessage": "UserKeyName already exists"
+  }
+}

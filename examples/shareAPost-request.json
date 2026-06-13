@@ -1,0 +1,21 @@
+{
+  "path": "/api/v1/posts/shares",
+  "method": "post",
+  "type": "request",
+  "example": {
+    "reshare": {
+      "summary": "Reshare (empty message)",
+      "value": {
+        "message": "",
+        "sharedOriginDiscussion": "d9020c00-c364-11ee-8080-80005148990b"
+      }
+    },
+    "quoteShare": {
+      "summary": "Quote share with commentary",
+      "value": {
+        "message": "Great insight on Tesla!",
+        "sharedOriginDiscussion": "d9020c00-c364-11ee-8080-80005148990b"
+      }
+    }
+  }
+}

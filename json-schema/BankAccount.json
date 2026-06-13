@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/BankAccount.json",
+  "title": "BankAccount",
+  "type": "object",
+  "description": "Bank account linked to the cash account",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of the bank account",
+      "example": "0f5270fe-200a-4c35-b788-bda212973fa2"
+    },
+    "accountName": {
+      "type": "string",
+      "description": "Name on the bank account",
+      "example": "John Doe"
+    },
+    "identifiers": {
+      "type": "array",
+      "description": "List of bank identifiers represented as key/value entries. Identifier type availability is bank and country specific.",
+      "items": {
+        "$ref": "#/components/schemas/BankAccountIdentifier"
+      }
+    },
+    "region": {
+      "type": "string",
+      "description": "Region of the bank account",
+      "example": "UK"
+    },
+    "countryCode": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code",
+      "example": "GB"
+    },
+    "bankProvider": {
+      "type": "string",
+      "description": "Banking provider name",
+      "example": "ClearBank"
+    },
+    "institutionName": {
+      "type": "string",
+      "description": "Name of the banking institution",
+      "example": "ClearBank"
+    }
+  }
+}

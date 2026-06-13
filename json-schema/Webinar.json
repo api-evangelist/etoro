@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Webinar.json",
+  "title": "Webinar",
+  "type": "object",
+  "description": "A club webinar event",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Webinar identifier",
+      "example": 83618564462
+    },
+    "topic": {
+      "type": "string",
+      "description": "Webinar topic",
+      "example": "Club Webinars with Lale Akoner and Sam North"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled start time in UTC",
+      "example": "2026-05-20T14:00:00Z"
+    },
+    "joinUrl": {
+      "type": "string",
+      "nullable": true,
+      "description": "URL to join the webinar (upcoming webinars only)",
+      "example": "https://us02web.zoom.us/j/83618564462"
+    },
+    "recordUrl": {
+      "type": "string",
+      "nullable": true,
+      "description": "URL to the recording (past webinars only)",
+      "example": "https://us02web.zoom.us/rec/play/example"
+    }
+  }
+}

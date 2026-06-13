@@ -1,0 +1,28 @@
+{
+  "path": "/api/v1/trading/execution/market-open-orders/by-units",
+  "method": "post",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "orderForOpen": {
+      "instrumentID": 100000,
+      "amount": 0,
+      "amountInUnits": 0.001,
+      "isBuy": true,
+      "leverage": 1,
+      "stopLossRate": 0,
+      "takeProfitRate": 0,
+      "isTslEnabled": false,
+      "mirrorID": 0,
+      "totalExternalCosts": 0,
+      "lotCount": 0,
+      "orderID": 13906629,
+      "orderType": 18,
+      "statusID": 1,
+      "CID": 7765437,
+      "openDateTime": "2025-04-02T15:56:50.7496838Z",
+      "lastUpdate": "2025-04-02T15:56:50.7496838Z"
+    },
+    "token": "43ceb769-cff6-45ec-8ad7-292b7401353f"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/InternalTransferDetails.json",
+  "title": "InternalTransferDetails",
+  "type": "object",
+  "required": [
+    "transferId"
+  ],
+  "properties": {
+    "transferId": {
+      "type": "string"
+    }
+  }
+}

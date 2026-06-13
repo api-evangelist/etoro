@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/WatchlistResponse.json",
+  "title": "WatchlistResponse",
+  "type": "object",
+  "description": "Represents a watchlist with its metadata and items",
+  "properties": {
+    "watchlistId": {
+      "type": "string",
+      "description": "Unique identifier of the watchlist",
+      "example": "12345"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the watchlist",
+      "example": "Tech Watchlist"
+    },
+    "Gcid": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Global Customer ID of the watchlist owner",
+      "example": 12345
+    },
+    "watchlistType": {
+      "type": "string",
+      "enum": [
+        "Static",
+        "Dynamic",
+        "RecentlyInvested",
+        "Default"
+      ],
+      "description": "Type of the watchlist",
+      "example": "Static"
+    },
+    "totalItems": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Total number of items in the watchlist",
+      "example": 100
+    },
+    "isDefault": {
+      "type": "boolean",
+      "description": "Whether this is a default system watchlist",
+      "example": true
+    },
+    "isUserSelectedDefault": {
+      "type": "boolean",
+      "description": "Whether this is the user's selected default watchlist",
+      "example": true
+    },
+    "watchlistRank": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Display order rank of the watchlist",
+      "example": 1
+    },
+    "dynamicUrl": {
+      "type": "string",
+      "nullable": true,
+      "description": "URL for dynamic watchlist queries"
+    },
+    "items": {
+      "type": "array",
+      "description": "Items contained in the watchlist",
+      "items": {
+        "$ref": "#/components/schemas/WatchlistItemDto"
+      },
+      "example": [
+        {
+          "itemId": 12345,
+          "itemType": "Instrument",
+          "itemRank": 1
+        }
+      ]
+    },
+    "relatedAssets": {
+      "type": "array",
+      "description": "Related asset IDs",
+      "nullable": true,
+      "items": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "example": [
+        12345,
+        67890
+      ]
+    }
+  }
+}

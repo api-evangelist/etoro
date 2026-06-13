@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetOrderInfoOpeningData.json",
+  "title": "GetOrderInfoOpeningData",
+  "type": "object",
+  "description": "Execution data recorded when the position was opened.",
+  "properties": {
+    "openTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the position was opened."
+    },
+    "orderId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The order identifier that opened the position."
+    },
+    "executionTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The execution timestamp."
+    },
+    "units": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Number of units executed."
+    },
+    "contracts": {
+      "type": "number",
+      "format": "double",
+      "nullable": true,
+      "description": "Number of contracts executed."
+    },
+    "avgPrice": {
+      "type": "number",
+      "format": "double",
+      "description": "The average execution price."
+    },
+    "avgConversionRate": {
+      "type": "number",
+      "format": "double",
+      "description": "The average currency conversion rate applied."
+    },
+    "marketSpread": {
+      "type": "number",
+      "format": "double",
+      "description": "The market spread at execution time."
+    },
+    "markup": {
+      "type": "number",
+      "format": "double",
+      "description": "The markup applied to the spread."
+    },
+    "priceId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The price snapshot identifier used for execution."
+    },
+    "fees": {
+      "type": "number",
+      "format": "double",
+      "description": "Fees charged for the execution."
+    },
+    "taxes": {
+      "type": "number",
+      "format": "double",
+      "description": "Taxes applied to the execution."
+    }
+  }
+}

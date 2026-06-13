@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/OrderForOpenPositionInfo.json",
+  "title": "OrderForOpenPositionInfo",
+  "type": "object",
+  "description": "Detailed information about a position that was opened from an order. This object contains all the essential details needed to identify and track the position.",
+  "required": [
+    "positionID",
+    "orderType",
+    "occurred",
+    "rate",
+    "units",
+    "amount",
+    "isOpen"
+  ],
+  "properties": {
+    "positionID": {
+      "type": "integer",
+      "format": "int64",
+      "description": "The unique identifier of the position that was opened from this order. This PositionID is the key property that can be used to query detailed position information, track position status, and perform position-specific operations. This is the primary identifier for the position in the trading system.",
+      "example": 9876543210
+    },
+    "orderType": {
+      "type": "integer",
+      "description": "The type of order that was used to open this position. This matches the orderType from the parent order and indicates the execution method (e.g., Market Order, Limit Order).",
+      "example": 1
+    },
+    "occurred": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The exact timestamp when this position was opened and executed. This is in ISO 8601 format (UTC) and represents when the position became active in the trading system.",
+      "example": "2024-01-15T10:30:15Z"
+    },
+    "rate": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The execution rate (price) at which the position was opened. This is the actual price at which the trade was executed, which may differ from the requested rate depending on market conditions and order type.",
+      "example": 1.2345
+    },
+    "units": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The number of units in the position. This represents the quantity of the instrument that was acquired when the position was opened.",
+      "example": 10.5
+    },
+    "conversionRate": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The currency conversion rate that was applied when opening the position. This rate is used to convert between the instrument's base currency and the account currency (typically USD) at the time of execution.",
+      "example": 1.0
+    },
+    "amount": {
+      "type": "number",
+      "format": "decimal",
+      "description": "The USD amount that was invested in this position. This represents the monetary value allocated to this specific position.",
+      "example": 1000.0
+    },
+    "isOpen": {
+      "type": "boolean",
+      "description": "Indicates whether the position is currently open (true) or has been closed (false). This status reflects the current state of the position at the time the order information was retrieved.",
+      "example": true
+    }
+  }
+}

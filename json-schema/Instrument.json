@@ -1,0 +1,264 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/Instrument.json",
+  "title": "Instrument",
+  "type": "object",
+  "properties": {
+    "instrumentId": {
+      "type": "integer",
+      "description": "A unique identifier for the instrument."
+    },
+    "displayname": {
+      "type": "string",
+      "description": "The display name of the instrument."
+    },
+    "popularityUniques7Day": {
+      "type": "integer",
+      "description": "The number of unique users who viewed this instrument in the last 7 days."
+    },
+    "instrumentTypeID": {
+      "type": "integer",
+      "description": "The type ID of the instrument."
+    },
+    "instrumentType": {
+      "type": "string",
+      "description": "The type of the instrument."
+    },
+    "exchangeID": {
+      "type": "integer",
+      "description": "The ID of the exchange where the instrument is traded."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "The trading symbol of the instrument."
+    },
+    "isOpen": {
+      "type": "boolean",
+      "description": "Indicates whether the instrument is currently open for trading."
+    },
+    "internalAssetClassId": {
+      "type": "integer",
+      "description": "The internal asset class ID."
+    },
+    "internalInstrumentDisplayName": {
+      "type": "string",
+      "description": "The internal display name of the instrument."
+    },
+    "isInternalInstrument": {
+      "type": "boolean",
+      "description": "Indicates whether the instrument is internal."
+    },
+    "internalSymbolFull": {
+      "type": "string",
+      "description": "The full internal symbol of the instrument."
+    },
+    "isHiddenFromClient": {
+      "type": "boolean",
+      "description": "Indicates whether the instrument is hidden from clients."
+    },
+    "internalInstrumentId": {
+      "type": "integer",
+      "description": "The internal instrument ID."
+    },
+    "internalCryptoTypeId": {
+      "type": "integer",
+      "description": "The internal crypto type ID."
+    },
+    "internalExchangeId": {
+      "type": "integer",
+      "description": "The internal exchange ID."
+    },
+    "internalExchangeName": {
+      "type": "string",
+      "description": "The internal exchange name."
+    },
+    "internalAssetClassName": {
+      "type": "string",
+      "description": "The internal asset class name."
+    },
+    "logo35x35": {
+      "type": "string",
+      "description": "The URL of the 35x35 logo."
+    },
+    "logo50x50": {
+      "type": "string",
+      "description": "The URL of the 50x50 logo."
+    },
+    "logo150x150": {
+      "type": "string",
+      "description": "The URL of the 150x150 logo."
+    },
+    "dailyPriceChange": {
+      "type": "number",
+      "description": "The daily price change."
+    },
+    "absDailyPriceChange": {
+      "type": "number",
+      "description": "The absolute daily price change."
+    },
+    "weeklyPriceChange": {
+      "type": "number",
+      "description": "The weekly price change."
+    },
+    "monthlyPriceChange": {
+      "type": "number",
+      "description": "The monthly price change."
+    },
+    "isDelisted": {
+      "type": "boolean",
+      "description": "Indicates whether the instrument is delisted."
+    },
+    "isCurrentlyTradable": {
+      "type": "boolean",
+      "description": "Indicates whether the instrument is currently tradable."
+    },
+    "isExchangeOpen": {
+      "type": "boolean",
+      "description": "Indicates whether the exchange is open."
+    },
+    "internalClosingPrice": {
+      "type": "number",
+      "description": "The internal closing price."
+    },
+    "isActiveInPlatform": {
+      "type": "boolean",
+      "description": "Indicates whether the instrument is active in the platform."
+    },
+    "isBuyEnabled": {
+      "type": "boolean",
+      "description": "Indicates whether buying is enabled for the instrument."
+    },
+    "currentRate": {
+      "type": "number",
+      "description": "The current rate of the instrument."
+    },
+    "threeMonthPriceChange": {
+      "type": "number",
+      "description": "The three-month price change."
+    },
+    "sixMonthPriceChange": {
+      "type": "number",
+      "description": "The six-month price change."
+    },
+    "oneYearPriceChange": {
+      "type": "number",
+      "description": "The one-year price change."
+    },
+    "currMonthPriceChange": {
+      "type": "number",
+      "description": "The current month price change."
+    },
+    "currQuarterPriceChange": {
+      "type": "number",
+      "description": "The current quarter price change."
+    },
+    "currYearPriceChange": {
+      "type": "number",
+      "description": "The current year price change."
+    },
+    "lastYearPriceChange": {
+      "type": "number",
+      "description": "The last year price change."
+    },
+    "lastTwoYearsPriceChange": {
+      "type": "number",
+      "description": "The last two years price change."
+    },
+    "oneMonthAgoPriceChange": {
+      "type": "number",
+      "description": "The price change from one month ago."
+    },
+    "twoMonthsAgoPriceChange": {
+      "type": "number",
+      "description": "The price change from two months ago."
+    },
+    "threeMonthsAgoPriceChange": {
+      "type": "number",
+      "description": "The price change from three months ago."
+    },
+    "sixMonthsAgoPriceChange": {
+      "type": "number",
+      "description": "The price change from six months ago."
+    },
+    "oneYearAgoPriceChange": {
+      "type": "number",
+      "description": "The price change from one year ago."
+    },
+    "cvtBid": {
+      "type": "number",
+      "description": "The converted bid price."
+    },
+    "cvtAsk": {
+      "type": "number",
+      "description": "The converted ask price."
+    },
+    "cvtBiNoSpread": {
+      "type": "number",
+      "description": "The converted bid price without spread."
+    },
+    "cvtAskNoSpread": {
+      "type": "number",
+      "description": "The converted ask price without spread."
+    },
+    "traders7DayChange": {
+      "type": "number",
+      "description": "The change in the number of traders over the last 7 days."
+    },
+    "traders14DayChange": {
+      "type": "number",
+      "description": "The change in the number of traders over the last 14 days."
+    },
+    "traders30DayChange": {
+      "type": "number",
+      "description": "The change in the number of traders over the last 30 days."
+    },
+    "popularityUniques14Day": {
+      "type": "integer",
+      "description": "The number of unique users who viewed this instrument in the last 14 days."
+    },
+    "popularityUniques30Day": {
+      "type": "integer",
+      "description": "The number of unique users who viewed this instrument in the last 30 days."
+    },
+    "internalIndustryId": {
+      "type": "integer",
+      "description": "The internal industry ID."
+    },
+    "internalStockIndustryName": {
+      "type": "string",
+      "description": "The internal stock industry name."
+    },
+    "popularityUniques": {
+      "type": "integer",
+      "description": "Total number of unique users interested in this instrument."
+    },
+    "holdingPct": {
+      "type": "number",
+      "description": "The holding percentage of this instrument."
+    },
+    "buyHoldingPct": {
+      "type": "number",
+      "description": "The buy holding percentage."
+    },
+    "sellHoldingPct": {
+      "type": "number",
+      "description": "The sell holding percentage."
+    },
+    "buyPctChange24Hours": {
+      "type": "number",
+      "description": "The buy percentage change in the last 24 hours."
+    },
+    "absBuyPctChange24Hours": {
+      "type": "number",
+      "description": "The absolute buy percentage change in the last 24 hours."
+    },
+    "industryNameId": {
+      "type": "integer",
+      "description": "The industry name ID."
+    },
+    "sectorNameId": {
+      "type": "integer",
+      "description": "The sector name ID."
+    }
+  }
+}

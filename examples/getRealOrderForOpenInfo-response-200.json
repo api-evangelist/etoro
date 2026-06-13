@@ -1,0 +1,32 @@
+{
+  "path": "/api/v1/trading/info/real/orders/{orderId}",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "token": "550e8400-e29b-41d4-a716-446655440000",
+    "orderID": 123456789,
+    "cid": 987654321,
+    "statusID": 1,
+    "orderType": 1,
+    "openActionType": 1,
+    "errorCode": null,
+    "errorMessage": null,
+    "instrumentID": 67890,
+    "amount": 1000.0,
+    "units": 10.5,
+    "requestOccurred": "2024-01-15T10:30:00Z",
+    "positions": [
+      {
+        "positionID": 9876543210,
+        "orderType": 1,
+        "occurred": "2024-01-15T10:30:15Z",
+        "rate": 1.2345,
+        "units": 10.5,
+        "conversionRate": 1.0,
+        "amount": 1000.0,
+        "isOpen": true
+      }
+    ]
+  }
+}

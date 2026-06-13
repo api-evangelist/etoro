@@ -1,0 +1,10 @@
+{
+  "path": "/api/v2/agent-portfolios/{agentPortfolioId}/user-tokens",
+  "method": "post",
+  "status": "403",
+  "type": "response",
+  "example": {
+    "errorCode": "ScopeNameNotAllowed",
+    "errorMessage": "Scope name not allowed"
+  }
+}

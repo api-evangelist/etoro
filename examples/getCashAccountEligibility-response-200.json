@@ -1,0 +1,29 @@
+{
+  "path": "/api/v1/money/accounts/cash/eligibility",
+  "method": "get",
+  "status": "200",
+  "type": "response",
+  "example": {
+    "eligibilityStatus": "CardAndIbanEligible",
+    "ineligibilityReasons": [],
+    "prerequisite": {
+      "tncInfo": {
+        "tncDocId": 42,
+        "url": "https://example.com/tnc"
+      }
+    },
+    "contactInfo": {
+      "address": "10 High Street",
+      "buildingNumber": "10",
+      "city": "London",
+      "zipCode": "EC1A 1BB",
+      "country": "GB",
+      "phone": "+441234567890"
+    },
+    "userInfo": {
+      "firstName": "John",
+      "middleName": null,
+      "lastName": "Doe"
+    }
+  }
+}

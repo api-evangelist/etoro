@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/money/accounts/cash",
+  "method": "post",
+  "status": "409",
+  "type": "response",
+  "example": {
+    "errorCode": "DuplicateRequestReferenceId",
+    "errorMessage": "A request with this requestReferenceId already exists"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "path": "/api/v1/balances/{accountType}/history",
+  "method": "get",
+  "status": "429",
+  "type": "response",
+  "example": {
+    "errorCode": "TooManyRequests",
+    "errorMessage": "Too many requests"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/etoro/refs/heads/main/json-schema/GetOrderInfoStatus.json",
+  "title": "GetOrderInfoStatus",
+  "type": "object",
+  "description": "Status information for the order.",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Status identifier. Common values: 1 = Executed, 2 = Cancelled, 3 = Rejected."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable status name."
+    },
+    "errorCode": {
+      "type": "integer",
+      "format": "int32",
+      "description": "Error code if the order failed. Zero indicates no error."
+    },
+    "errorMessage": {
+      "type": "string",
+      "nullable": true,
+      "description": "Human-readable error message if the order failed."
+    }
+  }
+}
