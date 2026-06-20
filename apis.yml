@@ -14,7 +14,7 @@ tags:
   - ETFs
 type: Index
 kind: company
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -38,7 +38,7 @@ apis:
       - Orders
       - Positions
       - Demo Trading
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v1
     humanURL: https://builders.etoro.com/
     properties:
@@ -76,7 +76,7 @@ apis:
       - OHLCV
       - Real-Time
       - WebSocket
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v1
     humanURL: https://builders.etoro.com/
     properties:
@@ -117,7 +117,7 @@ apis:
       - Balance
       - Transactions
       - Cash
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v1
     humanURL: https://builders.etoro.com/
     properties:
@@ -150,7 +150,7 @@ apis:
       - Pro Investors
       - Analytics
       - Community
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v1
     humanURL: https://builders.etoro.com/
     properties:
@@ -182,7 +182,7 @@ apis:
       - Watchlists
       - Instruments
       - Portfolio Management
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v1
     humanURL: https://builders.etoro.com/
     properties:
@@ -212,7 +212,7 @@ apis:
       - Price Alerts
       - Notifications
       - Market Data
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v1
     humanURL: https://builders.etoro.com/
     properties:
@@ -242,7 +242,7 @@ apis:
       - Agent Portfolios
       - Automation
       - Portfolio Management
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://public-api.etoro.com/api/v2
     humanURL: https://builders.etoro.com/
     properties:
