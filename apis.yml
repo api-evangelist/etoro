@@ -290,7 +290,7 @@ common:
   - url: openapi/deprecated-openapi.json
     type: OpenAPI
   - url: json-ld/jsonld.json
-    type: JSONLd
+    type: JSONLD
   - url: vocabulary/vocabulary.json
     type: Vocabulary
 
