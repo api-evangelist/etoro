@@ -267,6 +267,8 @@ apis:
       - Build multi-portfolio management workflows for AI trading systems
 
 common:
+  - type: DomainSecurity
+    url: security/etoro-domain-security.yml
   - url: https://builders.etoro.com/
     type: Portal
   - url: https://api-portal.etoro.com/
@@ -293,6 +295,8 @@ common:
     type: JSONLD
   - url: vocabulary/vocabulary.json
     type: Vocabulary
+  - url: https://www.etoro.com/blog/feed/
+    type: Blog
 
 maintainers:
   - FN: API Evangelist
