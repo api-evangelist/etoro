@@ -1,0 +1,1536 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Agent Portfolios
+paths:
+  /api/v1/agent-portfolios:
+    get:
+      tags:
+      - Agent Portfolios
+      summary: Get Agent Portfolios
+      description: Retrieves all agent-portfolios belonging to the authenticated user.
+      operationId: getAgentPortfolios
+      responses:
+        '200':
+          description: Agent-portfolios retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAgentPortfoliosResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: b0a205f2-b2d2-42b2-9185-372deba22fa4
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+    post:
+      tags:
+      - Agent Portfolios
+      summary: Create Agent Portfolio
+      deprecated: true
+      description: '[DEPRECATED — use POST /api/v2/agent-portfolios (scope names) instead] Creates a new agent-portfolio — a dedicated user account that receives its own fixed virtual balance (returned in agentPortfolioVirtualBalance). IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller''s) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio''s own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,000, each position is copied at 20% of its size into your account.'
+      operationId: createAgentPortfolio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgentPortfolioRequest'
+      responses:
+        '201':
+          description: Agent-portfolio and user token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAgentPortfolioResponse'
+        '207':
+          description: Agent-portfolio created but user token provisioning failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAgentPortfolioPartialResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                NameTooShort:
+                  summary: Agent-portfolio name too short
+                  value:
+                    errorCode: ValidationFailed
+                    errorMessage: Agent-portfolio name must be between 6 and 10 characters
+                InvestmentBelowMinimum:
+                  summary: Investment amount below minimum
+                  value:
+                    errorCode: ValidationFailed
+                    errorMessage: Investment amount is below the minimum threshold
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 2280f6b8-2224-44ff-b0fe-a4b7d5c86af0
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+  /api/v1/agent-portfolios/{agentPortfolioId}:
+    delete:
+      tags:
+      - Agent Portfolios
+      summary: Delete Agent Portfolio
+      description: Permanently removes a agent-portfolio by revoking all user tokens, stopping the copy mirror, and deleting from storage.
+      operationId: deleteAgentPortfolio
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: ed18a032-7968-4134-b214-63fe4ce2472e
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: agentPortfolioId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the agent-portfolio to delete.
+      responses:
+        '204':
+          description: Agent-portfolio was successfully removed
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: ValidationFailed
+                errorMessage: Invalid agent-portfolio ID
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '404':
+          description: Agent-portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: NotFound
+                errorMessage: Agent-portfolio not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/agent-portfolios/{agentPortfolioId}/user-tokens:
+    post:
+      tags:
+      - Agent Portfolios
+      summary: Create User Token
+      deprecated: true
+      description: '[DEPRECATED — use POST /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens (scope names) instead] Creates a new user token for the specified agent-portfolio.'
+      operationId: createAgentPortfolioUserToken
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: c267d233-e0c3-4a8a-bc6b-d17b941ff6da
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: agentPortfolioId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the agent-portfolio.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserTokenRequest'
+      responses:
+        '201':
+          description: User token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserTokenResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ScopeIdsRequired:
+                  summary: Scope IDs are required
+                  value:
+                    errorCode: ScopeIdsRequired
+                    errorMessage: ScopeIds is required
+                InvalidIp:
+                  summary: Invalid IP address
+                  value:
+                    errorCode: IpsWhitelistInvalidIp
+                    errorMessage: IpsWhitelist contains an invalid IPv4 address
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '404':
+          description: Agent-portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: NotFound
+                errorMessage: Agent-portfolio not found
+        '409':
+          description: Conflict — a user token with the requested name already exists for this agent-portfolio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UserKeyNameAlreadyExists
+                errorMessage: UserKeyName already exists
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: MaxUserTokensExceeded
+                errorMessage: Maximum number of user tokens exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}:
+    delete:
+      tags:
+      - Agent Portfolios
+      summary: Delete User Token
+      description: Permanently revokes the specified user token from a agent-portfolio.
+      operationId: deleteAgentPortfolioUserToken
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 0dd4f9c9-56c8-48f0-8f4a-efdd68968456
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: agentPortfolioId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the agent-portfolio.
+      - name: userTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the user token to delete.
+      responses:
+        '204':
+          description: User token revoked successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: ValidationFailed
+                errorMessage: Invalid agent-portfolio ID or user token ID
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '404':
+          description: Agent-portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: NotFound
+                errorMessage: Agent-portfolio not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+    patch:
+      tags:
+      - Agent Portfolios
+      summary: Update User Token
+      deprecated: true
+      description: '[DEPRECATED — use PATCH /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId} (scope names) instead] Updates the settings of an existing user token for a agent-portfolio. At least one field must be provided.'
+      operationId: updateAgentPortfolioUserToken
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: acfc5a98-fefd-4fb5-8774-543f74274e81
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: agentPortfolioId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the agent-portfolio.
+      - name: userTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the user token to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserTokenRequest'
+      responses:
+        '204':
+          description: User token updated successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                NoChanges:
+                  summary: No changes provided
+                  value:
+                    errorCode: NoChangesDetected
+                    errorMessage: At least one field must be provided
+                InvalidScopes:
+                  summary: Invalid scope IDs
+                  value:
+                    errorCode: ScopeIdNotAllowed
+                    errorMessage: ScopeIds contains values not in the allowed set
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '404':
+          description: Agent-portfolio or user token not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AgentPortfolioNotFound:
+                  summary: Agent-portfolio not found
+                  value:
+                    errorCode: NotFound
+                    errorMessage: Agent-portfolio not found
+                UserTokenNotFound:
+                  summary: User token not found
+                  value:
+                    errorCode: NotFound
+                    errorMessage: User token not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v2/agent-portfolios:
+    post:
+      tags:
+      - Agent Portfolios
+      summary: Create Agent Portfolio (v2)
+      description: 'Creates a new agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2. IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller''s) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio''s own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,000, each position is copied at 20% of its size into your account.'
+      operationId: createAgentPortfolioV2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgentPortfolioV2Request'
+      responses:
+        '201':
+          description: Agent-portfolio and user token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAgentPortfolioV2Response'
+        '207':
+          description: Agent-portfolio created but user token provisioning failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAgentPortfolioPartialResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ScopeNameNotAllowed:
+                  summary: Scope name not allowed
+                  value:
+                    errorCode: ScopeNameNotAllowed
+                    errorMessage: Scope name not allowed
+                NameTooShort:
+                  summary: Agent-portfolio name too short
+                  value:
+                    errorCode: ValidationFailed
+                    errorMessage: Agent-portfolio name must be between 6 and 10 characters
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 1f7bab86-9687-4f77-9714-7caae8542911
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+  /api/v2/agent-portfolios/user-tokens/scopes:
+    get:
+      tags:
+      - Agent Portfolios
+      summary: Get Allowed Scopes (v2)
+      description: Returns the permission scope names that may be assigned to agent-portfolio user tokens.
+      operationId: getAgentPortfolioAllowedScopesV2
+      responses:
+        '200':
+          description: Allowed scopes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllowedScopesResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 0b9f5b04-1fc4-492a-a2c2-02731caf3ce4
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+  /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens:
+    post:
+      tags:
+      - Agent Portfolios
+      summary: Create User Token (v2)
+      description: Creates a new user token for the specified agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2.
+      operationId: createAgentPortfolioUserTokenV2
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8651915d-62c3-4941-a275-9cc731a88658
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: agentPortfolioId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the agent-portfolio.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserTokenV2Request'
+      responses:
+        '201':
+          description: User token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserTokenResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ScopeNamesRequired:
+                  summary: Scope names are required
+                  value:
+                    errorCode: ScopeIdsRequired
+                    errorMessage: ScopeNames is required
+        '403':
+          description: Forbidden — a requested scope name is not allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: ScopeNameNotAllowed
+                errorMessage: Scope name not allowed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '404':
+          description: Agent-portfolio not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: NotFound
+                errorMessage: Agent-portfolio not found
+        '409':
+          description: Conflict — a user token with the requested name already exists for this agent-portfolio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UserKeyNameAlreadyExists
+                errorMessage: UserKeyName already exists
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: MaxUserTokensExceeded
+                errorMessage: Maximum number of user tokens exceeded
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}:
+    patch:
+      tags:
+      - Agent Portfolios
+      summary: Update User Token (v2)
+      description: Updates the settings of an existing user token using scope names. At least one field must be provided. Scopes are specified by name (scopeNames); scope ids are not supported in v2.
+      operationId: updateAgentPortfolioUserTokenV2
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 1448a179-93c0-4bad-815e-5da83901f5f7
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: agentPortfolioId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the agent-portfolio.
+      - name: userTokenId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The unique identifier of the user token to update.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserTokenV2Request'
+      responses:
+        '204':
+          description: User token updated successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                NoChanges:
+                  summary: No changes provided
+                  value:
+                    errorCode: NoChangesDetected
+                    errorMessage: At least one field must be provided
+        '403':
+          description: Forbidden — a requested scope name is not allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: ScopeNameNotAllowed
+                errorMessage: Scope name not allowed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '404':
+          description: Agent-portfolio or user token not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                AgentPortfolioNotFound:
+                  summary: Agent-portfolio not found
+                  value:
+                    errorCode: NotFound
+                    errorMessage: Agent-portfolio not found
+                UserTokenNotFound:
+                  summary: User token not found
+                  value:
+                    errorCode: NotFound
+                    errorMessage: User token not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+components:
+  schemas:
+    CreateAgentPortfolioV2UserTokenItem:
+      type: object
+      properties:
+        userTokenId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created user token.
+          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
+        userToken:
+          type: string
+          description: The generated user token secret. Only available at creation time.
+          example: sk_live_a1b2c3d4e5f6...
+        userTokenName:
+          type: string
+          description: The user-defined name for the user token.
+          example: my-trading-token
+        clientId:
+          type: string
+          format: uuid
+          description: The OAuth client identifier associated with the user token.
+          example: c1d2e3f4-a5b6-7890-cdef-123456789abc
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: The set of whitelisted IP addresses authorized to use this token.
+          example:
+          - 192.168.1.1
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeNameItem'
+          description: The permission scopes (by name) granted to this token.
+          example:
+          - name: etoro-public:trade.real:read
+        expiresAt:
+          type: string
+          format: date-time
+          description: The expiration date and time of the user token in UTC.
+          example: '2026-12-31T23:59:59Z'
+    CreateUserTokenRequest:
+      type: object
+      properties:
+        userTokenName:
+          type: string
+          description: A human-readable name to identify the user token.
+          example: my-trading-token
+        scopeIds:
+          type: array
+          items:
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers to grant to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time for the token in UTC.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - userTokenName
+    CreateUserTokenV2Request:
+      type: object
+      properties:
+        userTokenName:
+          type: string
+          description: A human-readable name to identify the user token.
+          example: my-trading-token
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names to grant to this token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time for the token in UTC.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - userTokenName
+      - scopeNames
+    CreateAgentPortfolioPartialResponse:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: integer
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokenCreated:
+          type: boolean
+          description: Always false — indicates that the user token was not created.
+          example: false
+    CreateAgentPortfolioResponse:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: number
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateAgentPortfolioUserTokenItem'
+          description: The user tokens generated during agent-portfolio creation.
+    CreateAgentPortfolioUserTokenItem:
+      type: object
+      properties:
+        userTokenId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created user token.
+          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
+        userToken:
+          type: string
+          description: The generated user token secret. Only available at creation time.
+          example: sk_live_a1b2c3d4e5f6...
+        userTokenName:
+          type: string
+          description: The user-defined name for the user token.
+          example: my-trading-token
+        clientId:
+          type: string
+          format: uuid
+          description: The OAuth client identifier associated with the user token.
+          example: c1d2e3f4-a5b6-7890-cdef-123456789abc
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: The set of whitelisted IP addresses authorized to use this token.
+          example:
+          - 192.168.1.1
+        scopeIds:
+          type: array
+          items:
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers granted to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        expiresAt:
+          type: string
+          format: date-time
+          description: The expiration date and time of the user token in UTC.
+          example: '2026-12-31T23:59:59Z'
+    CreateUserTokenResponse:
+      type: object
+      properties:
+        userTokenId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created user token.
+          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
+        userToken:
+          type: string
+          description: The generated user token secret. Only available at creation time.
+          example: sk_live_a1b2c3d4e5f6...
+        userTokenName:
+          type: string
+          description: The display name of the user token.
+          example: my-trading-token
+        clientId:
+          type: string
+          format: uuid
+          description: The client identifier of the application the token is associated with.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: The IPv4 addresses from which the token is allowed to be used. Null or empty when unrestricted.
+          example:
+          - 192.168.1.1
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: The authorized scope names granted to the token.
+          example:
+          - etoro-public:trade.real:read
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: The UTC expiration date of the token. Null when the token does not expire.
+          example: '2026-12-31T23:59:59Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: The UTC timestamp at which the token was created.
+          example: '2026-03-06T12:00:00Z'
+    CreateAgentPortfolioV2Response:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: number
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateAgentPortfolioV2UserTokenItem'
+          description: The user tokens generated during agent-portfolio creation.
+    UpdateUserTokenV2Request:
+      type: object
+      properties:
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'An updated set of permission scope names for the token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An updated set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An updated expiration date and time (UTC) for the token.
+          example: '2026-12-31T23:59:59Z'
+    AgentPortfolioItem:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name of the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: number
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        createdAt:
+          type: string
+          format: date-time
+          description: When this agent-portfolio was created.
+          example: '2026-03-01T10:30:00+00:00'
+        userTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentPortfolioUserTokenItem'
+          description: The user tokens associated with this agent-portfolio.
+    CreateAgentPortfolioV2Request:
+      type: object
+      properties:
+        investmentAmountInUsd:
+          type: number
+          description: 'The amount in USD deducted from the CALLER''s account balance to copy-trade this agent-portfolio. This is NOT the agent-portfolio''s own balance — the agent-portfolio receives a separate fixed virtual balance (returned as agentPortfolioVirtualBalance). Positions are mirrored proportionally: e.g. $2,000 with a $10,000 virtual balance = 20% position sizing.'
+          example: 2000
+        agentPortfolioName:
+          type: string
+          description: A unique display name for the agent-portfolio (6-10 characters).
+          example: MyPort1
+        agentPortfolioDescription:
+          type: string
+          description: An optional description of the agent-portfolio's purpose or strategy.
+          example: My trading portfolio
+        userTokenName:
+          type: string
+          description: A human-readable name for the user token provisioned with the agent-portfolio.
+          example: my-trading-token
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names to grant to the provisioned user token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use the provisioned user token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time (UTC) for the provisioned user token.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - investmentAmountInUsd
+      - agentPortfolioName
+      - userTokenName
+      - scopeNames
+    AgentPortfolioUserTokenItem:
+      type: object
+      properties:
+        userTokenId:
+          type: string
+          format: uuid
+          description: The unique identifier of the user token.
+          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
+        userTokenName:
+          type: string
+          description: The user-defined name for the user token.
+          example: my-trading-token
+        clientId:
+          type: string
+          format: uuid
+          description: The OAuth client identifier associated with the user token.
+          example: c1d2e3f4-a5b6-7890-cdef-123456789abc
+        externalApplicationName:
+          type: string
+          description: The name of the external application registered for this token.
+          example: Trading Bot v2
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: The set of whitelisted IP addresses authorized to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: The expiration date and time of the user token in UTC.
+          example: '2026-12-31T23:59:59Z'
+        scopeIds:
+          type: array
+          items:
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers granted to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        createdAt:
+          type: string
+          format: date-time
+          description: When this user token was created.
+          example: '2026-03-01T10:30:00Z'
+    GetAllowedScopesResponse:
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeNameItem'
+          description: The permission scope names that may be assigned to agent-portfolio user tokens.
+          example:
+          - name: etoro-public:trade.real:read
+          - name: etoro-public:trade.real:write
+    UpdateUserTokenRequest:
+      type: object
+      properties:
+        scopeIds:
+          type: array
+          items:
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] An updated set of permission scope identifiers for the token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An updated set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An updated expiration date and time (UTC) for the token.
+          example: '2026-12-31T23:59:59Z'
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    ScopeNameItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The permission scope name.
+          example: etoro-public:trade.real:read
+    CreateAgentPortfolioRequest:
+      type: object
+      properties:
+        investmentAmountInUsd:
+          type: number
+          description: 'The amount in USD deducted from the CALLER''s account balance to copy-trade this agent-portfolio. This is NOT the agent-portfolio''s own balance — the agent-portfolio receives a separate fixed virtual balance (returned as agentPortfolioVirtualBalance). Positions are mirrored proportionally: e.g. $2,000 with a $10,000 virtual balance = 20% position sizing.'
+          example: 2000
+        agentPortfolioName:
+          type: string
+          description: A unique display name for the agent-portfolio (6-10 characters).
+          example: MyPort1
+        agentPortfolioDescription:
+          type: string
+          description: An optional description of the agent-portfolio's purpose or strategy.
+          example: My trading portfolio
+        userTokenName:
+          type: string
+          description: A human-readable name for the user token provisioned with the agent-portfolio.
+          example: my-trading-token
+        scopeIds:
+          type: array
+          items:
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers to grant to the provisioned user token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use the provisioned user token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time (UTC) for the provisioned user token.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - investmentAmountInUsd
+      - agentPortfolioName
+      - userTokenName
+    GetAgentPortfoliosResponse:
+      type: object
+      properties:
+        agentPortfolios:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentPortfolioItem'
+          description: The collection of agent-portfolios owned by the user.

@@ -1,0 +1,1174 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Watchlists API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Watchlists
+paths:
+  /api/v1/curated-lists:
+    get:
+      tags:
+      - Watchlists
+      summary: Get curated lists
+      description: Retrieves curated investment lists available to the authenticated user.
+      responses:
+        '200':
+          description: Successfully retrieved curated lists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuratedListsResponse'
+        '204':
+          description: No curated lists available
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 5b43a95b-8b78-4daa-891f-2e2dcc4cba11
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: getCuratedLists
+  /api/v1/market-recommendations/{itemsCount}:
+    get:
+      tags:
+      - Watchlists
+      summary: Get market recommendations
+      description: Retrieves personalized market recommendations for the authenticated user.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: a09d9f87-13c3-4d09-9da3-20f059084a77
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: itemsCount
+        in: path
+        description: Number of recommendations to return
+        required: true
+        schema:
+          type: integer
+          format: int16
+          default: 10
+          minimum: 1
+          maximum: 100
+        example: 10
+      responses:
+        '200':
+          description: Successfully retrieved market recommendations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketRecommendationsResponse'
+        '204':
+          description: No recommendations available
+      operationId: getMarketRecommendations
+  /api/v1/watchlists:
+    get:
+      tags:
+      - Watchlists
+      summary: Get user watchlists
+      description: Retrieves all watchlists for the authenticated user with optional pagination and built-in watchlist management.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: a23f4ec5-4334-4bd2-a5e6-27543bfde4c9
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: itemsPerPageForSingle
+        in: query
+        description: Number of items to include per watchlist for pagination
+        schema:
+          type: integer
+          format: int32
+          default: 100
+          minimum: 1
+          maximum: 1000
+          example: 100
+      - name: ensureBuiltinWatchlists
+        in: query
+        description: Whether to ensure built-in watchlists are included
+        schema:
+          type: boolean
+          default: true
+          example: true
+      - name: addRelatedAssets
+        in: query
+        description: Whether to include related assets in the response
+        schema:
+          type: boolean
+          default: false
+          example: false
+      responses:
+        '200':
+          description: Successfully retrieved user watchlists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistsResponse'
+      operationId: getUserWatchlists
+    post:
+      tags:
+      - Watchlists
+      summary: Create a new watchlist
+      description: Creates a new watchlist for the authenticated user with the specified name and type.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 629691ba-bb2b-4e3c-9e23-a1f354025822
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: name
+        in: query
+        description: Name of the new watchlist
+        required: true
+        schema:
+          type: string
+          maxLength: 100
+          example: Tech Watchlist
+      - name: type
+        in: query
+        description: Type of watchlist to create
+        schema:
+          type: string
+          enum:
+          - Static
+          - Dynamic
+          default: Static
+          example: Static
+      - name: dynamicQuery
+        in: query
+        description: Dynamic query URL for dynamic watchlists
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Watchlist created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistsResponse'
+      operationId: createANewWatchlist
+  /api/v1/watchlists/default-watchlist/selected-items:
+    post:
+      tags:
+      - Watchlists
+      summary: Create default watchlist with selected items
+      description: Creates a default watchlist populated with the specified items.
+      requestBody:
+        description: Items to include in the default watchlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WatchlistItemDto'
+      responses:
+        '201':
+          description: Default watchlist created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistsResponse'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 551daa42-12de-478c-b3a2-2b4c2a1a193a
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: createDefaultWatchlistWithSelectedItems
+  /api/v1/watchlists/default-watchlists/items:
+    get:
+      tags:
+      - Watchlists
+      summary: Get default watchlist items
+      description: Retrieves items from user's default watchlists with optional pagination.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8728c1c7-1dc2-47b7-97ae-89b7de489bf1
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: itemsLimit
+        in: query
+        description: Maximum number of items to return
+        schema:
+          type: integer
+          format: int32
+        example: 123456
+      - name: itemsPerPage
+        in: query
+        description: Number of items per page for pagination
+        schema:
+          type: integer
+          format: int32
+          default: 100
+        example: 100
+      responses:
+        '200':
+          description: Successfully retrieved default watchlist items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WatchlistItemDto'
+      operationId: getDefaultWatchlistItems
+  /api/v1/watchlists/newasdefault-watchlist:
+    post:
+      tags:
+      - Watchlists
+      summary: Create watchlist and set as default
+      description: Creates a new watchlist and immediately sets it as the user's default watchlist.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: a6361668-9105-402a-a786-10a96dc76298
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: name
+        in: query
+        description: Name of the new watchlist
+        required: true
+        schema:
+          type: string
+          maxLength: 100
+        example: Tech Watchlist
+      - name: type
+        in: query
+        description: Type of watchlist to create
+        schema:
+          type: string
+          default: Static
+          enum:
+          - Static
+          - Dynamic
+        example: Static
+      - name: dynamicQuery
+        in: query
+        description: Query string for dynamic watchlists
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Watchlist created and set as default successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistsResponse'
+      operationId: createWatchlistAndSetAsDefault
+  /api/v1/watchlists/public/{userId}:
+    get:
+      tags:
+      - Watchlists
+      summary: Get user's public watchlists
+      description: Retrieves all public watchlists for a specific user.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8b51647e-8058-40e1-8a1e-bffd83f090e4
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: userId
+        in: path
+        description: User ID whose public watchlists to retrieve
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 12345
+      - name: itemsPerPageForSingle
+        in: query
+        description: Number of items per watchlist
+        schema:
+          type: integer
+          format: int32
+          default: 100
+        example: 50
+      responses:
+        '200':
+          description: Successfully retrieved public watchlists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistsResponse'
+      operationId: getUserSPublicWatchlists
+  /api/v1/watchlists/public/{userId}/{watchlistId}:
+    get:
+      tags:
+      - Watchlists
+      summary: Get single public watchlist
+      description: Retrieves a specific public watchlist from a user.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 9240375b-cb71-43d7-afbb-0452d1c5d35a
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: userId
+        in: path
+        description: User ID who owns the watchlist
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 12345
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      - name: pageNumber
+        in: query
+        description: Page number for pagination
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: itemsPerPage
+        in: query
+        description: Number of items per page
+        schema:
+          type: integer
+          format: int32
+          default: 100
+        example: 30
+      responses:
+        '200':
+          description: Successfully retrieved public watchlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistResponse'
+      operationId: getSinglePublicWatchlist
+  /api/v1/watchlists/rank/{watchlistId}:
+    put:
+      tags:
+      - Watchlists
+      summary: Change watchlist rank
+      description: Updates the display rank of a watchlist.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 9b133378-9700-464a-aa83-92e5b0dc41a9
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      - name: newRank
+        in: query
+        description: New rank position for the watchlist
+        required: true
+        schema:
+          type: integer
+          format: int32
+          example: 500
+      responses:
+        '204':
+          description: Watchlist rank updated successfully
+      operationId: changeWatchlistRank
+  /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}:
+    put:
+      tags:
+      - Watchlists
+      summary: Set a specific watchlist as user's default
+      description: Sets the specified watchlist as the user's default watchlist.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 38fe16da-5365-451d-9f8d-f3e06bb40fe3
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist to set as default
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      responses:
+        '200':
+          description: Default watchlist set successfully
+      operationId: setSpecificWatchlistUserSDefault
+  /api/v1/watchlists/{watchlistId}:
+    get:
+      tags:
+      - Watchlists
+      summary: Get single watchlist
+      description: Retrieves a specific watchlist with its items using pagination.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: fc166ad7-1b19-45f8-acdc-5d14dc316821
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      - name: pageNumber
+        in: query
+        description: Page number for pagination
+        schema:
+          type: integer
+          format: int32
+          default: 0
+          minimum: 0
+        example: 0
+      - name: itemsPerPage
+        in: query
+        description: Number of items per page
+        schema:
+          type: integer
+          format: int32
+          default: 100
+          minimum: 1
+          maximum: 1000
+        example: 50
+      responses:
+        '200':
+          description: Successfully retrieved watchlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistsResponse'
+      operationId: getSingleWatchlist
+    put:
+      tags:
+      - Watchlists
+      summary: Rename watchlist
+      description: Updates the name of an existing watchlist.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 07486a96-1ef5-417f-b9a2-c4de10d162a3
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      - name: newName
+        in: query
+        description: New name for the watchlist
+        required: true
+        schema:
+          type: string
+          maxLength: 100
+        example: Updated Watchlist
+      responses:
+        '204':
+          description: Watchlist renamed successfully
+      operationId: renameWatchlist
+    delete:
+      tags:
+      - Watchlists
+      summary: Delete watchlist
+      description: Removes a watchlist and all its items.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: f2c1a05a-eef0-45c1-9b53-3bb36e8e1aab
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist to delete
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      responses:
+        '204':
+          description: Watchlist deleted successfully
+      operationId: deleteWatchlist
+  /api/v1/watchlists/{watchlistId}/items:
+    post:
+      tags:
+      - Watchlists
+      summary: Add items to watchlist
+      description: Adds new items to an existing watchlist.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: bba0ac38-7ad7-460a-a359-a8d8a5958d03
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      requestBody:
+        description: Items to add to the watchlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WatchlistItemDto'
+      responses:
+        '201':
+          description: Items added successfully
+      operationId: addItemsToWatchlist
+    put:
+      tags:
+      - Watchlists
+      summary: Update items in watchlist
+      description: Updates existing items in a watchlist (rank, etc.).
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 96697288-1bfe-4c1f-b750-b6872a7f6a1d
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      requestBody:
+        description: Items to update in the watchlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WatchlistItemDto'
+      responses:
+        '204':
+          description: Items updated successfully
+      operationId: updateItemsInWatchlist
+    delete:
+      tags:
+      - Watchlists
+      summary: Remove items from watchlist
+      description: Removes specified items from a watchlist.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 90e34eb0-31bc-414d-8451-20546f3035ac
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: watchlistId
+        in: path
+        description: Unique identifier of the watchlist
+        required: true
+        schema:
+          type: string
+        example: '12345'
+      requestBody:
+        description: Items to remove from the watchlist
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WatchlistItemDto'
+      responses:
+        '204':
+          description: Items removed successfully
+      operationId: removeItemsFromWatchlist
+components:
+  schemas:
+    WatchlistsResponse:
+      type: object
+      description: Response containing multiple watchlists with metadata
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code of the response
+          example: 200
+        watchlists:
+          type: array
+          description: List of user watchlists
+          items:
+            $ref: '#/components/schemas/WatchlistResponse'
+        exception:
+          type: object
+          description: Exception details when the request partially failed
+          properties:
+            invalidItems:
+              type: array
+              description: List of invalid item identifiers
+              items:
+                type: string
+            reason:
+              type: string
+              description: Reason for the exception
+            message:
+              type: string
+              description: Human-readable exception message
+        meta:
+          type: object
+          description: Response metadata including pagination info
+          properties:
+            pageNumber:
+              type: integer
+              format: int32
+              description: Current page number
+              example: 0
+            itemsPerPage:
+              type: integer
+              format: int32
+              description: Number of items per page
+              example: 100
+            maxItemsInWatchlistLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed items per watchlist
+              example: 1000
+            maxWatchlistsLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed watchlists per user
+              example: 10
+        isSucceeded:
+          type: boolean
+          description: Whether the request succeeded
+          example: true
+    CuratedListItem:
+      type: object
+      description: Represents an item in a curated list
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+          description: ID of the financial instrument
+          example: 12345
+    CuratedList:
+      type: object
+      description: Represents a curated investment list
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier of the curated list
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the curated list
+          example: Tech Watchlist
+        description:
+          type: string
+          description: Description of the curated list
+          example: A list of tech stocks
+        listImageUrl:
+          type: string
+          description: URL of the list's image
+          example: https://example.com/tech-watchlist.jpg
+        items:
+          type: array
+          description: Items in the curated list
+          items:
+            $ref: '#/components/schemas/CuratedListItem'
+          example:
+          - instrumentId: 12345
+    MarketRecommendationsResponse:
+      type: object
+      description: Response containing market recommendations
+      properties:
+        ResponseType:
+          type: string
+          description: Type of recommendation response
+          example: Instrument
+        Recommendations:
+          type: array
+          description: List of recommended instrument IDs
+          items:
+            type: integer
+            format: int32
+          example:
+          - 12345
+          - 67890
+    WatchlistItemDto:
+      type: object
+      description: Represents an item in a watchlist
+      required:
+      - itemId
+      - itemType
+      properties:
+        itemId:
+          type: integer
+          format: int32
+          description: Unique identifier of the financial instrument
+          example: 12345
+        itemType:
+          type: string
+          description: Type of the financial instrument (e.g., 'Instrument', 'Person')
+          example: Instrument
+        itemRank:
+          type: integer
+          format: int32
+          description: Ranking position of the item in the watchlist
+          default: 0
+          example: 1
+        itemAddedReason:
+          type: string
+          description: Reason the item was added to the watchlist
+          example: Manual
+        itemAddedDate:
+          type: string
+          format: date-time
+          description: Date and time the item was added
+        market:
+          type: object
+          description: Market metadata for the instrument when included
+          properties:
+            id:
+              type: string
+            symbolName:
+              type: string
+            displayName:
+              type: string
+            assetTypeId:
+              type: integer
+              format: int32
+            assetTypeSubCategoryId:
+              type: integer
+              format: int32
+              nullable: true
+            exchangeId:
+              type: integer
+              format: int32
+            hasExpirationDate:
+              type: boolean
+            avatar:
+              type: object
+              properties:
+                small:
+                  type: string
+                medium:
+                  type: string
+                large:
+                  type: string
+                svg:
+                  type: object
+                  nullable: true
+                  description: SVG avatar with background and text colors
+                  properties:
+                    url:
+                      type: string
+                    backgroundColor:
+                      type: string
+                    textColor:
+                      type: string
+    WatchlistResponse:
+      type: object
+      description: Represents a watchlist with its metadata and items
+      properties:
+        watchlistId:
+          type: string
+          description: Unique identifier of the watchlist
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the watchlist
+          example: Tech Watchlist
+        Gcid:
+          type: integer
+          format: int32
+          description: Global Customer ID of the watchlist owner
+          example: 12345
+        watchlistType:
+          type: string
+          enum:
+          - Static
+          - Dynamic
+          - RecentlyInvested
+          - Default
+          description: Type of the watchlist
+          example: Static
+        totalItems:
+          type: integer
+          format: int32
+          description: Total number of items in the watchlist
+          example: 100
+        isDefault:
+          type: boolean
+          description: Whether this is a default system watchlist
+          example: true
+        isUserSelectedDefault:
+          type: boolean
+          description: Whether this is the user's selected default watchlist
+          example: true
+        watchlistRank:
+          type: integer
+          format: int32
+          description: Display order rank of the watchlist
+          example: 1
+        dynamicUrl:
+          type: string
+          nullable: true
+          description: URL for dynamic watchlist queries
+        items:
+          type: array
+          description: Items contained in the watchlist
+          items:
+            $ref: '#/components/schemas/WatchlistItemDto'
+          example:
+          - itemId: 12345
+            itemType: Instrument
+            itemRank: 1
+        relatedAssets:
+          type: array
+          description: Related asset IDs
+          nullable: true
+          items:
+            type: integer
+            format: int32
+          example:
+          - 12345
+          - 67890
+    CuratedListsResponse:
+      type: object
+      description: Response containing curated investment lists
+      properties:
+        curatedLists:
+          type: array
+          description: List of curated investment lists
+          items:
+            $ref: '#/components/schemas/CuratedList'

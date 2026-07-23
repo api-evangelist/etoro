@@ -1,0 +1,924 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Balances API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Balances
+paths:
+  /api/v1/balances:
+    get:
+      tags:
+      - Balances
+      summary: Get aggregated balances
+      description: Returns aggregated balances across all account types for the authenticated user. Optionally filter by account type or specify the display currency for totals.
+      operationId: getBalances
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 2a284616-e619-4daf-b778-9a6305e36e9a
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountTypes
+        in: query
+        description: 'Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship.'
+        schema:
+          type: string
+      - name: displayCurrency
+        in: query
+        description: ISO 4217 currency code for totals and conversions. Defaults to USD.
+        schema:
+          type: string
+          default: USD
+      - name: includeZeroBalances
+        in: query
+        description: Whether to include accounts with a zero balance in the response. Defaults to false.
+        schema:
+          type: boolean
+      - name: expand
+        in: query
+        description: 'Comma-separated list of optional sections to include in the response. Valid values: equityDetails.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Aggregated balances retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBalancesResponse'
+        '400':
+          description: Bad Request — invalid query parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden — the token does not include the etoro-public:money.balance:read scope.
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/balances/history:
+    get:
+      tags:
+      - Balances
+      summary: Get historical balance snapshots
+      description: Returns end-of-day balance snapshots across all account types for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.
+      operationId: getHistoricalBalances
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: aa34941f-8c0e-47e9-a372-4e3821b845f5
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: displayCurrency
+        in: query
+        description: ISO 4217 currency code for totals and conversions. Defaults to USD.
+        schema:
+          type: string
+          default: USD
+      - name: fromDate
+        in: query
+        description: 'Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days.'
+        schema:
+          type: string
+          format: date
+      - name: toDate
+        in: query
+        description: 'End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days.'
+        schema:
+          type: string
+          format: date
+      - name: accountTypes
+        in: query
+        description: 'Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Historical balance snapshots retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHistoricalBalancesResponse'
+        '400':
+          description: Bad Request — invalid date range or query parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden — the token does not include the etoro-public:money.balance:read scope.
+        '404':
+          description: Not Found — no historical data found for the specified date range.
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/balances/{accountType}:
+    get:
+      tags:
+      - Balances
+      summary: Get balances by account type
+      description: Returns balances for a specific account type for the authenticated user. Optionally filter by account IDs.
+      operationId: getBalancesByAccountType
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 9bad2f6e-2179-4c3a-9a08-c80b5237d80b
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountType
+        in: path
+        required: true
+        description: The account type to retrieve balances for.
+        schema:
+          $ref: '#/components/schemas/AccountType'
+      - name: accountIds
+        in: query
+        description: Optional comma-separated list of account IDs to include.
+        schema:
+          type: string
+      - name: displayCurrency
+        in: query
+        description: ISO 4217 currency code for totals and conversions. Defaults to USD.
+        schema:
+          type: string
+          default: USD
+      - name: includeZeroBalances
+        in: query
+        description: Whether to include accounts with a zero balance in the response. Defaults to false.
+        schema:
+          type: boolean
+      - name: expand
+        in: query
+        description: 'Comma-separated list of optional sections to include in the response. Valid values: equityDetails.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Balances for the specified account type retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBalancesResponse'
+        '400':
+          description: Bad Request — invalid account type or query parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden — the token does not include the etoro-public:money.balance:read scope.
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/balances/{accountType}/history:
+    get:
+      tags:
+      - Balances
+      summary: Get historical balances by account type
+      description: Returns end-of-day balance snapshots for a specific account type for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.
+      operationId: getHistoricalBalancesByAccountType
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: b203aadb-404e-478e-bb90-453ad5bd7c33
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountType
+        in: path
+        required: true
+        description: The account type to retrieve historical balances for.
+        schema:
+          $ref: '#/components/schemas/AccountType'
+      - name: displayCurrency
+        in: query
+        description: ISO 4217 currency code for totals and conversions. Defaults to USD.
+        schema:
+          type: string
+          default: USD
+      - name: fromDate
+        in: query
+        description: 'Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days.'
+        schema:
+          type: string
+          format: date
+      - name: toDate
+        in: query
+        description: 'End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days.'
+        schema:
+          type: string
+          format: date
+      - name: accountIds
+        in: query
+        description: Optional comma-separated list of account IDs to include.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Historical balance snapshots for the specified account type retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHistoricalBalancesResponse'
+        '400':
+          description: Bad Request — invalid account type, date range, or query parameter value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden — the token does not include the etoro-public:money.balance:read scope.
+        '404':
+          description: Not Found — no historical data found for the specified account type and date range.
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/balances/{accountType}/{accountId}:
+    get:
+      tags:
+      - Balances
+      summary: Get balance for a specific account
+      description: Returns the balance for a specific account identified by type and account ID for the authenticated user.
+      operationId: getBalanceByAccount
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 79dd59ed-0c79-41c6-8d01-f3bb910fbf74
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountType
+        in: path
+        required: true
+        description: The account type.
+        schema:
+          $ref: '#/components/schemas/AccountType'
+      - name: accountId
+        in: path
+        required: true
+        description: The unique identifier of the account.
+        schema:
+          type: string
+      - name: displayCurrency
+        in: query
+        description: ISO 4217 currency code for totals and conversions. Defaults to USD.
+        schema:
+          type: string
+          default: USD
+      - name: includeZeroBalances
+        in: query
+        description: Whether to include accounts with a zero balance in the response. Defaults to false.
+        schema:
+          type: boolean
+      - name: expand
+        in: query
+        description: 'Comma-separated list of optional sections to include in the response. Valid values: equityDetails.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Balance for the specified account retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBalancesResponse'
+        '400':
+          description: Bad Request — invalid account type or account ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden — the token does not include the etoro-public:money.balance:read scope.
+        '404':
+          description: Not Found — no account found for the specified type and account ID.
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+  /api/v1/balances/{accountType}/{accountId}/history:
+    get:
+      tags:
+      - Balances
+      summary: Get historical balances for a specific account
+      description: Returns end-of-day balance snapshots for a specific account identified by type and account ID for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.
+      operationId: getHistoricalBalanceByAccount
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 2faf6249-c7ab-4057-9760-923619a1a280
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountType
+        in: path
+        required: true
+        description: The account type.
+        schema:
+          $ref: '#/components/schemas/AccountType'
+      - name: accountId
+        in: path
+        required: true
+        description: The unique identifier of the account.
+        schema:
+          type: string
+      - name: displayCurrency
+        in: query
+        description: ISO 4217 currency code for totals and conversions. Defaults to USD.
+        schema:
+          type: string
+          default: USD
+      - name: fromDate
+        in: query
+        description: 'Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days.'
+        schema:
+          type: string
+          format: date
+      - name: toDate
+        in: query
+        description: 'End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days.'
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Historical balance snapshots for the specified account retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHistoricalBalancesResponse'
+        '400':
+          description: Bad Request — invalid account type, account ID, or date range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden — the token does not include the etoro-public:money.balance:read scope.
+        '404':
+          description: Not Found — no account or historical data found for the specified parameters.
+        '429':
+          description: Too Many Requests — rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: UnhandledException
+                errorMessage: Global Error
+components:
+  schemas:
+    GetHistoricalBalancesResponse:
+      type: object
+      description: Historical end-of-day balance snapshots for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        displayCurrency:
+          type: string
+          nullable: true
+          description: ISO 4217 currency code used for display values.
+        fromDate:
+          type: string
+          format: date
+          description: Start of the returned date range (inclusive, ISO 8601).
+        toDate:
+          type: string
+          format: date
+          description: End of the returned date range (inclusive, ISO 8601).
+        snapshots:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoricalDailySnapshotData'
+          nullable: true
+          description: End-of-day balance snapshots, one entry per day in the requested range.
+      additionalProperties: false
+    GetBalancesResponse:
+      type: object
+      description: Aggregated balances for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        totalBalance:
+          type: number
+          format: double
+          description: Sum of all account balances converted to the requested display currency.
+        displayCurrency:
+          type: string
+          nullable: true
+          description: ISO 4217 currency code used for totalBalance and displayBalance values.
+        balances:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBalanceData'
+          nullable: true
+          description: Individual account balances.
+      additionalProperties: false
+    PublicErrorResponse:
+      type: object
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
+    HistoricalAccountData:
+      type: object
+      description: Individual account balance within a historical daily snapshot.
+      properties:
+        accountId:
+          type: string
+          nullable: true
+          description: Unique identifier of the account.
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+        currency:
+          type: string
+          nullable: true
+          description: The account's native currency (ISO 4217).
+        cash:
+          type: number
+          format: double
+          description: Cash balance in the account's native currency.
+        investedAmount:
+          type: number
+          format: double
+          description: Invested amount in the account's native currency.
+        pnl:
+          type: number
+          format: double
+          description: Profit and loss in the account's native currency.
+        total:
+          type: number
+          format: double
+          description: Total balance in the account's native currency.
+        usdRate:
+          type: number
+          format: double
+          description: Exchange rate to USD.
+        displayCash:
+          type: number
+          format: double
+          description: Cash balance converted to the requested display currency.
+        displayInvestedAmount:
+          type: number
+          format: double
+          description: Invested amount converted to the requested display currency.
+        displayPnl:
+          type: number
+          format: double
+          description: Profit and loss converted to the requested display currency.
+        displayTotal:
+          type: number
+          format: double
+          description: Total balance converted to the requested display currency.
+        exchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert to displayCurrency.
+      additionalProperties: false
+    EquityDetailsData:
+      type: object
+      description: Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account's provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex.
+      properties:
+        available:
+          type: number
+          format: double
+          nullable: true
+          description: Available balance or buying power (Trading, Options, MoneyFarm, Cash).
+        frozenCash:
+          type: number
+          format: double
+          nullable: true
+          description: Cash frozen by the platform pending settlement (Trading).
+        currentPNL:
+          type: number
+          format: double
+          nullable: true
+          description: Current unrealized profit and loss on open positions (Trading).
+        totalUsedMargin:
+          type: number
+          format: double
+          nullable: true
+          description: Total margin used by open positions (Trading).
+        cryptoId:
+          type: integer
+          format: int32
+          nullable: true
+          description: eToro internal crypto asset identifier (Crypto).
+        balance:
+          type: number
+          format: double
+          nullable: true
+          description: Balance in native crypto units (Crypto).
+        totalBalance:
+          type: number
+          format: double
+          nullable: true
+          description: Total balance in native crypto units, including pending (Crypto).
+        spendableBalance:
+          type: number
+          format: double
+          nullable: true
+          description: Spendable balance in native crypto units (Crypto).
+        balanceInFiat:
+          type: number
+          format: double
+          nullable: true
+          description: Balance converted to fiat (Crypto).
+        totalBalanceInFiat:
+          type: number
+          format: double
+          nullable: true
+          description: Total balance converted to fiat, including pending (Crypto).
+        spendableBalanceInFiat:
+          type: number
+          format: double
+          nullable: true
+          description: Spendable balance converted to fiat (Crypto).
+        fiatConversionCurrency:
+          type: string
+          nullable: true
+          description: ISO 4217 currency code used for the InFiat values (Crypto).
+        orderIndex:
+          type: integer
+          format: int32
+          nullable: true
+          description: Display order index for sorting (Crypto).
+      additionalProperties: false
+    AccountType:
+      type: string
+      enum:
+      - trading
+      - options
+      - cash
+    BalancesErrorResponse:
+      type: object
+      description: Error response returned for client-side errors (4xx).
+      properties:
+        code:
+          type: string
+          nullable: true
+          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
+        message:
+          type: string
+          nullable: true
+          description: Human-readable error message.
+        requestId:
+          type: string
+          nullable: true
+          description: Request ID for tracing and support.
+      additionalProperties: false
+    AccountBalanceData:
+      type: object
+      description: Balance data for a single account.
+      properties:
+        accountId:
+          type: string
+          nullable: true
+          description: Unique identifier of the account.
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+        subType:
+          type: string
+          nullable: true
+          description: Account sub-type, where applicable.
+        balance:
+          type: number
+          format: double
+          description: Account balance in the account's native currency.
+        currency:
+          type: string
+          nullable: true
+          description: The account's native currency (ISO 4217).
+        displayBalance:
+          type: number
+          format: double
+          description: Account balance converted to the requested display currency.
+        displayCurrency:
+          type: string
+          nullable: true
+          description: The display currency (ISO 4217) used for displayBalance.
+        exchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert balance to displayCurrency.
+        equityDetails:
+          $ref: '#/components/schemas/EquityDetailsData'
+      additionalProperties: false
+    HistoricalDailySnapshotData:
+      type: object
+      description: End-of-day balance snapshot for a specific date.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The snapshot date (ISO 8601).
+        totalCurrencyIso:
+          type: string
+          nullable: true
+          description: ISO 4217 currency code for the total figures in native currency.
+        totalCash:
+          type: number
+          format: double
+          description: Total cash across all accounts in native currency.
+        totalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount across all accounts in native currency.
+        totalPnl:
+          type: number
+          format: double
+          description: Total profit and loss across all accounts in native currency.
+        totalBalance:
+          type: number
+          format: double
+          description: Total balance across all accounts in native currency.
+        displayTotalCash:
+          type: number
+          format: double
+          description: Total cash converted to the requested display currency.
+        displayTotalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount converted to the requested display currency.
+        displayTotalPnl:
+          type: number
+          format: double
+          description: Total profit and loss converted to the requested display currency.
+        displayTotalBalance:
+          type: number
+          format: double
+          description: Total balance converted to the requested display currency.
+        totalExchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert totals to displayCurrency.
+        accountSnapshots:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoricalAccountData'
+          nullable: true
+          description: Individual account breakdowns within this snapshot.
+      additionalProperties: false

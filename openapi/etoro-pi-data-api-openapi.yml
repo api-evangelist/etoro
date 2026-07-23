@@ -1,0 +1,111 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios PI Data API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: PI Data
+paths:
+  /api/v1/pi-data/copiers:
+    get:
+      tags:
+      - PI Data
+      summary: Get copiers public info
+      responses:
+        '200':
+          description: A list of copiers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeCopiersResponse'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: e12da2ec-b45f-4ea6-b583-1671c3f52988
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: getCopiersPublicInfo
+components:
+  schemas:
+    GeCopiersResponse:
+      type: object
+      description: Response object containing a list of portfolio copiers.
+      properties:
+        copiers:
+          type: array
+          nullable: true
+          description: List of users copying your portfolio, with demographic and financial info.
+          items:
+            type: object
+            properties:
+              Gender:
+                type: string
+                example: M
+                description: Gender of the copier
+              Club:
+                type: string
+                example: Gold
+                description: Membership club level
+              Country:
+                type: string
+                example: Germany
+                description: Country of residence
+              CopyStartedAtCategory:
+                type: string
+                enum:
+                - less than 1 day
+                - less than 1 week
+                - less than 1 month
+                - less than 1 year
+                - more than 1 year
+                description: How long ago the copy relationship started
+                example: more than 1 year
+              AmountCategory:
+                type: string
+                enum:
+                - <100
+                - 100-500
+                - 500-1000
+                - 1000-5000
+                - '>5000'
+                description: Amount being copied
+                example: 100-500
+              AgeCategory:
+                type: string
+                enum:
+                - Under 18
+                - 18-29
+                - 30-44
+                - 45-59
+                - 60+
+                description: Age range of the copier
+                example: 30-44
+              CopyRealizedEquity_pnl:
+                type: string
+                description: Total realized equity PnL of the copier
+                example: '1589.2'
+              AvailableCopyBalance:
+                type: string
+                description: Available copy balance of the copier
+                example: '55.2'
+            additionalProperties: false
+      additionalProperties: false

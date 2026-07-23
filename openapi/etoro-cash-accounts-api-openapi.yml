@@ -1,0 +1,1019 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Cash Accounts API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Cash Accounts
+paths:
+  /api/v1/money/accounts/cash:
+    post:
+      tags:
+      - Cash Accounts
+      summary: Create a cash account
+      description: Initiates the creation of a cash account. The user must be eligible (IbanEligible or CardAndIbanEligible). Returns 202 Accepted with a requestReferenceId for polling status.
+      operationId: createCashAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCashAccountRequest'
+            example:
+              requestReferenceId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              tncDocId: 42
+      responses:
+        '202':
+          description: Request accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCashAccountAcceptedResponse'
+              example:
+                requestReferenceId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                eligibilityStatus: CardAndIbanEligible
+                status: Accepted
+        '401':
+          description: Unauthorized
+        '409':
+          description: Duplicate requestReferenceId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: DuplicateRequestReferenceId
+                errorMessage: A request with this requestReferenceId already exists
+        '422':
+          description: User not eligible for cash account creation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessErrorResponse'
+              example:
+                errorCode: NotEligibleForCashAccountCreation
+                errorMessage: User is not eligible to create a cash account
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: bbb35ad7-fefa-4820-a92f-608ed1978f53
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+    get:
+      tags:
+      - Cash Accounts
+      summary: Get user cash accounts
+      description: Returns the eligibility of a user to create a cash account, and lists the existing cash accounts including the related bank account details and the cards related to each account. The user is identified from the OAuth token.
+      operationId: getCashAccounts
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 6a6ce5b2-e1ee-4c9a-ac8c-f2cdc7d27fb6
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      responses:
+        '200':
+          description: Successfully retrieved cash accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccountsResponse'
+              example:
+                accounts:
+                - id: f0995efc-25a1-465e-bec3-d309aaf00ede
+                  currency: GBP
+                  status: Active
+                  bankAccount:
+                    id: 0f5270fe-200a-4c35-b788-bda212973fa2
+                    accountName: John Doe
+                    identifiers:
+                    - type: bankAccountNumber
+                      value: '11549380'
+                    - type: ncc
+                      value: '041335'
+                    - type: iban
+                      value: GB08MRMI04133511549380
+                    - type: bic
+                      value: MRMIGB22XXX
+                    region: UK
+                    countryCode: GB
+                    bankProvider: ClearBank
+                    institutionName: ClearBank
+                  cards:
+                  - id: 7f446164-57d8-4b87-9f0f-958083c7f459
+                    status: Activated
+                    maskedPan: 459688******0196
+                    isVirtual: false
+                    name: John Doe
+                    created: '2026-04-27T12:40:55.7766667'
+                    expirationDate: '2029-04-30T23:59:59'
+                eligibilityStatus: CardAndIbanEligible
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden - Insufficient permissions
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: GeneralError
+                errorMessage: Internal server error. Please retry or contact support
+  /api/v1/money/accounts/cash/eligibility:
+    get:
+      tags:
+      - Cash Accounts
+      summary: Get cash account creation eligibility
+      description: Returns the user's eligibility to create a cash account, along with prerequisites (T&C), contact info, and basic user info needed for account creation.
+      operationId: getCashAccountEligibility
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 17c0c69b-4ea3-45d8-b629-0f293cf6117b
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      responses:
+        '200':
+          description: Eligibility details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccountEligibilityResponse'
+              example:
+                eligibilityStatus: CardAndIbanEligible
+                ineligibilityReasons: []
+                prerequisite:
+                  tncInfo:
+                    tncDocId: 42
+                    url: https://example.com/tnc
+                contactInfo:
+                  address: 10 High Street
+                  buildingNumber: '10'
+                  city: London
+                  zipCode: EC1A 1BB
+                  country: GB
+                  phone: '+441234567890'
+                userInfo:
+                  firstName: John
+                  middleName: null
+                  lastName: Doe
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - Insufficient permissions
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+  /api/v1/money/accounts/cash/status:
+    get:
+      tags:
+      - Cash Accounts
+      summary: Get cash account creation status
+      description: Polls the creation status of a previously submitted cash account creation request. Returns the account details when status is Success.
+      operationId: getCashAccountCreationStatus
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 40185c00-42db-4206-ae6d-c37f78242601
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: requestReferenceId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The requestReferenceId returned from the POST create endpoint.
+      responses:
+        '200':
+          description: Creation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccountCreationStatusResponse'
+              example:
+                requestReferenceId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                status: Pending
+                updatedAt: '2026-05-13T10:00:00Z'
+                account: null
+        '400':
+          description: Bad Request - missing requestReferenceId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Creation request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+  /api/v1/money/accounts/cash/{accountId}:
+    get:
+      tags:
+      - Cash Accounts
+      summary: Get cash account by id
+      description: Returns a single cash account. The response body is identical in shape to one element of `accounts` from GET /api/v1/money/accounts/cash (CashAccount). Path accountId must match CashAccount.id for that element.
+      operationId: getCashAccountById
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 4f9b4d15-2f36-4b68-86bb-fb7f66248001
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Must equal CashAccount.id from the list endpoint.
+      responses:
+        '200':
+          description: One cash account (same schema as list item)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccount'
+              example:
+                id: f0995efc-25a1-465e-bec3-d309aaf00ede
+                currency: GBP
+                status: Active
+                bankAccount:
+                  id: 0f5270fe-200a-4c35-b788-bda212973fa2
+                  accountName: John Doe
+                  identifiers:
+                  - type: bankAccountNumber
+                    value: '11549380'
+                  - type: ncc
+                    value: '041335'
+                  - type: iban
+                    value: GB08MRMI04133511549380
+                  - type: bic
+                    value: MRMIGB22XXX
+                  region: UK
+                  countryCode: GB
+                  bankProvider: ClearBank
+                  institutionName: ClearBank
+                cards:
+                - id: 7f446164-57d8-4b87-9f0f-958083c7f459
+                  status: Activated
+                  maskedPan: 459688******0196
+                  isVirtual: false
+                  name: John Doe
+                  created: '2026-04-27T12:40:55.7766667'
+                  expirationDate: '2029-04-30T23:59:59'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Forbidden - Insufficient permissions
+        '404':
+          description: Account not found or not owned by the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: AccountNotFound
+                errorMessage: Account not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: TooManyRequests
+                errorMessage: Too many requests
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+              example:
+                errorCode: GeneralError
+                errorMessage: Internal server error. Please retry or contact support
+  /api/v1/money/accounts/cash/{accountId}/transactions:
+    get:
+      tags:
+      - Cash Accounts
+      summary: List cash account transactions (paginated)
+      description: Returns a cursor-paginated list of transactions for the given cash account. Use pageSize and pageToken for pagination; nextPageToken is null when there is no next page.
+      operationId: listCashAccountTransactions
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 06118bb9-9ae8-436f-b7fe-8ad7e1b68848
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Cash account identifier (must equal CashAccount.id).
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 500
+          default: 50
+        description: Page size (default 50, max 500).
+      - name: pageToken
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Opaque pagination cursor from pagination.nextPageToken of the previous response.
+      responses:
+        '200':
+          description: Successful response with transaction results and pagination metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashAccountTransactionsResponse'
+              example:
+                results:
+                - id: '12345'
+                  accountId: f0995efc-25a1-465e-bec3-d309aaf00ede
+                  transactionType: card
+                  transactionSubtype: cardPayment
+                  direction: debit
+                  status: settled
+                  amount: '100.00'
+                  currency: USD
+                  originalAmount: '90.00'
+                  originalCurrency: EUR
+                  conversionRate: '1.1111'
+                  postedAt: '2026-05-03T10:16:12Z'
+                  counterparty:
+                    name: Acme Store
+                    type: merchant
+                  cardTransactionDetails:
+                    cardId: '101'
+                    merchantName: Acme Store
+                    country: US
+                    authorizationStatus: normal
+                  bankTransferTransactionDetails: null
+                  internalTransferTransactionDetails: null
+                pagination:
+                  pageSize: 50
+                  nextPageToken: eyJsYXN0SWQiOjEyMzk1fQ==
+                  hasNext: true
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicErrorResponse'
+components:
+  schemas:
+    InternalTransferDetails:
+      type: object
+      required:
+      - transferId
+      properties:
+        transferId:
+          type: string
+    CreateCashAccountRequest:
+      type: object
+      required:
+      - requestReferenceId
+      - tncDocId
+      properties:
+        requestReferenceId:
+          type: string
+          format: uuid
+          description: Client-generated idempotency key
+        tncDocId:
+          type: integer
+          format: int64
+          description: Terms and conditions document ID accepted by the user
+    CashAccountPrerequisite:
+      type: object
+      properties:
+        tncInfo:
+          $ref: '#/components/schemas/TncInfo'
+    PaginationCursor:
+      type: object
+      required:
+      - pageSize
+      - hasNext
+      properties:
+        pageSize:
+          type: integer
+        nextPageToken:
+          type: string
+          nullable: true
+        hasNext:
+          type: boolean
+    CashAccountUserInfo:
+      type: object
+      properties:
+        firstName:
+          type: string
+        middleName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+    CashAccountEligibilityResponse:
+      type: object
+      required:
+      - eligibilityStatus
+      properties:
+        eligibilityStatus:
+          type: string
+          enum:
+          - Ineligible
+          - CardAndIbanEligible
+          - IbanEligible
+        ineligibilityReasons:
+          type: array
+          items:
+            type: string
+          nullable: true
+        prerequisite:
+          $ref: '#/components/schemas/CashAccountPrerequisite'
+          nullable: true
+        contactInfo:
+          $ref: '#/components/schemas/CashAccountContactInfo'
+          nullable: true
+        userInfo:
+          $ref: '#/components/schemas/CashAccountUserInfo'
+          nullable: true
+    PublicErrorResponse:
+      type: object
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
+    CashAccount:
+      type: object
+      description: A single cash account with bank details and cards (account type is implied by the cash-accounts API surface)
+      required:
+      - id
+      - currency
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the cash account
+          example: b2c3d4e5-f6a7-8901-bcde-f12345678901
+        currency:
+          type: string
+          description: ISO 4217 currency code (e.g. GBP, EUR, AUD, DKK)
+          example: GBP
+        status:
+          type: string
+          description: Cash account status
+          enum:
+          - Active
+          - ReceiveOnly
+          - SpendOnly
+          - Suspended
+          - Blocked
+          example: Active
+        bankAccount:
+          $ref: '#/components/schemas/BankAccount'
+          description: Bank account linked to this cash account
+        cards:
+          type: array
+          description: Payment cards linked to this cash account
+          items:
+            $ref: '#/components/schemas/Card'
+    BankTransferDetails:
+      type: object
+      properties:
+        bankIdentifier:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankIdentifierEntry'
+        description:
+          type: string
+        paymentReference:
+          type: string
+    CashAccountTransaction:
+      type: object
+      required:
+      - id
+      - accountId
+      - transactionType
+      - transactionSubtype
+      - direction
+      - status
+      - amount
+      - currency
+      - postedAt
+      properties:
+        id:
+          type: string
+        accountId:
+          type: string
+        transactionType:
+          type: string
+          enum:
+          - card
+          - internalTransfer
+          - bankTransfer
+          - balanceAdjustment
+        transactionSubtype:
+          type: string
+          enum:
+          - unknown
+          - cardPayment
+          - contactless
+          - onlinePayment
+          - cashWithdrawal
+          - transferReceived
+          - transfer
+          - paymentReceived
+          - payment
+          - refund
+          - fee
+          - creditBalanceAdjustment
+          - debitBalanceAdjustment
+          - directDebit
+          - cryptoToFiat
+        direction:
+          type: string
+          enum:
+          - debit
+          - credit
+        status:
+          type: string
+          enum:
+          - failed
+          - authorized
+          - settled
+          - rejected
+          - returned
+          - expired
+          - unknown
+        amount:
+          type: string
+          description: Decimal amount as string
+        currency:
+          type: string
+          description: ISO 4217 alphabetic currency code
+        originalAmount:
+          type: string
+          nullable: true
+        originalCurrency:
+          type: string
+          nullable: true
+        conversionRate:
+          type: string
+          nullable: true
+        postedAt:
+          type: string
+          format: date-time
+        counterparty:
+          $ref: '#/components/schemas/Counterparty'
+        cardTransactionDetails:
+          $ref: '#/components/schemas/CardTransactionDetails'
+          nullable: true
+        bankTransferTransactionDetails:
+          $ref: '#/components/schemas/BankTransferDetails'
+          nullable: true
+        internalTransferTransactionDetails:
+          $ref: '#/components/schemas/InternalTransferDetails'
+          nullable: true
+    CashAccountContactInfo:
+      type: object
+      properties:
+        address:
+          type: string
+        buildingNumber:
+          type: string
+        city:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+    BankAccount:
+      type: object
+      description: Bank account linked to the cash account
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the bank account
+          example: 0f5270fe-200a-4c35-b788-bda212973fa2
+        accountName:
+          type: string
+          description: Name on the bank account
+          example: John Doe
+        identifiers:
+          type: array
+          description: List of bank identifiers represented as key/value entries. Identifier type availability is bank and country specific.
+          items:
+            $ref: '#/components/schemas/BankAccountIdentifier'
+        region:
+          type: string
+          description: Region of the bank account
+          example: UK
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+          example: GB
+        bankProvider:
+          type: string
+          description: Banking provider name
+          example: ClearBank
+        institutionName:
+          type: string
+          description: Name of the banking institution
+          example: ClearBank
+    BusinessErrorResponse:
+      type: object
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    BankIdentifierEntry:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    BankAccountIdentifier:
+      type: object
+      required:
+      - type
+      - value
+      description: One bank identifier entry as key/value pair. `type` defines the identifier kind and `value` contains the identifier as a string.
+      properties:
+        type:
+          type: string
+          description: Identifier type key. Allowed examples include bankAccountNumber, ncc, iban, bic, sortCode, and bsbCode.
+          example: iban
+        value:
+          type: string
+          description: Identifier value as returned by the bank.
+          example: GB08MRMI04133511549380
+    Counterparty:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - merchant
+          - bank_account
+          - internal_account
+          - unknown
+    CashAccountTransactionsResponse:
+      type: object
+      required:
+      - results
+      - pagination
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashAccountTransaction'
+        pagination:
+          $ref: '#/components/schemas/PaginationCursor'
+    CashAccountsResponse:
+      type: object
+      description: Response containing the user's cash accounts and creation eligibility status
+      required:
+      - accounts
+      - eligibilityStatus
+      properties:
+        accounts:
+          type: array
+          description: List of cash accounts
+          items:
+            $ref: '#/components/schemas/CashAccount'
+        eligibilityStatus:
+          type: string
+          description: User's creation eligibility status for cash accounts
+          enum:
+          - Ineligible
+          - CardAndIbanEligible
+          - IbanEligible
+          example: CardAndIbanEligible
+    CashAccountCreationStatusResponse:
+      type: object
+      required:
+      - requestReferenceId
+      - status
+      properties:
+        requestReferenceId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - Pending
+          - Success
+          - Failure
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+        account:
+          $ref: '#/components/schemas/CashAccount'
+          nullable: true
+          description: Present only when status is Success
+    CreateCashAccountAcceptedResponse:
+      type: object
+      required:
+      - requestReferenceId
+      - eligibilityStatus
+      - status
+      properties:
+        requestReferenceId:
+          type: string
+          format: uuid
+        eligibilityStatus:
+          type: string
+        status:
+          type: string
+          example: Accepted
+    TncInfo:
+      type: object
+      description: Terms and conditions the client must show and the user must accept before withdrawal.
+      required:
+      - tncDocId
+      - url
+      properties:
+        tncDocId:
+          type: integer
+          format: int64
+          description: Identifier to send back on withdrawal creation.
+          example: 12345
+        url:
+          type: string
+          description: Link the client displays to user (webview/browser).
+          example: https://example.com/tnc/withdraw-crypto-from-trading
+    CardTransactionDetails:
+      type: object
+      properties:
+        cardId:
+          type: string
+        merchantName:
+          type: string
+        country:
+          type: string
+        authorizationStatus:
+          type: string
+          enum:
+          - unknown
+          - normal
+          - preAuthorize
+          - finalAuthorize
+          - incremental
+          - instalment
+          - preferredCustomer
+          - recurring
+          - delayedCharges
+          - noShow
+          - authorizeAdvice
+          - refund
+          - reversal
+          - sysReversal
+          - accountFunding
+    Card:
+      type: object
+      description: Payment card linked to the cash account
+      required:
+      - id
+      - status
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the card
+          example: c3d4e5f6-a7b8-9012-cdef-123456789012
+        status:
+          type: string
+          description: Current card status
+          enum:
+          - NotActivated
+          - Activated
+          - Blocked
+          - Suspended
+          - Risk
+          - Stolen
+          - Lost
+          - Expired
+          - Fraud
+          example: Activated
+        maskedPan:
+          type: string
+          description: Masked card number
+          example: 459688******0196
+        isVirtual:
+          type: boolean
+          description: Whether this is a virtual card
+          example: false
+        name:
+          type: string
+          description: Card display name
+          example: John Doe
+        created:
+          type: string
+          format: date-time
+          description: Date and time the card was created
+          example: '2025-01-15T12:00:00'
+        expirationDate:
+          type: string
+          format: date-time
+          description: Card expiration date
+          example: '2028-01-31T23:59:59'

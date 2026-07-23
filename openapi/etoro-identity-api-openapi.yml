@@ -1,0 +1,131 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Identity API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Identity
+paths:
+  /api/v1/me:
+    get:
+      tags:
+      - Identity
+      summary: Get authenticated user profile
+      description: Returns the profile of the currently authenticated user, including account identifiers (GCID, real and demo CIDs), profile fields from Scope Data API (username, name, player level, gender, language, date of birth, LEI), and the OAuth scopes granted to the current access token.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 01e83330-c9f5-4a63-8489-1d3116a93c32
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/meResponse'
+              examples:
+                example:
+                  summary: User Profile Response
+                  value:
+                    gcid: 123456
+                    realCid: 789012
+                    demoCid: 345678
+                    username: johndoe
+                    firstName: John
+                    middleName: Q
+                    lastName: Doe
+                    playerLevel: 3
+                    gender: 1
+                    language: 1
+                    dateOfBirth: '1990-01-01'
+                    lei: 5493001KJTIIGC8Y1R12
+                    scopes:
+                    - etoro-public:real:read
+                    - etoro-public:user-info:read
+        '401':
+          description: Unauthorized - Missing or invalid authentication credentials
+        '403':
+          description: Forbidden - Insufficient permissions
+      operationId: getAuthenticatedUserProfile
+components:
+  schemas:
+    meResponse:
+      type: object
+      description: Profile of the authenticated user across eToro account types, including granted OAuth scopes.
+      required:
+      - gcid
+      - realCid
+      - demoCid
+      - username
+      - playerLevel
+      - gender
+      - language
+      - dateOfBirth
+      - scopes
+      properties:
+        gcid:
+          type: integer
+          description: Global Customer ID - the unique identifier for the user across all eToro systems.
+        realCid:
+          type: integer
+          description: Real account Customer ID - the identifier for the user's real trading account.
+        demoCid:
+          type: integer
+          description: Demo account Customer ID - the identifier for the user's virtual/demo trading account.
+        username:
+          type: string
+          description: The user's unique username.
+        firstName:
+          type: string
+          nullable: true
+          description: The user's first name.
+        middleName:
+          type: string
+          nullable: true
+          description: The user's middle name.
+        lastName:
+          type: string
+          nullable: true
+          description: The user's last name.
+        playerLevel:
+          type: integer
+          description: 'Player level. Possible values: 1 (Bronze), 2 (Platinum), 3 (Gold), 4 (Internal), 5 (Silver), 6 (PlatinumPlus), 7 (Diamond).'
+        gender:
+          type: integer
+          description: 'Gender. Possible values: 0 (Unknown), 1 (Male), 2 (Female).'
+        language:
+          type: integer
+          description: Language ID (e.g. 1 = English, 2 = German).
+        dateOfBirth:
+          type: string
+          description: Date of birth.
+        lei:
+          type: string
+          nullable: true
+          description: Legal Entity Identifier (LEI), when applicable.
+        scopes:
+          type: array
+          description: OAuth scopes granted to the authenticated token.
+          items:
+            type: string

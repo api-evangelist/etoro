@@ -1,0 +1,371 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Likes API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Likes
+paths:
+  /api/v1/posts/{postId}/comments/{commentId}/likes:
+    post:
+      tags:
+      - Likes
+      summary: Like a comment
+      description: Toggles a Like emotion on the specified comment for the authenticated user. emotionType defaults to Like (the only supported emotion type). The call is idempotent — liking an already-liked entity succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 09ad2dc4-f8d2-453c-a6c8-17ab8b76fbb4
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the parent post (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: commentId
+        in: path
+        required: true
+        description: ID of the parent comment (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+      responses:
+        '204':
+          description: Like recorded successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is blocked by the entity owner or unable to interact
+        '404':
+          description: Entity not found
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Empty JSON object. The body must be present but contains no fields.
+            example: {}
+      operationId: likeAComment
+    delete:
+      tags:
+      - Likes
+      summary: Unlike a comment
+      description: Removes the authenticated user's Like from the specified comment. emotionType defaults to Like (the only supported emotion type). The call is idempotent — unliking an entity with no active like succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 0b91a711-d509-41cc-ad26-b5166f08e48a
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the parent post (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: commentId
+        in: path
+        required: true
+        description: ID of the parent comment (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+      responses:
+        '204':
+          description: Like removed successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is blocked by the entity owner or unable to interact
+        '404':
+          description: Entity not found
+      operationId: unlikeAComment
+  /api/v1/posts/{postId}/comments/{commentId}/replies/{replyId}/likes:
+    post:
+      tags:
+      - Likes
+      summary: Like a reply
+      description: Toggles a Like emotion on the specified reply for the authenticated user. emotionType defaults to Like (the only supported emotion type). The call is idempotent — liking an already-liked entity succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: c9b9ced8-22e4-474c-a649-f0d6c958a325
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the parent post (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: commentId
+        in: path
+        required: true
+        description: ID of the parent comment (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+      - name: replyId
+        in: path
+        required: true
+        description: ID of the reply (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+      responses:
+        '204':
+          description: Like recorded successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is blocked by the entity owner or unable to interact
+        '404':
+          description: Entity not found
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Empty JSON object. The body must be present but contains no fields.
+            example: {}
+      operationId: likeAReply
+    delete:
+      tags:
+      - Likes
+      summary: Unlike a reply
+      description: Removes the authenticated user's Like from the specified reply. emotionType defaults to Like (the only supported emotion type). The call is idempotent — unliking an entity with no active like succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 672169f8-97ab-464f-8597-ba511d07ac17
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the parent post (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: commentId
+        in: path
+        required: true
+        description: ID of the parent comment (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+      - name: replyId
+        in: path
+        required: true
+        description: ID of the reply (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+      responses:
+        '204':
+          description: Like removed successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is blocked by the entity owner or unable to interact
+        '404':
+          description: Entity not found
+      operationId: unlikeAReply
+  /api/v1/posts/{postId}/likes:
+    post:
+      tags:
+      - Likes
+      summary: Like a post
+      description: Toggles a Like emotion on the specified post for the authenticated user. emotionType defaults to Like (the only supported emotion type). The call is idempotent — liking an already-liked entity succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 6e70f225-5dcb-4cd5-bb7c-657d13f2ce0b
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the parent post (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Like recorded successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is blocked by the entity owner or unable to interact
+        '404':
+          description: Entity not found
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Empty JSON object. The body must be present but contains no fields.
+            example: {}
+      operationId: likeAPost
+    delete:
+      tags:
+      - Likes
+      summary: Unlike a post
+      description: Removes the authenticated user's Like from the specified post. emotionType defaults to Like (the only supported emotion type). The call is idempotent — unliking an entity with no active like succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 27de3b40-3eac-46db-8659-59f295173ecf
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the parent post (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Like removed successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is blocked by the entity owner or unable to interact
+        '404':
+          description: Entity not found
+      operationId: unlikeAPost

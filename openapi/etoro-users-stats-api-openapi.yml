@@ -1,0 +1,699 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Users Stats API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Users Stats
+paths:
+  /api/v2/portfolios/{username}/assets/history:
+    get:
+      tags:
+      - Users Stats
+      summary: Get asset allocation history
+      description: 'Returns a daily asset-allocation breakdown for a publicly visible portfolio. Data is only available for investors who have not opted out — opted-out portfolios return 403 for third-party callers. Callers must authenticate with their own token. Use period OR minDate+maxDate (mutually exclusive). All ratio fields use decimal fraction format: 0.5 = 50%.'
+      operationId: getAssetsHistory
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: f4fcd100-888b-4064-abd1-0489221a7245
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: period
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/RankingPeriod'
+        description: Predefined rolling window. Mutually exclusive with minDate/maxDate.
+        x-mutual-exclusivity-group: dateFilter
+      - name: minDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Start date inclusive (YYYY-MM-DD). Mutually exclusive with period. Required together with maxDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: maxDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: End date inclusive (YYYY-MM-DD). Mutually exclusive with period. Required together with minDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+        description: Downsample time axis to at most N buckets. Omit or pass 0 for no downsampling.
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Cache-Control:
+              description: public, max-age=3600 for opted-in users; private, max-age=3600 for opted-out self-view.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetsHistoryResponse'
+              example:
+                userName: john.smith
+                results:
+                - date: '2024-01-31'
+                  cashPct: 0.28
+                  cashOfTotalEquityPct: 0.24
+                  assets:
+                  - instrumentId: 1001
+                    symbol: AAPL
+                    investedPct: 0.45
+                    valuePct: 0.51
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Target user has opted out of portfolio exposure
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '502':
+          description: Upstream dependency returned a server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Upstream dependency timed out or was unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/portfolios/{username}/copiers:
+    get:
+      tags:
+      - Users Stats
+      summary: Get current copier count and AUM tier for a public portfolio
+      description: Returns the investor's live copier count and assets-under-management tier for a public username. Requires `etoro-public:user-info:read`.
+      operationId: getPortfolioCopiers
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 1650ea9b-d3c8-4796-9a7c-0123d49fa2d7
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: username
+        in: path
+        required: true
+        description: Public eToro username.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 50
+      responses:
+        '200':
+          description: Current copiers snapshot for the requested portfolio.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopiersCurrentResponse'
+              examples:
+                populated:
+                  value:
+                    copiers: 42
+                    aumTier: 3
+                    aumTierDesc: Gold
+        '400':
+          description: Request validation failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '401':
+          description: Missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '403':
+          description: User has opted out of public profile display.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '404':
+          description: Username not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+  /api/v2/portfolios/{username}/exposure/history:
+    get:
+      tags:
+      - Users Stats
+      summary: Get market exposure history
+      description: 'Returns daily directional exposure breakdown per instrument for a publicly visible portfolio. Data is only available for investors who have not opted out - opted-out portfolios return 403 for third-party callers. Callers must authenticate with their own token. Use period OR minDate+maxDate (mutually exclusive). All values are decimal fractions of total daily investment: 0.5 = 50%. Simulated positions are excluded.'
+      operationId: getExposureHistory
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 6a5d26d7-545a-4bd2-9b1b-c99b91c917f9
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The eToro username of the portfolio owner.
+      - name: period
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/RankingPeriod'
+        description: Predefined rolling window. Mutually exclusive with minDate/maxDate.
+        x-mutual-exclusivity-group: dateFilter
+      - name: minDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Start date inclusive (ISO 8601 date, YYYY-MM-DD). Mutually exclusive with period. Required together with maxDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: maxDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: End date inclusive (ISO 8601 date, YYYY-MM-DD). Mutually exclusive with period. Required together with minDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+        description: Downsample time axis to at most N buckets. Omit or pass 0 for no downsampling.
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Cache-Control:
+              description: public, max-age=3600 for opted-in users; private, max-age=3600 for opted-out self-view.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExposureHistoryResponse'
+              example:
+                userName: john.smith
+                results:
+                - date: '2024-01-31'
+                  absExposurePct: 0.72
+                  exposureItems:
+                  - instrumentId: 1001
+                    symbol: AAPL
+                    netExposurePct: 0.43
+                    absExposurePct: 0.43
+                  - instrumentId: 2005
+                    symbol: TSLA
+                    netExposurePct: -0.25
+                    absExposurePct: 0.25
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Target user has opted out of portfolio exposure
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '502':
+          description: Upstream service returned an error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '504':
+          description: Upstream service timed out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/portfolios/{username}/gain/{granularity}:
+    get:
+      tags:
+      - Users Stats
+      summary: Get investor gain time-series
+      description: 'Returns a gain time-series scoped by date range, count, or a combination of one date and a count. Gain values are decimal fractions: 0.06 = 6%, -0.03 = -3%.'
+      operationId: getGainHistory
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: cbc3fc06-56f5-4ece-8fad-0fe276be7499
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: granularity
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - yearly
+      - name: minDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: maxDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Cache-Control:
+              description: public, max-age=3600 for opted-in users; private, max-age=3600 for opted-out self-view.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GainHistoryResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Target user has opted out of portfolio exposure
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AssetsHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+          description: Echoes the requested username.
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetsHistoryEntry'
+    CopiersCurrentResponse:
+      type: object
+      description: Current copiers snapshot and AUM tier for portfolio display.
+      required:
+      - copiers
+      - aumTier
+      properties:
+        copiers:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Current number of copiers.
+        aumTier:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Assets-under-management tier level.
+        aumTierDesc:
+          type: string
+          nullable: true
+          description: Human-readable AUM tier label; null when not provided upstream.
+    StandardErrorResponse:
+      type: object
+      description: Standard public API error envelope.
+      required:
+      - success
+      - error
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+              example: UserNotFound
+            message:
+              type: string
+              description: Human-readable error message.
+              example: Username not found.
+            field:
+              type: string
+              description: Request field associated with the error, when applicable.
+        timestamp:
+          type: string
+          format: date-time
+          description: UTC timestamp when the error was generated.
+        requestId:
+          type: string
+          description: Correlation identifier for support and tracing.
+    AssetsHistoryAsset:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - investedPct
+      - valuePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        investedPct:
+          type: number
+          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
+        valuePct:
+          type: number
+          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
+    ExposureHistoryEntry:
+      type: object
+      required:
+      - date
+      - absExposurePct
+      - exposureItems
+      properties:
+        date:
+          type: string
+          format: date
+          description: ISO 8601 date of this snapshot (YYYY-MM-DD)
+        absExposurePct:
+          type: number
+          description: 'Sum of absolute exposure across all instruments as a ratio of total daily investment. Decimal fraction: 0.5 = 50%.'
+        exposureItems:
+          type: array
+          description: Per-instrument exposure breakdown
+          items:
+            $ref: '#/components/schemas/ExposureItem'
+    ExposureItem:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - netExposurePct
+      - absExposurePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        netExposurePct:
+          type: number
+          description: 'Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.'
+        absExposurePct:
+          type: number
+          description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
+    GainPoint:
+      type: object
+      required:
+      - date
+      - gain
+      properties:
+        date:
+          type: string
+          format: date
+        gain:
+          type: number
+    Error:
+      type: object
+      required:
+      - success
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+    GainHistoryResponse:
+      type: object
+      required:
+      - username
+      - granularity
+      - gains
+      properties:
+        username:
+          type: string
+        granularity:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - yearly
+        totalGain:
+          type: number
+          nullable: true
+          description: Compound gain over the returned series as a decimal fraction. Null when gains is empty.
+        gains:
+          type: array
+          items:
+            $ref: '#/components/schemas/GainPoint'
+    ExposureHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+        results:
+          type: array
+          description: Daily snapshots ordered ascending by date.
+          items:
+            $ref: '#/components/schemas/ExposureHistoryEntry'
+    AssetsHistoryEntry:
+      type: object
+      required:
+      - date
+      - cashPct
+      - cashOfTotalEquityPct
+      - assets
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of this snapshot (YYYY-MM-DD)
+        cashPct:
+          type: number
+          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
+        cashOfTotalEquityPct:
+          type: number
+          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
+        assets:
+          type: array
+          description: Per-instrument breakdown. Mirror allocations are excluded.
+          items:
+            $ref: '#/components/schemas/AssetsHistoryAsset'
+    RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears

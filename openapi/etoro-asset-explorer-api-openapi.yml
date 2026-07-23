@@ -1,0 +1,407 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Asset Explorer API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Asset Explorer
+paths:
+  /api/v1/instruments/discover:
+    get:
+      tags:
+      - Asset Explorer
+      summary: Discover instruments
+      description: Retrieve a paginated list of instruments with optional sorting, field projection, and arbitrary field filters. Filters are applied by adding any of the supported field names as a query parameter (e.g. `exchangeName=NASDAQ`). Suffixing a field name with `Min` or `Max` applies a greater-than or less-than filter respectively (e.g. `peRatioMin=10`, `marketCapMax=1000000000`). The set of supported field names is fixed and is documented under the `Instrument` schema.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 2fa07ad4-b056-405c-803b-e3d8aeb90a58
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: page
+        in: query
+        description: The 1-based page number to retrieve.
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 1
+      - name: pageSize
+        in: query
+        description: The number of items to return per page.
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 50
+      - name: sort
+        in: query
+        description: 'Comma-separated list of `Instrument` fields to sort by. Prefix a field with `-` for descending order. Example: `-marketCap,displayName`.'
+        required: false
+        schema:
+          type: string
+      - name: fields
+        in: query
+        description: 'Comma-separated list of `Instrument` fields to include in each item. If omitted, all supported fields are returned. Example: `symbol,displayName,currentRate`.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response containing a paginated list of instruments.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentSearchResponse'
+        '400':
+          description: Bad request, for example a malformed query parameter.
+      operationId: discoverInstruments
+  /api/v1/instruments/{symbol}:
+    get:
+      tags:
+      - Asset Explorer
+      summary: Get an instrument by symbol
+      description: Retrieve a single instrument by its trading symbol. Use the `fields` query parameter to project a subset of `Instrument` fields.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 6f69fe03-03d6-4a96-a002-609254e0306d
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: symbol
+        in: path
+        description: The trading symbol of the instrument (e.g. `AAPL`, `BTC`).
+        required: true
+        schema:
+          type: string
+        example: AAPL
+      - name: fields
+        in: query
+        description: 'Comma-separated list of `Instrument` fields to include in the response. If omitted, all supported fields are returned. Example: `symbol,displayName,currentRate`.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response containing the instrument.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrument'
+        '404':
+          description: No instrument found for the given symbol.
+      operationId: getAnInstrumentBySymbol
+  /api/v1/instruments/{symbol}/{shortener}:
+    get:
+      tags:
+      - Asset Explorer
+      summary: Get an instrument by symbol using a field shortener
+      description: Retrieve a single instrument by its trading symbol, restricted to the field set defined by the given shortener preset. The `fields` query parameter can further narrow the projection to a subset of the shortener's fields.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: c2f6bf05-a1b6-45e8-807d-2004ace56432
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: symbol
+        in: path
+        description: The trading symbol of the instrument (e.g. `AAPL`, `BTC`).
+        required: true
+        schema:
+          type: string
+        example: AAPL
+      - name: shortener
+        in: path
+        description: The name of an allowed shortener preset that restricts the returned field set.
+        required: true
+        schema:
+          type: string
+        example: summary
+      - name: fields
+        in: query
+        description: 'Comma-separated list of `Instrument` fields to include in the response. Must be a subset of the shortener''s fields. Example: `symbol,displayName,currentRate`.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response containing the instrument restricted to the shortener's fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instrument'
+        '400':
+          description: The provided shortener is not in the allowed list.
+        '404':
+          description: No instrument found for the given symbol.
+      operationId: getInstrumentSymbolUsingFieldShortener
+components:
+  schemas:
+    Instrument:
+      type: object
+      properties:
+        instrumentId:
+          type: integer
+          description: A unique identifier for the instrument.
+        displayname:
+          type: string
+          description: The display name of the instrument.
+        popularityUniques7Day:
+          type: integer
+          description: The number of unique users who viewed this instrument in the last 7 days.
+        instrumentTypeID:
+          type: integer
+          description: The type ID of the instrument.
+        instrumentType:
+          type: string
+          description: The type of the instrument.
+        exchangeID:
+          type: integer
+          description: The ID of the exchange where the instrument is traded.
+        symbol:
+          type: string
+          description: The trading symbol of the instrument.
+        isOpen:
+          type: boolean
+          description: Indicates whether the instrument is currently open for trading.
+        internalAssetClassId:
+          type: integer
+          description: The internal asset class ID.
+        internalInstrumentDisplayName:
+          type: string
+          description: The internal display name of the instrument.
+        isInternalInstrument:
+          type: boolean
+          description: Indicates whether the instrument is internal.
+        internalSymbolFull:
+          type: string
+          description: The full internal symbol of the instrument.
+        isHiddenFromClient:
+          type: boolean
+          description: Indicates whether the instrument is hidden from clients.
+        internalInstrumentId:
+          type: integer
+          description: The internal instrument ID.
+        internalCryptoTypeId:
+          type: integer
+          description: The internal crypto type ID.
+        internalExchangeId:
+          type: integer
+          description: The internal exchange ID.
+        internalExchangeName:
+          type: string
+          description: The internal exchange name.
+        internalAssetClassName:
+          type: string
+          description: The internal asset class name.
+        logo35x35:
+          type: string
+          description: The URL of the 35x35 logo.
+        logo50x50:
+          type: string
+          description: The URL of the 50x50 logo.
+        logo150x150:
+          type: string
+          description: The URL of the 150x150 logo.
+        dailyPriceChange:
+          type: number
+          description: The daily price change.
+        absDailyPriceChange:
+          type: number
+          description: The absolute daily price change.
+        weeklyPriceChange:
+          type: number
+          description: The weekly price change.
+        monthlyPriceChange:
+          type: number
+          description: The monthly price change.
+        isDelisted:
+          type: boolean
+          description: Indicates whether the instrument is delisted.
+        isCurrentlyTradable:
+          type: boolean
+          description: Indicates whether the instrument is currently tradable.
+        isExchangeOpen:
+          type: boolean
+          description: Indicates whether the exchange is open.
+        internalClosingPrice:
+          type: number
+          description: The internal closing price.
+        isActiveInPlatform:
+          type: boolean
+          description: Indicates whether the instrument is active in the platform.
+        isBuyEnabled:
+          type: boolean
+          description: Indicates whether buying is enabled for the instrument.
+        currentRate:
+          type: number
+          description: The current rate of the instrument.
+        threeMonthPriceChange:
+          type: number
+          description: The three-month price change.
+        sixMonthPriceChange:
+          type: number
+          description: The six-month price change.
+        oneYearPriceChange:
+          type: number
+          description: The one-year price change.
+        currMonthPriceChange:
+          type: number
+          description: The current month price change.
+        currQuarterPriceChange:
+          type: number
+          description: The current quarter price change.
+        currYearPriceChange:
+          type: number
+          description: The current year price change.
+        lastYearPriceChange:
+          type: number
+          description: The last year price change.
+        lastTwoYearsPriceChange:
+          type: number
+          description: The last two years price change.
+        oneMonthAgoPriceChange:
+          type: number
+          description: The price change from one month ago.
+        twoMonthsAgoPriceChange:
+          type: number
+          description: The price change from two months ago.
+        threeMonthsAgoPriceChange:
+          type: number
+          description: The price change from three months ago.
+        sixMonthsAgoPriceChange:
+          type: number
+          description: The price change from six months ago.
+        oneYearAgoPriceChange:
+          type: number
+          description: The price change from one year ago.
+        cvtBid:
+          type: number
+          description: The converted bid price.
+        cvtAsk:
+          type: number
+          description: The converted ask price.
+        cvtBiNoSpread:
+          type: number
+          description: The converted bid price without spread.
+        cvtAskNoSpread:
+          type: number
+          description: The converted ask price without spread.
+        traders7DayChange:
+          type: number
+          description: The change in the number of traders over the last 7 days.
+        traders14DayChange:
+          type: number
+          description: The change in the number of traders over the last 14 days.
+        traders30DayChange:
+          type: number
+          description: The change in the number of traders over the last 30 days.
+        popularityUniques14Day:
+          type: integer
+          description: The number of unique users who viewed this instrument in the last 14 days.
+        popularityUniques30Day:
+          type: integer
+          description: The number of unique users who viewed this instrument in the last 30 days.
+        internalIndustryId:
+          type: integer
+          description: The internal industry ID.
+        internalStockIndustryName:
+          type: string
+          description: The internal stock industry name.
+        popularityUniques:
+          type: integer
+          description: Total number of unique users interested in this instrument.
+        holdingPct:
+          type: number
+          description: The holding percentage of this instrument.
+        buyHoldingPct:
+          type: number
+          description: The buy holding percentage.
+        sellHoldingPct:
+          type: number
+          description: The sell holding percentage.
+        buyPctChange24Hours:
+          type: number
+          description: The buy percentage change in the last 24 hours.
+        absBuyPctChange24Hours:
+          type: number
+          description: The absolute buy percentage change in the last 24 hours.
+        industryNameId:
+          type: integer
+          description: The industry name ID.
+        sectorNameId:
+          type: integer
+          description: The sector name ID.
+    InstrumentSearchResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: The current page number.
+        pageSize:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of instruments matching the search criteria.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instrument'

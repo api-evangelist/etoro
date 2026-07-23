@@ -1,0 +1,2377 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Posts API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Posts
+paths:
+  /api/v1/posts:
+    post:
+      tags:
+      - Posts
+      summary: Create a new discussion post
+      description: Creates a new discussion post in the feed system. This endpoint allows users to create posts that can be associated with instruments, users, or general discussions.
+      requestBody:
+        description: Discussion post creation details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscussionCreateRequest'
+      responses:
+        '201':
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '401':
+          description: Authentication required
+        '403':
+          description: User is blocked
+        '422':
+          description: Validation error — content rejected (e.g. by the spam classifier) or fields contain invalid data
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 5753c12d-ff72-498d-b879-50e6b5f3fced
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: createANewDiscussionPost2
+  /api/v1/posts/polls:
+    post:
+      tags:
+      - Posts
+      summary: Create a poll post
+      description: Creates a new poll post. The poll must include a title and at least 2 options. Once created the poll is immutable — options and title cannot be changed. The post itself can still be deleted.
+      requestBody:
+        description: Poll post content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PollCreateRequest'
+      responses:
+        '201':
+          description: Poll post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '401':
+          description: Authentication required
+        '422':
+          description: Validation error — missing message, missing poll title/options, or poll creation failed
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 5d8b0fa3-0fdf-477d-810a-07540f21634c
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: createAPollPost
+  /api/v1/posts/shares:
+    post:
+      tags:
+      - Posts
+      summary: Share a post
+      description: 'Creates a share post that references an existing post. Two variants are supported:
+
+
+        - **Reshare** — send `message` as an empty string (`""`).
+
+        - **Quote share** — send `message` with your commentary text.
+
+
+        Returns 201 on success. See the request body for field-level semantics, including how to collapse share chains.'
+      requestBody:
+        description: 'Share payload.
+
+
+          - `message` (required) — set to `""` for a reshare, or to your commentary text for a quote share. Must be present; cannot be null.
+
+          - `sharedOriginDiscussion` (required) — the ID of the post being shared.
+
+          - `sharedDiscussionId` (optional) — set this only when `sharedOriginDiscussion` itself points to a share. It collapses the chain so the created Post''s `metadata.share.sharedPost` refers to `sharedDiscussionId` and `metadata.share.sharedOriginPost` refers to `sharedOriginDiscussion`, giving readers a flat 2-level reference instead of recursing through the share history. Leave unset for first-level shares.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharePostRequest'
+            examples:
+              reshare:
+                summary: Reshare (empty message)
+                value:
+                  message: ''
+                  sharedOriginDiscussion: d9020c00-c364-11ee-8080-80005148990b
+              quoteShare:
+                summary: Quote share with commentary
+                value:
+                  message: Great insight on Tesla!
+                  sharedOriginDiscussion: d9020c00-c364-11ee-8080-80005148990b
+      responses:
+        '201':
+          description: Share post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Request body is missing or malformed
+        '401':
+          description: Authentication required
+        '403':
+          description: Original owner has blocked the requester or restricted interactions
+        '404':
+          description: Original post not found
+        '422':
+          description: Validation failed — quote message rejected by spam classifier
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: ea5262ff-a374-4562-ba2f-796b6952d27d
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: shareAPost
+  /api/v1/posts/{postId}:
+    get:
+      tags:
+      - Posts
+      summary: Get a single post by ID
+      description: Retrieves a single discussion post by its ID, including comments preview, emotions data, and requester context. Authentication is optional — unauthenticated requests receive the post without personalised requester context.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 1b132bec-2bf1-408f-9eab-bd2f8f2e111b
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        description: ID of the post to retrieve (UUID)
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: take
+        in: query
+        description: Number of inline comments to include in the response
+        schema:
+          type: integer
+          format: int32
+          default: 10
+          minimum: 0
+      - name: badgesExperimentIsEnabled
+        in: query
+        description: Flag indicating whether to include user badges in the response
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Post retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discussion'
+        '404':
+          description: Post not found
+      operationId: getASinglePostById
+    put:
+      tags:
+      - Posts
+      summary: Update an existing post
+      description: 'Updates the authenticated user''s own post in-place. The owner field is derived from the authentication token and must not be supplied in the request body. Editable fields: message, tags, mentions, attachments.'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 76f7af16-4288-4593-bdcb-2a5ebde24206
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        description: ID of the post to update (UUID)
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      requestBody:
+        description: Fields to update on the post
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscussionUpdateRequest'
+      responses:
+        '200':
+          description: Post updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is not the post owner
+        '404':
+          description: Post not found
+        '422':
+          description: Validation failed — missing message body or spam classification rejected the content
+      operationId: updateAnExistingPost
+    delete:
+      tags:
+      - Posts
+      summary: Soft-delete a post
+      description: Soft-deletes the authenticated user's own post. Sets isDeleted=true and blanks message text and attachments. Child comments and like/comment counters are preserved. The post is removed from all feed listings.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 45db71f3-a995-4d82-9045-09549e2ed826
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        description: ID of the post to delete (UUID)
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post deleted successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is not the post owner
+        '404':
+          description: Post not found or already deleted
+      operationId: softDeleteAPost
+  /api/v1/posts/{postId}/follows:
+    post:
+      tags:
+      - Posts
+      summary: Follow a post
+      description: Subscribes the authenticated user to push notifications when the post receives new comments or replies. Drives requesterContext.isFollowing on subsequent reads. Idempotent — following an already-followed post succeeds silently. This endpoint takes no request body.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8c323824-8cb8-4a46-9678-fdf120c4041b
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to follow (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post followed successfully
+        '401':
+          description: Authentication required
+        '404':
+          description: Post not found
+      operationId: followAPost
+    delete:
+      tags:
+      - Posts
+      summary: Unfollow a post
+      description: Unsubscribes the authenticated user from notifications on this post. Idempotent — unfollowing a post that was never followed succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 416f6c1d-ec6e-49de-95e2-b3a3f6d97931
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to unfollow (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post unfollowed successfully
+        '401':
+          description: Authentication required
+        '404':
+          description: Post not found
+      operationId: unfollowAPost
+  /api/v1/posts/{postId}/pins:
+    post:
+      tags:
+      - Posts
+      summary: Pin a post to the user's profile
+      description: Pins the specified post to the authenticated user's profile so it appears at the top of their feed. Users can pin only their own posts. The call is idempotent — pinning an already-pinned post succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 884c9142-5d07-4d52-8cad-1987df6cc40b
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to pin (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post pinned successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is not allowed to pin the specified post (e.g., not the post owner)
+        '404':
+          description: Post not found
+      operationId: pinPostUserSProfile
+    delete:
+      tags:
+      - Posts
+      summary: Unpin a post from the user's profile
+      description: Removes the authenticated user's pin from the specified post. The call is idempotent — unpinning a post that is not currently pinned succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8ab4fe00-2b4a-4448-83cc-b9a043ee46f7
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to unpin (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post unpinned successfully
+        '401':
+          description: Authentication required
+        '403':
+          description: Requester is not allowed to unpin the specified post
+        '404':
+          description: Post not found
+      operationId: unpinPostUserSProfile
+  /api/v1/posts/{postId}/polls/{pollId}/options/{optionId}/votes:
+    post:
+      tags:
+      - Posts
+      summary: Vote on a poll option
+      description: Casts the authenticated user's vote on a specific poll option. Each user can vote only once per poll. Poll owners cannot vote on their own poll.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: ead15c94-1028-43ec-aafa-4c5463f10fe5
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post containing the poll (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: pollId
+        in: path
+        required: true
+        description: ID of the poll
+        schema:
+          type: integer
+        example: 42
+      - name: optionId
+        in: path
+        required: true
+        description: ID of the option to vote for
+        schema:
+          type: integer
+        example: 1
+      - name: client_request_id
+        in: query
+        required: true
+        description: Client-generated correlation ID (UUID). Required for request tracing and idempotency.
+        schema:
+          type: string
+          format: uuid
+        example: 6a7aa746-d94d-4c4f-a755-32827ea53141
+      responses:
+        '202':
+          description: Vote accepted
+        '401':
+          description: Authentication required
+        '404':
+          description: Post, poll, or option not found
+        '422':
+          description: Poll is not part of the specified post
+      operationId: voteOnAPollOption
+    delete:
+      tags:
+      - Posts
+      summary: Remove a vote from a poll option
+      description: Removes the authenticated user's vote from a specific poll option.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 3d00f370-1781-432d-8075-c9d96c5baca8
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post containing the poll (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      - name: pollId
+        in: path
+        required: true
+        description: ID of the poll
+        schema:
+          type: integer
+        example: 42
+      - name: optionId
+        in: path
+        required: true
+        description: ID of the option to unvote
+        schema:
+          type: integer
+        example: 1
+      - name: client_request_id
+        in: query
+        required: true
+        description: Client-generated correlation ID (UUID). Required for request tracing and idempotency.
+        schema:
+          type: string
+          format: uuid
+        example: 6a7aa746-d94d-4c4f-a755-32827ea53141
+      responses:
+        '202':
+          description: Unvote accepted
+        '401':
+          description: Authentication required
+        '404':
+          description: Post, poll, or option not found
+        '422':
+          description: Poll is not part of the specified post
+      operationId: removeVotePollOption
+  /api/v1/posts/{postId}/saves:
+    post:
+      tags:
+      - Posts
+      summary: Save a post
+      description: Bookmarks a post for the authenticated user. Idempotent — saving an already-saved post succeeds silently. The save is private and visible only to the saving user. This endpoint takes no request body.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: bb0966f0-4e46-454e-9048-38f04b90ad42
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to save (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post saved successfully
+        '401':
+          description: Authentication required
+        '404':
+          description: Post not found
+      operationId: saveAPost
+    delete:
+      tags:
+      - Posts
+      summary: Unsave a post
+      description: Removes a post from the authenticated user's saved bookmarks. Idempotent — unsaving a post that was never saved succeeds silently.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 69962b64-4570-4f97-bf18-54aacc33d036
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to unsave (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '204':
+          description: Post unsaved successfully
+        '401':
+          description: Authentication required
+        '404':
+          description: Post not found
+      operationId: unsaveAPost
+  /api/v1/posts/{postId}/shares:
+    get:
+      tags:
+      - Posts
+      summary: List shares of a post
+      description: Returns a paginated list of shares of the specified post, including both plain reshares and quote shares. Authentication is optional.
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 671cbf93-9d82-4172-bd6d-a63fe408e3d1
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      - name: postId
+        in: path
+        required: true
+        description: ID of the post to list shares of (UUID)
+        schema:
+          type: string
+          format: uuid
+        example: d9020c00-c364-11ee-8080-80005148990b
+      - name: take
+        in: query
+        description: Number of items to return (1–100, default 20)
+        schema:
+          type: integer
+          default: 20
+          minimum: 1
+          maximum: 100
+        example: 20
+      - name: offsetEntityId
+        in: query
+        description: Opaque cursor from a previous response for stable paging
+        schema:
+          type: string
+        example: c3d4e5f6-a7b8-4901-cdef-345678901234
+      - name: order
+        in: query
+        description: Sort order
+        schema:
+          type: string
+          enum:
+          - Asc
+          - Desc
+          default: Desc
+        example: Desc
+      - name: client_request_id
+        in: query
+        required: true
+        description: Client-generated correlation ID (UUID). Required for request tracing and idempotency.
+        schema:
+          type: string
+          format: uuid
+        example: 2b6361e3-079c-42a1-b6d5-4b9c16601ae1
+      responses:
+        '200':
+          description: Paginated list of shares
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharesResponse'
+        '404':
+          description: Post not found
+      operationId: listSharesOfAPost
+components:
+  schemas:
+    User:
+      type: object
+      description: eToro user profile (slim projection)
+      properties:
+        id:
+          type: string
+          description: User's GCID (string form)
+          example: '7890'
+        username:
+          type: string
+          description: Unique username
+          example: johndoe
+        firstName:
+          type: string
+          description: First name
+          example: John
+        lastName:
+          type: string
+          description: Last name
+          example: Doe
+        avatar:
+          type: object
+          description: Profile picture URLs
+          properties:
+            small:
+              type: string
+              description: 32 px avatar URL
+              example: https://etoro-cdn.etorostatic.com/avatars/150X150/johndoe.jpg
+            medium:
+              type: string
+              description: 64 px avatar URL
+              example: https://etoro-cdn.etorostatic.com/avatars/200X200/johndoe.jpg
+            large:
+              type: string
+              description: 128 px avatar URL
+              example: https://etoro-cdn.etorostatic.com/avatars/300X300/johndoe.jpg
+            svg:
+              type: object
+              nullable: true
+              description: SVG avatar with brand colours (null when not available)
+              properties:
+                url:
+                  type: string
+                  description: SVG URL
+                  example: https://etoro-cdn.etorostatic.com/avatars/svg/johndoe.svg
+                backgroundColor:
+                  type: string
+                  description: Background colour hex
+                  example: '#2196F3'
+                textColor:
+                  type: string
+                  description: Text colour hex
+                  example: '#FFFFFF'
+        roles:
+          type: array
+          description: User roles
+          items:
+            type: string
+            enum:
+            - Regular
+            - PI
+            - Moderator
+            - Anonymous
+            - eToroTeam
+            - eTorian
+            - CopyPortfolio
+            - Depositor
+            - Admin
+            - Verified
+            - Analyst
+          example:
+          - Regular
+        isBlocked:
+          type: boolean
+          description: Owner has blocked the requester
+          example: false
+        isPrivate:
+          type: boolean
+          description: User's profile is private
+          example: false
+        countryCode:
+          type: integer
+          description: ISO numeric country code
+          example: 840
+        piLevel:
+          type: integer
+          description: Popular Investor level (0 = not PI)
+          example: 0
+    SharePostRequest:
+      type: object
+      description: Request body for sharing a post. Both `message` and `sharedOriginDiscussion` are required. Use `message = ""` for a reshare or a non-empty `message` for a quote share.
+      required:
+      - message
+      - sharedOriginDiscussion
+      properties:
+        message:
+          type: string
+          description: Required. Set to `""` (empty string) for a reshare, or to the commentary text for a quote share. Cannot be null or omitted.
+          example: ''
+        sharedOriginDiscussion:
+          type: string
+          description: Required. ID of the post being shared.
+          example: d9020c00-c364-11ee-8080-80005148990b
+        sharedDiscussionId:
+          type: string
+          description: Optional. Only set this when `sharedOriginDiscussion` itself points to a share — it identifies the intermediate share, so the created Post's `metadata.share.sharedPost` is set to this post and `metadata.share.sharedOriginPost` to `sharedOriginDiscussion`, collapsing the chain to a 2-level reference in subsequent reads. Leave unset for first-level shares.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        attachments:
+          $ref: '#/components/schemas/Attachments'
+    DiscussionsPost:
+      type: object
+      description: Post data embedded inside a Discussion feed item
+      properties:
+        id:
+          type: string
+          description: Post ID
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        owner:
+          $ref: '#/components/schemas/User'
+        obsoleteId:
+          type: string
+          description: Legacy numeric post ID
+          example: '12345'
+        message:
+          type: object
+          description: Post/comment text content
+          properties:
+            text:
+              type: string
+              description: Text content
+              example: Excited about $TSLA earnings next week!
+            languageCode:
+              type: string
+              description: BCP-47 language code
+              example: en
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2025-01-15T10:30:00Z'
+        updated:
+          type: string
+          format: date-time
+          nullable: true
+          description: Last-edited timestamp
+          example: '2025-01-16T08:00:00Z'
+        type:
+          type: string
+          enum:
+          - Default
+          - Share
+          - MarketEvent
+          - Trade
+          - Order
+          - Copy
+          - Poll
+          - Article
+          description: Post type
+          example: Default
+        isDeleted:
+          type: boolean
+          description: True when soft-deleted
+          example: false
+        isSpam:
+          type: boolean
+          description: True when classified as spam
+          example: false
+        editStatus:
+          type: string
+          enum:
+          - None
+          - Edited
+          - Moderated
+          description: Edit lifecycle status
+          example: None
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              market:
+                $ref: '#/components/schemas/Market'
+        mentions:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/User'
+              isDirect:
+                type: boolean
+                description: Direct @-mention
+                example: true
+        metadata:
+          type: object
+          description: Post type–specific metadata — only the relevant key is populated
+          properties:
+            share:
+              type: object
+              description: Share metadata — present when type is Share
+              properties:
+                sharedPost:
+                  $ref: '#/components/schemas/DiscussionsPost'
+                sharedOriginPost:
+                  $ref: '#/components/schemas/DiscussionsPost'
+            marketEvent:
+              type: object
+              description: Market event metadata — present when type is MarketEvent
+              properties:
+                earningReportId:
+                  type: integer
+                  description: Earnings report ID
+                  example: 1042
+                market:
+                  $ref: '#/components/schemas/Market'
+                stocksIndustryId:
+                  type: integer
+                  description: Industry sector ID
+                  example: 15
+                earningsDate:
+                  type: string
+                  format: date-time
+                  description: Earnings announcement date
+                  example: '2025-01-15T10:30:00Z'
+                isBeforeMarketOpen:
+                  type: boolean
+                  description: Event occurs before market open
+                  example: true
+                earningsYear:
+                  type: integer
+                  description: Fiscal year of earnings
+                  example: 2025
+                earningsQuarter:
+                  type: integer
+                  description: Fiscal quarter (1–4)
+                  example: 1
+                verified:
+                  type: boolean
+                  description: Whether the event data is verified
+                  example: true
+                marketCap:
+                  type: number
+                  format: double
+                  description: Market capitalisation in USD
+                  example: 800000000000
+                estimatedEps:
+                  type: number
+                  format: double
+                  description: Estimated earnings per share
+                  example: 1.42
+                estimatedSales:
+                  type: number
+                  format: double
+                  description: Estimated revenue in USD
+                  example: 25000000000
+                tagName:
+                  type: string
+                  enum:
+                  - Reports
+                  - Dividends
+                  - Split
+                  - ReverseSplit
+                  description: Event tag
+                  example: Reports
+                textKey:
+                  type: integer
+                  description: Localisation key for event label
+                  example: 3
+            trade:
+              type: object
+              description: Trade metadata — present when type is Trade
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Open
+                  - Close
+                  description: Trade lifecycle stage
+                  example: Open
+                positionId:
+                  type: integer
+                  description: Internal position ID
+                  example: 987654321
+                market:
+                  $ref: '#/components/schemas/Market'
+                gain:
+                  type: number
+                  format: float
+                  description: P&L gain/loss percentage
+                  example: 12.5
+                rate:
+                  type: number
+                  format: float
+                  description: Entry/exit rate
+                  example: 245.3
+                direction:
+                  type: string
+                  enum:
+                  - Long
+                  - Short
+                  description: Trade direction
+                  example: Long
+            order:
+              type: object
+              description: Order metadata — present when type is Order
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Open
+                  - Close
+                  description: Order lifecycle stage
+                  example: Open
+                orderId:
+                  type: integer
+                  description: Internal order ID
+                  example: 123456789
+                market:
+                  $ref: '#/components/schemas/Market'
+                rate:
+                  type: number
+                  format: float
+                  description: Limit/entry rate
+                  example: 240
+                direction:
+                  type: string
+                  enum:
+                  - Long
+                  - Short
+                  description: Order direction
+                  example: Long
+            copy:
+              type: object
+              description: Copy metadata — present when type is Copy
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Start
+                  - Stop
+                  description: Copy event type
+                  example: Start
+                user:
+                  $ref: '#/components/schemas/User'
+            poll:
+              type: object
+              description: Poll metadata — present when type is Poll
+              properties:
+                id:
+                  type: integer
+                  description: Poll ID
+                  example: 55
+                title:
+                  type: string
+                  description: Poll question
+                  example: Where do you see $TSLA by year-end?
+                gcid:
+                  type: integer
+                  description: Poll creator GCID
+                  example: 7890
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: Option ID
+                        example: 1
+                      index:
+                        type: integer
+                        description: Display order (1-based, matches the index supplied at poll creation)
+                        example: 1
+                        minimum: 1
+                      text:
+                        type: string
+                        description: Option label
+                        example: Bullish
+                      isUserVoted:
+                        type: boolean
+                        description: Requester voted for this option
+                        example: false
+                      votesCount:
+                        type: integer
+                        description: Total votes for this option
+                        example: 128
+            article:
+              type: object
+              description: Article metadata — present when post type is Article
+              properties:
+                id:
+                  type: integer
+                  description: Article ID
+                  example: 9001
+                title:
+                  type: string
+                  description: Article title
+                  example: Why TSLA Could Hit $500 This Year
+                url:
+                  type: string
+                  description: Canonical article URL
+                  example: https://etoro.com/news/markets/articles/why-tsla-could-hit-500
+                rating:
+                  type: string
+                  enum:
+                  - Bearish
+                  - Bullish
+                  nullable: true
+                  description: Analyst rating
+                  example: Bullish
+                featuredImage:
+                  $ref: '#/components/schemas/Attachment'
+                body:
+                  type: string
+                  description: Full article HTML body
+                  example: <p>Tesla has shown strong fundamentals...</p>
+                bodyPreview:
+                  type: string
+                  description: Plain-text preview (≈200 chars)
+                  example: Tesla has shown strong fundamentals this quarter...
+                aiSummary:
+                  type: string
+                  description: AI-generated summary
+                  example: Analyst argues Tesla's pipeline supports a $500 target by year-end.
+                languageCode:
+                  type: string
+                  description: BCP-47 language code
+                  example: en
+                status:
+                  type: string
+                  enum:
+                  - Draft
+                  - Published
+                  - Deleted
+                  description: Publication status
+                  example: Published
+                editStatus:
+                  type: string
+                  enum:
+                  - None
+                  - Edited
+                  - Moderated
+                  description: Edit status
+                  example: None
+                ownerId:
+                  type: integer
+                  description: Author's internal user ID
+                  example: 7890
+                created:
+                  type: string
+                  format: date-time
+                  description: When the article was created
+                  example: '2025-01-15T10:30:00Z'
+                updated:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Last edit timestamp
+                  example: '2025-01-16T08:00:00Z'
+                published:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Publication timestamp
+                  example: '2025-01-16T09:00:00Z'
+                readingTimeMinutes:
+                  type: number
+                  format: float
+                  description: Estimated reading time
+                  example: 3.5
+                wordCount:
+                  type: integer
+                  description: Word count
+                  example: 750
+    Attachment:
+      type: object
+      description: Media or link attachment
+      properties:
+        url:
+          type: string
+          description: Full URL of the attachment
+          example: https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg
+        title:
+          type: string
+          description: Title of the attachment
+          example: Tesla Q4 Earnings Chart
+        host:
+          type: string
+          description: Host domain of the attachment
+          example: cdn.etoro.com
+        description:
+          type: string
+          description: Short description of the attachment
+          example: Tesla quarterly earnings breakdown
+        mediaType:
+          type: string
+          enum:
+          - None
+          - Link
+          - Image
+          - Video
+          description: Type of media
+          example: Image
+        media:
+          type: object
+          description: Media content details
+          properties:
+            image:
+              type: object
+              description: Image dimensions and URL
+              properties:
+                width:
+                  type: integer
+                  description: Width in pixels
+                  example: 1200
+                height:
+                  type: integer
+                  description: Height in pixels
+                  example: 630
+                url:
+                  type: string
+                  description: Image URL
+                  example: https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg
+            video:
+              type: object
+              description: Video source details
+              properties:
+                videoSourceId:
+                  type: string
+                  description: External video ID
+                  example: dQw4w9WgXcQ
+                videoSource:
+                  type: string
+                  enum:
+                  - None
+                  - YouTube
+                  - Vimeo
+                  description: Video provider
+                  example: YouTube
+                image:
+                  type: object
+                  description: Video thumbnail
+                  properties:
+                    width:
+                      type: integer
+                      description: Thumbnail width in pixels
+                      example: 1280
+                    height:
+                      type: integer
+                      description: Thumbnail height in pixels
+                      example: 720
+                    url:
+                      type: string
+                      description: Thumbnail URL
+                      example: https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg
+    Emotion:
+      type: object
+      description: A like reaction on a post or comment
+      properties:
+        type:
+          type: string
+          enum:
+          - Like
+          description: Emotion type (currently only Like is supported)
+          example: Like
+        id:
+          type: string
+          description: Emotion ID
+          example: b2c3d4e5-f6a7-4890-bcde-f23456789012
+        owner:
+          $ref: '#/components/schemas/User'
+        obsoleteId:
+          type: string
+          description: Legacy numeric emotion ID
+          example: '54321'
+        parent:
+          type: object
+          description: Parent entity reference
+          properties:
+            id:
+              type: string
+              description: Parent entity ID
+              example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+            obsoleteId:
+              type: string
+              description: Legacy parent ID
+              example: '12345'
+            type:
+              type: string
+              enum:
+              - Unknown
+              - Post
+              - Comment
+              - Reply
+              description: Parent entity type
+              example: Post
+        created:
+          type: string
+          format: date-time
+          description: When the like was created
+          example: '2025-01-15T10:30:00Z'
+    DiscussionCreateRequest:
+      type: object
+      description: Request body for creating a new discussion post
+      properties:
+        message:
+          type: string
+          description: Post text content (max 1000 chars)
+          example: Just opened a long position on $TSLA — strong earnings ahead!
+        attachments:
+          $ref: '#/components/schemas/Attachments'
+    Market:
+      type: object
+      description: Financial instrument / market
+      properties:
+        id:
+          type: string
+          description: Market identifier
+          example: TSLA
+        symbolName:
+          type: string
+          description: Ticker symbol
+          example: TSLA
+        displayName:
+          type: string
+          description: Human-readable name
+          example: Tesla
+        updated:
+          type: string
+          format: date-time
+          nullable: true
+          description: Last update timestamp
+          example: '2025-01-15T00:00:00Z'
+        assetType:
+          type: string
+          enum:
+          - Stocks
+          - Bonds
+          - ETF
+          - Index
+          - Warrants
+          - Options
+          - Futures
+          - CFD
+          - TRS
+          - FOREX
+          - CommodityMetals
+          - CommodityEnergyAgriculture
+          - CryptoCoin
+          - NFT
+          description: Asset class
+          example: Stocks
+        internalId:
+          type: integer
+          description: Internal numeric market ID
+          example: 59114
+        avatar:
+          type: object
+          description: Market logo images
+          properties:
+            small:
+              type: string
+              description: Small logo URL (32 px)
+              example: https://cdn.etoro.com/assets/img/markets/TSLA/small.png
+            medium:
+              type: string
+              description: Medium logo URL (64 px)
+              example: https://cdn.etoro.com/assets/img/markets/TSLA/medium.png
+            large:
+              type: string
+              description: Large logo URL (128 px)
+              example: https://cdn.etoro.com/assets/img/markets/TSLA/large.png
+            svg:
+              type: object
+              nullable: true
+              description: SVG logo with brand colours
+              properties:
+                url:
+                  type: string
+                  description: SVG URL
+                  example: https://cdn.etoro.com/assets/img/markets/TSLA/logo.svg
+                backgroundColor:
+                  type: string
+                  description: Brand background colour (hex)
+                  example: '#CC0000'
+                textColor:
+                  type: string
+                  description: Brand text colour (hex)
+                  example: '#FFFFFF'
+        application:
+          type: string
+          enum:
+          - eToro
+          - Delta
+          - Gatsby
+          description: Source application
+          example: eToro
+        metadata:
+          type: string
+          description: Opaque JSON metadata string
+          example: '{}'
+        assetTypeId:
+          type: integer
+          description: Numeric asset type ID
+          example: 10
+        assetTypeSubCategoryId:
+          type: integer
+          description: Numeric asset sub-category ID
+          example: 101
+    Attachments:
+      type: array
+      description: List of attachments for a post or comment (request body format)
+      items:
+        type: object
+        description: Media or link attachment
+        properties:
+          url:
+            type: string
+            description: Full URL of the attachment
+            example: https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg
+          title:
+            type: string
+            description: Title of the attachment
+            example: Tesla Q4 Earnings Chart
+          host:
+            type: string
+            description: Host domain of the attachment
+            example: cdn.etoro.com
+          description:
+            type: string
+            description: Short description of the attachment
+            example: Tesla quarterly earnings breakdown
+          mediaType:
+            type: string
+            enum:
+            - None
+            - Link
+            - Image
+            description: Type of media (video not supported for upload)
+            example: Image
+          media:
+            type: object
+            description: Media content details (images only)
+            properties:
+              image:
+                type: object
+                description: Image dimensions and URL
+                properties:
+                  width:
+                    type: integer
+                    description: Width in pixels
+                    example: 1200
+                  height:
+                    type: integer
+                    description: Height in pixels
+                    example: 630
+                  url:
+                    type: string
+                    description: Image URL
+                    example: https://cdn.etoro.com/rich-media/images/johndoe/abc-2025-01-15.jpg
+    Comment:
+      type: object
+      description: A comment (or reply) on a post, wrapped with interaction data
+      properties:
+        entity:
+          type: object
+          description: Core comment data
+          properties:
+            id:
+              type: string
+              description: Comment ID
+              example: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+            owner:
+              $ref: '#/components/schemas/User'
+            obsoleteId:
+              type: string
+              description: Legacy numeric comment ID
+              example: '98765'
+            created:
+              type: string
+              format: date-time
+              description: Creation timestamp
+              example: '2025-01-15T10:30:00Z'
+            updated:
+              type: string
+              format: date-time
+              nullable: true
+              description: Last-edited timestamp
+              example: '2025-01-15T11:00:00Z'
+            message:
+              type: object
+              description: Post/comment text content
+              properties:
+                text:
+                  type: string
+                  description: Text content
+                  example: Excited about $TSLA earnings next week!
+                languageCode:
+                  type: string
+                  description: BCP-47 language code
+                  example: en
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Attachment'
+            mentions:
+              type: array
+              items:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  isDirect:
+                    type: boolean
+                    description: Direct @-mention
+                    example: true
+            tags:
+              type: array
+              items:
+                type: object
+                properties:
+                  market:
+                    $ref: '#/components/schemas/Market'
+            isSpam:
+              type: boolean
+              description: True when classified as spam
+              example: false
+            editStatus:
+              type: string
+              enum:
+              - None
+              - Edited
+              - Moderated
+              description: Edit lifecycle status
+              example: None
+            parent:
+              type: object
+              description: Parent entity reference
+              properties:
+                id:
+                  type: string
+                  description: Parent entity ID
+                  example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                obsoleteId:
+                  type: string
+                  description: Legacy parent ID
+                  example: '12345'
+                type:
+                  type: string
+                  enum:
+                  - Unknown
+                  - Post
+                  - Comment
+                  - Reply
+                  description: Parent entity type
+                  example: Post
+        repliesCount:
+          type: integer
+          description: Number of direct replies to this comment
+          example: 2
+        replies:
+          type: array
+          description: Inline reply preview. Each entry has the same shape as Comment; nested `replies` arrays are not populated at this level.
+          items:
+            $ref: '#/components/schemas/Comment'
+        emotionsData:
+          type: object
+          description: Aggregated emotions (likes) on an entity
+          properties:
+            like:
+              type: object
+              properties:
+                paging:
+                  type: object
+                  description: Pagination cursor info
+                  properties:
+                    totalCount:
+                      type: integer
+                      description: Total number of items
+                      example: 42
+                    offsetEntityId:
+                      type: string
+                      description: Opaque cursor for next page
+                      example: b2c3d4e5-f6a7-4890-bcde-f23456789012
+                    next:
+                      type: string
+                      description: URL to next page
+                      example: /api/v1/reactions/3fa85f64-5717-4562-b3fc-2c963f66afa6/emotions?offset=10&take=10
+                emotions:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Emotion'
+        requesterContext:
+          type: object
+          description: Requester's relationship state with the comment
+          properties:
+            isOwner:
+              type: boolean
+              description: Requester is the comment owner
+              example: false
+            isFlaggingAsSpam:
+              type: boolean
+              description: Requester flagged this as spam
+              example: false
+            isSubscribed:
+              type: boolean
+              description: Requester is subscribed to notifications
+              example: false
+            isLiking:
+              type: boolean
+              description: Requester has liked this comment
+              example: false
+            isSaved:
+              type: boolean
+              description: Requester has saved this comment
+              example: false
+            isPinned:
+              type: boolean
+              description: Comment is pinned
+              example: false
+            isRequesterBlocking:
+              type: boolean
+              description: Requester is blocking the comment owner
+              example: false
+            isInteractionRestricted:
+              type: boolean
+              description: Owner has blocked the requester
+              example: false
+    Discussion:
+      type: object
+      description: A single discussion entry in a feed — wraps a Post with its interaction data
+      properties:
+        id:
+          type: string
+          description: Discussion wrapper ID (same as post ID)
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        post:
+          $ref: '#/components/schemas/DiscussionsPost'
+        commentsData:
+          type: object
+          description: Inline comments preview
+          properties:
+            reactionPaging:
+              type: object
+              properties:
+                totalCount:
+                  type: integer
+                  description: Total comment count on this post
+                  example: 14
+            comments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Comment'
+        emotionsData:
+          type: object
+          description: Aggregated emotions (likes) on an entity
+          properties:
+            like:
+              type: object
+              properties:
+                paging:
+                  type: object
+                  description: Pagination cursor info
+                  properties:
+                    totalCount:
+                      type: integer
+                      description: Total number of items
+                      example: 42
+                    offsetEntityId:
+                      type: string
+                      description: Opaque cursor for next page
+                      example: b2c3d4e5-f6a7-4890-bcde-f23456789012
+                    next:
+                      type: string
+                      description: URL to next page
+                      example: /api/v1/reactions/3fa85f64-5717-4562-b3fc-2c963f66afa6/emotions?offset=10&take=10
+                emotions:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Emotion'
+        requesterContext:
+          type: object
+          description: Requester's relationship state with the post
+          properties:
+            isOwner:
+              type: boolean
+              description: Requester is the post owner
+              example: false
+            isFlaggingAsSpam:
+              type: boolean
+              description: Requester flagged this as spam
+              example: false
+            isSubscribed:
+              type: boolean
+              description: Requester is subscribed to notifications
+              example: false
+            isLiking:
+              type: boolean
+              description: Requester has liked this post
+              example: true
+            isSaved:
+              type: boolean
+              description: Requester has saved this post
+              example: false
+            isPinned:
+              type: boolean
+              description: Post is pinned for the requester
+              example: false
+            isRequesterBlocking:
+              type: boolean
+              description: Requester is blocking the post owner
+              example: false
+            isInteractionRestricted:
+              type: boolean
+              description: Owner has blocked the requester
+              example: false
+            isFollowing:
+              type: boolean
+              description: Requester is following this post
+              example: true
+        summary:
+          type: object
+          description: Post-level engagement counters
+          properties:
+            totalCommentsAndReplies:
+              type: integer
+              description: Sum of all comments and replies
+              example: 14
+            sharedCount:
+              type: integer
+              description: Number of times this post has been shared
+              example: 3
+        reason:
+          nullable: true
+          description: 'Why this post appears in the feed (ForYou only). May be null or an object: { type: ''followed-user''|''instrument-trending'', sourceId, owner }'
+          example:
+            type: followed-user
+            sourceId: '7890'
+            owner: johndoe
+    DiscussionUpdateRequest:
+      type: object
+      description: Request body for updating a post. Owner is derived from the auth token — do not supply it.
+      properties:
+        message:
+          type: string
+          description: Updated text content
+          example: Updating my view on $TSLA — still bullish but watching earnings closely.
+        attachments:
+          $ref: '#/components/schemas/Attachments'
+    PollCreateRequest:
+      type: object
+      description: Request body for creating a poll post
+      required:
+      - message
+      - poll
+      properties:
+        message:
+          type: string
+          description: Text content of the post (max 1000 chars)
+          example: Where do you think $TSLA will be in 6 months?
+        poll:
+          type: object
+          description: Poll configuration
+          required:
+          - title
+          - options
+          properties:
+            title:
+              type: string
+              description: Poll question / title
+              example: TSLA price target in 6 months?
+            options:
+              type: array
+              description: Poll answer options (min 2, max 4)
+              minItems: 2
+              maxItems: 4
+              items:
+                type: object
+                required:
+                - text
+                - index
+                properties:
+                  text:
+                    type: string
+                    description: Option label
+                    example: Above $300
+                  index:
+                    type: integer
+                    description: One-based position index of the option (starts at 1)
+                    example: 1
+                    minimum: 1
+        attachments:
+          $ref: '#/components/schemas/Attachments'
+    SharesResponse:
+      type: object
+      description: Paginated list of shares on a post
+      properties:
+        paging:
+          type: object
+          description: Pagination info
+          properties:
+            totalCount:
+              type: integer
+              description: Total number of shares
+              example: 17
+            offsetEntityId:
+              type: string
+              description: Opaque cursor for next page
+              example: c3d4e5f6-a7b8-4901-cdef-345678901234
+            next:
+              type: string
+              description: URL to fetch the next page
+              example: /api/v1/feeds/post/d9020c00-c364-11ee-8080-80005148990b/shares?take=20&offsetEntityId=c3d4e5f6-a7b8-4901-cdef-345678901234
+        postShares:
+          type: array
+          description: List of share entries
+          items:
+            type: object
+            description: A single share record
+            properties:
+              shareReactionId:
+                type: string
+                description: ID of the share reaction
+                example: e5f6a7b8-c9d0-4123-efab-567890123456
+              createdAt:
+                type: string
+                format: date-time
+                description: When the share was created
+                example: '2025-01-15T10:30:00Z'
+                nullable: true
+              owner:
+                $ref: '#/components/schemas/User'
+    Post:
+      type: object
+      description: A feed post returned by create / update / get-by-ID
+      properties:
+        id:
+          type: string
+          description: Unique post ID
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        owner:
+          $ref: '#/components/schemas/User'
+        obsoleteId:
+          type: string
+          description: Legacy numeric post ID
+          example: '12345'
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2025-01-15T10:30:00Z'
+        message:
+          type: object
+          description: Post/comment text content
+          properties:
+            text:
+              type: string
+              description: Text content
+              example: Excited about $TSLA earnings next week!
+            languageCode:
+              type: string
+              description: BCP-47 language code
+              example: en
+        updated:
+          type: string
+          format: date-time
+          nullable: true
+          description: Last-edited timestamp
+          example: '2025-01-16T08:00:00Z'
+        isDeleted:
+          type: boolean
+          description: True when the post has been soft-deleted
+          example: false
+        type:
+          type: string
+          enum:
+          - Default
+          - Share
+          - MarketEvent
+          - Trade
+          - Order
+          - Copy
+          - Poll
+          - Article
+          description: Post type
+          example: Default
+        metadata:
+          type: object
+          description: Post type–specific metadata — only the relevant key is populated
+          properties:
+            share:
+              type: object
+              description: Share metadata — present when type is Share
+              properties:
+                sharedPost:
+                  $ref: '#/components/schemas/Post'
+                sharedOriginPost:
+                  $ref: '#/components/schemas/Post'
+            marketEvent:
+              type: object
+              description: Market event metadata — present when type is MarketEvent
+              properties:
+                earningReportId:
+                  type: integer
+                  description: Earnings report ID
+                  example: 1042
+                market:
+                  $ref: '#/components/schemas/Market'
+                stocksIndustryId:
+                  type: integer
+                  description: Industry sector ID
+                  example: 15
+                earningsDate:
+                  type: string
+                  format: date-time
+                  description: Earnings announcement date
+                  example: '2025-01-15T10:30:00Z'
+                isBeforeMarketOpen:
+                  type: boolean
+                  description: Event occurs before market open
+                  example: true
+                earningsYear:
+                  type: integer
+                  description: Fiscal year of earnings
+                  example: 2025
+                earningsQuarter:
+                  type: integer
+                  description: Fiscal quarter (1–4)
+                  example: 1
+                verified:
+                  type: boolean
+                  description: Whether the event data is verified
+                  example: true
+                marketCap:
+                  type: number
+                  format: double
+                  description: Market capitalisation in USD
+                  example: 800000000000
+                estimatedEps:
+                  type: number
+                  format: double
+                  description: Estimated earnings per share
+                  example: 1.42
+                estimatedSales:
+                  type: number
+                  format: double
+                  description: Estimated revenue in USD
+                  example: 25000000000
+                tagName:
+                  type: string
+                  enum:
+                  - Reports
+                  - Dividends
+                  - Split
+                  - ReverseSplit
+                  description: Event tag
+                  example: Reports
+                textKey:
+                  type: integer
+                  description: Localisation key for event label
+                  example: 3
+            trade:
+              type: object
+              description: Trade metadata — present when type is Trade
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Open
+                  - Close
+                  description: Trade lifecycle stage
+                  example: Open
+                positionId:
+                  type: integer
+                  description: Internal position ID
+                  example: 987654321
+                market:
+                  $ref: '#/components/schemas/Market'
+                gain:
+                  type: number
+                  format: float
+                  description: P&L gain/loss percentage
+                  example: 12.5
+                rate:
+                  type: number
+                  format: float
+                  description: Entry/exit rate
+                  example: 245.3
+                direction:
+                  type: string
+                  enum:
+                  - Long
+                  - Short
+                  description: Trade direction
+                  example: Long
+            order:
+              type: object
+              description: Order metadata — present when type is Order
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Open
+                  - Close
+                  description: Order lifecycle stage
+                  example: Open
+                orderId:
+                  type: integer
+                  description: Internal order ID
+                  example: 123456789
+                market:
+                  $ref: '#/components/schemas/Market'
+                rate:
+                  type: number
+                  format: float
+                  description: Limit/entry rate
+                  example: 240
+                direction:
+                  type: string
+                  enum:
+                  - Long
+                  - Short
+                  description: Order direction
+                  example: Long
+            copy:
+              type: object
+              description: Copy metadata — present when type is Copy
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - Start
+                  - Stop
+                  description: Copy event type
+                  example: Start
+                user:
+                  $ref: '#/components/schemas/User'
+            poll:
+              type: object
+              description: Poll metadata — present when type is Poll
+              properties:
+                id:
+                  type: integer
+                  description: Poll ID
+                  example: 55
+                title:
+                  type: string
+                  description: Poll question
+                  example: Where do you see $TSLA by year-end?
+                gcid:
+                  type: integer
+                  description: Poll creator GCID
+                  example: 7890
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: Option ID
+                        example: 1
+                      index:
+                        type: integer
+                        description: Display order (1-based, matches the index supplied at poll creation)
+                        example: 1
+                        minimum: 1
+                      text:
+                        type: string
+                        description: Option label
+                        example: Bullish
+                      isUserVoted:
+                        type: boolean
+                        description: Requester voted for this option
+                        example: false
+                      votesCount:
+                        type: integer
+                        description: Total votes for this option
+                        example: 128
+            article:
+              type: object
+              description: Article metadata — present when post type is Article
+              properties:
+                id:
+                  type: integer
+                  description: Article ID
+                  example: 9001
+                title:
+                  type: string
+                  description: Article title
+                  example: Why TSLA Could Hit $500 This Year
+                url:
+                  type: string
+                  description: Canonical article URL
+                  example: https://etoro.com/news/markets/articles/why-tsla-could-hit-500
+                rating:
+                  type: string
+                  enum:
+                  - Bearish
+                  - Bullish
+                  nullable: true
+                  description: Analyst rating
+                  example: Bullish
+                featuredImage:
+                  $ref: '#/components/schemas/Attachment'
+                body:
+                  type: string
+                  description: Full article HTML body
+                  example: <p>Tesla has shown strong fundamentals...</p>
+                bodyPreview:
+                  type: string
+                  description: Plain-text preview (≈200 chars)
+                  example: Tesla has shown strong fundamentals this quarter...
+                aiSummary:
+                  type: string
+                  description: AI-generated summary
+                  example: Analyst argues Tesla's pipeline supports a $500 target by year-end.
+                languageCode:
+                  type: string
+                  description: BCP-47 language code
+                  example: en
+                status:
+                  type: string
+                  enum:
+                  - Draft
+                  - Published
+                  - Deleted
+                  description: Publication status
+                  example: Published
+                editStatus:
+                  type: string
+                  enum:
+                  - None
+                  - Edited
+                  - Moderated
+                  description: Edit status
+                  example: None
+                ownerId:
+                  type: integer
+                  description: Author's internal user ID
+                  example: 7890
+                created:
+                  type: string
+                  format: date-time
+                  description: When the article was created
+                  example: '2025-01-15T10:30:00Z'
+                updated:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Last edit timestamp
+                  example: '2025-01-16T08:00:00Z'
+                published:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Publication timestamp
+                  example: '2025-01-16T09:00:00Z'
+                readingTimeMinutes:
+                  type: number
+                  format: float
+                  description: Estimated reading time
+                  example: 3.5
+                wordCount:
+                  type: integer
+                  description: Word count
+                  example: 750
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              market:
+                $ref: '#/components/schemas/Market'
+        mentions:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                $ref: '#/components/schemas/User'
+              isDirect:
+                type: boolean
+                description: Direct @-mention
+                example: true
+        isSpam:
+          type: boolean
+          description: True when the post is classified as spam
+          example: false
+        editStatus:
+          type: string
+          enum:
+          - None
+          - Edited
+          - Moderated
+          description: Edit lifecycle status
+          example: None

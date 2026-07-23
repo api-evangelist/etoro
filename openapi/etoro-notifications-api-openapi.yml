@@ -1,0 +1,174 @@
+openapi: 3.0.1
+info:
+  title: Deprecated eToro Public API operations Agent Portfolios Notifications API
+  version: v1.158.0
+  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+tags:
+- name: Notifications
+paths:
+  /api/v1/notifications/messages:
+    get:
+      tags:
+      - Notifications
+      summary: Get in-app notifications
+      description: 'Retrieves all in-app notifications for the authenticated user. Rate limit: 1 request per second.'
+      responses:
+        '200':
+          description: Notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InAppNotificationsResult'
+        '401':
+          description: Unauthorized
+        '422':
+          description: Validation failed
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: d45f86bf-1871-4e66-ab5a-0cfe4779c52e
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: getInAppNotifications
+    patch:
+      tags:
+      - Notifications
+      summary: Mark all notifications as read
+      description: 'Marks all notifications as read for the authenticated user. Rate limit: 20 requests per minute.'
+      responses:
+        '204':
+          description: All notifications marked as read
+        '401':
+          description: Unauthorized
+        '422':
+          description: Validation failed
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 52eaaee7-b830-4641-8675-71abbbf60768
+        description: A unique request identifier.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
+        description: API key for authentication.
+      - name: x-user-key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: password
+          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
+        description: User-specific authentication key.
+      operationId: markAllNotificationsAsRead
+components:
+  schemas:
+    InAppNotificationsMetadata:
+      type: object
+      description: Metadata about the notifications result
+      properties:
+        notSeen:
+          type: integer
+          format: int32
+          description: Count of unseen notifications
+          example: 5
+    InAppNotificationsResult:
+      type: object
+      description: Response containing notifications and metadata
+      properties:
+        messages:
+          type: array
+          description: List of notification messages
+          items:
+            $ref: '#/components/schemas/InAppNotificationMessage'
+        meta:
+          $ref: '#/components/schemas/InAppNotificationsMetadata'
+    InAppNotificationMessage:
+      type: object
+      description: A single in-app notification message
+      properties:
+        messageId:
+          type: string
+          format: uuid
+          description: Unique identifier of the notification message
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        correlationId:
+          type: string
+          format: uuid
+          description: Correlation ID for request tracing
+        actionLink:
+          type: string
+          description: URL for the notification action
+        imageTitle:
+          type: string
+          description: Title for the notification image
+        imageUrl:
+          type: string
+          description: URL of the notification image
+        notificationType:
+          type: string
+          description: Type of notification
+        version:
+          type: string
+          description: Version of the notification format
+        aggregatable:
+          type: boolean
+          description: Whether this notification can be aggregated
+        grouped:
+          type: boolean
+          description: Whether this notification is grouped
+        aggregationId:
+          type: string
+          description: ID for aggregation grouping
+        message:
+          type: string
+          description: Notification content text
+        readStatus:
+          type: string
+          enum:
+          - New
+          - Seen
+          - Read
+          description: Current read status of the notification
+        publishDate:
+          type: string
+          format: date-time
+          description: When the notification was published
+        subCategory:
+          type: string
+          description: Sub-category of the notification
+        category:
+          type: string
+          description: Category of the notification
+        rtlLanguage:
+          type: boolean
+          description: Whether the notification content is in an RTL language
+        section:
+          type: string
+          description: Section the notification belongs to
