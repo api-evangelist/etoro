@@ -502,7 +502,7 @@ common:
   - url: finops/finops.yml
     type: FinOps
   - url: https://builders.etoro.com/tools/mcp
-    type: MCP
+    type: MCPServer
   - url: https://api-portal.etoro.com/mcp
     type: MCPServer
   - url: openapi/openapi.json
