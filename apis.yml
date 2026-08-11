@@ -505,9 +505,9 @@ common:
     type: MCPServer
   - url: https://api-portal.etoro.com/mcp
     type: MCPServer
-  - url: openapi/openapi.json
+  - url: openapi/_original/openapi.json
     type: OpenAPI
-  - url: openapi/deprecated-openapi.json
+  - url: openapi/_original/deprecated-openapi.json
     type: OpenAPI
   - url: json-ld/jsonld.json
     type: JSONLD
