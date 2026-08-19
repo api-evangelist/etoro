@@ -1,0 +1,1189 @@
+{
+  "item": [
+    {
+      "id": "66f32d3b-c4af-4a8d-ae04-c1385ba7dcc0",
+      "name": "Market Data",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "85a180ad-e4e3-4abb-b5a8-bffb7aa27b09",
+          "name": "Retrieves a list of exchanges supported by the platform along with basic descriptive data.",
+          "request": {
+            "name": "Retrieves a list of exchanges supported by the platform along with basic descriptive data.",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "exchanges"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "exchangeIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of exchange ids to retrieve"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2384c82c-480e-4d70-aecc-ec3a7462e9e9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "exchanges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "exchangeIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "25640310-9cff-42be-a7b8-535d9d1c57cf"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"exchangeInfo\": [\n    {\n      \"exchangeID\": 622,\n      \"exchangeDescription\": \"string\"\n    },\n    {\n      \"exchangeID\": 9928,\n      \"exchangeDescription\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "567231e6-82c1-4b5a-8d1f-2f3770c837d3",
+          "name": "Fetch available instrument types (asset classes) such as stocks, ETFs, commodities, etc.",
+          "request": {
+            "name": "Fetch available instrument types (asset classes) such as stocks, ETFs, commodities, etc.",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "instrument-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "instrumentTypeIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of instrument type ids to retrieve"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9cf5ca6-94a7-46a1-98d0-c861c7d8405f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "instrument-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "instrumentTypeIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a69094d3-f69d-4f31-93df-771189497cf1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instrumentTypes\": [\n    {\n      \"instrumentTypeID\": 3188,\n      \"instrumentTypeDescription\": \"string\"\n    },\n    {\n      \"instrumentTypeID\": 9418,\n      \"instrumentTypeDescription\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "138b7057-ad8b-4eb5-bbd2-d6bc6152dfec",
+          "name": "Retrieves metadata for specified instruments, including display names, exchange IDs, and classification.",
+          "request": {
+            "name": "Retrieves metadata for specified instruments, including display names, exchange IDs, and classification.",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "instruments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "instrumentIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of instrument ids to filter on"
+                },
+                {
+                  "disabled": false,
+                  "key": "exchangeIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of exchange ids to filter on"
+                },
+                {
+                  "disabled": false,
+                  "key": "stocksIndustryIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of stock industry ids to filter on"
+                },
+                {
+                  "disabled": false,
+                  "key": "instrumentTypeIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of instrument type ids to filter on"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b92ddaf2-d9d7-4724-8210-043445208eda",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "instruments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "instrumentIds",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "exchangeIds",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "stocksIndustryIds",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "instrumentTypeIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "318a729a-324c-429f-b0d0-7b9e375012a8"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instrumentDisplayDatas\": [\n    {\n      \"instrumentID\": 8301,\n      \"instrumentDisplayName\": \"string\",\n      \"instrumentTypeID\": 9029,\n      \"exchangeID\": 4898,\n      \"symbolFull\": \"string\",\n      \"stocksIndustryId\": 8515,\n      \"priceSource\": \"string\",\n      \"hasExpirationDate\": false,\n      \"isInternalInstrument\": true,\n      \"images\": [\n        {\n          \"instrumentID\": 3864,\n          \"width\": 7044.966441466539,\n          \"height\": 3337.046269810262,\n          \"uri\": \"string\",\n          \"backgroundColor\": \"string\",\n          \"textColor\": \"string\"\n        },\n        {\n          \"instrumentID\": 4086,\n          \"width\": 8650.29335503013,\n          \"height\": 1461.8048795937254,\n          \"uri\": \"string\",\n          \"backgroundColor\": \"string\",\n          \"textColor\": \"string\"\n        }\n      ]\n    },\n    {\n      \"instrumentID\": 854,\n      \"instrumentDisplayName\": \"string\",\n      \"instrumentTypeID\": 9163,\n      \"exchangeID\": 6639,\n      \"symbolFull\": \"string\",\n      \"stocksIndustryId\": 2001,\n      \"priceSource\": \"string\",\n      \"hasExpirationDate\": true,\n      \"isInternalInstrument\": true,\n      \"images\": [\n        {\n          \"instrumentID\": 8350,\n          \"width\": 8438.139199535965,\n          \"height\": 9830.748616841804,\n          \"uri\": \"string\",\n          \"backgroundColor\": \"string\",\n          \"textColor\": \"string\"\n        },\n        {\n          \"instrumentID\": 9138,\n          \"width\": 7226.579124549287,\n          \"height\": 7905.78769577252,\n          \"uri\": \"string\",\n          \"backgroundColor\": \"string\",\n          \"textColor\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cc5a4fda-c271-4575-b293-3b7a4e087c33",
+          "name": "Get historical closing prices for all instruments",
+          "request": {
+            "name": "Get historical closing prices for all instruments",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "instruments",
+                "history",
+                "closing-price"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7deb4afd-e393-4c75-aeec-dd35021d2e7d",
+              "name": "Successful retrieval of closing prices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "instruments",
+                    "history",
+                    "closing-price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "d30da319-a8c9-4080-b3d2-fed375fa9a92"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"instrumentId\": 1002,\n    \"officialClosingPrice\": 175.75,\n    \"isMarketOpen\": true,\n    \"closingPrices\": {\n      \"daily\": {\n        \"price\": 175.75,\n        \"date\": \"2025-03-07 00:00:00Z\"\n      },\n      \"weekly\": {\n        \"price\": 175.75,\n        \"date\": \"2025-03-07 00:00:00Z\"\n      },\n      \"monthly\": {\n        \"price\": 172.22,\n        \"date\": \"2025-02-28 00:00:00Z\"\n      }\n    }\n  },\n  {\n    \"instrumentId\": 999,\n    \"officialClosingPrice\": 68,\n    \"isMarketOpen\": false,\n    \"closingPrices\": {\n      \"daily\": {\n        \"price\": 68,\n        \"date\": \"2024-11-16 00:00:00Z\"\n      },\n      \"weekly\": {\n        \"price\": 68,\n        \"date\": \"2024-11-16 00:00:00Z\"\n      },\n      \"monthly\": {\n        \"price\": -1,\n        \"date\": \"0001-01-01 00:00:00Z\"\n      }\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "76708a94-6c5e-47cb-8ff6-4460cd7af0d1",
+          "name": "Retrieve current market rates and pricing information for specified instruments",
+          "request": {
+            "name": "Retrieve current market rates and pricing information for specified instruments",
+            "description": {
+              "content": "Provides real-time market data including bid/ask prices, conversion rates, and execution prices for specified financial instruments. Essential for price discovery and trade execution decisions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "instruments",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "instrumentIds",
+                  "value": "<integer>,<integer>",
+                  "description": "(Required) Comma-separated list of instrument IDs to retrieve market rates for. Each ID represents a unique tradable asset in the system."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9d378d1a-df62-464b-9af2-49ed2a27a5d4",
+              "name": "Successfully retrieved current market rates",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "instruments",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "instrumentIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "4fb24302-0053-4948-a468-8b735c27ef44"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"rates\": [\n    {\n      \"instrumentID\": 517,\n      \"ask\": 5234.4187126459365,\n      \"bid\": 1398.5150022411442,\n      \"lastExecution\": 6528.162980438821,\n      \"conversionRateAsk\": 849.7272396751232,\n      \"conversionRateBid\": 6179.201763393416,\n      \"date\": \"1982-03-07T21:08:13.743Z\",\n      \"unitMargin\": 1933.438644700043,\n      \"unitMarginAsk\": 9244.46616648414,\n      \"unitMarginBid\": 974.3521538584399,\n      \"priceRateID\": 7818,\n      \"bidDiscounted\": 3105.636358149879,\n      \"askDiscounted\": 2499.725084659994,\n      \"unitMarginBidDiscounted\": 9885.866863913185,\n      \"unitMarginAskDiscounted\": 3038.5578446468685\n    },\n    {\n      \"instrumentID\": 9230,\n      \"ask\": 1011.7712280763436,\n      \"bid\": 8901.483215313105,\n      \"lastExecution\": 9197.640824529004,\n      \"conversionRateAsk\": 5254.23196956592,\n      \"conversionRateBid\": 4477.173617103019,\n      \"date\": \"1957-08-19T01:43:26.277Z\",\n      \"unitMargin\": 2692.2790629534697,\n      \"unitMarginAsk\": 5040.525468777985,\n      \"unitMarginBid\": 3953.041284674874,\n      \"priceRateID\": 7624,\n      \"bidDiscounted\": 2748.149387110703,\n      \"askDiscounted\": 7068.384172237739,\n      \"unitMarginBidDiscounted\": 5167.591385895418,\n      \"unitMarginAskDiscounted\": 937.1562703256542\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4c9fbaf-e4f5-47df-8153-385b10510201",
+              "name": "Invalid request - Typically due to invalid instrument IDs or exceeding maximum limit",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "instruments",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "instrumentIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "4fb24302-0053-4948-a468-8b735c27ef44"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56a70e40-3d04-4efc-9268-1f9f5c5fdf5b",
+          "name": "Get historical candles data for an instrument",
+          "request": {
+            "name": "Get historical candles data for an instrument",
+            "description": {
+              "content": "Retrieves historical price data in OHLCV (Open, High, Low, Close, Volume) format for a specified instrument. The data is organized into time-based candles of various intervals, from one minute to one week.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "instruments",
+                ":instrumentId",
+                "history",
+                "candles",
+                ":direction",
+                ":interval",
+                ":candlesCount"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) Sorting direction of the candles data. Use 'asc' for oldest to newest, or 'desc' for newest to oldest."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "interval",
+                  "description": "(Required) Time interval for each candle. Determines the granularity of the price data. Shorter intervals provide more detailed price action but require more data points."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "100",
+                  "key": "candlesCount",
+                  "description": "(Required) Number of candles to retrieve. Maximum value is 1000. For longer historical periods, consider using a larger time interval or making multiple requests."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "instrumentId",
+                  "description": "(Required) Unique identifier of the financial instrument to retrieve candles for. This ID is consistent across all eToro systems."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b43deec6-cdc6-4548-8227-06a17a222420",
+              "name": "Successful retrieval of candles data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "instruments",
+                    ":instrumentId",
+                    "history",
+                    "candles",
+                    ":direction",
+                    ":interval",
+                    ":candlesCount"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) Sorting direction of the candles data. Use 'asc' for oldest to newest, or 'desc' for newest to oldest."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "interval",
+                      "description": "(Required) Time interval for each candle. Determines the granularity of the price data. Shorter intervals provide more detailed price action but require more data points."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "100",
+                      "key": "candlesCount",
+                      "description": "(Required) Number of candles to retrieve. Maximum value is 1000. For longer historical periods, consider using a larger time interval or making multiple requests."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "instrumentId",
+                      "description": "(Required) Unique identifier of the financial instrument to retrieve candles for. This ID is consistent across all eToro systems."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "344b5024-6cb7-4fc3-84e2-6242a48c0741"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"interval\": \"OneMinute\",\n  \"candles\": [\n    {\n      \"instrumentId\": 12,\n      \"candles\": [\n        {\n          \"instrumentID\": 12,\n          \"fromDate\": \"2025-03-05T10:34:00Z\",\n          \"open\": 1.70227,\n          \"high\": 1.70277,\n          \"low\": 1.70221,\n          \"close\": 1.70253,\n          \"volume\": 0\n        },\n        {\n          \"instrumentID\": 12,\n          \"fromDate\": \"2025-03-05T10:35:00Z\",\n          \"open\": 1.70252,\n          \"high\": 1.70276,\n          \"low\": 1.70244,\n          \"close\": 1.70276,\n          \"volume\": 0\n        }\n      ],\n      \"rangeOpen\": 1.70227,\n      \"rangeClose\": 1.70276,\n      \"rangeHigh\": 1.70277,\n      \"rangeLow\": 1.70221,\n      \"volume\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b3bfa63-3c79-4435-8f93-b3b6f52ecb4d",
+          "name": "Search for Instruments",
+          "request": {
+            "name": "Search for Instruments",
+            "description": {
+              "content": "Retrieve a list of instruments based on various search criteria. Each field in the response can be utilized as a filter or projection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "searchText",
+                  "value": "<string>",
+                  "description": "Text to search for within instrument names."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "The number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "<integer>",
+                  "description": "The page number to retrieve for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "(Required) A comma-separated list of fields to include in the response. Example: pop=popularityUniques7Day,displayname"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "The field to sort by, with direction (asc/desc). Example: popularityUniques7Day desc"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2260ebf5-a5ba-43f8-8f52-a648d00b269c",
+              "name": "Successful response containing the list of instruments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "searchText",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "4fcc77f1-c076-483b-aa6f-898f62bd63eb"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 5797,\n  \"pageSize\": 8002,\n  \"totalItems\": 4330,\n  \"items\": [\n    {\n      \"instrumentId\": 7593,\n      \"displayname\": \"string\",\n      \"popularityUniques7Day\": 5191,\n      \"instrumentTypeID\": 4038,\n      \"instrumentType\": \"string\",\n      \"exchangeID\": 4155,\n      \"symbol\": \"string\",\n      \"isOpen\": true,\n      \"internalAssetClassId\": 6621,\n      \"internalInstrumentDisplayName\": \"string\",\n      \"isInternalInstrument\": false,\n      \"internalSymbolFull\": \"string\",\n      \"isHiddenFromClient\": true,\n      \"internalInstrumentId\": 8841,\n      \"internalCryptoTypeId\": 7337,\n      \"internalExchangeId\": 8523,\n      \"internalExchangeName\": \"string\",\n      \"internalAssetClassName\": \"string\",\n      \"logo35x35\": \"string\",\n      \"logo50x50\": \"string\",\n      \"logo150x150\": \"string\",\n      \"dailyPriceChange\": 2440.671665243259,\n      \"absDailyPriceChange\": 356.9751578640068,\n      \"weeklyPriceChange\": 1164.6714623677733,\n      \"monthlyPriceChange\": 8241.829521313713,\n      \"isDelisted\": true,\n      \"isCurrentlyTradable\": true,\n      \"isExchangeOpen\": true,\n      \"internalClosingPrice\": 2912.6922510029794,\n      \"isActiveInPlatform\": false,\n      \"isBuyEnabled\": false,\n      \"currentRate\": 1897.9782807239487,\n      \"threeMonthPriceChange\": 3534.0535279172045,\n      \"sixMonthPriceChange\": 58.325989742020745,\n      \"oneYearPriceChange\": 9172.06498923812,\n      \"currMonthPriceChange\": 1039.9063770344508,\n      \"currQuarterPriceChange\": 9114.988143552255,\n      \"currYearPriceChange\": 2764.0510748225024,\n      \"lastYearPriceChange\": 6841.689615031683,\n      \"lastTwoYearsPriceChange\": 8977.328834817738,\n      \"oneMonthAgoPriceChange\": 7521.920209618273,\n      \"twoMonthsAgoPriceChange\": 7630.59317941921,\n      \"threeMonthsAgoPriceChange\": 1760.9447368382946,\n      \"sixMonthsAgoPriceChange\": 8756.21962500752,\n      \"oneYearAgoPriceChange\": 4296.307994429164,\n      \"cvtBid\": 8479.024982590969,\n      \"cvtAsk\": 142.5490395564677,\n      \"cvtBiNoSpread\": 8913.78369246385,\n      \"cvtAskNoSpread\": 8405.1638927165,\n      \"traders7DayChange\": 5454.345892497669,\n      \"traders14DayChange\": 1450.9823077792362,\n      \"traders30DayChange\": 2982.6702533255057,\n      \"popularityUniques14Day\": 312,\n      \"popularityUniques30Day\": 8621,\n      \"internalIndustryId\": 8581,\n      \"internalStockIndustryName\": \"string\",\n      \"popularityUniques\": 5428,\n      \"holdingPct\": 9186.350430980983,\n      \"buyHoldingPct\": 5808.7105998163925,\n      \"sellHoldingPct\": 3689.199716508259,\n      \"buyPctChange24Hours\": 6154.079493068965,\n      \"absBuyPctChange24Hours\": 6483.583075385494,\n      \"industryNameId\": 3324,\n      \"sectorNameId\": 7106\n    },\n    {\n      \"instrumentId\": 8268,\n      \"displayname\": \"string\",\n      \"popularityUniques7Day\": 9040,\n      \"instrumentTypeID\": 7259,\n      \"instrumentType\": \"string\",\n      \"exchangeID\": 1567,\n      \"symbol\": \"string\",\n      \"isOpen\": true,\n      \"internalAssetClassId\": 996,\n      \"internalInstrumentDisplayName\": \"string\",\n      \"isInternalInstrument\": true,\n      \"internalSymbolFull\": \"string\",\n      \"isHiddenFromClient\": false,\n      \"internalInstrumentId\": 9059,\n      \"internalCryptoTypeId\": 1124,\n      \"internalExchangeId\": 593,\n      \"internalExchangeName\": \"string\",\n      \"internalAssetClassName\": \"string\",\n      \"logo35x35\": \"string\",\n      \"logo50x50\": \"string\",\n      \"logo150x150\": \"string\",\n      \"dailyPriceChange\": 6352.088441677255,\n      \"absDailyPriceChange\": 4279.799052097096,\n      \"weeklyPriceChange\": 733.5786953954615,\n      \"monthlyPriceChange\": 9316.704204982585,\n      \"isDelisted\": true,\n      \"isCurrentlyTradable\": true,\n      \"isExchangeOpen\": false,\n      \"internalClosingPrice\": 7364.4879830211885,\n      \"isActiveInPlatform\": true,\n      \"isBuyEnabled\": false,\n      \"currentRate\": 7568.456868471062,\n      \"threeMonthPriceChange\": 4212.261417915153,\n      \"sixMonthPriceChange\": 9112.906496719856,\n      \"oneYearPriceChange\": 2167.46301343691,\n      \"currMonthPriceChange\": 563.9961516814062,\n      \"currQuarterPriceChange\": 2936.10913768655,\n      \"currYearPriceChange\": 1326.3452592899139,\n      \"lastYearPriceChange\": 6516.359074382269,\n      \"lastTwoYearsPriceChange\": 4452.605173214942,\n      \"oneMonthAgoPriceChange\": 5823.6018183316655,\n      \"twoMonthsAgoPriceChange\": 2542.4647435655534,\n      \"threeMonthsAgoPriceChange\": 9874.371631379878,\n      \"sixMonthsAgoPriceChange\": 6089.749081091828,\n      \"oneYearAgoPriceChange\": 331.0121389753129,\n      \"cvtBid\": 2666.70079200257,\n      \"cvtAsk\": 3091.502053777956,\n      \"cvtBiNoSpread\": 4411.827156889061,\n      \"cvtAskNoSpread\": 7936.610592887021,\n      \"traders7DayChange\": 3174.3087318295406,\n      \"traders14DayChange\": 4161.15218735465,\n      \"traders30DayChange\": 6697.528055979916,\n      \"popularityUniques14Day\": 4925,\n      \"popularityUniques30Day\": 5140,\n      \"internalIndustryId\": 515,\n      \"internalStockIndustryName\": \"string\",\n      \"popularityUniques\": 3533,\n      \"holdingPct\": 1663.5555062966434,\n      \"buyHoldingPct\": 9828.362347287475,\n      \"sellHoldingPct\": 5181.100316733069,\n      \"buyPctChange24Hours\": 439.02545911968184,\n      \"absBuyPctChange24Hours\": 4261.18171219195,\n      \"industryNameId\": 2601,\n      \"sectorNameId\": 5056\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7cf1f51d-ba4c-4540-a585-56d38291cc9f",
+          "name": "Gets data on available stocks industries",
+          "request": {
+            "name": "Gets data on available stocks industries",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "stocks-industries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "stocksIndustryIds",
+                  "value": "<integer>,<integer>",
+                  "description": "A comma seperated list of stock industry ids to retrieves"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8b02093-2f88-4113-8c27-fb7adfe3e512",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-data",
+                    "stocks-industries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "stocksIndustryIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b688906f-f192-4861-bf87-4dbbe96f1efa"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"stocksIndustries\": [\n    {\n      \"industryID\": 7524,\n      \"industryName\": \"string\"\n    },\n    {\n      \"industryID\": 4036,\n      \"industryName\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d3358037-5d2a-4283-b647-63948bb60bc8",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Market Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

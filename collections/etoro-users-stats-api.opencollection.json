@@ -1,0 +1,216 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Users Stats API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users Stats",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get asset allocation history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/portfolios/:username/assets/history",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Predefined rolling window. Mutually exclusive with minDate/maxDate."
+              },
+              {
+                "name": "minDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date inclusive (YYYY-MM-DD). Mutually exclusive with period. Required together with maxDate when period is omitted."
+              },
+              {
+                "name": "maxDate",
+                "value": "",
+                "type": "query",
+                "description": "End date inclusive (YYYY-MM-DD). Mutually exclusive with period. Required together with minDate when period is omitted."
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Downsample time axis to at most N buckets. Omit or pass 0 for no downsampling."
+              }
+            ]
+          },
+          "docs": "Returns a daily asset-allocation breakdown for a publicly visible portfolio. Data is only available for investors who have not opted out — opted-out portfolios return 403 for third-party callers. Callers must authenticate with their own token. Use period OR minDate+maxDate (mutually exclusive). All ratio fields use decimal fraction format: 0.5 = 50%."
+        },
+        {
+          "info": {
+            "name": "Get current copier count and AUM tier for a public portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/portfolios/:username/copiers",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "Public eToro username."
+              }
+            ]
+          },
+          "docs": "Returns the investor's live copier count and assets-under-management tier for a public username. Requires `etoro-public:user-info:read`."
+        },
+        {
+          "info": {
+            "name": "Get market exposure history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/portfolios/:username/exposure/history",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The eToro username of the portfolio owner."
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Predefined rolling window. Mutually exclusive with minDate/maxDate."
+              },
+              {
+                "name": "minDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date inclusive (ISO 8601 date, YYYY-MM-DD). Mutually exclusive with period. Required together with maxDate when period is omitted."
+              },
+              {
+                "name": "maxDate",
+                "value": "",
+                "type": "query",
+                "description": "End date inclusive (ISO 8601 date, YYYY-MM-DD). Mutually exclusive with period. Required together with minDate when period is omitted."
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Downsample time axis to at most N buckets. Omit or pass 0 for no downsampling."
+              }
+            ]
+          },
+          "docs": "Returns daily directional exposure breakdown per instrument for a publicly visible portfolio. Data is only available for investors who have not opted out - opted-out portfolios return 403 for third-party callers. Callers must authenticate with their own token. Use period OR minDate+maxDate (mutually exclusive). All values are decimal fractions of total daily investment: 0.5 = 50%. Simulated positions are excluded."
+        },
+        {
+          "info": {
+            "name": "Get investor gain time-series",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/portfolios/:username/gain/:granularity",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "minDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "maxDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a gain time-series scoped by date range, count, or a combination of one date and a count. Gain values are decimal fractions: 0.06 = 6%, -0.03 = -3%."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

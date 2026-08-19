@@ -1,0 +1,394 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Comments and Replies API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Comments and Replies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List comments on a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of items to return (1–100, default 20)"
+              },
+              {
+                "name": "offsetEntityId",
+                "value": "b2c3d4e5-f6a7-4890-bcde-f23456789012",
+                "type": "query",
+                "description": "Opaque cursor from previous response for stable paging"
+              },
+              {
+                "name": "order",
+                "value": "Desc",
+                "type": "query",
+                "description": "Sort order"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of top-level comments on a post. Soft-deleted comments are included with isDeleted=true and blanked content so reply trees remain navigable. Authentication is optional — unauthenticated requests omit requesterContext."
+        },
+        {
+          "info": {
+            "name": "Create a comment on a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to comment on (UUID)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new comment on a specific discussion post. Comments can include text, mentions, tags, and attachments."
+        },
+        {
+          "info": {
+            "name": "Update a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments/:commentId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "commentId",
+                "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                "type": "path",
+                "description": "ID of the comment (UUID)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edits the authenticated user's own comment in-place. Sets editStatus to Edited. Emotion counts, repliesCount, and created are preserved. Owner is derived from the auth token."
+        },
+        {
+          "info": {
+            "name": "Soft-delete a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments/:commentId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "commentId",
+                "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                "type": "path",
+                "description": "ID of the comment (UUID)"
+              }
+            ]
+          },
+          "docs": "Soft-deletes the authenticated user's own comment. Sets isDeleted=true and blanks message text and attachments. Replies are preserved and the parent post's totalCommentsAndReplies is decremented only by the deleted node."
+        },
+        {
+          "info": {
+            "name": "List replies on a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments/:commentId/replies",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "commentId",
+                "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                "type": "path",
+                "description": "ID of the comment (UUID)"
+              },
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of items to return (1–100, default 20)"
+              },
+              {
+                "name": "offsetEntityId",
+                "value": "b2c3d4e5-f6a7-4890-bcde-f23456789012",
+                "type": "query",
+                "description": "Opaque cursor from previous response for stable paging"
+              },
+              {
+                "name": "order",
+                "value": "Desc",
+                "type": "query",
+                "description": "Sort order"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of replies nested under a specific comment. Authentication is optional."
+        },
+        {
+          "info": {
+            "name": "Create a reply",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments/:commentId/replies",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "commentId",
+                "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                "type": "path",
+                "description": "ID of the comment (UUID)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a reply nested under an existing comment. Replies are 1-level deep — replying to a reply attaches to the same parent comment with an inline @mention to the reply author. Increments parent comment's repliesCount and the post's totalCommentsAndReplies."
+        },
+        {
+          "info": {
+            "name": "Update a reply",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments/:commentId/replies/:replyId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "commentId",
+                "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                "type": "path",
+                "description": "ID of the comment (UUID)"
+              },
+              {
+                "name": "replyId",
+                "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "type": "path",
+                "description": "ID of the reply (UUID)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edits the authenticated user's own reply in-place. Same semantics as updating a comment."
+        },
+        {
+          "info": {
+            "name": "Soft-delete a reply",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/comments/:commentId/replies/:replyId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the parent post (UUID)"
+              },
+              {
+                "name": "commentId",
+                "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                "type": "path",
+                "description": "ID of the comment (UUID)"
+              },
+              {
+                "name": "replyId",
+                "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "type": "path",
+                "description": "ID of the reply (UUID)"
+              }
+            ]
+          },
+          "docs": "Soft-deletes the authenticated user's own reply."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

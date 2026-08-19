@@ -1,0 +1,4176 @@
+{
+  "item": [
+    {
+      "id": "f3b516c0-3ed6-4aea-b09c-2db2e6c9a596",
+      "name": "Trading - Real",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d927fa83-6744-435c-b5f4-cb9e48347c77",
+          "name": "Places a Market-if-touched order (similar to Limit order) to open a position when a threshold price is reached.",
+          "request": {
+            "name": "Places a Market-if-touched order (similar to Limit order) to open a position when a threshold price is reached.",
+            "description": {
+              "content": "A Market-if-touched order is an order to open a new long or short position when a specific price or better appears in the Market. The price threshold is used to trigger a Market Order. This endpoint allows traders to set up Market-if-touched orders with parameters like leverage, stop-loss, and take-profit settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "limit-orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"InstrumentID\": \"<integer>\",\n  \"IsBuy\": \"<boolean>\",\n  \"Leverage\": \"<integer>\",\n  \"Amount\": \"<double>\",\n  \"AmountInUnits\": \"<double>\",\n  \"StopLossRate\": \"<double>\",\n  \"TakeProfitRate\": \"<double>\",\n  \"Rate\": \"<double>\",\n  \"IsTslEnabled\": \"<boolean>\",\n  \"IsDiscounted\": \"<boolean>\",\n  \"IsNoStopLoss\": \"<boolean>\",\n  \"IsNoTakeProfit\": \"<boolean>\",\n  \"CID\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cb778f96-0bea-4dbb-9b77-221cb709aa65",
+              "name": "Market-if-touched order successfully placed. The response includes a confirmation token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "limit-orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "4e1e6a7c-018b-4e17-8ade-3006f9b54d2b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"InstrumentID\": \"<integer>\",\n  \"IsBuy\": \"<boolean>\",\n  \"Leverage\": \"<integer>\",\n  \"Amount\": \"<double>\",\n  \"AmountInUnits\": \"<double>\",\n  \"StopLossRate\": \"<double>\",\n  \"TakeProfitRate\": \"<double>\",\n  \"Rate\": \"<double>\",\n  \"IsTslEnabled\": \"<boolean>\",\n  \"IsDiscounted\": \"<boolean>\",\n  \"IsNoStopLoss\": \"<boolean>\",\n  \"IsNoTakeProfit\": \"<boolean>\",\n  \"CID\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"9af05785-be29-482d-a892-9d9be4fd34bc\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "12caee9f-b4a2-460a-b5a9-f3292247ccb3",
+          "name": "Cancels a Market-if-touched order that has not yet been executed.",
+          "request": {
+            "name": "Cancels a Market-if-touched order that has not yet been executed.",
+            "description": {
+              "content": "This endpoint allows traders to cancel a Market-if-touched order before it is executed. Once canceled, the order will no longer be processed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "limit-orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "orderId",
+                  "description": "(Required) The unique identifier of the Market-if-touched order to be canceled."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "01a68b32-6d38-47c6-9855-78db742e44e3",
+              "name": "Successfully canceled the Market-if-touched order. The response includes a confirmation token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "limit-orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the Market-if-touched order to be canceled."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c381880f-7d0c-4346-82c1-2329d468720e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"9af05785-be29-482d-a892-9d9be4fd34bc\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1538bf24-fa0e-4ba4-bab1-5a1f30be5339",
+          "name": "Create a market order to open a position by specifying the amount of cash you would like to use in the trade.",
+          "request": {
+            "name": "Create a market order to open a position by specifying the amount of cash you would like to use in the trade.",
+            "description": {
+              "content": "This endpoint allows traders to place a market order to open a position by specifying the investment amount instead of specifying the number of units. The trade will be executed at the market price, and leverage, stop-loss, and take-profit settings can be applied.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "market-open-orders",
+                "by-amount"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"InstrumentID\": \"<integer>\",\n  \"IsBuy\": \"<boolean>\",\n  \"Leverage\": \"<integer>\",\n  \"Amount\": \"<double>\",\n  \"StopLossRate\": \"<double>\",\n  \"TakeProfitRate\": \"<double>\",\n  \"IsTslEnabled\": \"<boolean>\",\n  \"IsNoStopLoss\": \"<boolean>\",\n  \"IsNoTakeProfit\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c14430ec-410d-4d4a-8d67-fb7af0c304f9",
+              "name": "Successfully opened a market order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "market-open-orders",
+                    "by-amount"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "7a83a55e-139d-4e88-9450-baa64cf75715"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"InstrumentID\": \"<integer>\",\n  \"IsBuy\": \"<boolean>\",\n  \"Leverage\": \"<integer>\",\n  \"Amount\": \"<double>\",\n  \"StopLossRate\": \"<double>\",\n  \"TakeProfitRate\": \"<double>\",\n  \"IsTslEnabled\": \"<boolean>\",\n  \"IsNoStopLoss\": \"<boolean>\",\n  \"IsNoTakeProfit\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderForOpen\": {\n    \"instrumentID\": 100000,\n    \"amount\": 150,\n    \"isBuy\": true,\n    \"leverage\": 1,\n    \"stopLossRate\": 0,\n    \"takeProfitRate\": 0,\n    \"isTslEnabled\": false,\n    \"mirrorID\": 0,\n    \"totalExternalCosts\": 0,\n    \"orderID\": 13902598,\n    \"orderType\": 17,\n    \"statusID\": 1,\n    \"CID\": 7765437,\n    \"openDateTime\": \"2025-04-02T15:47:15.9370502Z\",\n    \"lastUpdate\": \"2025-04-02T15:47:15.9370502Z\"\n  },\n  \"token\": \"066faaee-e1e9-49d2-a568-c6e1cc336ad8\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6055cd40-bcbf-4dc3-b12c-1056cf3bf096",
+          "name": "Places a Market Order to open a position by specifying the number of units you would like to trade.",
+          "request": {
+            "name": "Places a Market Order to open a position by specifying the number of units you would like to trade.",
+            "description": {
+              "content": "This endpoint allows traders to place a market order to open a position by specifying the number of units (rather than an amount in cash). The trade is executed at the current market price, and optional settings like leverage, stop-loss, and take-profit can be applied.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "market-open-orders",
+                "by-units"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"InstrumentID\": \"<integer>\",\n  \"IsBuy\": \"<boolean>\",\n  \"Leverage\": \"<integer>\",\n  \"AmountInUnits\": \"<double>\",\n  \"StopLossRate\": \"<double>\",\n  \"TakeProfitRate\": \"<double>\",\n  \"IsTslEnabled\": \"<boolean>\",\n  \"IsNoStopLoss\": \"<boolean>\",\n  \"IsNoTakeProfit\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1532ee8e-1ee4-4c34-a725-eacf00f3cbeb",
+              "name": "Successfully opened a market order.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "market-open-orders",
+                    "by-units"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "44c91841-9144-46bc-8320-957315279427"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"InstrumentID\": \"<integer>\",\n  \"IsBuy\": \"<boolean>\",\n  \"Leverage\": \"<integer>\",\n  \"AmountInUnits\": \"<double>\",\n  \"StopLossRate\": \"<double>\",\n  \"TakeProfitRate\": \"<double>\",\n  \"IsTslEnabled\": \"<boolean>\",\n  \"IsNoStopLoss\": \"<boolean>\",\n  \"IsNoTakeProfit\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderForOpen\": {\n    \"instrumentID\": 100000,\n    \"amount\": 0,\n    \"amountInUnits\": 0.001,\n    \"isBuy\": true,\n    \"leverage\": 1,\n    \"stopLossRate\": 0,\n    \"takeProfitRate\": 0,\n    \"isTslEnabled\": false,\n    \"mirrorID\": 0,\n    \"totalExternalCosts\": 0,\n    \"lotCount\": 0,\n    \"orderID\": 13906629,\n    \"orderType\": 18,\n    \"statusID\": 1,\n    \"CID\": 7765437,\n    \"openDateTime\": \"2025-04-02T15:56:50.7496838Z\",\n    \"lastUpdate\": \"2025-04-02T15:56:50.7496838Z\"\n  },\n  \"token\": \"43ceb769-cff6-45ec-8ad7-292b7401353f\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ee7d2ec-ca5a-48b6-82b4-0ec7b590d0e9",
+          "name": "Cancels a market order for open before it is executed.",
+          "request": {
+            "name": "Cancels a market order for open before it is executed.",
+            "description": {
+              "content": "This endpoint allows traders to cancel a market order for open before execution. If the order has already been processed, cancellation will not be possible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "market-open-orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "orderId",
+                  "description": "(Required) The unique identifier of the market order for open to be canceled."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ee605b0b-7124-4a0b-bc86-0297b4d6a2e0",
+              "name": "Successfully canceled the pending market order. The response includes a confirmation token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "market-open-orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the market order for open to be canceled."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "99871678-c1cc-4c89-9a72-903e0e6529d1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"9af05785-be29-482d-a892-9d9be4fd34bc\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1681861-85a0-4bc3-bab0-412e8d7ded9e",
+          "name": "Get Order Information and Position Details for Real Account",
+          "request": {
+            "name": "Get Order Information and Position Details for Real Account",
+            "description": {
+              "content": "Retrieves comprehensive information about a specific order for opening a position, including the order status, execution details, and all positions that were opened from this order. This endpoint is essential for tracking order execution and identifying which positions were created as a result of a specific order request. The response includes detailed position information with PositionID values that can be used to query position-specific details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "info",
+                "real",
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "orderId",
+                  "description": "(Required) The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "a30a80bf-07a1-4897-97db-f719be402f07",
+              "name": "Successfully retrieved order information and associated position details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "real",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "67a6927c-4349-40a3-9c31-c98b26f4b863"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"orderID\": 123456789,\n  \"cid\": 987654321,\n  \"statusID\": 1,\n  \"orderType\": 1,\n  \"openActionType\": 1,\n  \"errorCode\": null,\n  \"errorMessage\": null,\n  \"instrumentID\": 67890,\n  \"amount\": 1000,\n  \"units\": 10.5,\n  \"requestOccurred\": \"2024-01-15T10:30:00Z\",\n  \"positions\": [\n    {\n      \"positionID\": 9876543210,\n      \"orderType\": 1,\n      \"occurred\": \"2024-01-15T10:30:15Z\",\n      \"rate\": 1.2345,\n      \"units\": 10.5,\n      \"conversionRate\": 1,\n      \"amount\": 1000,\n      \"isOpen\": true\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e58ae8e5-75b6-4c8f-a037-2e6ed06646a1",
+              "name": "Bad Request - Invalid orderId format, or validation error occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "real",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "67a6927c-4349-40a3-9c31-c98b26f4b863"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7e2ed83f-84b8-4e85-a5c4-9c31319692ac",
+              "name": "Not Found - The specified order was not found for the provided OrderID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "real",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "67a6927c-4349-40a3-9c31-c98b26f4b863"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ab0473a-2aca-45ac-b8f1-a9b5a307fe5b",
+              "name": "Internal Server Error - An unexpected error occurred while processing the request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "real",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "67a6927c-4349-40a3-9c31-c98b26f4b863"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25621969-8a34-45d7-8acb-963a6718c30b",
+          "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+          "request": {
+            "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+            "description": {
+              "content": "Returns per-instrument trading configuration for the authenticated account - position limits, permitted order types, stop-loss and take-profit boundaries, and available leverage by settlement type and direction. Instruments not found are listed in notFoundInstrumentIds and notFoundSymbols. At least one of instrumentIds or symbols must be supplied; the combined length must not exceed 100 instruments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "info",
+                "eligibility"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instrumentIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"symbols\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"currency\": \"USD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d764540c-9483-4f50-ab73-5ef736214f40",
+              "name": "Eligibility resolved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b8990cdd-54f3-4a3b-89c1-7a9486f6fdc9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"currency\": \"USD\",\n  \"eligibilities\": [\n    {\n      \"instrumentId\": 1001,\n      \"symbol\": \"AAPL\",\n      \"minPositionExposure\": 50,\n      \"maxUnitsPerOrder\": 10000,\n      \"allowOpenPosition\": true,\n      \"allowClosePosition\": true,\n      \"allowPartialClosePosition\": true,\n      \"allowMitOrders\": true,\n      \"allowEntryOrders\": false,\n      \"allowExitOrders\": false,\n      \"allowTrailingStopLoss\": true,\n      \"requiresW8Ben\": null,\n      \"unitsQuantityType\": \"FractionalUnits\",\n      \"orderFillBehaviorType\": \"BestEffort\",\n      \"allowedOrderQuantityType\": \"Both\",\n      \"tradeUnitType\": \"Units\",\n      \"initialMarginInAssetCurrency\": null,\n      \"stopLossMarginInAssetCurrency\": null,\n      \"additionalBufferPercent\": null,\n      \"leverageConfigs\": [\n        {\n          \"settlementType\": \"CFD\",\n          \"direction\": \"LONG\",\n          \"leverageValues\": [\n            1,\n            2,\n            5\n          ],\n          \"isPotential\": false,\n          \"minPositionAmount\": 50,\n          \"allowEditStopLoss\": true,\n          \"minStopLossPercentage\": 5,\n          \"maxStopLossPercentage\": 50,\n          \"defaultStopLossPercentage\": 50,\n          \"allowEditTakeProfit\": true,\n          \"minTakeProfitPercentage\": 5,\n          \"maxTakeProfitPercentage\": 1000,\n          \"defaultTakeProfitPercentage\": 1000,\n          \"allowStopLossTakeProfit\": true\n        }\n      ]\n    }\n  ],\n  \"notFoundInstrumentIds\": [],\n  \"notFoundSymbols\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "564c8db5-d93a-49d8-92dc-bf89adcdf059",
+              "name": "Invalid request. Validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b8990cdd-54f3-4a3b-89c1-7a9486f6fdc9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2b720af-7427-4d68-8e8e-9abd08dc9e57",
+              "name": "Unauthorized. Invalid or missing authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b8990cdd-54f3-4a3b-89c1-7a9486f6fdc9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7a12479-07ff-4f84-96e0-12401588b091",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b8990cdd-54f3-4a3b-89c1-7a9486f6fdc9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06784d9a-3319-4107-a400-24746d2be845",
+          "name": "Creates a market order to close a position or partially close it by specifying the number of units to deduct.",
+          "request": {
+            "name": "Creates a market order to close a position or partially close it by specifying the number of units to deduct.",
+            "description": {
+              "content": "This endpoint allows traders to close an entire position or a portion of it at the current market rate. If `UnitsToDeduct` is provided, only the specified portion will be closed. If `UnitsToDeduct` is omitted or set to null, the full position will be closed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "market-close-orders",
+                "positions",
+                ":positionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "positionId",
+                  "description": "(Required) The unique identifier of the position to close."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"InstrumentId\": \"<integer>\",\n  \"UnitsToDeduct\": \"<double>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "df46dd53-ac18-40cd-b102-0531c329c652",
+              "name": "Successfully closed a position or a part of it.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "market-close-orders",
+                    "positions",
+                    ":positionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "positionId",
+                      "description": "(Required) The unique identifier of the position to close."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "23d44159-76e2-45b8-abc7-451d1e4ca8ea"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"InstrumentId\": \"<integer>\",\n  \"UnitsToDeduct\": \"<double>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderForClose\": {\n    \"positionID\": 2150941015,\n    \"instrumentID\": 1111,\n    \"unitsToDeduct\": 2,\n    \"orderID\": 13904638,\n    \"orderType\": 19,\n    \"statusID\": 1,\n    \"CID\": 7765437,\n    \"openDateTime\": \"2025-04-02T16:07:54.0880338Z\",\n    \"lastUpdate\": \"2025-04-02T16:07:54.0880338Z\"\n  },\n  \"token\": \"5fe065bc-f6f9-4897-a2ce-c4fccef73ff8\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01e9bee0-cb70-41be-8543-785e265845dc",
+          "name": "Cancels a pending market order for close for the specified order ID.",
+          "request": {
+            "name": "Cancels a pending market order for close for the specified order ID.",
+            "description": {
+              "content": "This endpoint allows traders to cancel a previously placed market order for close before execution. If the order has already been processed, cancellation will not be possible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "execution",
+                "market-close-orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "orderId",
+                  "description": "(Required) The unique identifier of the market order for close to be canceled."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a003dcd-848f-4283-9530-bc4e8790c90d",
+              "name": "Successfully canceled the market order for close. The response includes a confirmation token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "execution",
+                    "market-close-orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The unique identifier of the market order for close to be canceled."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2d1cf916-8d85-4657-b6bb-61fe60102f9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"7f1da128-f516-4710-8474-915566c4b22e\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "89091cda-c418-4807-99e9-1db70a9b0cb9",
+          "name": "Get aggregated portfolio snapshot — account totals, positions aggregated by instrument, and copy trading",
+          "request": {
+            "name": "Get aggregated portfolio snapshot — account totals, positions aggregated by instrument, and copy trading",
+            "description": {
+              "content": "Returns a complete snapshot of the authenticated user's investment portfolio, organized by asset. The response includes account-level balances and equity, individually held positions grouped by asset, and any copy-trading relationships the user has active. Use the instrumentIds filter to scope results to a specific set of assets, or mirrorIds to isolate specific copy-trading relationships. Account totals always reflect the full portfolio regardless of filters applied.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "info",
+                "aggregate-portfolio"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "conversionMode",
+                  "value": "eToroApp",
+                  "description": "Determines which conversion to use for non-USD assets when the market is closed. 'Realtime' uses the realtime conversion rate. 'eToroApp' uses the last conversion rate at market close time. Default is 'eToroApp'."
+                },
+                {
+                  "disabled": false,
+                  "key": "instrumentIds",
+                  "value": "<integer>,<integer>",
+                  "description": "Scope the response to a specific list of assets by their eToro instrument ID. When omitted, all held assets are returned. Does not affect account-level totals."
+                },
+                {
+                  "disabled": false,
+                  "key": "mirrorIds",
+                  "value": "<integer>,<integer>",
+                  "description": "Scope copy-trading data to specific relationships by their mirror ID. A mirrorId of 0 refers to positions held directly (not via copy trading). When omitted, all copy-trading relationships are included."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "d80b67a0-c6e2-46d7-86fe-649127167098",
+              "name": "Successfully retrieved aggregated portfolio data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "aggregate-portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conversionMode",
+                      "value": "eToroApp"
+                    },
+                    {
+                      "key": "instrumentIds",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "mirrorIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bbc76ea-49b5-41ac-b271-fe1a091822e2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cid\": 4498,\n  \"timestamp\": \"2026-05-26T15:24:25.267Z\",\n  \"accountCurrency\": \"USD\",\n  \"accountTotals\": {\n    \"accountAvailableCash\": 4320.84,\n    \"accountFrozenCash\": 0,\n    \"accountCurrentPnl\": -300.35,\n    \"accountTotalValue\": 5154.48,\n    \"accountTotalUsedMargin\": 1133.99,\n    \"accountBalance\": 4320.84\n  },\n  \"instrumentAggregates\": [\n    {\n      \"instrumentId\": 100000,\n      \"assetCurrency\": \"USD\",\n      \"totalMarginAccountCurrency\": 849.86,\n      \"totalFees\": 0,\n      \"totalFeesAcctCcy\": 0,\n      \"totalTaxes\": 0,\n      \"totalTaxesAcctCcy\": 0,\n      \"totalMarginAssetCurrency\": 849.86,\n      \"pnlAssetCurrency\": -225.3,\n      \"accountCurrencyRoePercent\": -26.51,\n      \"netContracts\": 0.008076,\n      \"netUnits\": 0.008076,\n      \"netCurrentExposureAssetCurrency\": 624.57,\n      \"netCurrentExposureAccountCurrency\": 624.57,\n      \"netInitialExposureAccountCurrency\": 849.87,\n      \"accountCurrencyReturn\": -225.3,\n      \"liquidationValueAccountCurrency\": 624.56,\n      \"liquidationValueAssetCurrency\": 624.56,\n      \"avgLeverage\": 1,\n      \"avgOpenRate\": 105233.5041183754,\n      \"netAvgOpenRate\": 105233.5041183754,\n      \"avgConversionRate\": 1\n    }\n  ],\n  \"mirrors\": [\n    {\n      \"mirrorId\": 1869651,\n      \"mirrorAvailableCash\": 0.04,\n      \"mirrorDepositTotal\": 290,\n      \"mirrorWithdrawalTotal\": 0,\n      \"mirrorStopLossPercentage\": 5,\n      \"mirrorStopLoss\": 14.5,\n      \"mirrorClosedPositionsPnl\": -0.26,\n      \"mirrorTotals\": {\n        \"mirrorNetFunding\": 290,\n        \"mirrorPositionsPnl\": -75.05,\n        \"mirrorLiquidationValue\": 209.08,\n        \"mirrorPositionsPnlPercent\": -0.35,\n        \"mirrorMarginPercent\": 25.06,\n        \"mirrorValuePercent\": 4.06,\n        \"mirrorActiveMargin\": 284.13\n      },\n      \"instrumentAggregates\": []\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49194b56-2906-478d-9298-a36fb8bf4e4c",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "aggregate-portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conversionMode",
+                      "value": "eToroApp"
+                    },
+                    {
+                      "key": "instrumentIds",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "mirrorIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bbc76ea-49b5-41ac-b271-fe1a091822e2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cfb7e162-6fdc-4ec7-af94-6a6ea415ce81",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "aggregate-portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conversionMode",
+                      "value": "eToroApp"
+                    },
+                    {
+                      "key": "instrumentIds",
+                      "value": "<integer>,<integer>"
+                    },
+                    {
+                      "key": "mirrorIds",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bbc76ea-49b5-41ac-b271-fe1a091822e2"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "778f8e66-0a0b-446f-8d04-1a0412a559c9",
+          "name": "Retrieve comprehensive portfolio information including positions, orders, and account status",
+          "request": {
+            "name": "Retrieve comprehensive portfolio information including positions, orders, and account status",
+            "description": {
+              "content": "Returns detailed portfolio information including active positions, pending orders, mirror trading details, and account balances. This endpoint provides a complete overview of the user's trading activity and current market exposure.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "info",
+                "portfolio"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "3700b70c-95fe-463f-a7ee-e5bcdc78ef12",
+              "name": "Successfully retrieved portfolio information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "411a35fa-50b9-44c2-a7a5-e1d34fd35bf9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientPortfolio\": {\n    \"positions\": [\n      {\n        \"positionID\": 2150896073,\n        \"CID\": 7765437,\n        \"openDateTime\": \"2024-08-01T07:44:26.103Z\",\n        \"openRate\": 2020.7784,\n        \"instrumentID\": 1002,\n        \"isBuy\": true,\n        \"takeProfitRate\": 0,\n        \"stopLossRate\": 0.0001,\n        \"mirrorID\": 0,\n        \"parentPositionID\": 0,\n        \"amount\": 100,\n        \"leverage\": 1,\n        \"orderID\": 12402059,\n        \"orderType\": 17,\n        \"units\": 0.049485,\n        \"totalFees\": 0,\n        \"initialAmountInDollars\": 100,\n        \"isTslEnabled\": false,\n        \"stopLossVersion\": 3,\n        \"isSettled\": true,\n        \"redeemStatusID\": 0,\n        \"initialUnits\": 0.049485,\n        \"isPartiallyAltered\": false,\n        \"unitsBaseValueDollars\": 100,\n        \"isDiscounted\": true,\n        \"openPositionActionType\": 0,\n        \"settlementTypeID\": 1,\n        \"isDetached\": false,\n        \"openConversionRate\": 1,\n        \"pnlVersion\": 1,\n        \"totalExternalFees\": 0,\n        \"totalExternalTaxes\": 0,\n        \"isNoTakeProfit\": true,\n        \"isNoStopLoss\": true,\n        \"lotCount\": 0.049485\n      }\n    ],\n    \"credit\": 280.35,\n    \"mirrors\": [\n      {\n        \"mirrorID\": 1841334,\n        \"CID\": 7765437,\n        \"parentCID\": 14370798,\n        \"stopLossPercentage\": 5,\n        \"isPaused\": false,\n        \"copyExistingPositions\": true,\n        \"availableAmount\": 560,\n        \"stopLossAmount\": 28,\n        \"initialInvestment\": 560,\n        \"depositSummary\": 0,\n        \"withdrawalSummary\": 0,\n        \"positions\": [],\n        \"entryOrders\": [],\n        \"exitOrders\": [],\n        \"parentUsername\": \"Deposit158990700\",\n        \"closedPositionsNetProfit\": 0,\n        \"startedCopyDate\": \"2024-05-23T13:31:57.007Z\",\n        \"pendingForClosure\": false,\n        \"parentMirrors\": [],\n        \"mirrorCalculationType\": 1,\n        \"ordersForOpen\": [],\n        \"ordersForClose\": [],\n        \"ordersForCloseMultiple\": [],\n        \"delayedOrderForClose\": [],\n        \"delayedOrderForOpen\": [],\n        \"mirrorStatusId\": 0\n      }\n    ],\n    \"orders\": [\n      {\n        \"orderID\": 5669649,\n        \"CID\": 7765437,\n        \"openDateTime\": \"2024-06-06T08:07:25.083Z\",\n        \"instrumentID\": 100043,\n        \"isBuy\": true,\n        \"takeProfitRate\": 0,\n        \"stopLossRate\": 0.00001,\n        \"rate\": 0.1453,\n        \"amount\": 100,\n        \"leverage\": 1,\n        \"units\": 688.231246,\n        \"isTslEnabled\": false,\n        \"executionType\": 0,\n        \"isDiscounted\": false\n      }\n    ],\n    \"stockOrders\": [],\n    \"entryOrders\": [],\n    \"exitOrders\": [],\n    \"ordersForOpen\": [],\n    \"ordersForClose\": [],\n    \"ordersForCloseMultiple\": [],\n    \"bonusCredit\": 0\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb3572fc-4b59-4da9-a3dc-aef86dde8741",
+          "name": "Get Real Account PnL and Portfolio Details",
+          "request": {
+            "name": "Get Real Account PnL and Portfolio Details",
+            "description": {
+              "content": "Retrieves the real account's current portfolio, including credit, open positions, orders, mirrors, and PnL details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "info",
+                "real",
+                "pnl"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "5e830441-1bd4-424f-a267-b654761a696d",
+              "name": "Successfully retrieved real account PnL and portfolio information.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "real",
+                    "pnl"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c7b394a1-971b-4d59-9e54-44ab178a69a4"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientPortfolio\": {\n    \"credit\": 10000.5,\n    \"unrealizedPnL\": 251,\n    \"mirrors\": [\n      {\n        \"mirrorId\": 1,\n        \"cid\": 123,\n        \"parentCid\": 456,\n        \"stopLossPercentage\": 15.5,\n        \"isPaused\": false,\n        \"copyExistingPositions\": true,\n        \"availableAmount\": 5000,\n        \"stopLossAmount\": 750,\n        \"initialInvestment\": 10000,\n        \"depositSummary\": 12000,\n        \"withdrawalSummary\": 2000,\n        \"positions\": [\n          {\n            \"positionId\": 9002,\n            \"cid\": 124,\n            \"openDateTime\": \"2024-01-02T09:00:00Z\",\n            \"openRate\": 1.2346,\n            \"instrumentId\": 102,\n            \"isBuy\": false,\n            \"takeProfitRate\": 1.6,\n            \"stopLossRate\": 1.1,\n            \"mirrorId\": 1,\n            \"parentPositionId\": 8002,\n            \"amount\": 2000,\n            \"leverage\": 3,\n            \"orderId\": 5002,\n            \"orderType\": 2,\n            \"units\": 20.5,\n            \"totalFees\": 3.5,\n            \"initialAmountInDollars\": 2000,\n            \"isTslEnabled\": true,\n            \"stopLossVersion\": 2,\n            \"isSettled\": false,\n            \"redeemStatusId\": 1,\n            \"initialUnits\": 20.5,\n            \"isPartiallyAltered\": true,\n            \"unitsBaseValueDollars\": 2000,\n            \"isDiscounted\": true,\n            \"openPositionActionType\": 2,\n            \"settlementTypeId\": 2,\n            \"isDetached\": true,\n            \"openConversionRate\": 1.2,\n            \"pnlVersion\": 2,\n            \"totalExternalFees\": 1,\n            \"totalExternalTaxes\": 0.5,\n            \"isNoTakeProfit\": true,\n            \"isNoStopLoss\": false,\n            \"lotCount\": 2,\n            \"externalOperation\": null,\n            \"pnL\": 150.75,\n            \"closeRate\": 1.3,\n            \"closeConversionRate\": 1.15,\n            \"timestamp\": \"2024-01-02T12:00:00Z\"\n          }\n        ],\n        \"parentUsername\": \"parent_user\",\n        \"closedPositionsNetProfit\": 350.75,\n        \"startedCopyDate\": \"2024-01-01T09:00:00Z\",\n        \"pendingForClosure\": false,\n        \"parentMirrors\": [],\n        \"mirrorCalculationType\": 2,\n        \"ordersForOpen\": [\n          {\n            \"orderId\": 1001,\n            \"orderType\": 1,\n            \"statusId\": 1,\n            \"cid\": 123,\n            \"openDateTime\": \"2024-01-01T09:00:00Z\",\n            \"lastUpdate\": \"2024-01-02T10:00:00Z\",\n            \"instrumentId\": 101,\n            \"amount\": 1000,\n            \"amountInUnits\": 10.5,\n            \"isBuy\": true,\n            \"leverage\": 2,\n            \"stopLossRate\": 1.2345,\n            \"takeProfitRate\": 1.3456,\n            \"isTslEnabled\": false,\n            \"isDiscounted\": true,\n            \"mirrorId\": 1,\n            \"frozenAmount\": 0,\n            \"totalExternalCosts\": 5,\n            \"isNoTakeProfit\": false,\n            \"isNoStopLoss\": false,\n            \"lotCount\": 1,\n            \"openPositionActionType\": 1,\n            \"externalOperation\": null\n          }\n        ],\n        \"ordersForClose\": [\n          {\n            \"orderId\": 2001,\n            \"orderType\": 2,\n            \"statusId\": 1,\n            \"cid\": 123,\n            \"openDateTime\": \"2024-01-01T09:00:00Z\",\n            \"lastUpdate\": \"2024-01-02T10:00:00Z\",\n            \"instrumentId\": 101,\n            \"unitsToDeduct\": 5,\n            \"lotsToDeduct\": 0.5,\n            \"positionId\": 3001\n          }\n        ],\n        \"ordersForCloseMultiple\": [\n          {\n            \"orderId\": 3001,\n            \"orderType\": 3,\n            \"statusId\": 1,\n            \"cid\": 123,\n            \"openDateTime\": \"2024-01-01T09:00:00Z\",\n            \"lastUpdate\": \"2024-01-02T10:00:00Z\",\n            \"instrumentId\": 101,\n            \"unitsToDeduct\": 10,\n            \"lotsToDeduct\": 1,\n            \"pendingClosePositionIds\": [\n              3001,\n              3002\n            ]\n          }\n        ],\n        \"mirrorStatusId\": 1\n      }\n    ],\n    \"orders\": [\n      {\n        \"orderId\": 5001,\n        \"cid\": 123,\n        \"openDateTime\": \"2024-01-01T09:00:00Z\",\n        \"instrumentId\": 101,\n        \"isBuy\": true,\n        \"takeProfitRate\": 1.5,\n        \"stopLossRate\": 1.2,\n        \"rate\": 1.3,\n        \"amount\": 1000,\n        \"leverage\": 2,\n        \"units\": 10.5,\n        \"isTslEnabled\": false,\n        \"executionType\": 1,\n        \"isDiscounted\": false,\n        \"isNoTakeProfit\": false,\n        \"isNoStopLoss\": false\n      }\n    ],\n    \"ordersForOpen\": [\n      {\n        \"orderId\": 1001,\n        \"orderType\": 1,\n        \"statusId\": 1,\n        \"cid\": 123,\n        \"openDateTime\": \"2024-01-01T09:00:00Z\",\n        \"lastUpdate\": \"2024-01-02T10:00:00Z\",\n        \"instrumentId\": 101,\n        \"amount\": 1000,\n        \"amountInUnits\": 10.5,\n        \"isBuy\": true,\n        \"leverage\": 2,\n        \"stopLossRate\": 1.2345,\n        \"takeProfitRate\": 1.3456,\n        \"isTslEnabled\": false,\n        \"isDiscounted\": true,\n        \"mirrorId\": 1,\n        \"frozenAmount\": 0,\n        \"totalExternalCosts\": 5,\n        \"isNoTakeProfit\": false,\n        \"isNoStopLoss\": false,\n        \"lotCount\": 1,\n        \"openPositionActionType\": 1,\n        \"externalOperation\": null\n      }\n    ],\n    \"ordersForClose\": [\n      {\n        \"orderId\": 2001,\n        \"orderType\": 2,\n        \"statusId\": 1,\n        \"cid\": 123,\n        \"openDateTime\": \"2024-01-01T09:00:00Z\",\n        \"lastUpdate\": \"2024-01-02T10:00:00Z\",\n        \"instrumentId\": 101,\n        \"unitsToDeduct\": 5,\n        \"lotsToDeduct\": 0.5,\n        \"positionId\": 3001\n      }\n    ],\n    \"ordersForCloseMultiple\": [\n      {\n        \"orderId\": 3001,\n        \"orderType\": 3,\n        \"statusId\": 1,\n        \"cid\": 123,\n        \"openDateTime\": \"2024-01-01T09:00:00Z\",\n        \"lastUpdate\": \"2024-01-02T10:00:00Z\",\n        \"instrumentId\": 101,\n        \"unitsToDeduct\": 10,\n        \"lotsToDeduct\": 1,\n        \"pendingClosePositionIds\": [\n          3001,\n          3002\n        ]\n      }\n    ],\n    \"bonusCredit\": 500,\n    \"positions\": [\n      {\n        \"positionId\": 9001,\n        \"cid\": 123,\n        \"openDateTime\": \"2024-01-01T09:00:00Z\",\n        \"openRate\": 1.2345,\n        \"instrumentId\": 101,\n        \"isBuy\": true,\n        \"takeProfitRate\": 1.5,\n        \"stopLossRate\": 1.2,\n        \"mirrorId\": 1,\n        \"parentPositionId\": 8001,\n        \"amount\": 1000,\n        \"leverage\": 2,\n        \"orderId\": 5001,\n        \"orderType\": 1,\n        \"units\": 10.5,\n        \"totalFees\": 2.5,\n        \"initialAmountInDollars\": 1000,\n        \"isTslEnabled\": false,\n        \"stopLossVersion\": 1,\n        \"isSettled\": true,\n        \"redeemStatusId\": 0,\n        \"initialUnits\": 10.5,\n        \"isPartiallyAltered\": false,\n        \"unitsBaseValueDollars\": 1000,\n        \"isDiscounted\": false,\n        \"openPositionActionType\": 1,\n        \"settlementTypeId\": 1,\n        \"isDetached\": false,\n        \"openConversionRate\": 1,\n        \"pnlVersion\": 1,\n        \"totalExternalFees\": 0,\n        \"totalExternalTaxes\": 0,\n        \"isNoTakeProfit\": false,\n        \"isNoStopLoss\": false,\n        \"lotCount\": 1,\n        \"externalOperation\": null,\n        \"pnL\": 100.25,\n        \"closeRate\": 1.25,\n        \"closeConversionRate\": 1.1,\n        \"timestamp\": \"2024-01-01T12:00:00Z\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47cfd3d0-d69b-4232-a6c4-342122b31563",
+          "name": "List trading history",
+          "request": {
+            "name": "List trading history",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "trading",
+                "info",
+                "trade",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "minDate",
+                  "value": "<date>",
+                  "description": "(Required) The start date of the period you would like to view."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "The amount of trades in each page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "994d7ad9-3f0c-4e47-9cda-86fe8a7e58f6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "trading",
+                    "info",
+                    "trade",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "minDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "0b67e6fb-a932-46af-84c1-87e3fb730a3e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"netProfit\": 677.1091607729362,\n    \"closeRate\": 1645.7533993073703,\n    \"closeTimestamp\": \"2018-04-18T06:33:22.723Z\",\n    \"positionId\": 6827,\n    \"instrumentId\": 3770,\n    \"isBuy\": false,\n    \"leverage\": 7047,\n    \"openRate\": 2822.6102123183236,\n    \"openTimestamp\": \"1986-08-13T21:03:44.612Z\",\n    \"stopLossRate\": 8407.368344484516,\n    \"takeProfitRate\": 3047.79334696521,\n    \"trailingStopLoss\": false,\n    \"orderId\": 6294,\n    \"socialTradeId\": 6218,\n    \"parentPositionId\": 4747,\n    \"investment\": 9147.964555421155,\n    \"initialInvestment\": 2654.239513588533,\n    \"fees\": 3930.433046083629,\n    \"units\": 9551.96675206022\n  },\n  {\n    \"netProfit\": 6867.008973864959,\n    \"closeRate\": 2566.912004902,\n    \"closeTimestamp\": \"1994-12-26T06:38:04.884Z\",\n    \"positionId\": 1979,\n    \"instrumentId\": 7382,\n    \"isBuy\": true,\n    \"leverage\": 7184,\n    \"openRate\": 914.931153700832,\n    \"openTimestamp\": \"1989-11-21T23:59:02.131Z\",\n    \"stopLossRate\": 1841.9649166761965,\n    \"takeProfitRate\": 5782.671602791891,\n    \"trailingStopLoss\": true,\n    \"orderId\": 6648,\n    \"socialTradeId\": 8086,\n    \"parentPositionId\": 1616,\n    \"investment\": 567.6462939257565,\n    \"initialInvestment\": 1.0294338360195,\n    \"fees\": 2563.8610144074137,\n    \"units\": 1775.596941394293\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3918bc56-aa0b-4f7b-8157-5dca04e6fb3e",
+          "name": "Create an order",
+          "request": {
+            "name": "Create an order",
+            "description": {
+              "content": "This endpoint allows traders to place an order. Leverage, stop-loss, and take-profit settings can be applied. Order size must use exactly one of amount, units, or contracts. A unique X-Request-Id header (GUID) is required for idempotency. Currently only orders to open a position are supported.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "trading",
+                "execution",
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"transaction\": \"<string>\",\n  \"symbol\": \"<string>\",\n  \"instrumentId\": \"<integer>\",\n  \"orderType\": \"<string>\",\n  \"triggerRate\": \"<double>\",\n  \"leverage\": \"<integer>\",\n  \"amount\": \"<double>\",\n  \"orderCurrency\": \"<string>\",\n  \"units\": \"<double>\",\n  \"contracts\": \"<double>\",\n  \"stopLossRate\": \"<double>\",\n  \"takeProfitRate\": \"<double>\",\n  \"stopLossType\": \"<string>\",\n  \"additionalMargin\": \"<double>\",\n  \"positionIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d65ac3a-3cd5-4aab-a6c0-7887e7bc02d6",
+              "name": "Order submitted successfully. Returns the created order details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "86d5b1d1-846e-44d6-b1c9-0b1991dbabb7"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"symbol\": \"AAPL\",\n  \"instrumentId\": 101,\n  \"orderType\": \"mkt\",\n  \"triggerRate\": null,\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\",\n  \"units\": null,\n  \"contracts\": null,\n  \"stopLossRate\": 1.2,\n  \"takeProfitRate\": 1.5,\n  \"stopLossType\": \"fixed\",\n  \"additionalMargin\": null,\n  \"positionIds\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"066faaee-e1e9-49d2-a568-c6e1cc336ad8\",\n  \"orderId\": 13902598,\n  \"referenceId\": \"1c94300c-90aa-4303-9d00-dec376d74efb\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7202c3d2-3525-44c1-b165-d8e40511aa83",
+              "name": "Invalid request. Validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "86d5b1d1-846e-44d6-b1c9-0b1991dbabb7"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"symbol\": \"AAPL\",\n  \"instrumentId\": 101,\n  \"orderType\": \"mkt\",\n  \"triggerRate\": null,\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\",\n  \"units\": null,\n  \"contracts\": null,\n  \"stopLossRate\": 1.2,\n  \"takeProfitRate\": 1.5,\n  \"stopLossType\": \"fixed\",\n  \"additionalMargin\": null,\n  \"positionIds\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bc04ad1-1ba4-4623-8454-9ebc4e0ddd10",
+              "name": "Unauthorized. Invalid or missing authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "86d5b1d1-846e-44d6-b1c9-0b1991dbabb7"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"symbol\": \"AAPL\",\n  \"instrumentId\": 101,\n  \"orderType\": \"mkt\",\n  \"triggerRate\": null,\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\",\n  \"units\": null,\n  \"contracts\": null,\n  \"stopLossRate\": 1.2,\n  \"takeProfitRate\": 1.5,\n  \"stopLossType\": \"fixed\",\n  \"additionalMargin\": null,\n  \"positionIds\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a51fe06a-e845-4490-a492-dca1e0dff9b5",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "86d5b1d1-846e-44d6-b1c9-0b1991dbabb7"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"symbol\": \"AAPL\",\n  \"instrumentId\": 101,\n  \"orderType\": \"mkt\",\n  \"triggerRate\": null,\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\",\n  \"units\": null,\n  \"contracts\": null,\n  \"stopLossRate\": 1.2,\n  \"takeProfitRate\": 1.5,\n  \"stopLossType\": \"fixed\",\n  \"additionalMargin\": null,\n  \"positionIds\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8186035-2cfb-499e-a85f-13d74d09e8ba",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "86d5b1d1-846e-44d6-b1c9-0b1991dbabb7"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"symbol\": \"AAPL\",\n  \"instrumentId\": 101,\n  \"orderType\": \"mkt\",\n  \"triggerRate\": null,\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\",\n  \"units\": null,\n  \"contracts\": null,\n  \"stopLossRate\": 1.2,\n  \"takeProfitRate\": 1.5,\n  \"stopLossType\": \"fixed\",\n  \"additionalMargin\": null,\n  \"positionIds\": null\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1f05fd9-2799-482f-83b2-a4ecd7c228cd",
+          "name": "Cancels an order before it is executed",
+          "request": {
+            "name": "Cancels an order before it is executed",
+            "description": {
+              "content": "This endpoint allows traders to cancel an order before execution. If the order has already been processed, cancellation will not be possible. This operation is idempotent when the order is already closed or cancelled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "trading",
+                "execution",
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "orderId",
+                  "description": "(Required) The ID of the order to cancel."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "357f18c8-ddf4-4a77-a999-567ac62f4f24",
+              "name": "Order cancellation request submitted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The ID of the order to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "ba62ef26-e833-45cc-9cbe-7eaace601999"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"7f1da128-f516-4710-8474-915566c4b22e\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bf319da-da70-40ef-90d7-bb880276b9ab",
+              "name": "Invalid request. Validation failed or unsupported order type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The ID of the order to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "ba62ef26-e833-45cc-9cbe-7eaace601999"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "865e7b40-4720-4e14-9691-e0eabfb2abbe",
+              "name": "Unauthorized. Invalid or missing authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The ID of the order to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "ba62ef26-e833-45cc-9cbe-7eaace601999"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7a1d459-a21e-471e-9d11-278688494584",
+              "name": "Order not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The ID of the order to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "ba62ef26-e833-45cc-9cbe-7eaace601999"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5a18403-ce0c-4773-867d-6b0a4f0d45fc",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "execution",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "orderId",
+                      "description": "(Required) The ID of the order to cancel."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "ba62ef26-e833-45cc-9cbe-7eaace601999"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "261be0a2-5401-4c88-940b-8e7c4a9a546a",
+          "name": "Get a what-if cost breakdown for opening or closing a position",
+          "request": {
+            "name": "Get a what-if cost breakdown for opening or closing a position",
+            "description": {
+              "content": "Returns the markup, market spread, transaction fee, overnight fee, over-weekend fee, and SDRT that would apply if the supplied order were executed now. For `action: open`, exactly one of `symbol` or `instrumentId` must be provided and `leverage` must be at least 1. For `action: close`, `positionIds` must be non-empty.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "trading",
+                "info",
+                "costs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"<string>\",\n  \"transaction\": \"<string>\",\n  \"symbol\": \"<string>\",\n  \"instrumentId\": \"<integer>\",\n  \"settlementType\": \"<string>\",\n  \"orderType\": \"<string>\",\n  \"triggerRate\": \"<double>\",\n  \"leverage\": \"<integer>\",\n  \"amount\": \"<double>\",\n  \"orderCurrency\": \"<string>\",\n  \"units\": \"<double>\",\n  \"contracts\": \"<double>\",\n  \"stopLossRate\": \"<double>\",\n  \"takeProfitRate\": \"<double>\",\n  \"stopLossType\": \"<string>\",\n  \"additionalMargin\": \"<double>\",\n  \"positionIds\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9407cef6-af7f-49a1-9ac1-ab0d53d4d607",
+              "name": "Cost breakdown resolved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "costs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a3da1c20-5040-4f37-aa49-5bab12627d0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"instrumentId\": 101,\n  \"settlementType\": \"cfd\",\n  \"orderType\": \"mkt\",\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instrumentId\": 101,\n  \"symbol\": \"AAPL\",\n  \"costs\": [\n    {\n      \"costType\": \"markup\",\n      \"amount\": 0.15,\n      \"currency\": \"USD\"\n    },\n    {\n      \"costType\": \"marketSpread\",\n      \"amount\": 0.03,\n      \"currency\": \"USD\"\n    },\n    {\n      \"costType\": \"transactionFee\",\n      \"amount\": 1,\n      \"currency\": \"USD\"\n    },\n    {\n      \"costType\": \"overnightFee\",\n      \"amount\": 0.25,\n      \"currency\": \"USD\"\n    },\n    {\n      \"costType\": \"overWeekendFee\",\n      \"amount\": 0.75,\n      \"currency\": \"USD\"\n    },\n    {\n      \"costType\": \"sdrt\",\n      \"amount\": 0.5,\n      \"currency\": \"USD\"\n    }\n  ],\n  \"lastUpdated\": \"2026-05-25T08:30:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "146628dd-9253-49c1-9104-dcdc12d2bcdc",
+              "name": "Invalid request. Validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "costs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a3da1c20-5040-4f37-aa49-5bab12627d0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"instrumentId\": 101,\n  \"settlementType\": \"cfd\",\n  \"orderType\": \"mkt\",\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42d8e050-6323-412d-8b68-7aa5e12fddf9",
+              "name": "Unauthorized. Invalid or missing authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "costs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a3da1c20-5040-4f37-aa49-5bab12627d0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"instrumentId\": 101,\n  \"settlementType\": \"cfd\",\n  \"orderType\": \"mkt\",\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "172bc504-74be-422d-a4c7-6c076d6cc384",
+              "name": "Instrument or position not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "costs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a3da1c20-5040-4f37-aa49-5bab12627d0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"instrumentId\": 101,\n  \"settlementType\": \"cfd\",\n  \"orderType\": \"mkt\",\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "39039660-bb93-462d-83a8-950e92f6a40b",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "costs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a3da1c20-5040-4f37-aa49-5bab12627d0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"instrumentId\": 101,\n  \"settlementType\": \"cfd\",\n  \"orderType\": \"mkt\",\n  \"leverage\": 2,\n  \"amount\": 1000,\n  \"orderCurrency\": \"usd\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40d3201f-9a1b-4f79-bdb2-60f2f7be7d44",
+          "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+          "request": {
+            "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+            "description": {
+              "content": "Returns per-instrument trading configuration for the authenticated account - position limits, permitted order types, stop-loss and take-profit boundaries, and available leverage by settlement type and direction. Instruments not found are listed in notFoundInstrumentIds and notFoundSymbols. At least one of instrumentIds or symbols must be supplied; the combined length must not exceed 100 instruments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "trading",
+                "info",
+                "eligibility"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instrumentIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"symbols\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"currency\": \"USD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "662b9c3a-2d96-4661-8998-16c0d1f9dff9",
+              "name": "Eligibility resolved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "31ce2517-9c7f-4592-9621-c022bc40c76b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"currency\": \"USD\",\n  \"eligibilities\": [\n    {\n      \"instrumentId\": 1001,\n      \"symbol\": \"AAPL\",\n      \"minPositionExposure\": 50,\n      \"maxUnitsPerOrder\": 10000,\n      \"allowOpenPosition\": true,\n      \"allowClosePosition\": true,\n      \"allowPartialClosePosition\": true,\n      \"allowMitOrders\": true,\n      \"allowEntryOrders\": false,\n      \"allowExitOrders\": false,\n      \"allowTrailingStopLoss\": true,\n      \"requiresW8Ben\": null,\n      \"unitsQuantityType\": \"FractionalUnits\",\n      \"orderFillBehaviorType\": \"BestEffort\",\n      \"allowedOrderQuantityType\": \"Both\",\n      \"tradeUnitType\": \"Units\",\n      \"initialMarginInAssetCurrency\": null,\n      \"stopLossMarginInAssetCurrency\": null,\n      \"additionalBufferPercent\": null,\n      \"leverageConfigs\": [\n        {\n          \"settlementType\": \"CFD\",\n          \"direction\": \"LONG\",\n          \"leverageValues\": [\n            1,\n            2,\n            5\n          ],\n          \"isPotential\": false,\n          \"minPositionAmount\": 50,\n          \"allowEditStopLoss\": true,\n          \"minStopLossPercentage\": 5,\n          \"maxStopLossPercentage\": 50,\n          \"defaultStopLossPercentage\": 50,\n          \"allowEditTakeProfit\": true,\n          \"minTakeProfitPercentage\": 5,\n          \"maxTakeProfitPercentage\": 1000,\n          \"defaultTakeProfitPercentage\": 1000,\n          \"allowStopLossTakeProfit\": true\n        }\n      ]\n    }\n  ],\n  \"notFoundInstrumentIds\": [],\n  \"notFoundSymbols\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c6bfd6a-4744-487c-af6d-7d4a2581e41b",
+              "name": "Invalid request. Validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "31ce2517-9c7f-4592-9621-c022bc40c76b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d49f438f-8176-4729-9956-1e4be9600ba7",
+              "name": "Unauthorized. Invalid or missing authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "31ce2517-9c7f-4592-9621-c022bc40c76b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0c7e9a4-2499-4c60-80be-e36c6ac82205",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "eligibility"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "31ce2517-9c7f-4592-9621-c022bc40c76b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instrumentIds\": [\n    1001\n  ],\n  \"symbols\": [\n    \"AAPL\"\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2bd74262-b715-439d-869a-8f103b0c8b2d",
+          "name": "Get Order Information and Position Details for Real Account",
+          "request": {
+            "name": "Get Order Information and Position Details for Real Account",
+            "description": {
+              "content": "Retrieves comprehensive information about a specific order, including the order status, execution details, and all positions that were opened or closed from this order. This endpoint is essential for tracking order execution and identifying which positions were created as a result of a specific order request. The response includes detailed position information with PositionID values that can be used to query position-specific details. Provide exactly one of orderId or referenceId.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "trading",
+                "info",
+                "orders:lookup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "orderId",
+                  "value": "<long>",
+                  "description": "Numeric order identifier. Mutually exclusive with referenceId."
+                },
+                {
+                  "disabled": false,
+                  "key": "referenceId",
+                  "value": "<string>",
+                  "description": "Request ID header sent during order submission. Mutually exclusive with orderId."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "71e6a492-c177-4ee3-a610-48e5d45cc10c",
+              "name": "Order information retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "orders:lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "referenceId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "7e94ff5d-a987-4e52-991d-72b95b90b3d1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountId\": 7765437,\n  \"gcid\": 987654321,\n  \"portfolioId\": 1,\n  \"orderId\": 13902598,\n  \"action\": \"open\",\n  \"transaction\": \"buy\",\n  \"type\": \"mkt\",\n  \"etoroOrderTypeId\": 17,\n  \"status\": {\n    \"id\": 1,\n    \"name\": \"Executed\",\n    \"errorCode\": 0,\n    \"errorMessage\": null\n  },\n  \"asset\": {\n    \"symbol\": \"AAPL\",\n    \"instrumentId\": 101,\n    \"currency\": \"USD\",\n    \"settlementType\": \"cfd\",\n    \"leverage\": 2,\n    \"side\": \"long\"\n  },\n  \"orderCurrency\": \"usd\",\n  \"requestedAmount\": 1000,\n  \"requestedUnits\": null,\n  \"requestedContracts\": null,\n  \"frozenAmount\": 1002.5,\n  \"requestedTriggerRate\": null,\n  \"openStopLossRate\": 1.2,\n  \"openTakeProfitRate\": 1.5,\n  \"stopLossType\": \"fixed\",\n  \"totalCosts\": 2.5,\n  \"positionsToClose\": [],\n  \"positionExecutions\": [\n    {\n      \"positionId\": 9001,\n      \"state\": \"open\",\n      \"investedAmountCurrency\": 1000,\n      \"initialExposureAccountCurrency\": 1000,\n      \"initialExposureAssetCurrency\": 1000,\n      \"addedFunds\": 0,\n      \"marginAccountCurrency\": 1000,\n      \"marginAssetCurrency\": 1000,\n      \"remainingUnits\": 10.5,\n      \"remainingContracts\": 10.5,\n      \"stopLossRate\": 1.2,\n      \"takeProfitRate\": 1.5,\n      \"openingData\": {\n        \"openTime\": \"2024-01-01T09:00:00Z\",\n        \"orderId\": 5001,\n        \"executionTime\": \"2024-01-01T09:00:01Z\",\n        \"units\": 10.5,\n        \"contracts\": null,\n        \"avgPrice\": 95.238095,\n        \"avgConversionRate\": 1,\n        \"marketSpread\": 0.0002,\n        \"markup\": 0,\n        \"priceId\": 9876543210,\n        \"fees\": 2.5,\n        \"taxes\": 0\n      }\n    }\n  ],\n  \"requestTime\": \"2024-01-01T09:00:00Z\",\n  \"lastUpdate\": \"2024-01-01T09:00:01Z\",\n  \"openActionType\": \"customer\",\n  \"requestType\": \"byUnits\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "451d8683-3dc1-4358-8a58-fdc38bc58f79",
+              "name": "Invalid request. Validation failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "orders:lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "referenceId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "7e94ff5d-a987-4e52-991d-72b95b90b3d1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "002d9a6c-1148-4aa9-8ea3-7e9474be0f5f",
+              "name": "Unauthorized. Invalid or missing authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "orders:lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "referenceId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "7e94ff5d-a987-4e52-991d-72b95b90b3d1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f0aefa1-64a1-4d05-a737-e74058439929",
+              "name": "Order not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "orders:lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "referenceId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "7e94ff5d-a987-4e52-991d-72b95b90b3d1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"string\",\n  \"title\": \"string\",\n  \"status\": 6631,\n  \"detail\": \"string\",\n  \"instance\": \"string\",\n  \"key_0\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dcec25fb-0e76-4732-afb9-ef76e2af9e8a",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "trading",
+                    "info",
+                    "orders:lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "orderId",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "referenceId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "7e94ff5d-a987-4e52-991d-72b95b90b3d1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f970a085-4a50-4b5a-b4be-acb2940c510d",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Trading - Real API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

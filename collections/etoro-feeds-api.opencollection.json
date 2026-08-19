@@ -1,0 +1,530 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Feeds API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Feeds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get following feed",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/following",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of posts to return (1–100, default 20)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Number of posts to skip for pagination"
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Number of inline reactions to include per post (1–50, default 10)"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Returns a chronological feed of posts from users the authenticated user follows. Requires authentication."
+        },
+        {
+          "info": {
+            "name": "Get personalised For You feed",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/for-you",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of posts to return (1–100, default 20)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Number of posts to skip for pagination"
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Number of inline reactions to include per post (1–50, default 10)"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Returns a personalised feed for the authenticated user ranked by followed users, followed instruments, prior engagement, and freshness. Ranking method is resolved via A/B experiment (Optimizely) and per-user overrides. Requires authentication — this feed is intrinsically personal."
+        },
+        {
+          "info": {
+            "name": "Get instrument feed posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/instrument/:marketId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "marketId",
+                "value": "123456",
+                "type": "path",
+                "description": "Unique identifier of the financial instrument/market to retrieve feed posts for"
+              },
+              {
+                "name": "requesterUserId",
+                "value": "7890",
+                "type": "query",
+                "description": "ID of the user making the request. Used for personalization and permission checks."
+              },
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of feed posts to retrieve. Used for pagination."
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to include user badges in the response. Part of badges feature experiment."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of feed posts to skip. Used for pagination in combination with take parameter."
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of reactions to include per post. Controls the pagination of post reactions."
+              }
+            ]
+          },
+          "docs": "Retrieves feed posts associated with a specific financial instrument. The feed includes discussions, analyses, and other content related to the instrument."
+        },
+        {
+          "info": {
+            "name": "Get instrument feed posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/markets/:marketId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "marketId",
+                "value": "123456",
+                "type": "path",
+                "description": "Unique identifier of the financial instrument/market to retrieve feed posts for"
+              },
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of feed posts to retrieve. Used for pagination."
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to include user badges in the response. Part of badges feature experiment."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of feed posts to skip. Used for pagination in combination with take parameter."
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of reactions to include per post. Controls the pagination of post reactions."
+              }
+            ]
+          },
+          "docs": "Retrieves feed posts associated with a specific financial instrument. The feed includes discussions, analyses, and other content related to the instrument."
+        },
+        {
+          "info": {
+            "name": "Get news feed",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/news",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of posts to return (1–100, default 20)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Number of posts to skip for pagination"
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Number of inline reactions to include per post (1–50, default 10)"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Returns a ranked news feed for the authenticated user. Ranking method is resolved via A/B experiment and a configurable default."
+        },
+        {
+          "info": {
+            "name": "Create a new discussion post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/feeds/post",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new discussion post in the feed system. This endpoint allows users to create posts that can be associated with instruments, users, or general discussions."
+        },
+        {
+          "info": {
+            "name": "Get saved feed",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/saved",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of posts to return (1–100, default 20)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Number of posts to skip for pagination"
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "10",
+                "type": "query",
+                "description": "Number of inline reactions to include per post (1–50, default 10)"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Returns a list of posts the authenticated user has bookmarked. Only the requesting user can see their own saved feed. Requires authentication."
+        },
+        {
+          "info": {
+            "name": "Get user feed posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/user/:userId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "userId",
+                "value": "7890",
+                "type": "path",
+                "description": "ID of the user whose feed posts should be retrieved"
+              },
+              {
+                "name": "requesterUserId",
+                "value": "1111",
+                "type": "query",
+                "description": "ID of the user making the request. Used for personalization and permission checks."
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Number of feed posts to retrieve. Used for pagination."
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to include user badges in the response. Part of badges feature experiment."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of feed posts to skip. Used for pagination in combination with take parameter."
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of reactions to include per post. Controls the pagination of post reactions."
+              }
+            ]
+          },
+          "docs": "Retrieves feed posts associated with a specific user. The feed includes the user's discussions, analyses, and other content they have posted."
+        },
+        {
+          "info": {
+            "name": "Get user feed posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/users/:userId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "userId",
+                "value": "7890",
+                "type": "path",
+                "description": "ID of the user whose feed posts should be retrieved"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Number of feed posts to retrieve. Used for pagination."
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to include user badges in the response. Part of badges feature experiment."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of feed posts to skip. Used for pagination in combination with take parameter."
+              },
+              {
+                "name": "reactionsPageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of reactions to include per post. Controls the pagination of post reactions."
+              }
+            ]
+          },
+          "docs": "Retrieves feed posts associated with a specific user. The feed includes the user's discussions, analyses, and other content they have posted."
+        },
+        {
+          "info": {
+            "name": "Get user pinned feed posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/feeds/users/:userId/pinned",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "userId",
+                "value": "7890",
+                "type": "path",
+                "description": "ID of the user whose pinned posts should be retrieved"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to include user badges in the response. Part of badges feature experiment."
+              }
+            ]
+          },
+          "docs": "Retrieves the posts that the specified user has pinned to the top of their profile feed. The pinned feed surfaces highlighted content the user has explicitly chosen to feature, ordered by pin time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

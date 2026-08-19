@@ -1,0 +1,448 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "eToro Public API operations Agent Portfolios Deprecated API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deprecated",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Places a Market-if-touched order (similar to Limit order) to open a position when a threshold price is reached.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/demo/limit-orders",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nA Market-if-touched order is an order to open a new long or short position when a specific price or better appears in the Market. The price threshold is used to trigger a Market Order. This endpoint allows traders to set up Market-if-touched orders with parameters like leverage, stop-loss, and take-profit settings."
+        },
+        {
+          "info": {
+            "name": "Cancels a Market-if-touched order that has not yet been executed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/demo/limit-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Market-if-touched order to be canceled."
+              }
+            ]
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to cancel a Market-if-touched order before it is executed. Once canceled, the order will no longer be processed."
+        },
+        {
+          "info": {
+            "name": "Create a market order to open a position by specifying the amount of cash you would like to use in the trade.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/demo/market-open-orders/by-amount",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to place a market order to open a position by specifying the investment amount instead of specifying the number of units. The trade will be executed at the market price, and leverage, stop-loss, and take-profit settings can be applied."
+        },
+        {
+          "info": {
+            "name": "Places a Market Order to open a position by specifying the number of units you would like to trade.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/demo/market-open-orders/by-units",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to place a market order to open a position by specifying the number of units (rather than an amount in cash). The trade is executed at the current market price, and optional settings like leverage, stop-loss, and take-profit can be applied."
+        },
+        {
+          "info": {
+            "name": "Cancels a market order for open before it is executed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/demo/market-open-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the market order for open to be canceled."
+              }
+            ]
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to cancel a market order for open before execution. If the order has already been processed, cancellation will not be possible."
+        },
+        {
+          "info": {
+            "name": "Places a Market-if-touched order (similar to Limit order) to open a position when a threshold price is reached.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/limit-orders",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nA Market-if-touched order is an order to open a new long or short position when a specific price or better appears in the Market. The price threshold is used to trigger a Market Order. This endpoint allows traders to set up Market-if-touched orders with parameters like leverage, stop-loss, and take-profit settings."
+        },
+        {
+          "info": {
+            "name": "Cancels a Market-if-touched order that has not yet been executed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/limit-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Market-if-touched order to be canceled."
+              }
+            ]
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to cancel a Market-if-touched order before it is executed. Once canceled, the order will no longer be processed."
+        },
+        {
+          "info": {
+            "name": "Create a market order to open a position by specifying the amount of cash you would like to use in the trade.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-open-orders/by-amount",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to place a market order to open a position by specifying the investment amount instead of specifying the number of units. The trade will be executed at the market price, and leverage, stop-loss, and take-profit settings can be applied."
+        },
+        {
+          "info": {
+            "name": "Places a Market Order to open a position by specifying the number of units you would like to trade.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-open-orders/by-units",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to place a market order to open a position by specifying the number of units (rather than an amount in cash). The trade is executed at the current market price, and optional settings like leverage, stop-loss, and take-profit can be applied."
+        },
+        {
+          "info": {
+            "name": "Cancels a market order for open before it is executed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-open-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the market order for open to be canceled."
+              }
+            ]
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nThis endpoint allows traders to cancel a market order for open before execution. If the order has already been processed, cancellation will not be possible."
+        },
+        {
+          "info": {
+            "name": "Get Order Information and Position Details for Demo Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/demo/orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "123456789",
+                "type": "path",
+                "description": "The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+              }
+            ]
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nRetrieves comprehensive information about a specific order for opening a position, including the order status, execution details, and all positions that were opened from this order. This endpoint is essential for tracking order execution and identifying which positions were created as a result of a specific order request. The response includes detaile"
+        },
+        {
+          "info": {
+            "name": "Get Order Information and Position Details for Real Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/real/orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "123456789",
+                "type": "path",
+                "description": "The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+              }
+            ]
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nRetrieves comprehensive information about a specific order for opening a position, including the order status, execution details, and all positions that were opened from this order. This endpoint is essential for tracking order execution and identifying which positions were created as a result of a specific order request. The response includes detaile"
+        },
+        {
+          "info": {
+            "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/info/demo/eligibility",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nReturns per-instrument trading configuration for the authenticated account - position limits, permitted order types, stop-loss and take-profit boundaries, and available leverage by settlement type and direction. Instruments not found are listed in notFoundInstrumentIds and notFoundSymbols. At least one of instrumentIds or symbols must be supplied; the"
+        },
+        {
+          "info": {
+            "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/info/eligibility",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated: This endpoint is no longer present in the current eToro Public API Swagger. Prefer the current replacement endpoints where available.\n\nReturns per-instrument trading configuration for the authenticated account - position limits, permitted order types, stop-loss and take-profit boundaries, and available leverage by settlement type and direction. Instruments not found are listed in notFoundInstrumentIds and notFoundSymbols. At least one of instrumentIds or symbols must be supplied; the"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

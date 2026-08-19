@@ -1,0 +1,358 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Portfolios",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Agent Portfolios",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/agent-portfolios",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieves all agent-portfolios belonging to the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Create Agent Portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/agent-portfolios",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "[DEPRECATED — use POST /api/v2/agent-portfolios (scope names) instead] Creates a new agent-portfolio — a dedicated user account that receives its own fixed virtual balance (returned in agentPortfolioVirtualBalance). IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller's) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio's own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,"
+        },
+        {
+          "info": {
+            "name": "Delete Agent Portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/agent-portfolios/:agentPortfolioId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agentPortfolioId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the agent-portfolio to delete."
+              }
+            ]
+          },
+          "docs": "Permanently removes a agent-portfolio by revoking all user tokens, stopping the copy mirror, and deleting from storage."
+        },
+        {
+          "info": {
+            "name": "Create User Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/agent-portfolios/:agentPortfolioId/user-tokens",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agentPortfolioId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the agent-portfolio."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "[DEPRECATED — use POST /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens (scope names) instead] Creates a new user token for the specified agent-portfolio."
+        },
+        {
+          "info": {
+            "name": "Update User Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/agent-portfolios/:agentPortfolioId/user-tokens/:userTokenId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agentPortfolioId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the agent-portfolio."
+              },
+              {
+                "name": "userTokenId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the user token to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "[DEPRECATED — use PATCH /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId} (scope names) instead] Updates the settings of an existing user token for a agent-portfolio. At least one field must be provided."
+        },
+        {
+          "info": {
+            "name": "Delete User Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/agent-portfolios/:agentPortfolioId/user-tokens/:userTokenId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agentPortfolioId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the agent-portfolio."
+              },
+              {
+                "name": "userTokenId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the user token to delete."
+              }
+            ]
+          },
+          "docs": "Permanently revokes the specified user token from a agent-portfolio."
+        },
+        {
+          "info": {
+            "name": "Create Agent Portfolio (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/agent-portfolios",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2. IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller's) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio's own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,000, each position is copied at 20% of its size into your account."
+        },
+        {
+          "info": {
+            "name": "Get Allowed Scopes (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/agent-portfolios/user-tokens/scopes",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns the permission scope names that may be assigned to agent-portfolio user tokens."
+        },
+        {
+          "info": {
+            "name": "Create User Token (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/agent-portfolios/:agentPortfolioId/user-tokens",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agentPortfolioId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the agent-portfolio."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user token for the specified agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2."
+        },
+        {
+          "info": {
+            "name": "Update User Token (v2)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v2/agent-portfolios/:agentPortfolioId/user-tokens/:userTokenId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "agentPortfolioId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the agent-portfolio."
+              },
+              {
+                "name": "userTokenId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the user token to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the settings of an existing user token using scope names. At least one field must be provided. Scopes are specified by name (scopeNames); scope ids are not supported in v2."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

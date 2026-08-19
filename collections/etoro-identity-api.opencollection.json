@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Identity API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get authenticated user profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/me",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns the profile of the currently authenticated user, including account identifiers (GCID, real and demo CIDs), profile fields from Scope Data API (username, name, player level, gender, language, date of birth, LEI), and the OAuth scopes granted to the current access token."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

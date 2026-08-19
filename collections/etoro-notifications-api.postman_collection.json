@@ -1,0 +1,456 @@
+{
+  "item": [
+    {
+      "id": "9e864f09-97ba-415e-8ea9-536ab3fe5785",
+      "name": "Notifications",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0db88941-a887-4cd7-bf5d-5237be15b7a0",
+          "name": "Get in-app notifications",
+          "request": {
+            "name": "Get in-app notifications",
+            "description": {
+              "content": "Retrieves all in-app notifications for the authenticated user. Rate limit: 1 request per second.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb23aca7-8d41-4c94-8930-ce3442ccd1b4",
+              "name": "Notifications retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "d45f86bf-1871-4e66-ab5a-0cfe4779c52e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"messages\": [\n    {\n      \"messageId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n      \"correlationId\": \"33f2f832-bb07-2895-6c96-44992fdcfa3c\",\n      \"actionLink\": \"string\",\n      \"imageTitle\": \"string\",\n      \"imageUrl\": \"string\",\n      \"notificationType\": \"string\",\n      \"version\": \"string\",\n      \"aggregatable\": true,\n      \"grouped\": false,\n      \"aggregationId\": \"string\",\n      \"message\": \"string\",\n      \"readStatus\": \"Seen\",\n      \"publishDate\": \"1964-03-20T14:54:46.357Z\",\n      \"subCategory\": \"string\",\n      \"category\": \"string\",\n      \"rtlLanguage\": false,\n      \"section\": \"string\"\n    },\n    {\n      \"messageId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n      \"correlationId\": \"8016decb-89e7-db48-a6d0-580c359f56db\",\n      \"actionLink\": \"string\",\n      \"imageTitle\": \"string\",\n      \"imageUrl\": \"string\",\n      \"notificationType\": \"string\",\n      \"version\": \"string\",\n      \"aggregatable\": false,\n      \"grouped\": false,\n      \"aggregationId\": \"string\",\n      \"message\": \"string\",\n      \"readStatus\": \"Read\",\n      \"publishDate\": \"1976-07-23T13:38:54.821Z\",\n      \"subCategory\": \"string\",\n      \"category\": \"string\",\n      \"rtlLanguage\": false,\n      \"section\": \"string\"\n    }\n  ],\n  \"meta\": {\n    \"notSeen\": 5\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b990845-553e-4533-a0eb-6a015935b35d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "d45f86bf-1871-4e66-ab5a-0cfe4779c52e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b6d2a45d-9552-42d5-872a-0ad97f32d288",
+              "name": "Validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "d45f86bf-1871-4e66-ab5a-0cfe4779c52e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be2f2d8b-9860-4463-aca8-1f7c7f109264",
+          "name": "Mark all notifications as read",
+          "request": {
+            "name": "Mark all notifications as read",
+            "description": {
+              "content": "Marks all notifications as read for the authenticated user. Rate limit: 20 requests per minute.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "df7d2a1d-3015-4604-98c4-a31bbeabb6cc",
+              "name": "All notifications marked as read",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "52eaaee7-b830-4641-8675-71abbbf60768"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0439396f-f9b6-4720-8577-6a0614a612a8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "52eaaee7-b830-4641-8675-71abbbf60768"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8e03652e-705c-4735-8b60-7382bc777355",
+              "name": "Validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "52eaaee7-b830-4641-8675-71abbbf60768"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "542b2cd7-9d02-4c14-8764-c8fd7c06db90",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Notifications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

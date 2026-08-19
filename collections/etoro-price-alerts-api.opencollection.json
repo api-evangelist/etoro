@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Price Alerts API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Price Alerts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get price alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/price-alerts",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns all active price alerts for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Create a price alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/price-alerts",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new price alert for the authenticated user. The alert will fire when the market bid price reaches the target price. Provide a symbol to identify the instrument."
+        },
+        {
+          "info": {
+            "name": "Update a price alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/price-alerts/:alertId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "alertId",
+                "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "type": "path",
+                "description": "Unique identifier of the price alert"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the target price of an existing price alert."
+        },
+        {
+          "info": {
+            "name": "Delete a price alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/price-alerts/:alertId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "alertId",
+                "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "type": "path",
+                "description": "Unique identifier of the price alert to delete"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a price alert owned by the authenticated user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

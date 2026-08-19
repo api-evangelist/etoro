@@ -1,0 +1,2267 @@
+{
+  "item": [
+    {
+      "id": "2e8f6c21-c200-4875-88e9-972030156952",
+      "name": "Likes",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "61523f54-656d-481c-bf13-a93586703e66",
+          "name": "Like a comment",
+          "request": {
+            "name": "Like a comment",
+            "description": {
+              "content": "Toggles a Like emotion on the specified comment for the authenticated user. emotionType defaults to Like (the only supported emotion type). The call is idempotent — liking an already-liked entity succeeds silently.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":postId",
+                "comments",
+                ":commentId",
+                "likes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "postId",
+                  "description": "(Required) ID of the parent post (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "commentId",
+                  "description": "(Required) ID of the parent comment (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "11756158-ddcb-4ab4-b72b-194cfaef1b38",
+              "name": "Like recorded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "09ad2dc4-f8d2-453c-a6c8-17ab8b76fbb4"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4a072815-87ea-449e-b671-387c9afcb181",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "09ad2dc4-f8d2-453c-a6c8-17ab8b76fbb4"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7ddcede6-4316-4aee-9b1c-0e9f4263550f",
+              "name": "Requester is blocked by the entity owner or unable to interact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "09ad2dc4-f8d2-453c-a6c8-17ab8b76fbb4"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bfaf5fb4-bd3f-4ac6-a22f-caecc8ee5679",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "09ad2dc4-f8d2-453c-a6c8-17ab8b76fbb4"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "99d84b20-fd00-4899-8e4e-aa150aca552a",
+          "name": "Unlike a comment",
+          "request": {
+            "name": "Unlike a comment",
+            "description": {
+              "content": "Removes the authenticated user's Like from the specified comment. emotionType defaults to Like (the only supported emotion type). The call is idempotent — unliking an entity with no active like succeeds silently.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":postId",
+                "comments",
+                ":commentId",
+                "likes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "postId",
+                  "description": "(Required) ID of the parent post (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "commentId",
+                  "description": "(Required) ID of the parent comment (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "67540211-f5e5-4037-855d-8d24ca064d1a",
+              "name": "Like removed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "0b91a711-d509-41cc-ad26-b5166f08e48a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "956fc08f-7315-418b-89d8-5133a278980d",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "0b91a711-d509-41cc-ad26-b5166f08e48a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5baf7c7f-ec5f-433d-b7e8-8c27b73430cd",
+              "name": "Requester is blocked by the entity owner or unable to interact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "0b91a711-d509-41cc-ad26-b5166f08e48a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9e8d76f9-a366-4b3b-829c-f7692e3f2a8a",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "0b91a711-d509-41cc-ad26-b5166f08e48a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "132a893f-4b1f-4a17-b170-d79b9f00eb58",
+          "name": "Like a reply",
+          "request": {
+            "name": "Like a reply",
+            "description": {
+              "content": "Toggles a Like emotion on the specified reply for the authenticated user. emotionType defaults to Like (the only supported emotion type). The call is idempotent — liking an already-liked entity succeeds silently.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":postId",
+                "comments",
+                ":commentId",
+                "replies",
+                ":replyId",
+                "likes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "postId",
+                  "description": "(Required) ID of the parent post (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "commentId",
+                  "description": "(Required) ID of the parent comment (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "replyId",
+                  "description": "(Required) ID of the reply (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "75fcbe8d-22d2-4a24-bd8f-112c024608ac",
+              "name": "Like recorded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c9b9ced8-22e4-474c-a649-f0d6c958a325"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4aea7c5b-3acf-4ed7-b634-dc12a69da6f6",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c9b9ced8-22e4-474c-a649-f0d6c958a325"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6195cf55-6a8e-4b52-81d8-ec94b864eb47",
+              "name": "Requester is blocked by the entity owner or unable to interact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c9b9ced8-22e4-474c-a649-f0d6c958a325"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "92cecc85-a31f-4e3a-8495-188ee30b0e0a",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c9b9ced8-22e4-474c-a649-f0d6c958a325"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc128e8f-5b2f-4ad3-b973-b1ff75238935",
+          "name": "Unlike a reply",
+          "request": {
+            "name": "Unlike a reply",
+            "description": {
+              "content": "Removes the authenticated user's Like from the specified reply. emotionType defaults to Like (the only supported emotion type). The call is idempotent — unliking an entity with no active like succeeds silently.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":postId",
+                "comments",
+                ":commentId",
+                "replies",
+                ":replyId",
+                "likes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "postId",
+                  "description": "(Required) ID of the parent post (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "commentId",
+                  "description": "(Required) ID of the parent comment (UUID)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "replyId",
+                  "description": "(Required) ID of the reply (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "18be0b5a-1e2e-4647-839d-47dedb55acaa",
+              "name": "Like removed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "672169f8-97ab-464f-8597-ba511d07ac17"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "06f6e926-6d04-4ef5-a974-ad309ee9d5d9",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "672169f8-97ab-464f-8597-ba511d07ac17"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ffdd0b4b-3916-4903-80cc-b1ed6761abb0",
+              "name": "Requester is blocked by the entity owner or unable to interact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "672169f8-97ab-464f-8597-ba511d07ac17"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "94b450d6-becb-4938-b420-798c6b267730",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "comments",
+                    ":commentId",
+                    "replies",
+                    ":replyId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "commentId",
+                      "description": "(Required) ID of the parent comment (UUID)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "replyId",
+                      "description": "(Required) ID of the reply (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "672169f8-97ab-464f-8597-ba511d07ac17"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cb5cbb4c-d998-4c34-822c-9a671973e72a",
+          "name": "Like a post",
+          "request": {
+            "name": "Like a post",
+            "description": {
+              "content": "Toggles a Like emotion on the specified post for the authenticated user. emotionType defaults to Like (the only supported emotion type). The call is idempotent — liking an already-liked entity succeeds silently.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":postId",
+                "likes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "postId",
+                  "description": "(Required) ID of the parent post (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cb4a58c4-6696-48c6-b282-4889b512392e",
+              "name": "Like recorded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6e70f225-5dcb-4cd5-bb7c-657d13f2ce0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ef2842ab-dac1-4a7f-b126-277b351b5006",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6e70f225-5dcb-4cd5-bb7c-657d13f2ce0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b321057a-89d8-4963-9a2a-481ec70a2173",
+              "name": "Requester is blocked by the entity owner or unable to interact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6e70f225-5dcb-4cd5-bb7c-657d13f2ce0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f3bafc5e-87ee-4df3-8409-c395342834f4",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6e70f225-5dcb-4cd5-bb7c-657d13f2ce0b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f39614e1-c356-4643-9dff-0bfc344f796a",
+          "name": "Unlike a post",
+          "request": {
+            "name": "Unlike a post",
+            "description": {
+              "content": "Removes the authenticated user's Like from the specified post. emotionType defaults to Like (the only supported emotion type). The call is idempotent — unliking an entity with no active like succeeds silently.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "posts",
+                ":postId",
+                "likes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "postId",
+                  "description": "(Required) ID of the parent post (UUID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c650c36-1885-4bc5-8cee-c5d54c51871d",
+              "name": "Like removed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "27de3b40-3eac-46db-8659-59f295173ecf"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "27590fbb-b48c-492f-bde6-75496271c039",
+              "name": "Authentication required",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "27de3b40-3eac-46db-8659-59f295173ecf"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e23f2924-3f93-40fd-ba78-4270f6b60c69",
+              "name": "Requester is blocked by the entity owner or unable to interact",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "27de3b40-3eac-46db-8659-59f295173ecf"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b5880f4-41f7-4ffa-b390-a0661ce6f99d",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "posts",
+                    ":postId",
+                    "likes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "postId",
+                      "description": "(Required) ID of the parent post (UUID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "27de3b40-3eac-46db-8659-59f295173ecf"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "dc4bfb11-712c-40b0-9810-bcbb7b48d090",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Likes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Users Info API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users Info",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve comprehensive user profile data and aggregated account information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user-info/people",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "usernames",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cidList",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns detailed user profile information including account status, verification levels, biographical data, and associated metadata. This endpoint aggregates essential user information from multiple sources to provide a complete user profile overview."
+        },
+        {
+          "info": {
+            "name": "Comprehensive search and analytics engine for user discovery and analysis",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user-info/people/search",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "period",
+                "value": "LastYear",
+                "type": "query",
+                "description": "Defines the time period for analyzing user metrics and performance data. Supports various predefined intervals for consistent analysis."
+              },
+              {
+                "name": "isTestAccount",
+                "value": "false",
+                "type": "query",
+                "description": "When set to true, filters results to include only test/demo accounts. When false, shows only live accounts. Optional filter."
+              },
+              {
+                "name": "optIn",
+                "value": "true",
+                "type": "query",
+                "description": "Filter for users who have explicitly opted in to specific features or programs. Used for compliance and feature-specific filtering."
+              },
+              {
+                "name": "blocked",
+                "value": "false",
+                "type": "query",
+                "description": "When true, includes only blocked accounts in the results. Used for compliance and risk management purposes."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort results by specific field (e.g., -copiers)."
+              },
+              {
+                "name": "popularInvestor",
+                "value": "",
+                "type": "query",
+                "description": "Filter for popular investors."
+              },
+              {
+                "name": "gainMax",
+                "value": "",
+                "type": "query",
+                "description": "Max gain value filter."
+              },
+              {
+                "name": "maxDailyRiskScoreMin",
+                "value": "",
+                "type": "query",
+                "description": "Minimum daily risk score."
+              },
+              {
+                "name": "maxDailyRiskScoreMax",
+                "value": "",
+                "type": "query",
+                "description": "Maximum daily risk score."
+              },
+              {
+                "name": "maxMonthlyRiskScoreMin",
+                "value": "",
+                "type": "query",
+                "description": "Minimum monthly risk score."
+              },
+              {
+                "name": "maxMonthlyRiskScoreMax",
+                "value": "",
+                "type": "query",
+                "description": "Maximum monthly risk score."
+              },
+              {
+                "name": "weeksSinceRegistrationMin",
+                "value": "",
+                "type": "query",
+                "description": "Minimum weeks since registration."
+              },
+              {
+                "name": "countryId",
+                "value": "",
+                "type": "query",
+                "description": "The registered country ID of the user"
+              },
+              {
+                "name": "instrumentId",
+                "value": "",
+                "type": "query",
+                "description": "The instrument ID (you can also use this to exclude an instrument e.g., -5)."
+              },
+              {
+                "name": "instrumentPctMin",
+                "value": "",
+                "type": "query",
+                "description": "Minimum percentage of investment in the requested instrument ID."
+              },
+              {
+                "name": "instrumentPctMax",
+                "value": "",
+                "type": "query",
+                "description": "Maximum percentage of investment in the requested instrument ID."
+              }
+            ]
+          },
+          "docs": "Powerful search platform that enables advanced user discovery with comprehensive filtering capabilities. Supports complex queries across multiple dimensions including performance metrics, risk profiles, investment patterns, and account characteristics. Ideal for identifying users based on specific trading behaviors and performance criteria."
+        },
+        {
+          "info": {
+            "name": "Retrieve granular performance data for specific time periods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user-info/people/:username/daily-gain",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "trader123",
+                "type": "path",
+                "description": "Unique identifier of the user whose performance data is being requested"
+              },
+              {
+                "name": "minDate",
+                "value": "2024-01-01",
+                "type": "query",
+                "description": "Start date for the analysis period (inclusive) in YYYY-MM-DD format"
+              },
+              {
+                "name": "maxDate",
+                "value": "2024-12-31",
+                "type": "query",
+                "description": "End date for the analysis period (inclusive) in YYYY-MM-DD format"
+              },
+              {
+                "name": "type",
+                "value": "Daily",
+                "type": "query",
+                "description": "Specifies the granularity of the performance data: 'Daily' for day-by-day metrics or 'Period' for aggregated period statistics"
+              }
+            ]
+          },
+          "docs": "Provides detailed performance analytics including daily gains, cumulative returns, and period-specific metrics within a specified date range. Supports various time-based analyses and performance reporting requirements."
+        },
+        {
+          "info": {
+            "name": "Retrieve detailed historical performance metrics and analytics for a specified user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user-info/people/:username/gain",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "trader123",
+                "type": "path",
+                "description": "Unique identifier of the user whose performance metrics are being requested"
+              }
+            ]
+          },
+          "docs": "Returns comprehensive historical monthly and yearly performance data including gain percentages, risk-adjusted returns, and detailed trading statistics. This endpoint provides both aggregated and time-series performance metrics."
+        },
+        {
+          "info": {
+            "name": "Get the live portfolio of a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user-info/people/:username/portfolio/live",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The username of the user to retrieve the live portfolio for."
+              }
+            ]
+          },
+          "docs": "Get the live portfolio of a user"
+        },
+        {
+          "info": {
+            "name": "Get trade info for a specific user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user-info/people/:username/tradeinfo",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The username of the user to retrieve the discovery info for."
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "The period filter (e.g., LastTwoYears)."
+              }
+            ]
+          },
+          "docs": "Get trade info for a specific user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

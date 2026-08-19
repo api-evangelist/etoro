@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Attachments API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Attachments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload a media attachment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/attachments",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "client_request_id",
+                "value": "dcbf75de-be53-47fe-bfd0-61365e74f9d4",
+                "type": "query",
+                "description": "Client-generated correlation ID (UUID). Required for request tracing and idempotency."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Two-step media upload: clients first upload a file here to receive an Attachment object, then pass its url in a POST /feeds/post or POST /reactions/.../comment payload. Accepts multipart/form-data with a binary file field. Supported formats: JPEG and PNG. Maximum file size: 8 MB (8,388,608 bytes). The returned url is a plain CDN URL scoped to the uploading user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

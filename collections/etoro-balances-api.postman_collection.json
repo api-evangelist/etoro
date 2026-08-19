@@ -1,0 +1,3715 @@
+{
+  "item": [
+    {
+      "id": "ffd20956-efdf-45af-8306-405438995c9e",
+      "name": "Balances",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b95d8c43-d66f-4c49-b503-360738f173ff",
+          "name": "Get aggregated balances",
+          "request": {
+            "name": "Get aggregated balances",
+            "description": {
+              "content": "Returns aggregated balances across all account types for the authenticated user. Optionally filter by account type or specify the display currency for totals.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "accountTypes",
+                  "value": "<string>",
+                  "description": "Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship."
+                },
+                {
+                  "disabled": false,
+                  "key": "displayCurrency",
+                  "value": "USD",
+                  "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeZeroBalances",
+                  "value": "<boolean>",
+                  "description": "Whether to include accounts with a zero balance in the response. Defaults to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "expand",
+                  "value": "<string>",
+                  "description": "Comma-separated list of optional sections to include in the response. Valid values: equityDetails."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0cdcc8d6-1adf-40d1-a5e1-14d8601769a2",
+              "name": "Aggregated balances retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2a284616-e619-4daf-b778-9a6305e36e9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gcid\": 6129,\n  \"totalBalance\": 1749.5822615081947,\n  \"displayCurrency\": \"string\",\n  \"balances\": [\n    {\n      \"accountId\": \"string\",\n      \"accountType\": \"cash\",\n      \"subType\": \"string\",\n      \"balance\": 6365.1338366894925,\n      \"currency\": \"string\",\n      \"displayBalance\": 6500.868891382112,\n      \"displayCurrency\": \"string\",\n      \"exchangeRate\": 3178.009984500455,\n      \"equityDetails\": {\n        \"available\": 3684.0421595322737,\n        \"frozenCash\": 9853.609104106235,\n        \"currentPNL\": 6593.405019079004,\n        \"totalUsedMargin\": 1206.289573715188,\n        \"cryptoId\": 1274,\n        \"balance\": 4993.967271615805,\n        \"totalBalance\": 5087.189036878998,\n        \"spendableBalance\": 6197.589901325464,\n        \"balanceInFiat\": 3340.1448937072532,\n        \"totalBalanceInFiat\": 3864.83751521313,\n        \"spendableBalanceInFiat\": 3189.0129661105802,\n        \"fiatConversionCurrency\": \"string\",\n        \"orderIndex\": 8893\n      }\n    },\n    {\n      \"accountId\": \"string\",\n      \"accountType\": \"options\",\n      \"subType\": \"string\",\n      \"balance\": 6482.381935176282,\n      \"currency\": \"string\",\n      \"displayBalance\": 692.3658248585074,\n      \"displayCurrency\": \"string\",\n      \"exchangeRate\": 4167.778868524708,\n      \"equityDetails\": {\n        \"available\": 4971.621979970131,\n        \"frozenCash\": 5946.447442684574,\n        \"currentPNL\": 6979.019452628735,\n        \"totalUsedMargin\": 8554.818777297847,\n        \"cryptoId\": 2182,\n        \"balance\": 9622.27828895942,\n        \"totalBalance\": 1269.0467763542224,\n        \"spendableBalance\": 4241.996525299332,\n        \"balanceInFiat\": 2302.510363475824,\n        \"totalBalanceInFiat\": 6241.289007273152,\n        \"spendableBalanceInFiat\": 6668.6864763772355,\n        \"fiatConversionCurrency\": \"string\",\n        \"orderIndex\": 7709\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db91ba4f-a86b-4c0e-b66f-e88fd461a0fb",
+              "name": "Bad Request — invalid query parameter value.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2a284616-e619-4daf-b778-9a6305e36e9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8bb85ed-1e10-4968-bf66-3ad514c48926",
+              "name": "Unauthorized — missing or invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2a284616-e619-4daf-b778-9a6305e36e9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "069debb6-1412-4fa4-9977-daf0906a3916",
+              "name": "Forbidden — the token does not include the etoro-public:money.balance:read scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2a284616-e619-4daf-b778-9a6305e36e9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e5844955-54cb-4a90-9b3e-a550c6cec7b5",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2a284616-e619-4daf-b778-9a6305e36e9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb0462c0-4290-465f-8f71-de02b5d92feb",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2a284616-e619-4daf-b778-9a6305e36e9a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "961eae92-a39f-4d2b-8ebe-963a506339eb",
+          "name": "Get historical balance snapshots",
+          "request": {
+            "name": "Get historical balance snapshots",
+            "description": {
+              "content": "Returns end-of-day balance snapshots across all account types for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "balances",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "displayCurrency",
+                  "value": "USD",
+                  "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+                },
+                {
+                  "disabled": false,
+                  "key": "fromDate",
+                  "value": "<date>",
+                  "description": "Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "toDate",
+                  "value": "<date>",
+                  "description": "End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "accountTypes",
+                  "value": "<string>",
+                  "description": "Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "46ed9aad-a00a-4741-a0b3-7e50c93a5004",
+              "name": "Historical balance snapshots retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gcid\": 1663,\n  \"displayCurrency\": \"string\",\n  \"fromDate\": \"2017-08-07\",\n  \"toDate\": \"1990-05-08\",\n  \"snapshots\": [\n    {\n      \"date\": \"1955-08-14\",\n      \"totalCurrencyIso\": \"string\",\n      \"totalCash\": 1512.0453169545156,\n      \"totalInvestedAmount\": 4218.983478512104,\n      \"totalPnl\": 5250.067799830808,\n      \"totalBalance\": 9169.996344119469,\n      \"displayTotalCash\": 3352.7197172477076,\n      \"displayTotalInvestedAmount\": 9405.8734164576,\n      \"displayTotalPnl\": 9596.053250991214,\n      \"displayTotalBalance\": 2379.733197129877,\n      \"totalExchangeRate\": 1279.0035674971846,\n      \"accountSnapshots\": [\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"cash\",\n          \"currency\": \"string\",\n          \"cash\": 1767.8990128426854,\n          \"investedAmount\": 4434.509687593685,\n          \"pnl\": 3881.500047064734,\n          \"total\": 7656.724590559582,\n          \"usdRate\": 2726.9218342371005,\n          \"displayCash\": 9559.612765077376,\n          \"displayInvestedAmount\": 5188.541799778191,\n          \"displayPnl\": 5295.466140967397,\n          \"displayTotal\": 1093.2140943384916,\n          \"exchangeRate\": 6545.577879577749\n        },\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"cash\",\n          \"currency\": \"string\",\n          \"cash\": 9171.755372490876,\n          \"investedAmount\": 2648.776876257598,\n          \"pnl\": 6009.2121492218075,\n          \"total\": 565.460655684481,\n          \"usdRate\": 3908.208920200352,\n          \"displayCash\": 9324.96004116432,\n          \"displayInvestedAmount\": 8080.573145776753,\n          \"displayPnl\": 5445.92903235878,\n          \"displayTotal\": 4042.186033672381,\n          \"exchangeRate\": 6138.824987451665\n        }\n      ]\n    },\n    {\n      \"date\": \"1965-12-13\",\n      \"totalCurrencyIso\": \"string\",\n      \"totalCash\": 6734.9010033259065,\n      \"totalInvestedAmount\": 5710.919364056719,\n      \"totalPnl\": 2827.575083434657,\n      \"totalBalance\": 1223.8741783459827,\n      \"displayTotalCash\": 5897.004680230038,\n      \"displayTotalInvestedAmount\": 3377.73174073167,\n      \"displayTotalPnl\": 6812.859310270326,\n      \"displayTotalBalance\": 8386.130014103235,\n      \"totalExchangeRate\": 5937.525169480581,\n      \"accountSnapshots\": [\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"trading\",\n          \"currency\": \"string\",\n          \"cash\": 7298.769864924676,\n          \"investedAmount\": 3277.289694909743,\n          \"pnl\": 1213.5761379411736,\n          \"total\": 9589.30600340467,\n          \"usdRate\": 7229.569231534569,\n          \"displayCash\": 5659.224890301459,\n          \"displayInvestedAmount\": 9915.019300425847,\n          \"displayPnl\": 231.3258631820836,\n          \"displayTotal\": 1394.9423976578878,\n          \"exchangeRate\": 2780.6704927357364\n        },\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"trading\",\n          \"currency\": \"string\",\n          \"cash\": 2231.9289922150056,\n          \"investedAmount\": 3674.6288061038567,\n          \"pnl\": 1176.4671977499997,\n          \"total\": 8097.006885242065,\n          \"usdRate\": 6222.736382593178,\n          \"displayCash\": 8034.212433631077,\n          \"displayInvestedAmount\": 3732.6882386906855,\n          \"displayPnl\": 6357.936434310961,\n          \"displayTotal\": 4417.668741196551,\n          \"exchangeRate\": 9785.996373799046\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f4b4b79-b3c0-4592-bff6-768d91f51a4c",
+              "name": "Bad Request — invalid date range or query parameter value.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c38004b-cf4c-42c7-95c7-39d22da5d3d2",
+              "name": "Unauthorized — missing or invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d97b66f-755a-4ad4-8064-4d17f86bcb72",
+              "name": "Forbidden — the token does not include the etoro-public:money.balance:read scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c028206a-e766-4a98-b543-5debccb9f4d5",
+              "name": "Not Found — no historical data found for the specified date range.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0b30ab51-f034-458a-b002-31466f65a35a",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16d31f28-dbf8-4c3e-a1e4-5391227fe050",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountTypes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "aa34941f-8c0e-47e9-a372-4e3821b845f5"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d972d4f-45ef-4185-92e8-e2b69111bbab",
+          "name": "Get balances by account type",
+          "request": {
+            "name": "Get balances by account type",
+            "description": {
+              "content": "Returns balances for a specific account type for the authenticated user. Optionally filter by account IDs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "balances",
+                ":accountType"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "accountIds",
+                  "value": "<string>",
+                  "description": "Optional comma-separated list of account IDs to include."
+                },
+                {
+                  "disabled": false,
+                  "key": "displayCurrency",
+                  "value": "USD",
+                  "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeZeroBalances",
+                  "value": "<boolean>",
+                  "description": "Whether to include accounts with a zero balance in the response. Defaults to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "expand",
+                  "value": "<string>",
+                  "description": "Comma-separated list of optional sections to include in the response. Valid values: equityDetails."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountType",
+                  "description": "(Required) The account type to retrieve balances for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb4e2559-4ae8-4e34-8ff8-32800c8cc3c8",
+              "name": "Balances for the specified account type retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bad2f6e-2179-4c3a-9a08-c80b5237d80b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gcid\": 5669,\n  \"totalBalance\": 7226.021980887604,\n  \"displayCurrency\": \"string\",\n  \"balances\": [\n    {\n      \"accountId\": \"string\",\n      \"accountType\": \"<string>\",\n      \"subType\": \"string\",\n      \"balance\": 8253.921335898202,\n      \"currency\": \"string\",\n      \"displayBalance\": 9104.248401525965,\n      \"displayCurrency\": \"string\",\n      \"exchangeRate\": 2209.5695736381517,\n      \"equityDetails\": {\n        \"available\": 3644.2136757489343,\n        \"frozenCash\": 1717.0467355807295,\n        \"currentPNL\": 1667.5192621182077,\n        \"totalUsedMargin\": 6951.647893548154,\n        \"cryptoId\": 1954,\n        \"balance\": 8416.086045160475,\n        \"totalBalance\": 1956.4833251611435,\n        \"spendableBalance\": 880.830913119699,\n        \"balanceInFiat\": 1534.278996549101,\n        \"totalBalanceInFiat\": 380.03049063829786,\n        \"spendableBalanceInFiat\": 7985.50415737439,\n        \"fiatConversionCurrency\": \"string\",\n        \"orderIndex\": 3729\n      }\n    },\n    {\n      \"accountId\": \"string\",\n      \"accountType\": \"<string>\",\n      \"subType\": \"string\",\n      \"balance\": 9057.860398611776,\n      \"currency\": \"string\",\n      \"displayBalance\": 5003.336817561985,\n      \"displayCurrency\": \"string\",\n      \"exchangeRate\": 9809.652969954366,\n      \"equityDetails\": {\n        \"available\": 35.77157486334248,\n        \"frozenCash\": 8714.085481119835,\n        \"currentPNL\": 3431.3519816423,\n        \"totalUsedMargin\": 8440.146458779467,\n        \"cryptoId\": 19,\n        \"balance\": 2291.3628397676434,\n        \"totalBalance\": 1039.2661896858801,\n        \"spendableBalance\": 2046.660994682753,\n        \"balanceInFiat\": 4661.065868177277,\n        \"totalBalanceInFiat\": 1504.9493193618769,\n        \"spendableBalanceInFiat\": 4841.267954819832,\n        \"fiatConversionCurrency\": \"string\",\n        \"orderIndex\": 1676\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "50bc4e02-0cc7-4aa5-943e-fa39dd89d92d",
+              "name": "Bad Request — invalid account type or query parameter value.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bad2f6e-2179-4c3a-9a08-c80b5237d80b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b70200ef-3622-4862-8564-ecbaa3ba746f",
+              "name": "Unauthorized — missing or invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bad2f6e-2179-4c3a-9a08-c80b5237d80b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c548aecb-a206-4e3b-8299-4995d2d766a1",
+              "name": "Forbidden — the token does not include the etoro-public:money.balance:read scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bad2f6e-2179-4c3a-9a08-c80b5237d80b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "daa08d17-eeb9-4887-8b55-d6aa8d0d82fb",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bad2f6e-2179-4c3a-9a08-c80b5237d80b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76cbe976-e5b9-4754-9303-45ea258ff9b5",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9bad2f6e-2179-4c3a-9a08-c80b5237d80b"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c06df941-bc5a-4d31-b5bd-d04393adbada",
+          "name": "Get historical balances by account type",
+          "request": {
+            "name": "Get historical balances by account type",
+            "description": {
+              "content": "Returns end-of-day balance snapshots for a specific account type for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "balances",
+                ":accountType",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "displayCurrency",
+                  "value": "USD",
+                  "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+                },
+                {
+                  "disabled": false,
+                  "key": "fromDate",
+                  "value": "<date>",
+                  "description": "Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "toDate",
+                  "value": "<date>",
+                  "description": "End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "accountIds",
+                  "value": "<string>",
+                  "description": "Optional comma-separated list of account IDs to include."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountType",
+                  "description": "(Required) The account type to retrieve historical balances for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9cf76921-30c9-4025-90f7-56bd42410056",
+              "name": "Historical balance snapshots for the specified account type retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gcid\": 7372,\n  \"displayCurrency\": \"string\",\n  \"fromDate\": \"2006-01-24\",\n  \"toDate\": \"2004-12-08\",\n  \"snapshots\": [\n    {\n      \"date\": \"1989-05-20\",\n      \"totalCurrencyIso\": \"string\",\n      \"totalCash\": 6045.020439201284,\n      \"totalInvestedAmount\": 8114.754106742864,\n      \"totalPnl\": 3201.455959853714,\n      \"totalBalance\": 887.434051705881,\n      \"displayTotalCash\": 9833.671316672016,\n      \"displayTotalInvestedAmount\": 9154.768703179425,\n      \"displayTotalPnl\": 7316.110335685215,\n      \"displayTotalBalance\": 1366.5805782095042,\n      \"totalExchangeRate\": 2890.055131082199,\n      \"accountSnapshots\": [\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 5639.7992354862,\n          \"investedAmount\": 3934.725043156735,\n          \"pnl\": 825.2249469078165,\n          \"total\": 8360.790335297286,\n          \"usdRate\": 5086.735820190736,\n          \"displayCash\": 6201.2534733456005,\n          \"displayInvestedAmount\": 6503.672908700188,\n          \"displayPnl\": 7591.143928686539,\n          \"displayTotal\": 9662.133677436155,\n          \"exchangeRate\": 6556.642218300345\n        },\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 4633.459530227182,\n          \"investedAmount\": 6478.141915157232,\n          \"pnl\": 8895.859202251664,\n          \"total\": 310.22864502392997,\n          \"usdRate\": 9647.23087994226,\n          \"displayCash\": 3934.4937855197827,\n          \"displayInvestedAmount\": 5551.769753612861,\n          \"displayPnl\": 9479.952750521119,\n          \"displayTotal\": 7023.017564899971,\n          \"exchangeRate\": 3129.75049541923\n        }\n      ]\n    },\n    {\n      \"date\": \"1962-06-26\",\n      \"totalCurrencyIso\": \"string\",\n      \"totalCash\": 6558.833142685733,\n      \"totalInvestedAmount\": 4437.808897208743,\n      \"totalPnl\": 6471.93657450572,\n      \"totalBalance\": 9416.755153002154,\n      \"displayTotalCash\": 2850.285510211429,\n      \"displayTotalInvestedAmount\": 4958.54644571654,\n      \"displayTotalPnl\": 3860.2084450406182,\n      \"displayTotalBalance\": 9285.405096597076,\n      \"totalExchangeRate\": 1544.2058557733894,\n      \"accountSnapshots\": [\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 7201.443925840936,\n          \"investedAmount\": 8157.955895745677,\n          \"pnl\": 9438.01337961673,\n          \"total\": 5851.903297123863,\n          \"usdRate\": 7068.587621078376,\n          \"displayCash\": 5424.654384230596,\n          \"displayInvestedAmount\": 9997.451494941473,\n          \"displayPnl\": 2656.477453290824,\n          \"displayTotal\": 3793.3532887978195,\n          \"exchangeRate\": 4951.212903638451\n        },\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 2985.4200655711084,\n          \"investedAmount\": 7034.070098509609,\n          \"pnl\": 5716.9205370669315,\n          \"total\": 7670.197214308305,\n          \"usdRate\": 6297.124807560748,\n          \"displayCash\": 6029.401923743551,\n          \"displayInvestedAmount\": 2016.503006231749,\n          \"displayPnl\": 8340.042886724044,\n          \"displayTotal\": 3870.7413806991763,\n          \"exchangeRate\": 3882.6201089163637\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2cade39-d75a-4daf-92d2-b770b6d1775a",
+              "name": "Bad Request — invalid account type, date range, or query parameter value.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43ff6d56-aa07-4a62-9748-5a551f1b2264",
+              "name": "Unauthorized — missing or invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2cc3afa-3537-481a-b6d4-c649ed5bfd79",
+              "name": "Forbidden — the token does not include the etoro-public:money.balance:read scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ddd5b767-007d-429d-a484-7504460f29f8",
+              "name": "Not Found — no historical data found for the specified account type and date range.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aa2f1d4f-8164-4e78-8535-82fae6aa5fca",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48f9a2a5-3c9f-41dd-a14c-d570746c579e",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "accountIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type to retrieve historical balances for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "b203aadb-404e-478e-bb90-453ad5bd7c33"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36b5fc42-620e-4f25-acdf-a51018764a11",
+          "name": "Get balance for a specific account",
+          "request": {
+            "name": "Get balance for a specific account",
+            "description": {
+              "content": "Returns the balance for a specific account identified by type and account ID for the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "balances",
+                ":accountType",
+                ":accountId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "displayCurrency",
+                  "value": "USD",
+                  "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeZeroBalances",
+                  "value": "<boolean>",
+                  "description": "Whether to include accounts with a zero balance in the response. Defaults to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "expand",
+                  "value": "<string>",
+                  "description": "Comma-separated list of optional sections to include in the response. Valid values: equityDetails."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountType",
+                  "description": "(Required) The account type."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The unique identifier of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e61b3f5c-3709-4a09-af21-53c00de23e95",
+              "name": "Balance for the specified account retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gcid\": 5669,\n  \"totalBalance\": 7226.021980887604,\n  \"displayCurrency\": \"string\",\n  \"balances\": [\n    {\n      \"accountId\": \"string\",\n      \"accountType\": \"<string>\",\n      \"subType\": \"string\",\n      \"balance\": 8253.921335898202,\n      \"currency\": \"string\",\n      \"displayBalance\": 9104.248401525965,\n      \"displayCurrency\": \"string\",\n      \"exchangeRate\": 2209.5695736381517,\n      \"equityDetails\": {\n        \"available\": 3644.2136757489343,\n        \"frozenCash\": 1717.0467355807295,\n        \"currentPNL\": 1667.5192621182077,\n        \"totalUsedMargin\": 6951.647893548154,\n        \"cryptoId\": 1954,\n        \"balance\": 8416.086045160475,\n        \"totalBalance\": 1956.4833251611435,\n        \"spendableBalance\": 880.830913119699,\n        \"balanceInFiat\": 1534.278996549101,\n        \"totalBalanceInFiat\": 380.03049063829786,\n        \"spendableBalanceInFiat\": 7985.50415737439,\n        \"fiatConversionCurrency\": \"string\",\n        \"orderIndex\": 3729\n      }\n    },\n    {\n      \"accountId\": \"string\",\n      \"accountType\": \"<string>\",\n      \"subType\": \"string\",\n      \"balance\": 9057.860398611776,\n      \"currency\": \"string\",\n      \"displayBalance\": 5003.336817561985,\n      \"displayCurrency\": \"string\",\n      \"exchangeRate\": 9809.652969954366,\n      \"equityDetails\": {\n        \"available\": 35.77157486334248,\n        \"frozenCash\": 8714.085481119835,\n        \"currentPNL\": 3431.3519816423,\n        \"totalUsedMargin\": 8440.146458779467,\n        \"cryptoId\": 19,\n        \"balance\": 2291.3628397676434,\n        \"totalBalance\": 1039.2661896858801,\n        \"spendableBalance\": 2046.660994682753,\n        \"balanceInFiat\": 4661.065868177277,\n        \"totalBalanceInFiat\": 1504.9493193618769,\n        \"spendableBalanceInFiat\": 4841.267954819832,\n        \"fiatConversionCurrency\": \"string\",\n        \"orderIndex\": 1676\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f555858-a85e-48ed-a01d-421835cf20ba",
+              "name": "Bad Request — invalid account type or account ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41ff2cb4-80cf-4a5d-92c3-315d310da97d",
+              "name": "Unauthorized — missing or invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "768c564b-d66a-4397-ae56-611b57fb0bd4",
+              "name": "Forbidden — the token does not include the etoro-public:money.balance:read scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2de42ee3-e139-4792-9342-fc8bed738a32",
+              "name": "Not Found — no account found for the specified type and account ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9f39794e-7a8e-422a-87cd-e49edcf725a2",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9009f779-eca6-4669-b2df-70c92ed66a56",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "includeZeroBalances",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "79dd59ed-0c79-41c6-8d01-f3bb910fbf74"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b4c0b1f8-d88f-4dbd-8dbf-78828657611d",
+          "name": "Get historical balances for a specific account",
+          "request": {
+            "name": "Get historical balances for a specific account",
+            "description": {
+              "content": "Returns end-of-day balance snapshots for a specific account identified by type and account ID for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "balances",
+                ":accountType",
+                ":accountId",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "displayCurrency",
+                  "value": "USD",
+                  "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+                },
+                {
+                  "disabled": false,
+                  "key": "fromDate",
+                  "value": "<date>",
+                  "description": "Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days."
+                },
+                {
+                  "disabled": false,
+                  "key": "toDate",
+                  "value": "<date>",
+                  "description": "End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountType",
+                  "description": "(Required) The account type."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "accountId",
+                  "description": "(Required) The unique identifier of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "50897464-16e8-4ff4-b1a5-757d9f38422a",
+              "name": "Historical balance snapshots for the specified account retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gcid\": 7372,\n  \"displayCurrency\": \"string\",\n  \"fromDate\": \"2006-01-24\",\n  \"toDate\": \"2004-12-08\",\n  \"snapshots\": [\n    {\n      \"date\": \"1989-05-20\",\n      \"totalCurrencyIso\": \"string\",\n      \"totalCash\": 6045.020439201284,\n      \"totalInvestedAmount\": 8114.754106742864,\n      \"totalPnl\": 3201.455959853714,\n      \"totalBalance\": 887.434051705881,\n      \"displayTotalCash\": 9833.671316672016,\n      \"displayTotalInvestedAmount\": 9154.768703179425,\n      \"displayTotalPnl\": 7316.110335685215,\n      \"displayTotalBalance\": 1366.5805782095042,\n      \"totalExchangeRate\": 2890.055131082199,\n      \"accountSnapshots\": [\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 5639.7992354862,\n          \"investedAmount\": 3934.725043156735,\n          \"pnl\": 825.2249469078165,\n          \"total\": 8360.790335297286,\n          \"usdRate\": 5086.735820190736,\n          \"displayCash\": 6201.2534733456005,\n          \"displayInvestedAmount\": 6503.672908700188,\n          \"displayPnl\": 7591.143928686539,\n          \"displayTotal\": 9662.133677436155,\n          \"exchangeRate\": 6556.642218300345\n        },\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 4633.459530227182,\n          \"investedAmount\": 6478.141915157232,\n          \"pnl\": 8895.859202251664,\n          \"total\": 310.22864502392997,\n          \"usdRate\": 9647.23087994226,\n          \"displayCash\": 3934.4937855197827,\n          \"displayInvestedAmount\": 5551.769753612861,\n          \"displayPnl\": 9479.952750521119,\n          \"displayTotal\": 7023.017564899971,\n          \"exchangeRate\": 3129.75049541923\n        }\n      ]\n    },\n    {\n      \"date\": \"1962-06-26\",\n      \"totalCurrencyIso\": \"string\",\n      \"totalCash\": 6558.833142685733,\n      \"totalInvestedAmount\": 4437.808897208743,\n      \"totalPnl\": 6471.93657450572,\n      \"totalBalance\": 9416.755153002154,\n      \"displayTotalCash\": 2850.285510211429,\n      \"displayTotalInvestedAmount\": 4958.54644571654,\n      \"displayTotalPnl\": 3860.2084450406182,\n      \"displayTotalBalance\": 9285.405096597076,\n      \"totalExchangeRate\": 1544.2058557733894,\n      \"accountSnapshots\": [\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 7201.443925840936,\n          \"investedAmount\": 8157.955895745677,\n          \"pnl\": 9438.01337961673,\n          \"total\": 5851.903297123863,\n          \"usdRate\": 7068.587621078376,\n          \"displayCash\": 5424.654384230596,\n          \"displayInvestedAmount\": 9997.451494941473,\n          \"displayPnl\": 2656.477453290824,\n          \"displayTotal\": 3793.3532887978195,\n          \"exchangeRate\": 4951.212903638451\n        },\n        {\n          \"accountId\": \"string\",\n          \"accountType\": \"<string>\",\n          \"currency\": \"string\",\n          \"cash\": 2985.4200655711084,\n          \"investedAmount\": 7034.070098509609,\n          \"pnl\": 5716.9205370669315,\n          \"total\": 7670.197214308305,\n          \"usdRate\": 6297.124807560748,\n          \"displayCash\": 6029.401923743551,\n          \"displayInvestedAmount\": 2016.503006231749,\n          \"displayPnl\": 8340.042886724044,\n          \"displayTotal\": 3870.7413806991763,\n          \"exchangeRate\": 3882.6201089163637\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b0dd68f-b50d-4ff5-9a3c-3504310298a9",
+              "name": "Bad Request — invalid account type, account ID, or date range.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"requestId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "111b4de1-b508-4b1a-a4a5-d3e267383f4c",
+              "name": "Unauthorized — missing or invalid authentication credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06f2f422-3b0c-4efb-bf07-c3f1b575237c",
+              "name": "Forbidden — the token does not include the etoro-public:money.balance:read scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1eb3cef7-36e1-45e1-aa5a-778adc955e0c",
+              "name": "Not Found — no account or historical data found for the specified parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c79b7dc4-614b-4f72-b298-d3f7ee67a484",
+              "name": "Too Many Requests — rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a88a0e3e-2f48-4114-aa47-a82f27760a53",
+              "name": "Internal Server Error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "balances",
+                    ":accountType",
+                    ":accountId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "displayCurrency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "fromDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "toDate",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountType",
+                      "description": "(Required) The account type."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "accountId",
+                      "description": "(Required) The unique identifier of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2faf6249-c7ab-4057-9760-923619a1a280"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e160e464-b017-462b-9e68-05d87dda12d3",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Balances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

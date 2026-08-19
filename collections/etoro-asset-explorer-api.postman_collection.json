@@ -1,0 +1,762 @@
+{
+  "item": [
+    {
+      "id": "c1b0eb40-87a0-4bbf-b136-f01244c9a14b",
+      "name": "Asset Explorer",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "953cd2ac-0d0c-4d7f-8fd5-e95cb4f96d5c",
+          "name": "Discover instruments",
+          "request": {
+            "name": "Discover instruments",
+            "description": {
+              "content": "Retrieve a paginated list of instruments with optional sorting, field projection, and arbitrary field filters. Filters are applied by adding any of the supported field names as a query parameter (e.g. `exchangeName=NASDAQ`). Suffixing a field name with `Min` or `Max` applies a greater-than or less-than filter respectively (e.g. `peRatioMin=10`, `marketCapMax=1000000000`). The set of supported field names is fixed and is documented under the `Instrument` schema.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "instruments",
+                "discover"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The 1-based page number to retrieve."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "The number of items to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Comma-separated list of `Instrument` fields to sort by. Prefix a field with `-` for descending order. Example: `-marketCap,displayName`."
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of `Instrument` fields to include in each item. If omitted, all supported fields are returned. Example: `symbol,displayName,currentRate`."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bd4262d2-2d5c-404b-955a-29453cb08e46",
+              "name": "Successful response containing a paginated list of instruments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    "discover"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2fa07ad4-b056-405c-803b-e3d8aeb90a58"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1166,\n  \"pageSize\": 7252,\n  \"totalItems\": 7104,\n  \"items\": [\n    {\n      \"instrumentId\": 2637,\n      \"displayname\": \"string\",\n      \"popularityUniques7Day\": 8555,\n      \"instrumentTypeID\": 7855,\n      \"instrumentType\": \"string\",\n      \"exchangeID\": 9670,\n      \"symbol\": \"string\",\n      \"isOpen\": true,\n      \"internalAssetClassId\": 3279,\n      \"internalInstrumentDisplayName\": \"string\",\n      \"isInternalInstrument\": false,\n      \"internalSymbolFull\": \"string\",\n      \"isHiddenFromClient\": false,\n      \"internalInstrumentId\": 1480,\n      \"internalCryptoTypeId\": 5718,\n      \"internalExchangeId\": 7545,\n      \"internalExchangeName\": \"string\",\n      \"internalAssetClassName\": \"string\",\n      \"logo35x35\": \"string\",\n      \"logo50x50\": \"string\",\n      \"logo150x150\": \"string\",\n      \"dailyPriceChange\": 172.7007552393911,\n      \"absDailyPriceChange\": 2615.132220916596,\n      \"weeklyPriceChange\": 4829.016746414786,\n      \"monthlyPriceChange\": 2663.1348819154555,\n      \"isDelisted\": true,\n      \"isCurrentlyTradable\": true,\n      \"isExchangeOpen\": false,\n      \"internalClosingPrice\": 113.01451052148414,\n      \"isActiveInPlatform\": true,\n      \"isBuyEnabled\": true,\n      \"currentRate\": 7654.047200919113,\n      \"threeMonthPriceChange\": 7827.324864775478,\n      \"sixMonthPriceChange\": 3218.8451443451527,\n      \"oneYearPriceChange\": 9248.546348108,\n      \"currMonthPriceChange\": 1940.2152526180093,\n      \"currQuarterPriceChange\": 5323.599061091364,\n      \"currYearPriceChange\": 708.9867853193277,\n      \"lastYearPriceChange\": 3570.2803668713655,\n      \"lastTwoYearsPriceChange\": 5094.525293252288,\n      \"oneMonthAgoPriceChange\": 6268.6333476270665,\n      \"twoMonthsAgoPriceChange\": 1140.114670496959,\n      \"threeMonthsAgoPriceChange\": 1339.2798774992675,\n      \"sixMonthsAgoPriceChange\": 42.131123175299656,\n      \"oneYearAgoPriceChange\": 1254.765433691507,\n      \"cvtBid\": 985.169386200191,\n      \"cvtAsk\": 1678.6975884307142,\n      \"cvtBiNoSpread\": 7891.309355753643,\n      \"cvtAskNoSpread\": 4660.5420062321855,\n      \"traders7DayChange\": 1442.1237121531626,\n      \"traders14DayChange\": 7322.636700372467,\n      \"traders30DayChange\": 9311.536920784112,\n      \"popularityUniques14Day\": 8103,\n      \"popularityUniques30Day\": 1355,\n      \"internalIndustryId\": 8847,\n      \"internalStockIndustryName\": \"string\",\n      \"popularityUniques\": 678,\n      \"holdingPct\": 9220.660553811036,\n      \"buyHoldingPct\": 1568.5161413506344,\n      \"sellHoldingPct\": 1742.0962163381726,\n      \"buyPctChange24Hours\": 2537.2020781698457,\n      \"absBuyPctChange24Hours\": 8898.00030290285,\n      \"industryNameId\": 1863,\n      \"sectorNameId\": 9050\n    },\n    {\n      \"instrumentId\": 8875,\n      \"displayname\": \"string\",\n      \"popularityUniques7Day\": 7786,\n      \"instrumentTypeID\": 7509,\n      \"instrumentType\": \"string\",\n      \"exchangeID\": 1535,\n      \"symbol\": \"string\",\n      \"isOpen\": true,\n      \"internalAssetClassId\": 9707,\n      \"internalInstrumentDisplayName\": \"string\",\n      \"isInternalInstrument\": false,\n      \"internalSymbolFull\": \"string\",\n      \"isHiddenFromClient\": true,\n      \"internalInstrumentId\": 3557,\n      \"internalCryptoTypeId\": 7736,\n      \"internalExchangeId\": 1330,\n      \"internalExchangeName\": \"string\",\n      \"internalAssetClassName\": \"string\",\n      \"logo35x35\": \"string\",\n      \"logo50x50\": \"string\",\n      \"logo150x150\": \"string\",\n      \"dailyPriceChange\": 6554.4986523689095,\n      \"absDailyPriceChange\": 9379.930706302119,\n      \"weeklyPriceChange\": 5528.21002096283,\n      \"monthlyPriceChange\": 7247.938758180177,\n      \"isDelisted\": false,\n      \"isCurrentlyTradable\": true,\n      \"isExchangeOpen\": false,\n      \"internalClosingPrice\": 7082.436198913541,\n      \"isActiveInPlatform\": true,\n      \"isBuyEnabled\": true,\n      \"currentRate\": 3518.966423166425,\n      \"threeMonthPriceChange\": 1427.9309145958653,\n      \"sixMonthPriceChange\": 8860.012740775743,\n      \"oneYearPriceChange\": 7640.765032964903,\n      \"currMonthPriceChange\": 1617.4910981026314,\n      \"currQuarterPriceChange\": 7711.73812679655,\n      \"currYearPriceChange\": 1055.1352195840002,\n      \"lastYearPriceChange\": 989.844490124615,\n      \"lastTwoYearsPriceChange\": 6074.07650314548,\n      \"oneMonthAgoPriceChange\": 8771.120940751374,\n      \"twoMonthsAgoPriceChange\": 1651.6561321263157,\n      \"threeMonthsAgoPriceChange\": 5363.539377382789,\n      \"sixMonthsAgoPriceChange\": 525.7468183251813,\n      \"oneYearAgoPriceChange\": 8530.16572806121,\n      \"cvtBid\": 8849.817700880121,\n      \"cvtAsk\": 5216.658555407786,\n      \"cvtBiNoSpread\": 8624.508367484772,\n      \"cvtAskNoSpread\": 4970.002782606612,\n      \"traders7DayChange\": 5206.452442949729,\n      \"traders14DayChange\": 239.1602024684314,\n      \"traders30DayChange\": 9575.153844599756,\n      \"popularityUniques14Day\": 8736,\n      \"popularityUniques30Day\": 9479,\n      \"internalIndustryId\": 8214,\n      \"internalStockIndustryName\": \"string\",\n      \"popularityUniques\": 8448,\n      \"holdingPct\": 1810.181019834195,\n      \"buyHoldingPct\": 3940.4434452078162,\n      \"sellHoldingPct\": 5149.125435899124,\n      \"buyPctChange24Hours\": 3212.907122214764,\n      \"absBuyPctChange24Hours\": 3817.653179670607,\n      \"industryNameId\": 3540,\n      \"sectorNameId\": 8647\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1fc0dea-568d-46d7-870c-9e5428b46bf2",
+              "name": "Bad request, for example a malformed query parameter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    "discover"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "50"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "2fa07ad4-b056-405c-803b-e3d8aeb90a58"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "66729d36-f92c-4dbe-870b-e1082fdb3151",
+          "name": "Get an instrument by symbol",
+          "request": {
+            "name": "Get an instrument by symbol",
+            "description": {
+              "content": "Retrieve a single instrument by its trading symbol. Use the `fields` query parameter to project a subset of `Instrument` fields.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "instruments",
+                ":symbol"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of `Instrument` fields to include in the response. If omitted, all supported fields are returned. Example: `symbol,displayName,currentRate`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "symbol",
+                  "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a2a66a9-50e3-40b2-b03f-1c774835089a",
+              "name": "Successful response containing the instrument.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    ":symbol"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "symbol",
+                      "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6f69fe03-03d6-4a96-a002-609254e0306d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instrumentId\": 116,\n  \"displayname\": \"string\",\n  \"popularityUniques7Day\": 6370,\n  \"instrumentTypeID\": 493,\n  \"instrumentType\": \"string\",\n  \"exchangeID\": 3721,\n  \"symbol\": \"string\",\n  \"isOpen\": false,\n  \"internalAssetClassId\": 6483,\n  \"internalInstrumentDisplayName\": \"string\",\n  \"isInternalInstrument\": true,\n  \"internalSymbolFull\": \"string\",\n  \"isHiddenFromClient\": false,\n  \"internalInstrumentId\": 7494,\n  \"internalCryptoTypeId\": 8211,\n  \"internalExchangeId\": 9097,\n  \"internalExchangeName\": \"string\",\n  \"internalAssetClassName\": \"string\",\n  \"logo35x35\": \"string\",\n  \"logo50x50\": \"string\",\n  \"logo150x150\": \"string\",\n  \"dailyPriceChange\": 7848.119410536228,\n  \"absDailyPriceChange\": 8418.433444659493,\n  \"weeklyPriceChange\": 6356.524759836335,\n  \"monthlyPriceChange\": 4272.456570202256,\n  \"isDelisted\": false,\n  \"isCurrentlyTradable\": true,\n  \"isExchangeOpen\": true,\n  \"internalClosingPrice\": 4235.118929158034,\n  \"isActiveInPlatform\": true,\n  \"isBuyEnabled\": true,\n  \"currentRate\": 1134.6481963912124,\n  \"threeMonthPriceChange\": 5181.8517247490345,\n  \"sixMonthPriceChange\": 7072.611968587764,\n  \"oneYearPriceChange\": 6389.257114789625,\n  \"currMonthPriceChange\": 4174.000351028062,\n  \"currQuarterPriceChange\": 8780.089912129914,\n  \"currYearPriceChange\": 3790.3543878391743,\n  \"lastYearPriceChange\": 325.7344788279892,\n  \"lastTwoYearsPriceChange\": 4754.5907865975705,\n  \"oneMonthAgoPriceChange\": 1316.7337093532449,\n  \"twoMonthsAgoPriceChange\": 3956.5172238459068,\n  \"threeMonthsAgoPriceChange\": 6257.9443825852695,\n  \"sixMonthsAgoPriceChange\": 393.5509691826533,\n  \"oneYearAgoPriceChange\": 2482.865833818425,\n  \"cvtBid\": 5931.5121373974935,\n  \"cvtAsk\": 1202.527698348086,\n  \"cvtBiNoSpread\": 4537.610910596638,\n  \"cvtAskNoSpread\": 2616.5244389476993,\n  \"traders7DayChange\": 9409.501800489952,\n  \"traders14DayChange\": 6303.967390391625,\n  \"traders30DayChange\": 9886.044357973833,\n  \"popularityUniques14Day\": 5526,\n  \"popularityUniques30Day\": 6671,\n  \"internalIndustryId\": 234,\n  \"internalStockIndustryName\": \"string\",\n  \"popularityUniques\": 9462,\n  \"holdingPct\": 209.19171479399589,\n  \"buyHoldingPct\": 1150.0841834236764,\n  \"sellHoldingPct\": 9962.573182264725,\n  \"buyPctChange24Hours\": 7976.633915792022,\n  \"absBuyPctChange24Hours\": 5012.925848691697,\n  \"industryNameId\": 334,\n  \"sectorNameId\": 5727\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10cedce8-64c8-4e53-9662-37e9aed80487",
+              "name": "No instrument found for the given symbol.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    ":symbol"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "symbol",
+                      "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6f69fe03-03d6-4a96-a002-609254e0306d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7fe6100d-dd8d-4705-9f93-552b52ab460d",
+          "name": "Get an instrument by symbol using a field shortener",
+          "request": {
+            "name": "Get an instrument by symbol using a field shortener",
+            "description": {
+              "content": "Retrieve a single instrument by its trading symbol, restricted to the field set defined by the given shortener preset. The `fields` query parameter can further narrow the projection to a subset of the shortener's fields.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "instruments",
+                ":symbol",
+                ":shortener"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "Comma-separated list of `Instrument` fields to include in the response. Must be a subset of the shortener's fields. Example: `symbol,displayName,currentRate`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "symbol",
+                  "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "shortener",
+                  "description": "(Required) The name of an allowed shortener preset that restricts the returned field set."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7a043952-707e-40f7-a80a-27241fffc3a8",
+              "name": "Successful response containing the instrument restricted to the shortener's fields.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    ":symbol",
+                    ":shortener"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "symbol",
+                      "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "shortener",
+                      "description": "(Required) The name of an allowed shortener preset that restricts the returned field set."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c2f6bf05-a1b6-45e8-807d-2004ace56432"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"instrumentId\": 116,\n  \"displayname\": \"string\",\n  \"popularityUniques7Day\": 6370,\n  \"instrumentTypeID\": 493,\n  \"instrumentType\": \"string\",\n  \"exchangeID\": 3721,\n  \"symbol\": \"string\",\n  \"isOpen\": false,\n  \"internalAssetClassId\": 6483,\n  \"internalInstrumentDisplayName\": \"string\",\n  \"isInternalInstrument\": true,\n  \"internalSymbolFull\": \"string\",\n  \"isHiddenFromClient\": false,\n  \"internalInstrumentId\": 7494,\n  \"internalCryptoTypeId\": 8211,\n  \"internalExchangeId\": 9097,\n  \"internalExchangeName\": \"string\",\n  \"internalAssetClassName\": \"string\",\n  \"logo35x35\": \"string\",\n  \"logo50x50\": \"string\",\n  \"logo150x150\": \"string\",\n  \"dailyPriceChange\": 7848.119410536228,\n  \"absDailyPriceChange\": 8418.433444659493,\n  \"weeklyPriceChange\": 6356.524759836335,\n  \"monthlyPriceChange\": 4272.456570202256,\n  \"isDelisted\": false,\n  \"isCurrentlyTradable\": true,\n  \"isExchangeOpen\": true,\n  \"internalClosingPrice\": 4235.118929158034,\n  \"isActiveInPlatform\": true,\n  \"isBuyEnabled\": true,\n  \"currentRate\": 1134.6481963912124,\n  \"threeMonthPriceChange\": 5181.8517247490345,\n  \"sixMonthPriceChange\": 7072.611968587764,\n  \"oneYearPriceChange\": 6389.257114789625,\n  \"currMonthPriceChange\": 4174.000351028062,\n  \"currQuarterPriceChange\": 8780.089912129914,\n  \"currYearPriceChange\": 3790.3543878391743,\n  \"lastYearPriceChange\": 325.7344788279892,\n  \"lastTwoYearsPriceChange\": 4754.5907865975705,\n  \"oneMonthAgoPriceChange\": 1316.7337093532449,\n  \"twoMonthsAgoPriceChange\": 3956.5172238459068,\n  \"threeMonthsAgoPriceChange\": 6257.9443825852695,\n  \"sixMonthsAgoPriceChange\": 393.5509691826533,\n  \"oneYearAgoPriceChange\": 2482.865833818425,\n  \"cvtBid\": 5931.5121373974935,\n  \"cvtAsk\": 1202.527698348086,\n  \"cvtBiNoSpread\": 4537.610910596638,\n  \"cvtAskNoSpread\": 2616.5244389476993,\n  \"traders7DayChange\": 9409.501800489952,\n  \"traders14DayChange\": 6303.967390391625,\n  \"traders30DayChange\": 9886.044357973833,\n  \"popularityUniques14Day\": 5526,\n  \"popularityUniques30Day\": 6671,\n  \"internalIndustryId\": 234,\n  \"internalStockIndustryName\": \"string\",\n  \"popularityUniques\": 9462,\n  \"holdingPct\": 209.19171479399589,\n  \"buyHoldingPct\": 1150.0841834236764,\n  \"sellHoldingPct\": 9962.573182264725,\n  \"buyPctChange24Hours\": 7976.633915792022,\n  \"absBuyPctChange24Hours\": 5012.925848691697,\n  \"industryNameId\": 334,\n  \"sectorNameId\": 5727\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa531c71-03f5-4567-a05a-c78b931f0af6",
+              "name": "The provided shortener is not in the allowed list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    ":symbol",
+                    ":shortener"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "symbol",
+                      "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "shortener",
+                      "description": "(Required) The name of an allowed shortener preset that restricts the returned field set."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c2f6bf05-a1b6-45e8-807d-2004ace56432"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ba2e3cb7-6774-4576-94be-4d43731dceb6",
+              "name": "No instrument found for the given symbol.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "instruments",
+                    ":symbol",
+                    ":shortener"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "symbol",
+                      "description": "(Required) The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "shortener",
+                      "description": "(Required) The name of an allowed shortener preset that restricts the returned field set."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "c2f6bf05-a1b6-45e8-807d-2004ace56432"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "24b3f085-bd79-487f-8c03-784333a19fcf",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Asset Explorer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

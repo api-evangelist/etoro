@@ -1,0 +1,602 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Trading - Real API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trading - Real",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Places a Market-if-touched order (similar to Limit order) to open a position when a threshold price is reached.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/limit-orders",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A Market-if-touched order is an order to open a new long or short position when a specific price or better appears in the Market. The price threshold is used to trigger a Market Order. This endpoint allows traders to set up Market-if-touched orders with parameters like leverage, stop-loss, and take-profit settings."
+        },
+        {
+          "info": {
+            "name": "Cancels a Market-if-touched order that has not yet been executed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/limit-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Market-if-touched order to be canceled."
+              }
+            ]
+          },
+          "docs": "This endpoint allows traders to cancel a Market-if-touched order before it is executed. Once canceled, the order will no longer be processed."
+        },
+        {
+          "info": {
+            "name": "Create a market order to open a position by specifying the amount of cash you would like to use in the trade.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-open-orders/by-amount",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows traders to place a market order to open a position by specifying the investment amount instead of specifying the number of units. The trade will be executed at the market price, and leverage, stop-loss, and take-profit settings can be applied."
+        },
+        {
+          "info": {
+            "name": "Places a Market Order to open a position by specifying the number of units you would like to trade.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-open-orders/by-units",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows traders to place a market order to open a position by specifying the number of units (rather than an amount in cash). The trade is executed at the current market price, and optional settings like leverage, stop-loss, and take-profit can be applied."
+        },
+        {
+          "info": {
+            "name": "Cancels a market order for open before it is executed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-open-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the market order for open to be canceled."
+              }
+            ]
+          },
+          "docs": "This endpoint allows traders to cancel a market order for open before execution. If the order has already been processed, cancellation will not be possible."
+        },
+        {
+          "info": {
+            "name": "Get Order Information and Position Details for Real Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/real/orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "123456789",
+                "type": "path",
+                "description": "The unique identifier of the order for opening a position. This is the OrderID that was returned when the order was initially created."
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive information about a specific order for opening a position, including the order status, execution details, and all positions that were opened from this order. This endpoint is essential for tracking order execution and identifying which positions were created as a result of a specific order request. The response includes detailed position information with PositionID values that can be used to query position-specific details."
+        },
+        {
+          "info": {
+            "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/info/eligibility",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns per-instrument trading configuration for the authenticated account - position limits, permitted order types, stop-loss and take-profit boundaries, and available leverage by settlement type and direction. Instruments not found are listed in notFoundInstrumentIds and notFoundSymbols. At least one of instrumentIds or symbols must be supplied; the combined length must not exceed 100 instruments."
+        },
+        {
+          "info": {
+            "name": "Creates a market order to close a position or partially close it by specifying the number of units to deduct.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-close-orders/positions/:positionId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "positionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the position to close."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows traders to close an entire position or a portion of it at the current market rate. If `UnitsToDeduct` is provided, only the specified portion will be closed. If `UnitsToDeduct` is omitted or set to null, the full position will be closed."
+        },
+        {
+          "info": {
+            "name": "Cancels a pending market order for close for the specified order ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/trading/execution/market-close-orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the market order for close to be canceled."
+              }
+            ]
+          },
+          "docs": "This endpoint allows traders to cancel a previously placed market order for close before execution. If the order has already been processed, cancellation will not be possible."
+        },
+        {
+          "info": {
+            "name": "Get aggregated portfolio snapshot — account totals, positions aggregated by instrument, and copy trading",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/aggregate-portfolio",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "conversionMode",
+                "value": "",
+                "type": "query",
+                "description": "Determines which conversion to use for non-USD assets when the market is closed. 'Realtime' uses the realtime conversion rate. 'eToroApp' uses the last conversion rate at market close time. Default is 'eToroApp'."
+              },
+              {
+                "name": "instrumentIds",
+                "value": "",
+                "type": "query",
+                "description": "Scope the response to a specific list of assets by their eToro instrument ID. When omitted, all held assets are returned. Does not affect account-level totals."
+              },
+              {
+                "name": "mirrorIds",
+                "value": "",
+                "type": "query",
+                "description": "Scope copy-trading data to specific relationships by their mirror ID. A mirrorId of 0 refers to positions held directly (not via copy trading). When omitted, all copy-trading relationships are included."
+              }
+            ]
+          },
+          "docs": "Returns a complete snapshot of the authenticated user's investment portfolio, organized by asset. The response includes account-level balances and equity, individually held positions grouped by asset, and any copy-trading relationships the user has active. Use the instrumentIds filter to scope results to a specific set of assets, or mirrorIds to isolate specific copy-trading relationships. Account totals always reflect the full portfolio regardless of filters applied."
+        },
+        {
+          "info": {
+            "name": "Retrieve comprehensive portfolio information including positions, orders, and account status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/portfolio",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Returns detailed portfolio information including active positions, pending orders, mirror trading details, and account balances. This endpoint provides a complete overview of the user's trading activity and current market exposure."
+        },
+        {
+          "info": {
+            "name": "Get Real Account PnL and Portfolio Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/real/pnl",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieves the real account's current portfolio, including credit, open positions, orders, mirrors, and PnL details."
+        },
+        {
+          "info": {
+            "name": "List trading history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/trading/info/trade/history",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "minDate",
+                "value": "",
+                "type": "query",
+                "description": "The start date of the period you would like to view."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The amount of trades in each page."
+              }
+            ]
+          },
+          "docs": "List trading history"
+        },
+        {
+          "info": {
+            "name": "Create an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/trading/execution/orders",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows traders to place an order. Leverage, stop-loss, and take-profit settings can be applied. Order size must use exactly one of amount, units, or contracts. A unique X-Request-Id header (GUID) is required for idempotency. Currently only orders to open a position are supported."
+        },
+        {
+          "info": {
+            "name": "Cancels an order before it is executed",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v2/trading/execution/orders/:orderId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "13902598",
+                "type": "path",
+                "description": "The ID of the order to cancel."
+              }
+            ]
+          },
+          "docs": "This endpoint allows traders to cancel an order before execution. If the order has already been processed, cancellation will not be possible. This operation is idempotent when the order is already closed or cancelled."
+        },
+        {
+          "info": {
+            "name": "Get a what-if cost breakdown for opening or closing a position",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/trading/info/costs",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the markup, market spread, transaction fee, overnight fee, over-weekend fee, and SDRT that would apply if the supplied order were executed now. For `action: open`, exactly one of `symbol` or `instrumentId` must be provided and `leverage` must be at least 1. For `action: close`, `positionIds` must be non-empty."
+        },
+        {
+          "info": {
+            "name": "Check trading permissions, limits, and available leverage for one or more instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v2/trading/info/eligibility",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns per-instrument trading configuration for the authenticated account - position limits, permitted order types, stop-loss and take-profit boundaries, and available leverage by settlement type and direction. Instruments not found are listed in notFoundInstrumentIds and notFoundSymbols. At least one of instrumentIds or symbols must be supplied; the combined length must not exceed 100 instruments."
+        },
+        {
+          "info": {
+            "name": "Get Order Information and Position Details for Real Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/trading/info/orders:lookup",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "query",
+                "description": "Numeric order identifier. Mutually exclusive with referenceId."
+              },
+              {
+                "name": "referenceId",
+                "value": "",
+                "type": "query",
+                "description": "Request ID header sent during order submission. Mutually exclusive with orderId."
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive information about a specific order, including the order status, execution details, and all positions that were opened or closed from this order. This endpoint is essential for tracking order execution and identifying which positions were created as a result of a specific order request. The response includes detailed position information with PositionID values that can be used to query position-specific details. Provide exactly one of orderId or referenceId."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

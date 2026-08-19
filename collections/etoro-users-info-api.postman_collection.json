@@ -1,0 +1,1150 @@
+{
+  "item": [
+    {
+      "id": "1865c682-78a6-4328-a6dc-a72c9b77e2a4",
+      "name": "Users Info",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3bcee488-5966-44b1-a8bf-1bd6946384a2",
+          "name": "Retrieve comprehensive user profile data and aggregated account information",
+          "request": {
+            "name": "Retrieve comprehensive user profile data and aggregated account information",
+            "description": {
+              "content": "Returns detailed user profile information including account status, verification levels, biographical data, and associated metadata. This endpoint aggregates essential user information from multiple sources to provide a complete user profile overview.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "user-info",
+                "people"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "usernames",
+                  "value": "<string>,<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "cidList",
+                  "value": "<integer>,<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3a34c785-5f6f-485f-b8e3-3cc412075f85",
+              "name": "Successfully retrieved user information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usernames",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "cidList",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "5394d844-f44c-4169-8122-0091d9c0051c"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"users\": [\n    {\n      \"gcid\": 1536861,\n      \"realCID\": 1563191,\n      \"demoCID\": 1563191,\n      \"username\": \"exampleuser\",\n      \"language\": 1,\n      \"languageIsoCode\": \"en-GB\",\n      \"country\": 54,\n      \"allowDisplayFullName\": false,\n      \"userBio\": {\n        \"gcid\": 1536861,\n        \"languageCode\": null\n      },\n      \"whiteLabel\": 1,\n      \"optOut\": true,\n      \"homepage\": null,\n      \"playerStatus\": null,\n      \"piLevel\": 0,\n      \"isPi\": false,\n      \"avatars\": [\n        {\n          \"url\": \"https://***.s3.amazonaws.com/images/avatoros/35x35/cy.png\",\n          \"width\": 35,\n          \"height\": 35,\n          \"type\": \"Resized\"\n        },\n        {\n          \"url\": \"https://***.s3.amazonaws.com/images/avatoros/50x50/cy.png\",\n          \"width\": 50,\n          \"height\": 50,\n          \"type\": \"Resized\"\n        },\n        {\n          \"url\": \"https://***.s3.amazonaws.com/images/avatoros/150x150/cy.png\",\n          \"width\": 150,\n          \"height\": 150,\n          \"type\": \"Resized\"\n        }\n      ],\n      \"masterAccountCid\": null,\n      \"accountType\": 1,\n      \"fundType\": null,\n      \"isVerified\": false,\n      \"verificationLevel\": 1,\n      \"accountStatus\": 1,\n      \"gdprInfo\": null,\n      \"userFlowSignature\": \"233a065f3f8d7e344516fc75f7e6c4646a0c0d38798c00e4655fa0a9447ea223\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3af6a101-bba3-4012-b0cf-53390f73a101",
+              "name": "Invalid request - Typically due to exceeding maximum usernames limit or invalid username format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usernames",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "cidList",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "5394d844-f44c-4169-8122-0091d9c0051c"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f2ece4b6-0ca9-45eb-8263-fc830375dea3",
+              "name": "One or more requested usernames not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usernames",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "cidList",
+                      "value": "<integer>,<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "5394d844-f44c-4169-8122-0091d9c0051c"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45eb3ad9-2da7-4095-8c9d-e14cac0a468b",
+          "name": "Comprehensive search and analytics engine for user discovery and analysis",
+          "request": {
+            "name": "Comprehensive search and analytics engine for user discovery and analysis",
+            "description": {
+              "content": "Powerful search platform that enables advanced user discovery with comprehensive filtering capabilities. Supports complex queries across multiple dimensions including performance metrics, risk profiles, investment patterns, and account characteristics. Ideal for identifying users based on specific trading behaviors and performance criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "user-info",
+                "people",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "<string>",
+                  "description": "(Required) Defines the time period for analyzing user metrics and performance data. Supports various predefined intervals for consistent analysis."
+                },
+                {
+                  "disabled": false,
+                  "key": "isTestAccount",
+                  "value": "<boolean>",
+                  "description": "When set to true, filters results to include only test/demo accounts. When false, shows only live accounts. Optional filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "optIn",
+                  "value": "<boolean>",
+                  "description": "Filter for users who have explicitly opted in to specific features or programs. Used for compliance and feature-specific filtering."
+                },
+                {
+                  "disabled": false,
+                  "key": "blocked",
+                  "value": "<boolean>",
+                  "description": "When true, includes only blocked accounts in the results. Used for compliance and risk management purposes."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "Number of results per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort results by specific field (e.g., -copiers)."
+                },
+                {
+                  "disabled": false,
+                  "key": "popularInvestor",
+                  "value": "<boolean>",
+                  "description": "Filter for popular investors."
+                },
+                {
+                  "disabled": false,
+                  "key": "gainMax",
+                  "value": "<integer>",
+                  "description": "Max gain value filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxDailyRiskScoreMin",
+                  "value": "<integer>",
+                  "description": "Minimum daily risk score."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxDailyRiskScoreMax",
+                  "value": "<integer>",
+                  "description": "Maximum daily risk score."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxMonthlyRiskScoreMin",
+                  "value": "<integer>",
+                  "description": "Minimum monthly risk score."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxMonthlyRiskScoreMax",
+                  "value": "<integer>",
+                  "description": "Maximum monthly risk score."
+                },
+                {
+                  "disabled": false,
+                  "key": "weeksSinceRegistrationMin",
+                  "value": "<integer>",
+                  "description": "Minimum weeks since registration."
+                },
+                {
+                  "disabled": false,
+                  "key": "countryId",
+                  "value": "<integer>",
+                  "description": "The registered country ID of the user"
+                },
+                {
+                  "disabled": false,
+                  "key": "instrumentId",
+                  "value": "<integer>",
+                  "description": "The instrument ID (you can also use this to exclude an instrument e.g., -5)."
+                },
+                {
+                  "disabled": false,
+                  "key": "instrumentPctMin",
+                  "value": "<integer>",
+                  "description": "Minimum percentage of investment in the requested instrument ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "instrumentPctMax",
+                  "value": "<integer>",
+                  "description": "Maximum percentage of investment in the requested instrument ID."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6d8477ae-10c7-4511-ba10-6cc4b5713b0d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "LastYear"
+                    },
+                    {
+                      "key": "isTestAccount",
+                      "value": "false"
+                    },
+                    {
+                      "key": "optIn",
+                      "value": "true"
+                    },
+                    {
+                      "key": "blocked",
+                      "value": "false"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "-copiers"
+                    },
+                    {
+                      "key": "popularInvestor",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "gainMax",
+                      "value": "100"
+                    },
+                    {
+                      "key": "maxDailyRiskScoreMin",
+                      "value": "1"
+                    },
+                    {
+                      "key": "maxDailyRiskScoreMax",
+                      "value": "7"
+                    },
+                    {
+                      "key": "maxMonthlyRiskScoreMin",
+                      "value": "1"
+                    },
+                    {
+                      "key": "maxMonthlyRiskScoreMax",
+                      "value": "6"
+                    },
+                    {
+                      "key": "weeksSinceRegistrationMin",
+                      "value": "75"
+                    },
+                    {
+                      "key": "countryId",
+                      "value": "101"
+                    },
+                    {
+                      "key": "instrumentId",
+                      "value": "-5"
+                    },
+                    {
+                      "key": "instrumentPctMin",
+                      "value": "100"
+                    },
+                    {
+                      "key": "instrumentPctMax",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "84e852a9-bbac-4fc1-8556-40a295a06bc6"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"totalItems\": 6733,\n  \"items\": [\n    {\n      \"customerId\": 7964,\n      \"userName\": \"string\",\n      \"fullName\": \"string\",\n      \"hasAvatar\": false,\n      \"isSocialConnected\": true,\n      \"isTestAccount\": false,\n      \"displayFullName\": false,\n      \"bonusOnly\": true,\n      \"blocked\": false,\n      \"verified\": false,\n      \"popularInvestor\": false,\n      \"copyBlock\": true,\n      \"isFund\": false,\n      \"isBronze\": false,\n      \"fundType\": 8539,\n      \"tags\": [\n        8547,\n        9354\n      ],\n      \"gain\": 3141.604457250429,\n      \"dailyGain\": 6306.699386045602,\n      \"thisWeekGain\": 3347.751480784038,\n      \"riskScore\": 6484,\n      \"maxDailyRiskScore\": 1403,\n      \"maxMonthlyRiskScore\": 3848,\n      \"copiers\": 7348,\n      \"copiedTrades\": 5531,\n      \"copyTradesPct\": 6380.106438526311,\n      \"copyInvestmentPct\": 8641.328867840728,\n      \"baseLineCopiers\": 6850,\n      \"copiersGain\": 7973.975044022242,\n      \"aumTier\": 5957,\n      \"aumTierV2\": 5577,\n      \"aumTierDesc\": \"string\",\n      \"virtualCopiers\": 4468,\n      \"trades\": 6071,\n      \"winRatio\": 7108.750374824649,\n      \"dailyDd\": 5022.254299500179,\n      \"weeklyDd\": 5151.056247590134,\n      \"profitableWeeksPct\": 8697.142871844213,\n      \"profitableMonthsPct\": 1821.1679305674977,\n      \"velocity\": 9209.938255691253,\n      \"exposure\": 3016.1576355321263,\n      \"avgPosSize\": 9579.54876847189,\n      \"optimalCopyPosSize\": 4135.181087602372,\n      \"highLeveragePct\": 6862.721543861119,\n      \"mediumLeveragePct\": 4241.175003300223,\n      \"lowLeveragePct\": 9822.507698276082,\n      \"peakToValley\": 8132.91160160428,\n      \"peakToValleyStart\": \"1968-05-06T13:23:21.831Z\",\n      \"peakToValleyEnd\": \"2003-03-14T12:30:01.595Z\",\n      \"longPosPct\": 3335.5229001514617,\n      \"topTradedInstrumentId\": 8859,\n      \"topTradedAssetClassId\": 6595,\n      \"topTradedInstrumentPct\": 3115.5927027633943,\n      \"totalTradedInstruments\": 2603,\n      \"activeWeeks\": 8358,\n      \"firstActivity\": 9572,\n      \"lastActivity\": 1305,\n      \"activeWeeksPct\": 3132.2550106952394,\n      \"weeksSinceRegistration\": 7852,\n      \"country\": \"string\",\n      \"affiliateId\": 9553,\n      \"instrumentPct\": 8949.67478918399,\n      \"countryId\": 2802,\n      \"isPopularInvestor\": false,\n      \"topTradedAssetId\": 3803\n    },\n    {\n      \"customerId\": 6240,\n      \"userName\": \"string\",\n      \"fullName\": \"string\",\n      \"hasAvatar\": false,\n      \"isSocialConnected\": false,\n      \"isTestAccount\": false,\n      \"displayFullName\": true,\n      \"bonusOnly\": false,\n      \"blocked\": false,\n      \"verified\": false,\n      \"popularInvestor\": false,\n      \"copyBlock\": true,\n      \"isFund\": true,\n      \"isBronze\": true,\n      \"fundType\": 5916,\n      \"tags\": [\n        6217,\n        5313\n      ],\n      \"gain\": 8180.349510125595,\n      \"dailyGain\": 7561.480493279362,\n      \"thisWeekGain\": 6985.859362083124,\n      \"riskScore\": 6912,\n      \"maxDailyRiskScore\": 7803,\n      \"maxMonthlyRiskScore\": 3412,\n      \"copiers\": 3677,\n      \"copiedTrades\": 7636,\n      \"copyTradesPct\": 4514.971014924746,\n      \"copyInvestmentPct\": 9253.663419572367,\n      \"baseLineCopiers\": 8530,\n      \"copiersGain\": 4502.931651635155,\n      \"aumTier\": 4970,\n      \"aumTierV2\": 646,\n      \"aumTierDesc\": \"string\",\n      \"virtualCopiers\": 6159,\n      \"trades\": 5238,\n      \"winRatio\": 1314.5559059508848,\n      \"dailyDd\": 5522.353103699487,\n      \"weeklyDd\": 2753.158960090796,\n      \"profitableWeeksPct\": 3763.83430061635,\n      \"profitableMonthsPct\": 9029.76624549821,\n      \"velocity\": 9972.312257863096,\n      \"exposure\": 1970.80519809969,\n      \"avgPosSize\": 2418.487712433115,\n      \"optimalCopyPosSize\": 6758.036869033547,\n      \"highLeveragePct\": 8351.125119339402,\n      \"mediumLeveragePct\": 2592.308419007896,\n      \"lowLeveragePct\": 2345.9886519977213,\n      \"peakToValley\": 861.9484113214115,\n      \"peakToValleyStart\": \"1978-03-22T09:08:17.623Z\",\n      \"peakToValleyEnd\": \"2020-01-27T19:10:19.228Z\",\n      \"longPosPct\": 112.91188373514282,\n      \"topTradedInstrumentId\": 8479,\n      \"topTradedAssetClassId\": 5453,\n      \"topTradedInstrumentPct\": 9519.282405635742,\n      \"totalTradedInstruments\": 3731,\n      \"activeWeeks\": 2226,\n      \"firstActivity\": 6476,\n      \"lastActivity\": 12,\n      \"activeWeeksPct\": 4008.6853732193094,\n      \"weeksSinceRegistration\": 5708,\n      \"country\": \"string\",\n      \"affiliateId\": 2137,\n      \"instrumentPct\": 5241.871177870704,\n      \"countryId\": 8981,\n      \"isPopularInvestor\": false,\n      \"topTradedAssetId\": 3836\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36ca2cb6-d654-4763-a2cf-6d801d415583",
+          "name": "Retrieve granular performance data for specific time periods",
+          "request": {
+            "name": "Retrieve granular performance data for specific time periods",
+            "description": {
+              "content": "Provides detailed performance analytics including daily gains, cumulative returns, and period-specific metrics within a specified date range. Supports various time-based analyses and performance reporting requirements.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "user-info",
+                "people",
+                ":username",
+                "daily-gain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "minDate",
+                  "value": "<date>",
+                  "description": "(Required) Start date for the analysis period (inclusive) in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxDate",
+                  "value": "<date>",
+                  "description": "(Required) End date for the analysis period (inclusive) in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "(Required) Specifies the granularity of the performance data: 'Daily' for day-by-day metrics or 'Period' for aggregated period statistics"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) Unique identifier of the user whose performance data is being requested"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ccecad90-e540-4847-8c70-cfa9eae437bc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people",
+                    ":username",
+                    "daily-gain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "minDate",
+                      "value": "2024-01-01"
+                    },
+                    {
+                      "key": "maxDate",
+                      "value": "2024-12-31"
+                    },
+                    {
+                      "key": "type",
+                      "value": "Daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Unique identifier of the user whose performance data is being requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "f3fcbba2-53b9-46bb-87c2-5c5ec4ef4ee1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"timestamp\": \"2023-01-01T00:00:00Z\",\n    \"gain\": 0\n  },\n  {\n    \"timestamp\": \"2023-01-02T00:00:00Z\",\n    \"gain\": 0.14\n  },\n  {\n    \"timestamp\": \"2023-01-03T00:00:00Z\",\n    \"gain\": -0.26\n  },\n  {\n    \"timestamp\": \"2023-01-04T00:00:00Z\",\n    \"gain\": 0.68\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4868c0d4-7872-43a9-9909-178f5197c8b9",
+          "name": "Retrieve detailed historical performance metrics and analytics for a specified user",
+          "request": {
+            "name": "Retrieve detailed historical performance metrics and analytics for a specified user",
+            "description": {
+              "content": "Returns comprehensive historical monthly and yearly performance data including gain percentages, risk-adjusted returns, and detailed trading statistics. This endpoint provides both aggregated and time-series performance metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "user-info",
+                "people",
+                ":username",
+                "gain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) Unique identifier of the user whose performance metrics are being requested"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "91b7fdf2-4a6c-40e0-a258-31a77088b1df",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people",
+                    ":username",
+                    "gain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) Unique identifier of the user whose performance metrics are being requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a0f00368-7db0-4174-ad86-4cd6d313d7d3"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"monthly\": [\n    {\n      \"timestamp\": \"1982-09-01T10:29:57.181Z\",\n      \"gain\": 1570.8298844743417\n    },\n    {\n      \"timestamp\": \"2004-09-19T10:59:26.317Z\",\n      \"gain\": 4300.2798795314575\n    }\n  ],\n  \"yearly\": [\n    {\n      \"timestamp\": \"1990-07-22T13:55:18.407Z\",\n      \"gain\": 4039.7531631597594\n    },\n    {\n      \"timestamp\": \"2001-07-29T11:26:09.021Z\",\n      \"gain\": 7376.467761977224\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71a99375-b255-4836-973a-96b31940ad1a",
+          "name": "Get the live portfolio of a user",
+          "request": {
+            "name": "Get the live portfolio of a user",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "user-info",
+                "people",
+                ":username",
+                "portfolio",
+                "live"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The username of the user to retrieve the live portfolio for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "288c1bd4-8f0f-415e-a499-ffb934adf909",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people",
+                    ":username",
+                    "portfolio",
+                    "live"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The username of the user to retrieve the live portfolio for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "6adb70f2-6c01-47a0-8775-0c289ac3fe7a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"realizedCreditPct\": 2042.8528897689812,\n  \"unrealizedCreditPct\": 6296.859433021628,\n  \"positions\": [\n    {\n      \"positionId\": 6985,\n      \"openTimestamp\": \"2016-08-09T23:41:22.811Z\",\n      \"openRate\": 4628.328786854297,\n      \"instrumentId\": 3205,\n      \"isBuy\": true,\n      \"leverage\": 8817,\n      \"takeProfitRate\": 3543.1252428219273,\n      \"stopLossRate\": 4375.352655227809,\n      \"socialTradeId\": 7154,\n      \"parentPositionId\": 356,\n      \"investmentPct\": 7034.297272928022,\n      \"netProfit\": 9751.017174984394,\n      \"trailingStopLoss\": false\n    },\n    {\n      \"positionId\": 650,\n      \"openTimestamp\": \"1948-11-13T04:31:10.037Z\",\n      \"openRate\": 2400.330291018191,\n      \"instrumentId\": 301,\n      \"isBuy\": false,\n      \"leverage\": 4958,\n      \"takeProfitRate\": 2512.1346401581645,\n      \"stopLossRate\": 380.90080822516745,\n      \"socialTradeId\": 5133,\n      \"parentPositionId\": 5848,\n      \"investmentPct\": 6817.353586233663,\n      \"netProfit\": 7908.59551305586,\n      \"trailingStopLoss\": false\n    }\n  ],\n  \"socialTrades\": [\n    {\n      \"socialTradeId\": 6317,\n      \"parentUsername\": \"string\",\n      \"stopLossPercentage\": 8596.232133477128,\n      \"openTimestamp\": \"2013-12-28T01:05:35.931Z\",\n      \"investmentPct\": 6420.141688201542,\n      \"openInvestmentPct\": 1046.7814069145643,\n      \"netProfit\": 2730.976217413268,\n      \"openNetProfit\": 191.81277350337146,\n      \"closedNetProfit\": 7763.462519506479,\n      \"realizedPct\": 5014.430098326596,\n      \"unrealizedPct\": 9233.04305752538,\n      \"isClosing\": true,\n      \"positions\": [\n        {\n          \"positionId\": 6939,\n          \"openTimestamp\": \"1966-11-29T02:39:55.010Z\",\n          \"openRate\": 6744.457838562932,\n          \"instrumentId\": 3325,\n          \"isBuy\": true,\n          \"leverage\": 5772,\n          \"takeProfitRate\": 222.95888045342548,\n          \"stopLossRate\": 9476.290215269477,\n          \"socialTradeId\": 3830,\n          \"parentPositionId\": 9149,\n          \"investmentPct\": 3606.494203835807,\n          \"netProfit\": 3370.7971208716094,\n          \"trailingStopLoss\": false\n        },\n        {\n          \"positionId\": 3782,\n          \"openTimestamp\": \"2024-05-27T06:45:07.361Z\",\n          \"openRate\": 4495.847599466571,\n          \"instrumentId\": 4084,\n          \"isBuy\": true,\n          \"leverage\": 7279,\n          \"takeProfitRate\": 8353.450243407937,\n          \"stopLossRate\": 861.8324060799509,\n          \"socialTradeId\": 7913,\n          \"parentPositionId\": 7988,\n          \"investmentPct\": 316.9300776806827,\n          \"netProfit\": 3504.05732421618,\n          \"trailingStopLoss\": true\n        }\n      ]\n    },\n    {\n      \"socialTradeId\": 3931,\n      \"parentUsername\": \"string\",\n      \"stopLossPercentage\": 2153.0350709902646,\n      \"openTimestamp\": \"1995-12-21T06:35:54.964Z\",\n      \"investmentPct\": 189.1198199950006,\n      \"openInvestmentPct\": 9292.401926065753,\n      \"netProfit\": 1543.9137764939449,\n      \"openNetProfit\": 1429.8351783735252,\n      \"closedNetProfit\": 3665.432780116872,\n      \"realizedPct\": 2031.5077748789756,\n      \"unrealizedPct\": 4237.610074000393,\n      \"isClosing\": true,\n      \"positions\": [\n        {\n          \"positionId\": 6091,\n          \"openTimestamp\": \"1984-02-11T02:49:15.878Z\",\n          \"openRate\": 7883.65424915641,\n          \"instrumentId\": 6885,\n          \"isBuy\": false,\n          \"leverage\": 6063,\n          \"takeProfitRate\": 8154.487734374067,\n          \"stopLossRate\": 4110.182125636158,\n          \"socialTradeId\": 7829,\n          \"parentPositionId\": 2077,\n          \"investmentPct\": 6848.483588116406,\n          \"netProfit\": 2773.9997478953705,\n          \"trailingStopLoss\": true\n        },\n        {\n          \"positionId\": 7133,\n          \"openTimestamp\": \"1961-08-30T07:05:38.199Z\",\n          \"openRate\": 7301.94991753426,\n          \"instrumentId\": 6374,\n          \"isBuy\": true,\n          \"leverage\": 3266,\n          \"takeProfitRate\": 3429.8736113284813,\n          \"stopLossRate\": 7564.827888446419,\n          \"socialTradeId\": 5627,\n          \"parentPositionId\": 3548,\n          \"investmentPct\": 6762.346548232178,\n          \"netProfit\": 1602.0290042818563,\n          \"trailingStopLoss\": true\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f4c63035-ed16-4103-878c-3784011e0167",
+          "name": "Get trade info for a specific user",
+          "request": {
+            "name": "Get trade info for a specific user",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "user-info",
+                "people",
+                ":username",
+                "tradeinfo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "period",
+                  "value": "<string>",
+                  "description": "(Required) The period filter (e.g., LastTwoYears)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The username of the user to retrieve the discovery info for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "80cd482f-122e-43fa-8225-d90fe43330d3",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "user-info",
+                    "people",
+                    ":username",
+                    "tradeinfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The username of the user to retrieve the discovery info for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "93d6c631-4763-45fc-9eca-9b15c40773c0"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"userName\": \"string\",\n  \"fullName\": \"string\",\n  \"weeksSinceRegistration\": 4725,\n  \"countryId\": 4532,\n  \"affiliateId\": 2071,\n  \"isPopularInvestor\": false,\n  \"isFund\": true,\n  \"hasAvatar\": false,\n  \"gain\": 5074.379019454435,\n  \"dailyGain\": 9014.617978291488,\n  \"thisWeekGain\": 2040.8728356388362,\n  \"riskScore\": 182,\n  \"maxDailyRiskScore\": 3304,\n  \"maxMonthlyRiskScore\": 4720,\n  \"copiers\": 2285,\n  \"copiedTrades\": 8421,\n  \"copyTradesPct\": 340.89638059126236,\n  \"copyInvestmentPct\": 4562.752487602137,\n  \"baseLineCopiers\": 1436,\n  \"copiersGain\": 1904.7962053254064,\n  \"aumTier\": 3794,\n  \"aumTierDesc\": \"string\",\n  \"fundType\": 9769,\n  \"virtualCopiers\": 9109,\n  \"trades\": 7978,\n  \"topTradedInstrumentId\": 543,\n  \"topTradedAssetId\": 3322,\n  \"winRatio\": 9864.459386869148,\n  \"dailyDd\": 9637.118277329964,\n  \"weeklyDd\": 1624.5452502893909,\n  \"peakToValley\": 1829.8000184994366,\n  \"profitableWeeksPct\": 5857.860609165212,\n  \"profitableMonthsPct\": 1708.3131119815155,\n  \"avgPosSize\": 7104.762670388715,\n  \"highLeveragePct\": 9431.771209494733,\n  \"mediumLeveragePct\": 7712.387992243386,\n  \"lowLeveragePct\": 5696.5783129895035,\n  \"firstActivity\": 606,\n  \"lastActivity\": 5295,\n  \"activeWeeksPct\": 2945.087316124012,\n  \"instrumentPct\": 1744.6923855139485\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d5389cb8-a5be-4aec-aec4-cd082e0975fd",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Users Info API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

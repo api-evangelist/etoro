@@ -1,0 +1,153 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Asset Explorer API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Asset Explorer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Discover instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/instruments/discover",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "The 1-based page number to retrieve."
+              },
+              {
+                "name": "pageSize",
+                "value": "50",
+                "type": "query",
+                "description": "The number of items to return per page."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of `Instrument` fields to sort by. Prefix a field with `-` for descending order. Example: `-marketCap,displayName`."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of `Instrument` fields to include in each item. If omitted, all supported fields are returned. Example: `symbol,displayName,currentRate`."
+              }
+            ]
+          },
+          "docs": "Retrieve a paginated list of instruments with optional sorting, field projection, and arbitrary field filters. Filters are applied by adding any of the supported field names as a query parameter (e.g. `exchangeName=NASDAQ`). Suffixing a field name with `Min` or `Max` applies a greater-than or less-than filter respectively (e.g. `peRatioMin=10`, `marketCapMax=1000000000`). The set of supported field names is fixed and is documented under the `Instrument` schema."
+        },
+        {
+          "info": {
+            "name": "Get an instrument by symbol",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/instruments/:symbol",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "AAPL",
+                "type": "path",
+                "description": "The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of `Instrument` fields to include in the response. If omitted, all supported fields are returned. Example: `symbol,displayName,currentRate`."
+              }
+            ]
+          },
+          "docs": "Retrieve a single instrument by its trading symbol. Use the `fields` query parameter to project a subset of `Instrument` fields."
+        },
+        {
+          "info": {
+            "name": "Get an instrument by symbol using a field shortener",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/instruments/:symbol/:shortener",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "symbol",
+                "value": "AAPL",
+                "type": "path",
+                "description": "The trading symbol of the instrument (e.g. `AAPL`, `BTC`)."
+              },
+              {
+                "name": "shortener",
+                "value": "summary",
+                "type": "path",
+                "description": "The name of an allowed shortener preset that restricts the returned field set."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of `Instrument` fields to include in the response. Must be a subset of the shortener's fields. Example: `symbol,displayName,currentRate`."
+              }
+            ]
+          },
+          "docs": "Retrieve a single instrument by its trading symbol, restricted to the field set defined by the given shortener preset. The `fields` query parameter can further narrow the projection to a subset of the shortener's fields."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

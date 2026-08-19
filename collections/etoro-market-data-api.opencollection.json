@@ -1,0 +1,334 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Market Data API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Market Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves a list of exchanges supported by the platform along with basic descriptive data.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/exchanges",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "exchangeIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of exchange ids to retrieve"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of exchanges supported by the platform along with basic descriptive data."
+        },
+        {
+          "info": {
+            "name": "Fetch available instrument types (asset classes) such as stocks, ETFs, commodities, etc.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/instrument-types",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "instrumentTypeIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of instrument type ids to retrieve"
+              }
+            ]
+          },
+          "docs": "Fetch available instrument types (asset classes) such as stocks, ETFs, commodities, etc."
+        },
+        {
+          "info": {
+            "name": "Retrieves metadata for specified instruments, including display names, exchange IDs, and classification.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/instruments",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "instrumentIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of instrument ids to filter on"
+              },
+              {
+                "name": "exchangeIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of exchange ids to filter on"
+              },
+              {
+                "name": "stocksIndustryIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of stock industry ids to filter on"
+              },
+              {
+                "name": "instrumentTypeIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of instrument type ids to filter on"
+              }
+            ]
+          },
+          "docs": "Retrieves metadata for specified instruments, including display names, exchange IDs, and classification."
+        },
+        {
+          "info": {
+            "name": "Get historical closing prices for all instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/instruments/history/closing-price",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Get historical closing prices for all instruments"
+        },
+        {
+          "info": {
+            "name": "Retrieve current market rates and pricing information for specified instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/instruments/rates",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "instrumentIds",
+                "value": "1,2,3",
+                "type": "query",
+                "description": "Comma-separated list of instrument IDs to retrieve market rates for. Each ID represents a unique tradable asset in the system."
+              }
+            ]
+          },
+          "docs": "Provides real-time market data including bid/ask prices, conversion rates, and execution prices for specified financial instruments. Essential for price discovery and trade execution decisions."
+        },
+        {
+          "info": {
+            "name": "Get historical candles data for an instrument",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/instruments/:instrumentId/history/candles/:direction/:interval/:candlesCount",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "Sorting direction of the candles data. Use 'asc' for oldest to newest, or 'desc' for newest to oldest."
+              },
+              {
+                "name": "interval",
+                "value": "",
+                "type": "path",
+                "description": "Time interval for each candle. Determines the granularity of the price data. Shorter intervals provide more detailed price action but require more data points."
+              },
+              {
+                "name": "candlesCount",
+                "value": "",
+                "type": "path",
+                "description": "Number of candles to retrieve. Maximum value is 1000. For longer historical periods, consider using a larger time interval or making multiple requests."
+              },
+              {
+                "name": "instrumentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the financial instrument to retrieve candles for. This ID is consistent across all eToro systems."
+              }
+            ]
+          },
+          "docs": "Retrieves historical price data in OHLCV (Open, High, Low, Close, Volume) format for a specified instrument. The data is organized into time-based candles of various intervals, from one minute to one week."
+        },
+        {
+          "info": {
+            "name": "Search for Instruments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/search",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "searchText",
+                "value": "",
+                "type": "query",
+                "description": "Text to search for within instrument names."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page."
+              },
+              {
+                "name": "pageNumber",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve for pagination."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of fields to include in the response. Example: pop=popularityUniques7Day,displayname"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort by, with direction (asc/desc). Example: popularityUniques7Day desc"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of instruments based on various search criteria. Each field in the response can be utilized as a filter or projection."
+        },
+        {
+          "info": {
+            "name": "Gets data on available stocks industries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-data/stocks-industries",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stocksIndustryIds",
+                "value": "",
+                "type": "query",
+                "description": "A comma seperated list of stock industry ids to retrieves"
+              }
+            ]
+          },
+          "docs": "Gets data on available stocks industries"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

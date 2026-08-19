@@ -1,0 +1,141 @@
+{
+  "item": [
+    {
+      "id": "02bd9c36-6136-4b57-aaf5-b1b2b6630b44",
+      "name": "PI Data",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "93bd4d12-0cf7-47a7-a6b3-6b4d8ed70662",
+          "name": "Get copiers public info",
+          "request": {
+            "name": "Get copiers public info",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "pi-data",
+                "copiers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19480fc1-bf84-48fd-a4a4-b13796f56865",
+              "name": "A list of copiers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "pi-data",
+                    "copiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "e12da2ec-b45f-4ea6-b583-1671c3f52988"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"copiers\": [\n    {\n      \"Gender\": \"M\",\n      \"Club\": \"Gold\",\n      \"Country\": \"Germany\",\n      \"CopyStartedAtCategory\": \"more than 1 year\",\n      \"AmountCategory\": \"100-500\",\n      \"AgeCategory\": \"30-44\",\n      \"CopyRealizedEquity_pnl\": \"1589.2\",\n      \"AvailableCopyBalance\": \"55.2\"\n    },\n    {\n      \"Gender\": \"M\",\n      \"Club\": \"Gold\",\n      \"Country\": \"Germany\",\n      \"CopyStartedAtCategory\": \"more than 1 year\",\n      \"AmountCategory\": \"100-500\",\n      \"AgeCategory\": \"30-44\",\n      \"CopyRealizedEquity_pnl\": \"1589.2\",\n      \"AvailableCopyBalance\": \"55.2\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7c9abc1b-5243-4fb9-866a-671ab7445981",
+    "name": "Deprecated eToro Public API operations Agent Portfolios PI Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

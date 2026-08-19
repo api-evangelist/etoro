@@ -1,0 +1,362 @@
+{
+  "item": [
+    {
+      "id": "edb489fa-571b-451c-a966-57e0e5e4f414",
+      "name": "Clubs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "771830be-d040-41db-9cd6-526cd03522d5",
+          "name": "Get club dashboard data",
+          "request": {
+            "name": "Get club dashboard data",
+            "description": {
+              "content": "Retrieves club dashboard data for the authenticated user, including tier information, benefits, account manager details, offers, downgrade risk, and webinars.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "clubs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "873300d7-98e1-42d1-9ff6-cec71700a1f2",
+              "name": "Club dashboard data retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "clubs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "50937a18-7fa5-48bf-83cb-703486489d1e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clubs\": [\n    {\n      \"name\": \"Silver\",\n      \"minRealizedEquity\": 5000,\n      \"maxRealizedEquity\": 10000,\n      \"rank\": 2\n    },\n    {\n      \"name\": \"Silver\",\n      \"minRealizedEquity\": 5000,\n      \"maxRealizedEquity\": 10000,\n      \"rank\": 2\n    }\n  ],\n  \"contacts\": {\n    \"manager\": {\n      \"firstName\": \"John\",\n      \"lastName\": \"Smith\",\n      \"email\": \"john.smith@etoro.com\",\n      \"calendarUrl\": \"https://calendly.com/etoro-club\",\n      \"avatars\": [\n        {\n          \"small\": \"string\",\n          \"medium\": \"string\",\n          \"large\": \"string\",\n          \"svg\": {\n            \"url\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"backgroundColor\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"textColor\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"small\": \"string\",\n          \"medium\": \"string\",\n          \"large\": \"string\",\n          \"svg\": {\n            \"url\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"backgroundColor\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"textColor\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ]\n    }\n  },\n  \"downgradeRisk\": {\n    \"isAtRisk\": false,\n    \"daysUntilDowngrade\": 30\n  },\n  \"offers\": {\n    \"currentPlayerLevelAvailableOffers\": [\n      {\n        \"id\": \"80\",\n        \"displayName\": \"Tax Return Offer\",\n        \"description\": \"Discounted assistance with preparing annual tax returns from certified tax companies in your country.\",\n        \"status\": \"Claimed\",\n        \"type\": \"Financial\",\n        \"subType\": \"Low\",\n        \"deliveryMethod\": \"Static\",\n        \"minimumClubLevel\": \"Silver\",\n        \"offerUrl\": \"https://www.etoro.com/club/offers/80\",\n        \"offersInBundle\": [\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          },\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          }\n        ],\n        \"subOffers\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          }\n        ]\n      },\n      {\n        \"id\": \"80\",\n        \"displayName\": \"Tax Return Offer\",\n        \"description\": \"Discounted assistance with preparing annual tax returns from certified tax companies in your country.\",\n        \"status\": \"Claimed\",\n        \"type\": \"Financial\",\n        \"subType\": \"Low\",\n        \"deliveryMethod\": \"Static\",\n        \"minimumClubLevel\": \"Silver\",\n        \"offerUrl\": \"https://www.etoro.com/club/offers/80\",\n        \"offersInBundle\": [\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          },\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          }\n        ],\n        \"subOffers\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          }\n        ]\n      }\n    ],\n    \"nextPlayerLevelAvailableOffers\": [\n      {\n        \"id\": \"80\",\n        \"displayName\": \"Tax Return Offer\",\n        \"description\": \"Discounted assistance with preparing annual tax returns from certified tax companies in your country.\",\n        \"status\": \"Claimed\",\n        \"type\": \"Financial\",\n        \"subType\": \"Low\",\n        \"deliveryMethod\": \"Static\",\n        \"minimumClubLevel\": \"Silver\",\n        \"offerUrl\": \"https://www.etoro.com/club/offers/80\",\n        \"offersInBundle\": [\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          },\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          }\n        ],\n        \"subOffers\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          }\n        ]\n      },\n      {\n        \"id\": \"80\",\n        \"displayName\": \"Tax Return Offer\",\n        \"description\": \"Discounted assistance with preparing annual tax returns from certified tax companies in your country.\",\n        \"status\": \"Claimed\",\n        \"type\": \"Financial\",\n        \"subType\": \"Low\",\n        \"deliveryMethod\": \"Static\",\n        \"minimumClubLevel\": \"Silver\",\n        \"offerUrl\": \"https://www.etoro.com/club/offers/80\",\n        \"offersInBundle\": [\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          },\n          {\n            \"type\": \"Services\",\n            \"offerLimit\": 3\n          }\n        ],\n        \"subOffers\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ClubOffer detected>\"\n          }\n        ]\n      }\n    ],\n    \"staticEligibleOffers\": [\n      {\n        \"id\": \"80\",\n        \"displayName\": \"Tax Return Offer\",\n        \"description\": \"Discounted assistance with preparing annual tax returns from certified tax companies in your country.\",\n        \"status\": \"Claimed\",\n        \"type\": \"Financial\",\n        \"deliveryMethod\": \"Static\",\n        \"eligibleClubLevels\": [\n          \"Gold\",\n          \"Silver\",\n          \"Platinum\",\n          \"PlatinumPlus\",\n          \"Diamond\"\n        ]\n      },\n      {\n        \"id\": \"80\",\n        \"displayName\": \"Tax Return Offer\",\n        \"description\": \"Discounted assistance with preparing annual tax returns from certified tax companies in your country.\",\n        \"status\": \"Claimed\",\n        \"type\": \"Financial\",\n        \"deliveryMethod\": \"Static\",\n        \"eligibleClubLevels\": [\n          \"Gold\",\n          \"Silver\",\n          \"Platinum\",\n          \"PlatinumPlus\",\n          \"Diamond\"\n        ]\n      }\n    ]\n  },\n  \"webinars\": {\n    \"upcomingWebinars\": [\n      {\n        \"id\": 83618564462,\n        \"topic\": \"Club Webinars with Lale Akoner and Sam North\",\n        \"startTime\": \"2026-05-20T14:00:00Z\",\n        \"joinUrl\": \"https://us02web.zoom.us/j/83618564462\",\n        \"recordUrl\": \"https://us02web.zoom.us/rec/play/example\"\n      },\n      {\n        \"id\": 83618564462,\n        \"topic\": \"Club Webinars with Lale Akoner and Sam North\",\n        \"startTime\": \"2026-05-20T14:00:00Z\",\n        \"joinUrl\": \"https://us02web.zoom.us/j/83618564462\",\n        \"recordUrl\": \"https://us02web.zoom.us/rec/play/example\"\n      }\n    ],\n    \"previousWebinars\": [\n      {\n        \"id\": 83618564462,\n        \"topic\": \"Club Webinars with Lale Akoner and Sam North\",\n        \"startTime\": \"2026-05-20T14:00:00Z\",\n        \"joinUrl\": \"https://us02web.zoom.us/j/83618564462\",\n        \"recordUrl\": \"https://us02web.zoom.us/rec/play/example\"\n      },\n      {\n        \"id\": 83618564462,\n        \"topic\": \"Club Webinars with Lale Akoner and Sam North\",\n        \"startTime\": \"2026-05-20T14:00:00Z\",\n        \"joinUrl\": \"https://us02web.zoom.us/j/83618564462\",\n        \"recordUrl\": \"https://us02web.zoom.us/rec/play/example\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "68676ff4-ab22-4dfc-9754-1de9e40caa08",
+              "name": "Unauthorized. Invalid or missing authentication",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "clubs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "50937a18-7fa5-48bf-83cb-703486489d1e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"Unauthorized\",\n  \"errorMessage\": \"Unauthorized\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4213fb15-c372-41e6-bfc3-199916e8663e",
+              "name": "Forbidden - insufficient permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "clubs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "50937a18-7fa5-48bf-83cb-703486489d1e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"InsufficientPermissions\",\n  \"errorMessage\": \"Insufficient permissions to access this resource\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d67e8baf-52d8-4f46-9ac5-4fe7fbd9d340",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "clubs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "50937a18-7fa5-48bf-83cb-703486489d1e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"TooManyRequests\",\n  \"errorMessage\": \"Too many requests\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "176c4fa8-7f95-4f99-9e8e-9b57c8f1dae5",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "clubs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "50937a18-7fa5-48bf-83cb-703486489d1e"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorCode\": \"UnhandledException\",\n  \"errorMessage\": \"Global Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "79ead1e2-75f7-486f-be2d-93db67abaa24",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Clubs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

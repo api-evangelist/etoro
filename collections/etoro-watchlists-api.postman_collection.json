@@ -1,0 +1,2477 @@
+{
+  "item": [
+    {
+      "id": "0153949e-943b-4693-9b98-f2c3c704996c",
+      "name": "Watchlists",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b2f2e4d2-a59e-42f4-b049-20eb126cde45",
+          "name": "Get curated lists",
+          "request": {
+            "name": "Get curated lists",
+            "description": {
+              "content": "Retrieves curated investment lists available to the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "curated-lists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "040e5878-5cd7-491f-9454-76a9073be280",
+              "name": "Successfully retrieved curated lists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "curated-lists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "5b43a95b-8b78-4daa-891f-2e2dcc4cba11"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"curatedLists\": [\n    {\n      \"uuid\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"description\": \"A list of tech stocks\",\n      \"listImageUrl\": \"https://example.com/tech-watchlist.jpg\",\n      \"items\": [\n        {\n          \"instrumentId\": 12345\n        }\n      ]\n    },\n    {\n      \"uuid\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"description\": \"A list of tech stocks\",\n      \"listImageUrl\": \"https://example.com/tech-watchlist.jpg\",\n      \"items\": [\n        {\n          \"instrumentId\": 12345\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37b03074-b308-48af-b276-0382b0733ba8",
+              "name": "No curated lists available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "curated-lists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "5b43a95b-8b78-4daa-891f-2e2dcc4cba11"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c8e0a40-50fd-46f4-a13e-cf1b1593ed99",
+          "name": "Get market recommendations",
+          "request": {
+            "name": "Get market recommendations",
+            "description": {
+              "content": "Retrieves personalized market recommendations for the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "market-recommendations",
+                ":itemsCount"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "10",
+                  "key": "itemsCount",
+                  "description": "(Required) Number of recommendations to return"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "238e38b4-1a0c-4ef4-ac88-54d960873607",
+              "name": "Successfully retrieved market recommendations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-recommendations",
+                    ":itemsCount"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "10",
+                      "key": "itemsCount",
+                      "description": "(Required) Number of recommendations to return"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a09d9f87-13c3-4d09-9da3-20f059084a77"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ResponseType\": \"Instrument\",\n  \"Recommendations\": [\n    12345,\n    67890\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87b5d78c-79eb-4fe3-9f72-69095f65c0aa",
+              "name": "No recommendations available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "market-recommendations",
+                    ":itemsCount"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "10",
+                      "key": "itemsCount",
+                      "description": "(Required) Number of recommendations to return"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a09d9f87-13c3-4d09-9da3-20f059084a77"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b6a50765-25ab-48b3-b4a2-97f1fd234e28",
+          "name": "Get user watchlists",
+          "request": {
+            "name": "Get user watchlists",
+            "description": {
+              "content": "Retrieves all watchlists for the authenticated user with optional pagination and built-in watchlist management.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "itemsPerPageForSingle",
+                  "value": "100",
+                  "description": "Number of items to include per watchlist for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "ensureBuiltinWatchlists",
+                  "value": "true",
+                  "description": "Whether to ensure built-in watchlists are included"
+                },
+                {
+                  "disabled": false,
+                  "key": "addRelatedAssets",
+                  "value": "false",
+                  "description": "Whether to include related assets in the response"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "609d8a74-167f-4ea2-83ea-751466319662",
+              "name": "Successfully retrieved user watchlists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "itemsPerPageForSingle",
+                      "value": "100"
+                    },
+                    {
+                      "key": "ensureBuiltinWatchlists",
+                      "value": "true"
+                    },
+                    {
+                      "key": "addRelatedAssets",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a23f4ec5-4334-4bd2-a5e6-27543bfde4c9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"watchlists\": [\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    },\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    }\n  ],\n  \"exception\": {\n    \"invalidItems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"reason\": \"string\",\n    \"message\": \"string\"\n  },\n  \"meta\": {\n    \"pageNumber\": 0,\n    \"itemsPerPage\": 100,\n    \"maxItemsInWatchlistLimit\": 1000,\n    \"maxWatchlistsLimit\": 10\n  },\n  \"isSucceeded\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0193a3a-8953-46cf-bc4b-7db91abc1c2f",
+          "name": "Create a new watchlist",
+          "request": {
+            "name": "Create a new watchlist",
+            "description": {
+              "content": "Creates a new watchlist for the authenticated user with the specified name and type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "(Required) Name of the new watchlist"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "Static",
+                  "description": "Type of watchlist to create"
+                },
+                {
+                  "disabled": false,
+                  "key": "dynamicQuery",
+                  "value": "<string>",
+                  "description": "Dynamic query URL for dynamic watchlists"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5e2226cd-ab9d-44c6-abe7-93f49260b936",
+              "name": "Watchlist created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "Tech Watchlist"
+                    },
+                    {
+                      "key": "type",
+                      "value": "Static"
+                    },
+                    {
+                      "key": "dynamicQuery",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "629691ba-bb2b-4e3c-9e23-a1f354025822"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"watchlists\": [\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    },\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    }\n  ],\n  \"exception\": {\n    \"invalidItems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"reason\": \"string\",\n    \"message\": \"string\"\n  },\n  \"meta\": {\n    \"pageNumber\": 0,\n    \"itemsPerPage\": 100,\n    \"maxItemsInWatchlistLimit\": 1000,\n    \"maxWatchlistsLimit\": 10\n  },\n  \"isSucceeded\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a6c8a34-e2d1-4ace-bfce-b205142b2be9",
+          "name": "Create default watchlist with selected items",
+          "request": {
+            "name": "Create default watchlist with selected items",
+            "description": {
+              "content": "Creates a default watchlist populated with the specified items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "default-watchlist",
+                "selected-items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "be962499-03a2-4b39-a5a5-b53bc578669e",
+              "name": "Default watchlist created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "default-watchlist",
+                    "selected-items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "551daa42-12de-478c-b3a2-2b4c2a1a193a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"watchlists\": [\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    },\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    }\n  ],\n  \"exception\": {\n    \"invalidItems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"reason\": \"string\",\n    \"message\": \"string\"\n  },\n  \"meta\": {\n    \"pageNumber\": 0,\n    \"itemsPerPage\": 100,\n    \"maxItemsInWatchlistLimit\": 1000,\n    \"maxWatchlistsLimit\": 10\n  },\n  \"isSucceeded\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c9ce7f7d-38fa-4fd7-91be-d86743289324",
+          "name": "Get default watchlist items",
+          "request": {
+            "name": "Get default watchlist items",
+            "description": {
+              "content": "Retrieves items from user's default watchlists with optional pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "default-watchlists",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "itemsLimit",
+                  "value": "<integer>",
+                  "description": "Maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "100",
+                  "description": "Number of items per page for pagination"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "56391e90-685e-404b-80b8-6bfa9a69c671",
+              "name": "Successfully retrieved default watchlist items",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "default-watchlists",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "itemsLimit",
+                      "value": "123456"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "8728c1c7-1dc2-47b7-97ae-89b7de489bf1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7893b90-0436-46dd-ab41-ec3eb6e0ef34",
+          "name": "Create watchlist and set as default",
+          "request": {
+            "name": "Create watchlist and set as default",
+            "description": {
+              "content": "Creates a new watchlist and immediately sets it as the user's default watchlist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "newasdefault-watchlist"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "(Required) Name of the new watchlist"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "Static",
+                  "description": "Type of watchlist to create"
+                },
+                {
+                  "disabled": false,
+                  "key": "dynamicQuery",
+                  "value": "<string>",
+                  "description": "Query string for dynamic watchlists"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cba79ca5-6afb-4e85-9bf2-81db59d4fbfd",
+              "name": "Watchlist created and set as default successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "newasdefault-watchlist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "Tech Watchlist"
+                    },
+                    {
+                      "key": "type",
+                      "value": "Static"
+                    },
+                    {
+                      "key": "dynamicQuery",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "a6361668-9105-402a-a786-10a96dc76298"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"watchlists\": [\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    },\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    }\n  ],\n  \"exception\": {\n    \"invalidItems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"reason\": \"string\",\n    \"message\": \"string\"\n  },\n  \"meta\": {\n    \"pageNumber\": 0,\n    \"itemsPerPage\": 100,\n    \"maxItemsInWatchlistLimit\": 1000,\n    \"maxWatchlistsLimit\": 10\n  },\n  \"isSucceeded\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f3c3cbda-3640-4fdb-b396-815f286e4bb8",
+          "name": "Get user's public watchlists",
+          "request": {
+            "name": "Get user's public watchlists",
+            "description": {
+              "content": "Retrieves all public watchlists for a specific user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "public",
+                ":userId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "itemsPerPageForSingle",
+                  "value": "100",
+                  "description": "Number of items per watchlist"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "userId",
+                  "description": "(Required) User ID whose public watchlists to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f78db0c9-5656-4079-b0de-0dcc8f1b1726",
+              "name": "Successfully retrieved public watchlists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "public",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "itemsPerPageForSingle",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "userId",
+                      "description": "(Required) User ID whose public watchlists to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "8b51647e-8058-40e1-8a1e-bffd83f090e4"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"watchlists\": [\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    },\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    }\n  ],\n  \"exception\": {\n    \"invalidItems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"reason\": \"string\",\n    \"message\": \"string\"\n  },\n  \"meta\": {\n    \"pageNumber\": 0,\n    \"itemsPerPage\": 100,\n    \"maxItemsInWatchlistLimit\": 1000,\n    \"maxWatchlistsLimit\": 10\n  },\n  \"isSucceeded\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c43a38f9-03fe-4306-8bc3-806e935c6eac",
+          "name": "Get single public watchlist",
+          "request": {
+            "name": "Get single public watchlist",
+            "description": {
+              "content": "Retrieves a specific public watchlist from a user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "public",
+                ":userId",
+                ":watchlistId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "0",
+                  "description": "Page number for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "100",
+                  "description": "Number of items per page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "userId",
+                  "description": "(Required) User ID who owns the watchlist"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0917623d-736f-4c1a-a4fc-74bdf3959c11",
+              "name": "Successfully retrieved public watchlist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "public",
+                    ":userId",
+                    ":watchlistId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageNumber",
+                      "value": "0"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "userId",
+                      "description": "(Required) User ID who owns the watchlist"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9240375b-cb71-43d7-afbb-0452d1c5d35a"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"watchlistId\": \"12345\",\n  \"name\": \"Tech Watchlist\",\n  \"Gcid\": 12345,\n  \"watchlistType\": \"Static\",\n  \"totalItems\": 100,\n  \"isDefault\": true,\n  \"isUserSelectedDefault\": true,\n  \"watchlistRank\": 1,\n  \"dynamicUrl\": \"string\",\n  \"items\": [\n    {\n      \"itemId\": 12345,\n      \"itemType\": \"Instrument\",\n      \"itemRank\": 1\n    }\n  ],\n  \"relatedAssets\": [\n    12345,\n    67890\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "72b5abe4-c2cc-4986-8bb9-2bbef3313bc7",
+          "name": "Change watchlist rank",
+          "request": {
+            "name": "Change watchlist rank",
+            "description": {
+              "content": "Updates the display rank of a watchlist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "rank",
+                ":watchlistId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "newRank",
+                  "value": "<integer>",
+                  "description": "(Required) New rank position for the watchlist"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "56d765d4-a8b7-4cfa-b893-71a6b59a26c8",
+              "name": "Watchlist rank updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "rank",
+                    ":watchlistId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "newRank",
+                      "value": "500"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "9b133378-9700-464a-aa83-92e5b0dc41a9"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ca70fc73-8306-4973-9a9b-fcdfc11e6ec9",
+          "name": "Set a specific watchlist as user's default",
+          "request": {
+            "name": "Set a specific watchlist as user's default",
+            "description": {
+              "content": "Sets the specified watchlist as the user's default watchlist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                "setUserSelectedUserDefault",
+                ":watchlistId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist to set as default"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6e50b438-24ab-4a1a-89c4-46712ebcdf38",
+              "name": "Default watchlist set successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    "setUserSelectedUserDefault",
+                    ":watchlistId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist to set as default"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "38fe16da-5365-451d-9f8d-f3e06bb40fe3"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11543e67-32da-4784-8f15-35822e36122a",
+          "name": "Get single watchlist",
+          "request": {
+            "name": "Get single watchlist",
+            "description": {
+              "content": "Retrieves a specific watchlist with its items using pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                ":watchlistId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "0",
+                  "description": "Page number for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsPerPage",
+                  "value": "100",
+                  "description": "Number of items per page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bdd4b246-8049-4700-9b4a-292fca7634cc",
+              "name": "Successfully retrieved watchlist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    ":watchlistId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageNumber",
+                      "value": "0"
+                    },
+                    {
+                      "key": "itemsPerPage",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "fc166ad7-1b19-45f8-acdc-5d14dc316821"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 200,\n  \"watchlists\": [\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    },\n    {\n      \"watchlistId\": \"12345\",\n      \"name\": \"Tech Watchlist\",\n      \"Gcid\": 12345,\n      \"watchlistType\": \"Static\",\n      \"totalItems\": 100,\n      \"isDefault\": true,\n      \"isUserSelectedDefault\": true,\n      \"watchlistRank\": 1,\n      \"dynamicUrl\": \"string\",\n      \"items\": [\n        {\n          \"itemId\": 12345,\n          \"itemType\": \"Instrument\",\n          \"itemRank\": 1\n        }\n      ],\n      \"relatedAssets\": [\n        12345,\n        67890\n      ]\n    }\n  ],\n  \"exception\": {\n    \"invalidItems\": [\n      \"string\",\n      \"string\"\n    ],\n    \"reason\": \"string\",\n    \"message\": \"string\"\n  },\n  \"meta\": {\n    \"pageNumber\": 0,\n    \"itemsPerPage\": 100,\n    \"maxItemsInWatchlistLimit\": 1000,\n    \"maxWatchlistsLimit\": 10\n  },\n  \"isSucceeded\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7d3c4fe7-519b-4be0-9648-16a060438cba",
+          "name": "Rename watchlist",
+          "request": {
+            "name": "Rename watchlist",
+            "description": {
+              "content": "Updates the name of an existing watchlist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                ":watchlistId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "newName",
+                  "value": "<string>",
+                  "description": "(Required) New name for the watchlist"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3040d65a-1c0b-4eee-a44d-afa35189c927",
+              "name": "Watchlist renamed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    ":watchlistId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "newName",
+                      "value": "Updated Watchlist"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "07486a96-1ef5-417f-b9a2-c4de10d162a3"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c20568a9-29b7-47ab-9648-17e5d306d7ce",
+          "name": "Delete watchlist",
+          "request": {
+            "name": "Delete watchlist",
+            "description": {
+              "content": "Removes a watchlist and all its items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                ":watchlistId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist to delete"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77d974c5-8a88-435b-a570-5700c2c71d90",
+              "name": "Watchlist deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    ":watchlistId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "f2c1a05a-eef0-45c1-9b53-3bb36e8e1aab"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3c1a1988-da39-4cf9-9133-2675261caddf",
+          "name": "Add items to watchlist",
+          "request": {
+            "name": "Add items to watchlist",
+            "description": {
+              "content": "Adds new items to an existing watchlist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                ":watchlistId",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "859d157a-a71f-41e5-a3f2-8849592e0c3e",
+              "name": "Items added successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    ":watchlistId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "bba0ac38-7ad7-460a-a359-a8d8a5958d03"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e3f0149e-6cb4-4fc8-a42f-63a7ac60edce",
+          "name": "Update items in watchlist",
+          "request": {
+            "name": "Update items in watchlist",
+            "description": {
+              "content": "Updates existing items in a watchlist (rank, etc.).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                ":watchlistId",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a24d545d-52ba-46fa-b3f9-4fd3e4dc64a6",
+              "name": "Items updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    ":watchlistId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "96697288-1bfe-4c1f-b750-b6872a7f6a1d"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eec74874-07cc-40db-b71c-ec74bd75915f",
+          "name": "Remove items from watchlist",
+          "request": {
+            "name": "Remove items from watchlist",
+            "description": {
+              "content": "Removes specified items from a watchlist.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "watchlists",
+                ":watchlistId",
+                "items"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "watchlistId",
+                  "description": "(Required) Unique identifier of the watchlist"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A unique request identifier.",
+                "key": "x-request-id",
+                "value": "<uuid>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication.",
+                "key": "x-api-key",
+                "value": "<password>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) User-specific authentication key.",
+                "key": "x-user-key",
+                "value": "<password>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": \"<integer>\",\n    \"itemType\": \"<string>\",\n    \"itemRank\": 0,\n    \"itemAddedReason\": \"<string>\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4c765fcd-7a9e-4af4-b793-abdc2123afa8",
+              "name": "Items removed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "watchlists",
+                    ":watchlistId",
+                    "items"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "watchlistId",
+                      "description": "(Required) Unique identifier of the watchlist"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) A unique request identifier.",
+                    "key": "x-request-id",
+                    "value": "90e34eb0-31bc-414d-8451-20546f3035ac"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication.",
+                    "key": "x-api-key",
+                    "value": "lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) User-specific authentication key.",
+                    "key": "x-user-key",
+                    "value": "eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  },\n  {\n    \"itemId\": 12345,\n    \"itemType\": \"Instrument\",\n    \"itemRank\": 1,\n    \"itemAddedReason\": \"Manual\",\n    \"itemAddedDate\": \"<dateTime>\",\n    \"market\": {\n      \"id\": \"<string>\",\n      \"symbolName\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"assetTypeId\": \"<integer>\",\n      \"assetTypeSubCategoryId\": \"<integer>\",\n      \"exchangeId\": \"<integer>\",\n      \"hasExpirationDate\": \"<boolean>\",\n      \"avatar\": {\n        \"small\": \"<string>\",\n        \"medium\": \"<string>\",\n        \"large\": \"<string>\",\n        \"svg\": {\n          \"url\": \"<string>\",\n          \"backgroundColor\": \"<string>\",\n          \"textColor\": \"<string>\"\n        }\n      }\n    }\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e548c136-1ba4-410c-9a46-fc61e65123c4",
+    "name": "Deprecated eToro Public API operations Agent Portfolios Watchlists API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.",
+      "type": "text/plain"
+    }
+  }
+}

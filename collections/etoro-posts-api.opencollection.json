@@ -1,0 +1,577 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Posts API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Posts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new discussion post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new discussion post in the feed system. This endpoint allows users to create posts that can be associated with instruments, users, or general discussions."
+        },
+        {
+          "info": {
+            "name": "Create a poll post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/polls",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new poll post. The poll must include a title and at least 2 options. Once created the poll is immutable — options and title cannot be changed. The post itself can still be deleted."
+        },
+        {
+          "info": {
+            "name": "Share a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/shares",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a share post that references an existing post. Two variants are supported:\n\n- **Reshare** — send `message` as an empty string (`\"\"`).\n- **Quote share** — send `message` with your commentary text.\n\nReturns 201 on success. See the request body for field-level semantics, including how to collapse share chains."
+        },
+        {
+          "info": {
+            "name": "Get a single post by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/posts/:postId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to retrieve (UUID)"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Number of inline comments to include in the response"
+              },
+              {
+                "name": "badgesExperimentIsEnabled",
+                "value": "",
+                "type": "query",
+                "description": "Flag indicating whether to include user badges in the response"
+              }
+            ]
+          },
+          "docs": "Retrieves a single discussion post by its ID, including comments preview, emotions data, and requester context. Authentication is optional — unauthenticated requests receive the post without personalised requester context."
+        },
+        {
+          "info": {
+            "name": "Update an existing post",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/posts/:postId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to update (UUID)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the authenticated user's own post in-place. The owner field is derived from the authentication token and must not be supplied in the request body. Editable fields: message, tags, mentions, attachments."
+        },
+        {
+          "info": {
+            "name": "Soft-delete a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to delete (UUID)"
+              }
+            ]
+          },
+          "docs": "Soft-deletes the authenticated user's own post. Sets isDeleted=true and blanks message text and attachments. Child comments and like/comment counters are preserved. The post is removed from all feed listings."
+        },
+        {
+          "info": {
+            "name": "Follow a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/follows",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to follow (UUID)"
+              }
+            ]
+          },
+          "docs": "Subscribes the authenticated user to push notifications when the post receives new comments or replies. Drives requesterContext.isFollowing on subsequent reads. Idempotent — following an already-followed post succeeds silently. This endpoint takes no request body."
+        },
+        {
+          "info": {
+            "name": "Unfollow a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/follows",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to unfollow (UUID)"
+              }
+            ]
+          },
+          "docs": "Unsubscribes the authenticated user from notifications on this post. Idempotent — unfollowing a post that was never followed succeeds silently."
+        },
+        {
+          "info": {
+            "name": "Pin a post to the user's profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/pins",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to pin (UUID)"
+              }
+            ]
+          },
+          "docs": "Pins the specified post to the authenticated user's profile so it appears at the top of their feed. Users can pin only their own posts. The call is idempotent — pinning an already-pinned post succeeds silently."
+        },
+        {
+          "info": {
+            "name": "Unpin a post from the user's profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/pins",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to unpin (UUID)"
+              }
+            ]
+          },
+          "docs": "Removes the authenticated user's pin from the specified post. The call is idempotent — unpinning a post that is not currently pinned succeeds silently."
+        },
+        {
+          "info": {
+            "name": "Vote on a poll option",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/polls/:pollId/options/:optionId/votes",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post containing the poll (UUID)"
+              },
+              {
+                "name": "pollId",
+                "value": "42",
+                "type": "path",
+                "description": "ID of the poll"
+              },
+              {
+                "name": "optionId",
+                "value": "1",
+                "type": "path",
+                "description": "ID of the option to vote for"
+              },
+              {
+                "name": "client_request_id",
+                "value": "6a7aa746-d94d-4c4f-a755-32827ea53141",
+                "type": "query",
+                "description": "Client-generated correlation ID (UUID). Required for request tracing and idempotency."
+              }
+            ]
+          },
+          "docs": "Casts the authenticated user's vote on a specific poll option. Each user can vote only once per poll. Poll owners cannot vote on their own poll."
+        },
+        {
+          "info": {
+            "name": "Remove a vote from a poll option",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/polls/:pollId/options/:optionId/votes",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post containing the poll (UUID)"
+              },
+              {
+                "name": "pollId",
+                "value": "42",
+                "type": "path",
+                "description": "ID of the poll"
+              },
+              {
+                "name": "optionId",
+                "value": "1",
+                "type": "path",
+                "description": "ID of the option to unvote"
+              },
+              {
+                "name": "client_request_id",
+                "value": "6a7aa746-d94d-4c4f-a755-32827ea53141",
+                "type": "query",
+                "description": "Client-generated correlation ID (UUID). Required for request tracing and idempotency."
+              }
+            ]
+          },
+          "docs": "Removes the authenticated user's vote from a specific poll option."
+        },
+        {
+          "info": {
+            "name": "Save a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/saves",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to save (UUID)"
+              }
+            ]
+          },
+          "docs": "Bookmarks a post for the authenticated user. Idempotent — saving an already-saved post succeeds silently. The save is private and visible only to the saving user. This endpoint takes no request body."
+        },
+        {
+          "info": {
+            "name": "Unsave a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/saves",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "type": "path",
+                "description": "ID of the post to unsave (UUID)"
+              }
+            ]
+          },
+          "docs": "Removes a post from the authenticated user's saved bookmarks. Idempotent — unsaving a post that was never saved succeeds silently."
+        },
+        {
+          "info": {
+            "name": "List shares of a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/posts/:postId/shares",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "postId",
+                "value": "d9020c00-c364-11ee-8080-80005148990b",
+                "type": "path",
+                "description": "ID of the post to list shares of (UUID)"
+              },
+              {
+                "name": "take",
+                "value": "20",
+                "type": "query",
+                "description": "Number of items to return (1–100, default 20)"
+              },
+              {
+                "name": "offsetEntityId",
+                "value": "c3d4e5f6-a7b8-4901-cdef-345678901234",
+                "type": "query",
+                "description": "Opaque cursor from a previous response for stable paging"
+              },
+              {
+                "name": "order",
+                "value": "Desc",
+                "type": "query",
+                "description": "Sort order"
+              },
+              {
+                "name": "client_request_id",
+                "value": "2b6361e3-079c-42a1-b6d5-4b9c16601ae1",
+                "type": "query",
+                "description": "Client-generated correlation ID (UUID). Required for request tracing and idempotency."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of shares of the specified post, including both plain reshares and quote shares. Authentication is optional."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

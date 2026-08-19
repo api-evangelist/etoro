@@ -1,0 +1,348 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Balances API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Balances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get aggregated balances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/balances",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "accountTypes",
+                "value": "",
+                "type": "query",
+                "description": "Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship."
+              },
+              {
+                "name": "displayCurrency",
+                "value": "",
+                "type": "query",
+                "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+              },
+              {
+                "name": "includeZeroBalances",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include accounts with a zero balance in the response. Defaults to false."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional sections to include in the response. Valid values: equityDetails."
+              }
+            ]
+          },
+          "docs": "Returns aggregated balances across all account types for the authenticated user. Optionally filter by account type or specify the display currency for totals."
+        },
+        {
+          "info": {
+            "name": "Get historical balance snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/balances/history",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "displayCurrency",
+                "value": "",
+                "type": "query",
+                "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+              },
+              {
+                "name": "fromDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days."
+              },
+              {
+                "name": "toDate",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days."
+              },
+              {
+                "name": "accountTypes",
+                "value": "",
+                "type": "query",
+                "description": "Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship."
+              }
+            ]
+          },
+          "docs": "Returns end-of-day balance snapshots across all account types for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days."
+        },
+        {
+          "info": {
+            "name": "Get balances by account type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/balances/:accountType",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "accountType",
+                "value": "",
+                "type": "path",
+                "description": "The account type to retrieve balances for."
+              },
+              {
+                "name": "accountIds",
+                "value": "",
+                "type": "query",
+                "description": "Optional comma-separated list of account IDs to include."
+              },
+              {
+                "name": "displayCurrency",
+                "value": "",
+                "type": "query",
+                "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+              },
+              {
+                "name": "includeZeroBalances",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include accounts with a zero balance in the response. Defaults to false."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional sections to include in the response. Valid values: equityDetails."
+              }
+            ]
+          },
+          "docs": "Returns balances for a specific account type for the authenticated user. Optionally filter by account IDs."
+        },
+        {
+          "info": {
+            "name": "Get historical balances by account type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/balances/:accountType/history",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "accountType",
+                "value": "",
+                "type": "path",
+                "description": "The account type to retrieve historical balances for."
+              },
+              {
+                "name": "displayCurrency",
+                "value": "",
+                "type": "query",
+                "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+              },
+              {
+                "name": "fromDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days."
+              },
+              {
+                "name": "toDate",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days."
+              },
+              {
+                "name": "accountIds",
+                "value": "",
+                "type": "query",
+                "description": "Optional comma-separated list of account IDs to include."
+              }
+            ]
+          },
+          "docs": "Returns end-of-day balance snapshots for a specific account type for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days."
+        },
+        {
+          "info": {
+            "name": "Get balance for a specific account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/balances/:accountType/:accountId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "accountType",
+                "value": "",
+                "type": "path",
+                "description": "The account type."
+              },
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the account."
+              },
+              {
+                "name": "displayCurrency",
+                "value": "",
+                "type": "query",
+                "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+              },
+              {
+                "name": "includeZeroBalances",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include accounts with a zero balance in the response. Defaults to false."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional sections to include in the response. Valid values: equityDetails."
+              }
+            ]
+          },
+          "docs": "Returns the balance for a specific account identified by type and account ID for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get historical balances for a specific account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/balances/:accountType/:accountId/history",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "accountType",
+                "value": "",
+                "type": "path",
+                "description": "The account type."
+              },
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the account."
+              },
+              {
+                "name": "displayCurrency",
+                "value": "",
+                "type": "query",
+                "description": "ISO 4217 currency code for totals and conversions. Defaults to USD."
+              },
+              {
+                "name": "fromDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to toDate minus 30 days. Must be within the last 12 months. Maximum range with toDate: 365 days."
+              },
+              {
+                "name": "toDate",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range (inclusive). Format: YYYY-MM-DD (ISO 8601). Defaults to today (UTC). Maximum range with fromDate: 365 days."
+              }
+            ]
+          },
+          "docs": "Returns end-of-day balance snapshots for a specific account identified by type and account ID for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

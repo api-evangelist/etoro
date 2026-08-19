@@ -1,0 +1,669 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Deprecated eToro Public API operations Agent Portfolios Watchlists API",
+    "version": "v1.158.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Watchlists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get curated lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/curated-lists",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Retrieves curated investment lists available to the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get market recommendations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/market-recommendations/:itemsCount",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "itemsCount",
+                "value": "10",
+                "type": "path",
+                "description": "Number of recommendations to return"
+              }
+            ]
+          },
+          "docs": "Retrieves personalized market recommendations for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "Get user watchlists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/watchlists",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "itemsPerPageForSingle",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to include per watchlist for pagination"
+              },
+              {
+                "name": "ensureBuiltinWatchlists",
+                "value": "",
+                "type": "query",
+                "description": "Whether to ensure built-in watchlists are included"
+              },
+              {
+                "name": "addRelatedAssets",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include related assets in the response"
+              }
+            ]
+          },
+          "docs": "Retrieves all watchlists for the authenticated user with optional pagination and built-in watchlist management."
+        },
+        {
+          "info": {
+            "name": "Create a new watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/watchlists",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Name of the new watchlist"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of watchlist to create"
+              },
+              {
+                "name": "dynamicQuery",
+                "value": "",
+                "type": "query",
+                "description": "Dynamic query URL for dynamic watchlists"
+              }
+            ]
+          },
+          "docs": "Creates a new watchlist for the authenticated user with the specified name and type."
+        },
+        {
+          "info": {
+            "name": "Create default watchlist with selected items",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/watchlists/default-watchlist/selected-items",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a default watchlist populated with the specified items."
+        },
+        {
+          "info": {
+            "name": "Get default watchlist items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/watchlists/default-watchlists/items",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "itemsLimit",
+                "value": "123456",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "100",
+                "type": "query",
+                "description": "Number of items per page for pagination"
+              }
+            ]
+          },
+          "docs": "Retrieves items from user's default watchlists with optional pagination."
+        },
+        {
+          "info": {
+            "name": "Create watchlist and set as default",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/watchlists/newasdefault-watchlist",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "name",
+                "value": "Tech Watchlist",
+                "type": "query",
+                "description": "Name of the new watchlist"
+              },
+              {
+                "name": "type",
+                "value": "Static",
+                "type": "query",
+                "description": "Type of watchlist to create"
+              },
+              {
+                "name": "dynamicQuery",
+                "value": "",
+                "type": "query",
+                "description": "Query string for dynamic watchlists"
+              }
+            ]
+          },
+          "docs": "Creates a new watchlist and immediately sets it as the user's default watchlist."
+        },
+        {
+          "info": {
+            "name": "Get user's public watchlists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/watchlists/public/:userId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "userId",
+                "value": "12345",
+                "type": "path",
+                "description": "User ID whose public watchlists to retrieve"
+              },
+              {
+                "name": "itemsPerPageForSingle",
+                "value": "50",
+                "type": "query",
+                "description": "Number of items per watchlist"
+              }
+            ]
+          },
+          "docs": "Retrieves all public watchlists for a specific user."
+        },
+        {
+          "info": {
+            "name": "Get single public watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/watchlists/public/:userId/:watchlistId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "userId",
+                "value": "12345",
+                "type": "path",
+                "description": "User ID who owns the watchlist"
+              },
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              },
+              {
+                "name": "pageNumber",
+                "value": "0",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "30",
+                "type": "query",
+                "description": "Number of items per page"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific public watchlist from a user."
+        },
+        {
+          "info": {
+            "name": "Change watchlist rank",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/watchlists/rank/:watchlistId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              },
+              {
+                "name": "newRank",
+                "value": "",
+                "type": "query",
+                "description": "New rank position for the watchlist"
+              }
+            ]
+          },
+          "docs": "Updates the display rank of a watchlist."
+        },
+        {
+          "info": {
+            "name": "Set a specific watchlist as user's default",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/watchlists/setUserSelectedUserDefault/:watchlistId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist to set as default"
+              }
+            ]
+          },
+          "docs": "Sets the specified watchlist as the user's default watchlist."
+        },
+        {
+          "info": {
+            "name": "Get single watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/watchlists/:watchlistId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              },
+              {
+                "name": "pageNumber",
+                "value": "0",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "itemsPerPage",
+                "value": "50",
+                "type": "query",
+                "description": "Number of items per page"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific watchlist with its items using pagination."
+        },
+        {
+          "info": {
+            "name": "Rename watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/watchlists/:watchlistId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              },
+              {
+                "name": "newName",
+                "value": "Updated Watchlist",
+                "type": "query",
+                "description": "New name for the watchlist"
+              }
+            ]
+          },
+          "docs": "Updates the name of an existing watchlist."
+        },
+        {
+          "info": {
+            "name": "Delete watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/watchlists/:watchlistId",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist to delete"
+              }
+            ]
+          },
+          "docs": "Removes a watchlist and all its items."
+        },
+        {
+          "info": {
+            "name": "Add items to watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/watchlists/:watchlistId/items",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds new items to an existing watchlist."
+        },
+        {
+          "info": {
+            "name": "Update items in watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/watchlists/:watchlistId/items",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates existing items in a watchlist (rank, etc.)."
+        },
+        {
+          "info": {
+            "name": "Remove items from watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/watchlists/:watchlistId/items",
+            "headers": [
+              {
+                "name": "x-request-id",
+                "value": ""
+              },
+              {
+                "name": "x-api-key",
+                "value": ""
+              },
+              {
+                "name": "x-user-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "watchlistId",
+                "value": "12345",
+                "type": "path",
+                "description": "Unique identifier of the watchlist"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes specified items from a watchlist."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
