@@ -41,7 +41,7 @@ description: >-
   API key headers (x-api-key and x-user-key) obtained from the eToro API Portal.
   The API is currently in early access and free for eligible verified eToro account
   holders.
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: etoro:trading-api
   name: eToro Trading API
