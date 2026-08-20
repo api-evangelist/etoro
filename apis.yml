@@ -6,6 +6,17 @@ tags:
   - Copy Trading
   - Investing
   - Market Data
+  - Portfolio-Management
+  - Fintech
+  - Trading
+  - Stocks
+  - Cryptocurrency
+  - ETFs
+tags_raw:
+  - Social Trading
+  - Copy Trading
+  - Investing
+  - Market Data
   - Portfolio Management
   - Fintech
   - Trading
@@ -46,6 +57,11 @@ apis:
 - aid: etoro:trading-api
   name: eToro Trading API
   tags:
+  - Trading
+  - Order
+  - Positions
+  - Demo Trading
+  tags_raw:
   - Trading
   - Orders
   - Positions
@@ -121,6 +137,12 @@ apis:
   tags:
   - Portfolio
   - Account
+  - Balances
+  - Transaction
+  - Cash
+  tags_raw:
+  - Portfolio
+  - Account
   - Balance
   - Transactions
   - Cash
@@ -181,6 +203,10 @@ apis:
 - aid: etoro:watchlists-api
   name: eToro Watchlists API
   tags:
+  - Watchlist
+  - Instruments
+  - Portfolio-Management
+  tags_raw:
   - Watchlists
   - Instruments
   - Portfolio Management
@@ -210,6 +236,10 @@ apis:
   name: eToro Price Alerts API
   tags:
   - Price Alerts
+  - Notification
+  - Market Data
+  tags_raw:
+  - Price Alerts
   - Notifications
   - Market Data
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
@@ -236,6 +266,11 @@ apis:
 - aid: etoro:agent-portfolios-api
   name: eToro Agent Portfolios API
   tags:
+  - Artificial Intelligence
+  - Agent Portfolios
+  - Automation
+  - Portfolio-Management
+  tags_raw:
   - AI
   - Agent Portfolios
   - Automation
@@ -398,6 +433,8 @@ apis:
   humanURL: https://builders.etoro.com/
   baseURL: https://public-api.etoro.com/api/v1
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -478,6 +515,8 @@ apis:
   humanURL: https://builders.etoro.com/
   baseURL: https://public-api.etoro.com/api/v1
   tags:
+  - Watchlist
+  tags_raw:
   - Watchlists
   properties:
   - type: OpenAPI
