@@ -53,7 +53,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/etoro.png
 access: 3rd-Party
 created: '2026-06-13'
 modified: '2026-06-13'
-position: Consumer
+position: Consuming
 description: >-
   eToro is a leading social trading and multi-asset investment platform enabling
   individuals to trade and invest in stocks, cryptocurrencies, ETFs, commodities,
