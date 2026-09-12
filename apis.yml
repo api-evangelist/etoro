@@ -534,6 +534,8 @@ apis:
   - type: OpenAPI
     url: openapi/etoro-watchlists-api-openapi.yml
 common:
+  - type: Website
+    url: https://www.etoro.com/
   - type: AgenticAccess
     url: agentic-access/etoro-agentic-access.yml
   - type: DomainSecurity
