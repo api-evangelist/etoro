@@ -184,6 +184,13 @@ apis:
   name: eToro Social and Discovery API
   tags:
   - Social Trading
+  - Feed
+  - Copy Trading
+  - Pro Investors
+  - Analytics
+  - Community
+  tags_raw:
+  - Social Trading
   - Feeds
   - Copy Trading
   - Pro Investors
@@ -405,6 +412,8 @@ apis:
   humanURL: https://builders.etoro.com/
   baseURL: https://public-api.etoro.com/api/v1
   tags:
+  - Feed
+  tags_raw:
   - Feeds
   properties:
   - type: OpenAPI
