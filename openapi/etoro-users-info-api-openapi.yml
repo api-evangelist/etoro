@@ -1,8 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deprecated eToro Public API operations Agent Portfolios Users Info API
-  version: v1.158.0
-  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+  title: eToro Users Info API
+  version: v1.244.0
+  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
 tags:
 - name: Users Info
 paths:
@@ -356,8 +359,9 @@ paths:
                         aumTierV2:
                           type: integer
                         aumTierDesc:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                         virtualCopiers:
                           type: integer
                         trades:
@@ -544,7 +548,7 @@ paths:
     get:
       tags:
       - Users Info
-      summary: Retrieve detailed historical performance metrics and analytics for a specified user
+      summary: Retrieve detailed historical performance metrics and analytics for a specified…
       description: Returns comprehensive historical monthly and yearly performance data including gain percentages, risk-adjusted returns, and detailed trading statistics. This endpoint provides both aggregated and time-series performance metrics.
       parameters:
       - name: x-request-id
@@ -994,8 +998,63 @@ paths:
       operationId: getTradeInfoSpecificUser
 components:
   schemas:
+    PublicAggregatedInfoResponse:
+      type: object
+      description: Container for the aggregated user information response
+      properties:
+        users:
+          type: array
+          description: Array of user profiles with their associated information
+          items:
+            $ref: '#/components/schemas/PublicAggregatedInfoUser'
+    gainEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        gain:
+          type: number
+    getUserDailyGainResponse:
+      oneOf:
+      - type: array
+        items:
+          $ref: '#/components/schemas/gainEntry'
+      - type: object
+        properties:
+          gain:
+            type: number
+    PublicAggregatedInfoAccountStatus:
+      type:
+      - integer
+      - 'null'
+      enum:
+      - 1
+      - 2
+      x-enumNames:
+      - Open
+      - Closed
+    PublicAggregatedInfoUiUserAvatar:
+      type: object
+      properties:
+        url:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        type:
+          type: string
+          enum:
+          - Original
+          - OriginalCropped
+          - Resized
+          - Retouched
+          description: Type of avatar image
     PublicAggregatedInfoPlayerStatus:
-      type: integer
+      type:
+      - integer
+      - 'null'
       enum:
       - 1
       - 2
@@ -1028,208 +1087,45 @@ components:
       - PendingVerification
       - BlockedFailedVerification
       - BlockTrading
-      nullable: true
-    PublicAggregatedInfoAccountStatus:
-      type: integer
-      enum:
-      - 1
-      - 2
-      x-enumNames:
-      - Open
-      - Closed
-      nullable: true
-    gainEntry:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        gain:
-          type: number
-    PublicAggregatedInfoUiUserAvatar:
-      type: object
-      properties:
-        url:
-          type: string
-        width:
-          type: integer
-        height:
-          type: integer
-        type:
-          type: string
-          enum:
-          - Original
-          - OriginalCropped
-          - Resized
-          - Retouched
-          description: Type of avatar image
-    getUserDailyGainResponse:
-      oneOf:
-      - type: array
-        items:
-          $ref: '#/components/schemas/gainEntry'
-      - type: object
-        properties:
-          gain:
-            type: number
-    PublicAggregatedInfoUser:
-      type: object
-      description: Comprehensive user profile information including account details, verification status, and preferences
-      properties:
-        gcid:
-          type: integer
-          description: Global Customer ID - Unique identifier across all systems
-        realCID:
-          type: integer
-          description: Customer ID for real trading account
-        demoCID:
-          type: integer
-          nullable: true
-          description: Customer ID for demo/practice account if available
-        username:
-          type: string
-          description: Unique username identifier for the user
-        language:
-          type: integer
-          nullable: true
-          description: User's preferred language ID based on system language codes
-        languageIsoCode:
-          type: string
-          description: ISO 639-1 language code for user's preferred language
-        country:
-          type: integer
-          nullable: true
-          description: User's registered country ID based on system country codes
-        allowDisplayFullName:
-          type: boolean
-          description: Indicates whether the user has consented to displaying their full name publicly
-        userBio:
-          $ref: '#/components/schemas/PublicAggregatedInfoUiUserBio'
-          description: Structured biographical information including trading strategy
-        whiteLabel:
-          type: integer
-          nullable: true
-          description: White label partner identifier if user belongs to a partner program
-        optOut:
-          type: boolean
-          description: Indicates if user has opted out of public profile features
-        homepage:
-          type: integer
-          nullable: true
-        playerStatus:
-          type: integer
-          nullable: true
-        piLevel:
-          type: integer
-          nullable: true
-        isPi:
-          type: boolean
-          description: Indicates if user is a Professional Investor with special privileges
-        avatars:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublicAggregatedInfoUiUserAvatar'
-        masterAccountCid:
-          type: integer
-          nullable: true
-        accountType:
-          type: integer
-          nullable: true
-        fundType:
-          type: string
-          nullable: true
-        isVerified:
-          type: boolean
-        verificationLevel:
-          type: integer
-          description: User's current verification level (0-3, where 3 is fully verified)
-        accountStatus:
-          type: integer
-          nullable: true
-          description: Current account status code indicating active, suspended, or other states
-        gdprInfo:
-          type: object
-          nullable: true
-          properties:
-            accountStatus:
-              $ref: '#/components/schemas/PublicAggregatedInfoAccountStatus'
-            playerStatus:
-              $ref: '#/components/schemas/PublicAggregatedInfoPlayerStatus'
-            playerStatusReason:
-              $ref: '#/components/schemas/PublicAggregatedInfoPlayerStatusReason'
-        firstName:
-          type: string
-          nullable: true
-          description: User's first name (visible if allowDisplayFullName is true)
-        middleName:
-          type: string
-          nullable: true
-          description: User's middle name
-        lastName:
-          type: string
-          nullable: true
-          description: User's last name (visible if allowDisplayFullName is true)
-        aboutMe:
-          type: string
-          nullable: true
-          description: User's full about me text
-        aboutMeShort:
-          type: string
-          nullable: true
-          description: Short summary of user's about me text
-        customerRestrictions:
-          type: array
-          nullable: true
-          items:
-            type: object
-            properties:
-              CID:
-                type: integer
-                description: Customer ID
-              restrictionTypeID:
-                type: integer
-                description: Type of restriction
-              reasonID:
-                type: integer
-                description: Reason for restriction
-              occured:
-                type: string
-                format: date-time
-                description: When the restriction occurred
-          description: List of customer restrictions applied to the account
-        userFlowSignature:
-          type: string
-    PublicAggregatedInfoResponse:
-      type: object
-      description: Container for the aggregated user information response
-      properties:
-        users:
-          type: array
-          description: Array of user profiles with their associated information
-          items:
-            $ref: '#/components/schemas/PublicAggregatedInfoUser'
     PublicAggregatedInfoUiUserBio:
       type: object
       properties:
         gcid:
           type: integer
         languageCode:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         aboutMe:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: User's full about me text
         aboutMeShort:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Short summary of user's about me text
         strategyID:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           description: ID of the user's trading strategy
+    getUserGainResponse:
+      type: object
+      properties:
+        monthly:
+          type: array
+          items:
+            $ref: '#/components/schemas/gainEntry'
+        yearly:
+          type: array
+          items:
+            $ref: '#/components/schemas/gainEntry'
     PublicAggregatedInfoPlayerStatusReason:
-      type: integer
+      type:
+      - integer
+      - 'null'
       enum:
       - 0
       - 1
@@ -1318,15 +1214,148 @@ components:
       - AccountClosed
       - Tax
       - Corporate
-      nullable: true
-    getUserGainResponse:
+    PublicAggregatedInfoUser:
       type: object
+      description: Comprehensive user profile information including account details, verification status, and preferences
       properties:
-        monthly:
+        gcid:
+          type: integer
+          description: Global Customer ID - Unique identifier across all systems
+        realCID:
+          type: integer
+          description: Customer ID for real trading account
+        demoCID:
+          type:
+          - integer
+          - 'null'
+          description: Customer ID for demo/practice account if available
+        username:
+          type: string
+          description: Unique username identifier for the user
+        language:
+          type:
+          - integer
+          - 'null'
+          description: User's preferred language ID based on system language codes
+        languageIsoCode:
+          type: string
+          description: ISO 639-1 language code for user's preferred language
+        country:
+          type:
+          - integer
+          - 'null'
+          description: User's registered country ID based on system country codes
+        allowDisplayFullName:
+          type: boolean
+          description: Indicates whether the user has consented to displaying their full name publicly
+        userBio:
+          $ref: '#/components/schemas/PublicAggregatedInfoUiUserBio'
+          description: Structured biographical information including trading strategy
+        whiteLabel:
+          type:
+          - integer
+          - 'null'
+          description: White label partner identifier if user belongs to a partner program
+        optOut:
+          type: boolean
+          description: Indicates if user has opted out of public profile features
+        homepage:
+          type:
+          - integer
+          - 'null'
+        playerStatus:
+          type:
+          - integer
+          - 'null'
+        piLevel:
+          type:
+          - integer
+          - 'null'
+        isPi:
+          type: boolean
+          description: Indicates if user is a Professional Investor with special privileges
+        avatars:
           type: array
           items:
-            $ref: '#/components/schemas/gainEntry'
-        yearly:
-          type: array
+            $ref: '#/components/schemas/PublicAggregatedInfoUiUserAvatar'
+        masterAccountCid:
+          type:
+          - integer
+          - 'null'
+        accountType:
+          type:
+          - integer
+          - 'null'
+        fundType:
+          type:
+          - string
+          - 'null'
+        isVerified:
+          type: boolean
+        verificationLevel:
+          type: integer
+          description: User's current verification level (0-3, where 3 is fully verified)
+        accountStatus:
+          type:
+          - integer
+          - 'null'
+          description: Current account status code indicating active, suspended, or other states
+        gdprInfo:
+          type:
+          - object
+          - 'null'
+          properties:
+            accountStatus:
+              $ref: '#/components/schemas/PublicAggregatedInfoAccountStatus'
+            playerStatus:
+              $ref: '#/components/schemas/PublicAggregatedInfoPlayerStatus'
+            playerStatusReason:
+              $ref: '#/components/schemas/PublicAggregatedInfoPlayerStatusReason'
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: User's first name (visible if allowDisplayFullName is true)
+        middleName:
+          type:
+          - string
+          - 'null'
+          description: User's middle name
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: User's last name (visible if allowDisplayFullName is true)
+        aboutMe:
+          type:
+          - string
+          - 'null'
+          description: User's full about me text
+        aboutMeShort:
+          type:
+          - string
+          - 'null'
+          description: Short summary of user's about me text
+        customerRestrictions:
+          type:
+          - array
+          - 'null'
           items:
-            $ref: '#/components/schemas/gainEntry'
+            type: object
+            properties:
+              CID:
+                type: integer
+                description: Customer ID
+              restrictionTypeID:
+                type: integer
+                description: Type of restriction
+              reasonID:
+                type: integer
+                description: Reason for restriction
+              occured:
+                type: string
+                format: date-time
+                description: When the restriction occurred
+          description: List of customer restrictions applied to the account
+        userFlowSignature:
+          type: string

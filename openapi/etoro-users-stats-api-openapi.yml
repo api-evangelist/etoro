@@ -1,8 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deprecated eToro Public API operations Agent Portfolios Users Stats API
-  version: v1.158.0
-  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+  title: eToro Users Stats API
+  version: v1.244.0
+  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
 tags:
 - name: Users Stats
 paths:
@@ -457,7 +460,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AssetsHistoryResponse:
+    ExposureHistoryResponse:
       type: object
       required:
       - userName
@@ -465,32 +468,11 @@ components:
       properties:
         userName:
           type: string
-          description: Echoes the requested username.
         results:
           type: array
+          description: Daily snapshots ordered ascending by date.
           items:
-            $ref: '#/components/schemas/AssetsHistoryEntry'
-    CopiersCurrentResponse:
-      type: object
-      description: Current copiers snapshot and AUM tier for portfolio display.
-      required:
-      - copiers
-      - aumTier
-      properties:
-        copiers:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Current number of copiers.
-        aumTier:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Assets-under-management tier level.
-        aumTierDesc:
-          type: string
-          nullable: true
-          description: Human-readable AUM tier label; null when not provided upstream.
+            $ref: '#/components/schemas/ExposureHistoryEntry'
     StandardErrorResponse:
       type: object
       description: Standard public API error envelope.
@@ -527,25 +509,30 @@ components:
         requestId:
           type: string
           description: Correlation identifier for support and tracing.
-    AssetsHistoryAsset:
+    GainPoint:
       type: object
       required:
-      - instrumentId
-      - symbol
-      - investedPct
-      - valuePct
+      - date
+      - gain
       properties:
-        instrumentId:
-          type: integer
-        symbol:
+        date:
           type: string
-          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
-        investedPct:
+          format: date
+        gain:
           type: number
-          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
-        valuePct:
-          type: number
-          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
+    RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
     ExposureHistoryEntry:
       type: object
       required:
@@ -584,17 +571,41 @@ components:
         absExposurePct:
           type: number
           description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
-    GainPoint:
+    CopiersCurrentResponse:
+      type: object
+      description: Current copiers snapshot and AUM tier for portfolio display.
+      required:
+      - copiers
+      - aumTier
+      properties:
+        copiers:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Current number of copiers.
+        aumTier:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Assets-under-management tier level.
+        aumTierDesc:
+          type:
+          - string
+          - 'null'
+          description: Human-readable AUM tier label; null when not provided upstream.
+    AssetsHistoryResponse:
       type: object
       required:
-      - date
-      - gain
+      - userName
+      - results
       properties:
-        date:
+        userName:
           type: string
-          format: date
-        gain:
-          type: number
+          description: Echoes the requested username.
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetsHistoryEntry'
     Error:
       type: object
       required:
@@ -625,42 +636,6 @@ components:
           format: date-time
         requestId:
           type: string
-    GainHistoryResponse:
-      type: object
-      required:
-      - username
-      - granularity
-      - gains
-      properties:
-        username:
-          type: string
-        granularity:
-          type: string
-          enum:
-          - daily
-          - monthly
-          - yearly
-        totalGain:
-          type: number
-          nullable: true
-          description: Compound gain over the returned series as a decimal fraction. Null when gains is empty.
-        gains:
-          type: array
-          items:
-            $ref: '#/components/schemas/GainPoint'
-    ExposureHistoryResponse:
-      type: object
-      required:
-      - userName
-      - results
-      properties:
-        userName:
-          type: string
-        results:
-          type: array
-          description: Daily snapshots ordered ascending by date.
-          items:
-            $ref: '#/components/schemas/ExposureHistoryEntry'
     AssetsHistoryEntry:
       type: object
       required:
@@ -684,16 +659,46 @@ components:
           description: Per-instrument breakdown. Mirror allocations are excluded.
           items:
             $ref: '#/components/schemas/AssetsHistoryAsset'
-    RankingPeriod:
-      type: string
-      enum:
-      - CurrMonth
-      - OneMonthAgo
-      - TwoMonthsAgo
-      - CurrQuarter
-      - ThreeMonthsAgo
-      - SixMonthsAgo
-      - CurrYear
-      - OneYearAgo
-      - LastYear
-      - LastTwoYears
+    GainHistoryResponse:
+      type: object
+      required:
+      - username
+      - granularity
+      - gains
+      properties:
+        username:
+          type: string
+        granularity:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - yearly
+        totalGain:
+          type:
+          - number
+          - 'null'
+          description: Compound gain over the returned series as a decimal fraction. Null when gains is empty.
+        gains:
+          type: array
+          items:
+            $ref: '#/components/schemas/GainPoint'
+    AssetsHistoryAsset:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - investedPct
+      - valuePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        investedPct:
+          type: number
+          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
+        valuePct:
+          type: number
+          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'

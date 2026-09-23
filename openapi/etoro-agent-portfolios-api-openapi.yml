@@ -1,8 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deprecated eToro Public API operations Agent Portfolios API
-  version: v1.158.0
-  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+  title: eToro Agent Portfolios API
+  version: v1.244.0
+  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
 tags:
 - name: Agent Portfolios
 paths:
@@ -971,171 +974,6 @@ paths:
                 errorMessage: Global Error
 components:
   schemas:
-    CreateAgentPortfolioV2UserTokenItem:
-      type: object
-      properties:
-        userTokenId:
-          type: string
-          format: uuid
-          description: The unique identifier of the newly created user token.
-          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
-        userToken:
-          type: string
-          description: The generated user token secret. Only available at creation time.
-          example: sk_live_a1b2c3d4e5f6...
-        userTokenName:
-          type: string
-          description: The user-defined name for the user token.
-          example: my-trading-token
-        clientId:
-          type: string
-          format: uuid
-          description: The OAuth client identifier associated with the user token.
-          example: c1d2e3f4-a5b6-7890-cdef-123456789abc
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: The set of whitelisted IP addresses authorized to use this token.
-          example:
-          - 192.168.1.1
-        scopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScopeNameItem'
-          description: The permission scopes (by name) granted to this token.
-          example:
-          - name: etoro-public:trade.real:read
-        expiresAt:
-          type: string
-          format: date-time
-          description: The expiration date and time of the user token in UTC.
-          example: '2026-12-31T23:59:59Z'
-    CreateUserTokenRequest:
-      type: object
-      properties:
-        userTokenName:
-          type: string
-          description: A human-readable name to identify the user token.
-          example: my-trading-token
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers to grant to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An optional set of IPv4 addresses allowed to use this token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An optional expiration date and time for the token in UTC.
-          example: '2026-12-31T23:59:59Z'
-      required:
-      - userTokenName
-    CreateUserTokenV2Request:
-      type: object
-      properties:
-        userTokenName:
-          type: string
-          description: A human-readable name to identify the user token.
-          example: my-trading-token
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names to grant to this token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An optional set of IPv4 addresses allowed to use this token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An optional expiration date and time for the token in UTC.
-          example: '2026-12-31T23:59:59Z'
-      required:
-      - userTokenName
-      - scopeNames
-    CreateAgentPortfolioPartialResponse:
-      type: object
-      properties:
-        agentPortfolioId:
-          type: string
-          format: uuid
-          description: The unique identifier of the newly created agent-portfolio.
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        agentPortfolioName:
-          type: string
-          description: The display name assigned to the agent-portfolio.
-          example: MyPort1
-        agentPortfolioGcid:
-          type: integer
-          description: The GCID associated with the agent-portfolio.
-          example: 12345678
-        agentPortfolioVirtualBalance:
-          type: integer
-          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
-          example: 10000
-        mirrorId:
-          type: integer
-          description: The Trading API mirror ID for this agent-portfolio's copy trade.
-          example: 12345
-        userTokenCreated:
-          type: boolean
-          description: Always false — indicates that the user token was not created.
-          example: false
-    CreateAgentPortfolioResponse:
-      type: object
-      properties:
-        agentPortfolioId:
-          type: string
-          format: uuid
-          description: The unique identifier of the newly created agent-portfolio.
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        agentPortfolioName:
-          type: string
-          description: The display name assigned to the agent-portfolio.
-          example: MyPort1
-        agentPortfolioGcid:
-          type: integer
-          description: The GCID associated with the agent-portfolio.
-          example: 12345678
-        agentPortfolioVirtualBalance:
-          type: number
-          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
-          example: 10000
-        mirrorId:
-          type: integer
-          description: The Trading API mirror ID for this agent-portfolio's copy trade.
-          example: 12345
-        userTokens:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateAgentPortfolioUserTokenItem'
-          description: The user tokens generated during agent-portfolio creation.
     CreateAgentPortfolioUserTokenItem:
       type: object
       properties:
@@ -1186,53 +1024,62 @@ components:
           format: date-time
           description: The expiration date and time of the user token in UTC.
           example: '2026-12-31T23:59:59Z'
-    CreateUserTokenResponse:
+    AgentPortfolioUserTokenItem:
       type: object
       properties:
         userTokenId:
           type: string
           format: uuid
-          description: The unique identifier of the newly created user token.
+          description: The unique identifier of the user token.
           example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
-        userToken:
-          type: string
-          description: The generated user token secret. Only available at creation time.
-          example: sk_live_a1b2c3d4e5f6...
         userTokenName:
           type: string
-          description: The display name of the user token.
+          description: The user-defined name for the user token.
           example: my-trading-token
         clientId:
           type: string
           format: uuid
-          description: The client identifier of the application the token is associated with.
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          description: The OAuth client identifier associated with the user token.
+          example: c1d2e3f4-a5b6-7890-cdef-123456789abc
+        externalApplicationName:
+          type: string
+          description: The name of the external application registered for this token.
+          example: Trading Bot v2
         ipsWhitelist:
           type: array
           items:
             type: string
-          description: The IPv4 addresses from which the token is allowed to be used. Null or empty when unrestricted.
+          description: The set of whitelisted IP addresses authorized to use this token.
           example:
           - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: The expiration date and time of the user token in UTC.
+          example: '2026-12-31T23:59:59Z'
+        scopeIds:
+          type: array
+          items:
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers granted to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
         scopeNames:
           type: array
           items:
             type: string
-          description: The authorized scope names granted to the token.
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
           example:
           - etoro-public:trade.real:read
-        expiresAt:
-          type: string
-          format: date-time
-          nullable: true
-          description: The UTC expiration date of the token. Null when the token does not expire.
-          example: '2026-12-31T23:59:59Z'
+          - etoro-public:trade.real:write
         createdAt:
           type: string
           format: date-time
-          description: The UTC timestamp at which the token was created.
-          example: '2026-03-06T12:00:00Z'
-    CreateAgentPortfolioV2Response:
+          description: When this user token was created.
+          example: '2026-03-01T10:30:00Z'
+    CreateAgentPortfolioPartialResponse:
       type: object
       properties:
         agentPortfolioId:
@@ -1249,18 +1096,55 @@ components:
           description: The GCID associated with the agent-portfolio.
           example: 12345678
         agentPortfolioVirtualBalance:
-          type: number
+          type: integer
           description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
           example: 10000
         mirrorId:
           type: integer
           description: The Trading API mirror ID for this agent-portfolio's copy trade.
           example: 12345
-        userTokens:
+        userTokenCreated:
+          type: boolean
+          description: Always false — indicates that the user token was not created.
+          example: false
+    CreateUserTokenRequest:
+      type: object
+      properties:
+        userTokenName:
+          type: string
+          description: A human-readable name to identify the user token.
+          example: my-trading-token
+        scopeIds:
           type: array
           items:
-            $ref: '#/components/schemas/CreateAgentPortfolioV2UserTokenItem'
-          description: The user tokens generated during agent-portfolio creation.
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers to grant to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time for the token in UTC.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - userTokenName
     UpdateUserTokenV2Request:
       type: object
       properties:
@@ -1318,6 +1202,79 @@ components:
           items:
             $ref: '#/components/schemas/AgentPortfolioUserTokenItem'
           description: The user tokens associated with this agent-portfolio.
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    ScopeNameItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The permission scope name.
+          example: etoro-public:trade.real:read
+    CreateUserTokenV2Request:
+      type: object
+      properties:
+        userTokenName:
+          type: string
+          description: A human-readable name to identify the user token.
+          example: my-trading-token
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names to grant to this token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time for the token in UTC.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - userTokenName
+      - scopeNames
+    CreateAgentPortfolioV2Response:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: number
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateAgentPortfolioV2UserTokenItem'
+          description: The user tokens generated during agent-portfolio creation.
     CreateAgentPortfolioV2Request:
       type: object
       properties:
@@ -1362,14 +1319,73 @@ components:
       - agentPortfolioName
       - userTokenName
       - scopeNames
-    AgentPortfolioUserTokenItem:
+    CreateUserTokenResponse:
       type: object
       properties:
         userTokenId:
           type: string
           format: uuid
-          description: The unique identifier of the user token.
+          description: The unique identifier of the newly created user token.
           example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
+        userToken:
+          type: string
+          description: The generated user token secret. Only available at creation time.
+          example: sk_live_a1b2c3d4e5f6...
+        userTokenName:
+          type: string
+          description: The display name of the user token.
+          example: my-trading-token
+        clientId:
+          type: string
+          format: uuid
+          description: The client identifier of the application the token is associated with.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: The IPv4 addresses from which the token is allowed to be used. Null or empty when unrestricted.
+          example:
+          - 192.168.1.1
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: The authorized scope names granted to the token.
+          example:
+          - etoro-public:trade.real:read
+        expiresAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The UTC expiration date of the token. Null when the token does not expire.
+          example: '2026-12-31T23:59:59Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: The UTC timestamp at which the token was created.
+          example: '2026-03-06T12:00:00Z'
+    GetAgentPortfoliosResponse:
+      type: object
+      properties:
+        agentPortfolios:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentPortfolioItem'
+          description: The collection of agent-portfolios owned by the user.
+    CreateAgentPortfolioV2UserTokenItem:
+      type: object
+      properties:
+        userTokenId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created user token.
+          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
+        userToken:
+          type: string
+          description: The generated user token secret. Only available at creation time.
+          example: sk_live_a1b2c3d4e5f6...
         userTokenName:
           type: string
           description: The user-defined name for the user token.
@@ -1379,10 +1395,6 @@ components:
           format: uuid
           description: The OAuth client identifier associated with the user token.
           example: c1d2e3f4-a5b6-7890-cdef-123456789abc
-        externalApplicationName:
-          type: string
-          description: The name of the external application registered for this token.
-          example: Trading Bot v2
         ipsWhitelist:
           type: array
           items:
@@ -1390,33 +1402,47 @@ components:
           description: The set of whitelisted IP addresses authorized to use this token.
           example:
           - 192.168.1.1
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeNameItem'
+          description: The permission scopes (by name) granted to this token.
+          example:
+          - name: etoro-public:trade.real:read
         expiresAt:
           type: string
           format: date-time
           description: The expiration date and time of the user token in UTC.
           example: '2026-12-31T23:59:59Z'
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers granted to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        createdAt:
+    CreateAgentPortfolioResponse:
+      type: object
+      properties:
+        agentPortfolioId:
           type: string
-          format: date-time
-          description: When this user token was created.
-          example: '2026-03-01T10:30:00Z'
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: number
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateAgentPortfolioUserTokenItem'
+          description: The user tokens generated during agent-portfolio creation.
     GetAllowedScopesResponse:
       type: object
       properties:
@@ -1428,52 +1454,6 @@ components:
           example:
           - name: etoro-public:trade.real:read
           - name: etoro-public:trade.real:write
-    UpdateUserTokenRequest:
-      type: object
-      properties:
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] An updated set of permission scope identifiers for the token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An updated set of IPv4 addresses allowed to use this token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An updated expiration date and time (UTC) for the token.
-          example: '2026-12-31T23:59:59Z'
-    ErrorResponse:
-      type: object
-      properties:
-        errorCode:
-          type: string
-        errorMessage:
-          type: string
-    ScopeNameItem:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The permission scope name.
-          example: etoro-public:trade.real:read
     CreateAgentPortfolioRequest:
       type: object
       properties:
@@ -1526,11 +1506,35 @@ components:
       - investmentAmountInUsd
       - agentPortfolioName
       - userTokenName
-    GetAgentPortfoliosResponse:
+    UpdateUserTokenRequest:
       type: object
       properties:
-        agentPortfolios:
+        scopeIds:
           type: array
           items:
-            $ref: '#/components/schemas/AgentPortfolioItem'
-          description: The collection of agent-portfolios owned by the user.
+            type: integer
+          deprecated: true
+          description: '[DEPRECATED — use scopeNames instead] An updated set of permission scope identifiers for the token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
+          example:
+          - 211
+          - 212
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An updated set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An updated expiration date and time (UTC) for the token.
+          example: '2026-12-31T23:59:59Z'

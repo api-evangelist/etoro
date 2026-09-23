@@ -1,8 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deprecated eToro Public API operations Agent Portfolios Watchlists API
-  version: v1.158.0
-  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+  title: eToro Watchlists API
+  version: v1.244.0
+  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
 tags:
 - name: Watchlists
 paths:
@@ -914,6 +917,202 @@ paths:
       operationId: removeItemsFromWatchlist
 components:
   schemas:
+    CuratedList:
+      type: object
+      description: Represents a curated investment list
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier of the curated list
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the curated list
+          example: Tech Watchlist
+        description:
+          type: string
+          description: Description of the curated list
+          example: A list of tech stocks
+        listImageUrl:
+          type: string
+          description: URL of the list's image
+          example: https://example.com/tech-watchlist.jpg
+        items:
+          type: array
+          description: Items in the curated list
+          items:
+            $ref: '#/components/schemas/CuratedListItem'
+          example:
+          - instrumentId: 12345
+    WatchlistItemDto:
+      type: object
+      description: Represents an item in a watchlist
+      required:
+      - itemId
+      - itemType
+      properties:
+        itemId:
+          type: integer
+          format: int32
+          description: Unique identifier of the financial instrument
+          example: 12345
+        itemType:
+          type: string
+          description: Type of the financial instrument (e.g., 'Instrument', 'Person')
+          example: Instrument
+        itemRank:
+          type: integer
+          format: int32
+          description: Ranking position of the item in the watchlist
+          default: 0
+          example: 1
+        itemAddedReason:
+          type: string
+          description: Reason the item was added to the watchlist
+          example: Manual
+        itemAddedDate:
+          type: string
+          format: date-time
+          description: Date and time the item was added
+        market:
+          type: object
+          description: Market metadata for the instrument when included
+          properties:
+            id:
+              type: string
+            symbolName:
+              type: string
+            displayName:
+              type: string
+            assetTypeId:
+              type: integer
+              format: int32
+            assetTypeSubCategoryId:
+              type:
+              - integer
+              - 'null'
+              format: int32
+            exchangeId:
+              type: integer
+              format: int32
+            hasExpirationDate:
+              type: boolean
+            avatar:
+              type: object
+              properties:
+                small:
+                  type: string
+                medium:
+                  type: string
+                large:
+                  type: string
+                svg:
+                  type:
+                  - object
+                  - 'null'
+                  description: SVG avatar with background and text colors
+                  properties:
+                    url:
+                      type: string
+                    backgroundColor:
+                      type: string
+                    textColor:
+                      type: string
+    WatchlistResponse:
+      type: object
+      description: Represents a watchlist with its metadata and items
+      properties:
+        watchlistId:
+          type: string
+          description: Unique identifier of the watchlist
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the watchlist
+          example: Tech Watchlist
+        Gcid:
+          type: integer
+          format: int32
+          description: Global Customer ID of the watchlist owner
+          example: 12345
+        watchlistType:
+          type: string
+          enum:
+          - Static
+          - Dynamic
+          - RecentlyInvested
+          - Default
+          description: Type of the watchlist
+          example: Static
+        totalItems:
+          type: integer
+          format: int32
+          description: Total number of items in the watchlist
+          example: 100
+        isDefault:
+          type: boolean
+          description: Whether this is a default system watchlist
+          example: true
+        isUserSelectedDefault:
+          type: boolean
+          description: Whether this is the user's selected default watchlist
+          example: true
+        watchlistRank:
+          type: integer
+          format: int32
+          description: Display order rank of the watchlist
+          example: 1
+        dynamicUrl:
+          type:
+          - string
+          - 'null'
+          description: URL for dynamic watchlist queries
+        items:
+          type: array
+          description: Items contained in the watchlist
+          items:
+            $ref: '#/components/schemas/WatchlistItemDto'
+          example:
+          - itemId: 12345
+            itemType: Instrument
+            itemRank: 1
+        relatedAssets:
+          type:
+          - array
+          - 'null'
+          description: Related asset IDs
+          items:
+            type: integer
+            format: int32
+          example:
+          - 12345
+          - 67890
+    CuratedListsResponse:
+      type: object
+      description: Response containing curated investment lists
+      properties:
+        curatedLists:
+          type: array
+          description: List of curated investment lists
+          items:
+            $ref: '#/components/schemas/CuratedList'
+    MarketRecommendationsResponse:
+      type: object
+      description: Response containing market recommendations
+      properties:
+        ResponseType:
+          type: string
+          description: Type of recommendation response
+          example: Instrument
+        Recommendations:
+          type: array
+          description: List of recommended instrument IDs
+          items:
+            type: integer
+            format: int32
+          example:
+          - 12345
+          - 67890
     WatchlistsResponse:
       type: object
       description: Response containing multiple watchlists with metadata
@@ -980,195 +1179,3 @@ components:
           format: int32
           description: ID of the financial instrument
           example: 12345
-    CuratedList:
-      type: object
-      description: Represents a curated investment list
-      properties:
-        uuid:
-          type: string
-          description: Unique identifier of the curated list
-          example: '12345'
-        name:
-          type: string
-          description: Display name of the curated list
-          example: Tech Watchlist
-        description:
-          type: string
-          description: Description of the curated list
-          example: A list of tech stocks
-        listImageUrl:
-          type: string
-          description: URL of the list's image
-          example: https://example.com/tech-watchlist.jpg
-        items:
-          type: array
-          description: Items in the curated list
-          items:
-            $ref: '#/components/schemas/CuratedListItem'
-          example:
-          - instrumentId: 12345
-    MarketRecommendationsResponse:
-      type: object
-      description: Response containing market recommendations
-      properties:
-        ResponseType:
-          type: string
-          description: Type of recommendation response
-          example: Instrument
-        Recommendations:
-          type: array
-          description: List of recommended instrument IDs
-          items:
-            type: integer
-            format: int32
-          example:
-          - 12345
-          - 67890
-    WatchlistItemDto:
-      type: object
-      description: Represents an item in a watchlist
-      required:
-      - itemId
-      - itemType
-      properties:
-        itemId:
-          type: integer
-          format: int32
-          description: Unique identifier of the financial instrument
-          example: 12345
-        itemType:
-          type: string
-          description: Type of the financial instrument (e.g., 'Instrument', 'Person')
-          example: Instrument
-        itemRank:
-          type: integer
-          format: int32
-          description: Ranking position of the item in the watchlist
-          default: 0
-          example: 1
-        itemAddedReason:
-          type: string
-          description: Reason the item was added to the watchlist
-          example: Manual
-        itemAddedDate:
-          type: string
-          format: date-time
-          description: Date and time the item was added
-        market:
-          type: object
-          description: Market metadata for the instrument when included
-          properties:
-            id:
-              type: string
-            symbolName:
-              type: string
-            displayName:
-              type: string
-            assetTypeId:
-              type: integer
-              format: int32
-            assetTypeSubCategoryId:
-              type: integer
-              format: int32
-              nullable: true
-            exchangeId:
-              type: integer
-              format: int32
-            hasExpirationDate:
-              type: boolean
-            avatar:
-              type: object
-              properties:
-                small:
-                  type: string
-                medium:
-                  type: string
-                large:
-                  type: string
-                svg:
-                  type: object
-                  nullable: true
-                  description: SVG avatar with background and text colors
-                  properties:
-                    url:
-                      type: string
-                    backgroundColor:
-                      type: string
-                    textColor:
-                      type: string
-    WatchlistResponse:
-      type: object
-      description: Represents a watchlist with its metadata and items
-      properties:
-        watchlistId:
-          type: string
-          description: Unique identifier of the watchlist
-          example: '12345'
-        name:
-          type: string
-          description: Display name of the watchlist
-          example: Tech Watchlist
-        Gcid:
-          type: integer
-          format: int32
-          description: Global Customer ID of the watchlist owner
-          example: 12345
-        watchlistType:
-          type: string
-          enum:
-          - Static
-          - Dynamic
-          - RecentlyInvested
-          - Default
-          description: Type of the watchlist
-          example: Static
-        totalItems:
-          type: integer
-          format: int32
-          description: Total number of items in the watchlist
-          example: 100
-        isDefault:
-          type: boolean
-          description: Whether this is a default system watchlist
-          example: true
-        isUserSelectedDefault:
-          type: boolean
-          description: Whether this is the user's selected default watchlist
-          example: true
-        watchlistRank:
-          type: integer
-          format: int32
-          description: Display order rank of the watchlist
-          example: 1
-        dynamicUrl:
-          type: string
-          nullable: true
-          description: URL for dynamic watchlist queries
-        items:
-          type: array
-          description: Items contained in the watchlist
-          items:
-            $ref: '#/components/schemas/WatchlistItemDto'
-          example:
-          - itemId: 12345
-            itemType: Instrument
-            itemRank: 1
-        relatedAssets:
-          type: array
-          description: Related asset IDs
-          nullable: true
-          items:
-            type: integer
-            format: int32
-          example:
-          - 12345
-          - 67890
-    CuratedListsResponse:
-      type: object
-      description: Response containing curated investment lists
-      properties:
-        curatedLists:
-          type: array
-          description: List of curated investment lists
-          items:
-            $ref: '#/components/schemas/CuratedList'

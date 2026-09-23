@@ -1,8 +1,11 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Deprecated eToro Public API operations Agent Portfolios Asset Explorer API
-  version: v1.158.0
-  description: Snapshot of API operations that existed in the previous docs OpenAPI file and are no longer present in the current upstream Swagger.
+  title: eToro Asset Explorer API
+  version: v1.244.0
+  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
 tags:
 - name: Asset Explorer
 paths:
@@ -194,6 +197,22 @@ paths:
       operationId: getInstrumentSymbolUsingFieldShortener
 components:
   schemas:
+    InstrumentSearchResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: The current page number.
+        pageSize:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of instruments matching the search criteria.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instrument'
     Instrument:
       type: object
       properties:
@@ -389,19 +408,3 @@ components:
         sectorNameId:
           type: integer
           description: The sector name ID.
-    InstrumentSearchResponse:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: The current page number.
-        pageSize:
-          type: integer
-          description: The number of items per page.
-        totalItems:
-          type: integer
-          description: The total number of instruments matching the search criteria.
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Instrument'
