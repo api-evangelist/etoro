@@ -86,161 +86,22 @@ paths:
       operationId: getClubDashboardData
 components:
   schemas:
-    OfferInBundle:
+    Svg:
       type: object
-      description: An offer included in a bundle
       properties:
-        type:
-          type: string
-          enum:
-          - Entertainment
-          - Gifts
-          - News
-          - Signals
-          - Tools
-          - Exclusive events
-          - Tickets
-          - Zoom meetings
-          - Educational
-          - Services
-          - Association Membership
-          - Financial
-          - Travel
-          - Gift card
-          - Client meetup
-          - Emotional
-          - Bundle
-          description: Bundle offer type
-          example: Services
-        offerLimit:
-          type: integer
-          description: Maximum number of offers in this bundle
-          example: 3
-    StaticEligibleOffer:
-      type: object
-      description: An offer eligible across specific club tiers
-      properties:
-        id:
-          type: string
-          description: Offer identifier
-          example: '80'
-        displayName:
-          type: string
-          description: Offer display name
-          example: Tax Return Offer
-        description:
+        url:
           type:
           - string
           - 'null'
-          description: Detailed offer description
-          example: Discounted assistance with preparing annual tax returns from certified tax companies in your country.
-        status:
-          type: string
-          enum:
-          - Pending
-          - Available
-          - Reserved
-          - Claimed
-          - Expired
-          - Claim Cancelled
-          - Inventory Order Cancelled
-          description: Offer status
-          example: Claimed
-        type:
-          type: string
-          enum:
-          - Entertainment
-          - Gifts
-          - News
-          - Signals
-          - Tools
-          - Exclusive events
-          - Tickets
-          - Zoom meetings
-          - Educational
-          - Services
-          - Association Membership
-          - Financial
-          - Travel
-          - Gift card
-          - Client meetup
-          - Emotional
-          - Bundle
-          description: Offer type
-          example: Financial
-        deliveryMethod:
+        backgroundColor:
           type:
           - string
           - 'null'
-          enum:
-          - Inventory Managed
-          - On-demand
-          - Static
-          - API
-          description: Delivery method
-          example: Static
-        eligibleClubLevels:
-          type: array
-          description: Club tier names eligible for this offer
-          items:
-            type: string
-            enum:
-            - Internal
-            - Bronze
-            - Silver
-            - Gold
-            - Platinum
-            - PlatinumPlus
-            - Diamond
-          example:
-          - Gold
-          - Silver
-          - Platinum
-          - PlatinumPlus
-          - Diamond
-    ClubDashboardDataResponse:
-      type: object
-      description: Club dashboard data for a user
-      properties:
-        clubs:
-          type: array
-          description: List of club tiers with equity thresholds
-          items:
-            $ref: '#/components/schemas/ClubInfo'
-        contacts:
-          description: Account manager contact information for eligible users
-          $ref: '#/components/schemas/ContactsResponse'
-        downgradeRisk:
-          description: Club tier downgrade risk assessment
-          $ref: '#/components/schemas/DowngradeRiskResponse'
-        offers:
-          description: Club benefit offers categorized by tier availability
-          $ref: '#/components/schemas/UserOffersData'
-        webinars:
-          description: Upcoming and past club webinars
-          $ref: '#/components/schemas/WebinarsResponse'
-    PublicErrorResponse:
-      type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
-        errorMessage:
-          type: string
-          description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
-    ContactsResponse:
-      type: object
-      description: Account manager contact details
-      properties:
-        manager:
-          description: Assigned account manager profile
-          $ref: '#/components/schemas/ContactInfo'
+        textColor:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
     UserOffersData:
       type: object
       description: Club offers categorized by availability
@@ -260,36 +121,6 @@ components:
           description: Offers eligible across specific club tiers
           items:
             $ref: '#/components/schemas/StaticEligibleOffer'
-    Svg:
-      type: object
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-        backgroundColor:
-          type:
-          - string
-          - 'null'
-        textColor:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DowngradeRiskResponse:
-      type: object
-      description: Club tier downgrade risk assessment
-      properties:
-        isAtRisk:
-          type: boolean
-          description: Whether the user is at risk of club tier downgrade
-          example: false
-        daysUntilDowngrade:
-          type:
-          - integer
-          - 'null'
-          description: Days remaining until potential downgrade. Present only when isAtRisk is true.
-          example: 30
     ClubOffer:
       type: object
       description: A club benefit offer
@@ -393,6 +224,36 @@ components:
           description: Sub-offers within this offer
           items:
             $ref: '#/components/schemas/ClubOffer'
+    OfferInBundle:
+      type: object
+      description: An offer included in a bundle
+      properties:
+        type:
+          type: string
+          enum:
+          - Entertainment
+          - Gifts
+          - News
+          - Signals
+          - Tools
+          - Exclusive events
+          - Tickets
+          - Zoom meetings
+          - Educational
+          - Services
+          - Association Membership
+          - Financial
+          - Travel
+          - Gift card
+          - Client meetup
+          - Emotional
+          - Bundle
+          description: Bundle offer type
+          example: Services
+        offerLimit:
+          type: integer
+          description: Maximum number of offers in this bundle
+          example: 3
     Webinar:
       type: object
       description: A club webinar event
@@ -423,6 +284,81 @@ components:
           - 'null'
           description: URL to the recording (past webinars only)
           example: https://us02web.zoom.us/rec/play/example
+    Avatar:
+      type: object
+      properties:
+        small:
+          type:
+          - string
+          - 'null'
+        medium:
+          type:
+          - string
+          - 'null'
+        large:
+          type:
+          - string
+          - 'null'
+        svg:
+          $ref: '#/components/schemas/Svg'
+      additionalProperties: false
+    ClubDashboardDataResponse:
+      type: object
+      description: Club dashboard data for a user
+      properties:
+        clubs:
+          type: array
+          description: List of club tiers with equity thresholds
+          items:
+            $ref: '#/components/schemas/ClubInfo'
+        contacts:
+          description: Account manager contact information for eligible users
+          $ref: '#/components/schemas/ContactsResponse'
+        downgradeRisk:
+          description: Club tier downgrade risk assessment
+          $ref: '#/components/schemas/DowngradeRiskResponse'
+        offers:
+          description: Club benefit offers categorized by tier availability
+          $ref: '#/components/schemas/UserOffersData'
+        webinars:
+          description: Upcoming and past club webinars
+          $ref: '#/components/schemas/WebinarsResponse'
+    ContactsResponse:
+      type: object
+      description: Account manager contact details
+      properties:
+        manager:
+          description: Assigned account manager profile
+          $ref: '#/components/schemas/ContactInfo'
+    PublicErrorResponse:
+      type: object
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
+    WebinarsResponse:
+      type: object
+      description: Upcoming and past webinars
+      properties:
+        upcomingWebinars:
+          type: array
+          description: List of upcoming webinars the user can join
+          items:
+            $ref: '#/components/schemas/Webinar'
+        previousWebinars:
+          type: array
+          description: List of past webinars with recordings
+          items:
+            $ref: '#/components/schemas/Webinar'
     ContactInfo:
       type: object
       description: Account manager profile
@@ -451,38 +387,102 @@ components:
           description: Manager avatar images in different sizes
           items:
             $ref: '#/components/schemas/Avatar'
-    Avatar:
+    StaticEligibleOffer:
       type: object
+      description: An offer eligible across specific club tiers
       properties:
-        small:
+        id:
+          type: string
+          description: Offer identifier
+          example: '80'
+        displayName:
+          type: string
+          description: Offer display name
+          example: Tax Return Offer
+        description:
           type:
           - string
           - 'null'
-        medium:
+          description: Detailed offer description
+          example: Discounted assistance with preparing annual tax returns from certified tax companies in your country.
+        status:
+          type: string
+          enum:
+          - Pending
+          - Available
+          - Reserved
+          - Claimed
+          - Expired
+          - Claim Cancelled
+          - Inventory Order Cancelled
+          description: Offer status
+          example: Claimed
+        type:
+          type: string
+          enum:
+          - Entertainment
+          - Gifts
+          - News
+          - Signals
+          - Tools
+          - Exclusive events
+          - Tickets
+          - Zoom meetings
+          - Educational
+          - Services
+          - Association Membership
+          - Financial
+          - Travel
+          - Gift card
+          - Client meetup
+          - Emotional
+          - Bundle
+          description: Offer type
+          example: Financial
+        deliveryMethod:
           type:
           - string
           - 'null'
-        large:
-          type:
-          - string
-          - 'null'
-        svg:
-          $ref: '#/components/schemas/Svg'
-      additionalProperties: false
-    WebinarsResponse:
+          enum:
+          - Inventory Managed
+          - On-demand
+          - Static
+          - API
+          description: Delivery method
+          example: Static
+        eligibleClubLevels:
+          type: array
+          description: Club tier names eligible for this offer
+          items:
+            type: string
+            enum:
+            - Internal
+            - Bronze
+            - Silver
+            - Gold
+            - Platinum
+            - PlatinumPlus
+            - Diamond
+          example:
+          - Gold
+          - Silver
+          - Platinum
+          - PlatinumPlus
+          - Diamond
+    DowngradeRiskResponse:
       type: object
-      description: Upcoming and past webinars
+      description: Club tier downgrade risk assessment
       properties:
-        upcomingWebinars:
-          type: array
-          description: List of upcoming webinars the user can join
-          items:
-            $ref: '#/components/schemas/Webinar'
-        previousWebinars:
-          type: array
-          description: List of past webinars with recordings
-          items:
-            $ref: '#/components/schemas/Webinar'
+        isAtRisk:
+          type: boolean
+          description: Whether the user is at risk of club tier downgrade
+          example: false
+        daysUntilDowngrade:
+          type:
+          - integer
+          - 'null'
+          description: Days remaining until potential downgrade. Present only when isAtRisk is true.
+          example: 30
     ClubInfo:
       type: object
       description: A single club tier with equity thresholds

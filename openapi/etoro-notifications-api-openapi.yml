@@ -92,6 +92,26 @@ paths:
       operationId: markAllNotificationsAsRead
 components:
   schemas:
+    InAppNotificationsResult:
+      type: object
+      description: Response containing notifications and metadata
+      properties:
+        messages:
+          type: array
+          description: List of notification messages
+          items:
+            $ref: '#/components/schemas/InAppNotificationMessage'
+        meta:
+          $ref: '#/components/schemas/InAppNotificationsMetadata'
+    InAppNotificationsMetadata:
+      type: object
+      description: Metadata about the notifications result
+      properties:
+        notSeen:
+          type: integer
+          format: int32
+          description: Count of unseen notifications
+          example: 5
     InAppNotificationMessage:
       type: object
       description: A single in-app notification message
@@ -155,23 +175,3 @@ components:
         section:
           type: string
           description: Section the notification belongs to
-    InAppNotificationsResult:
-      type: object
-      description: Response containing notifications and metadata
-      properties:
-        messages:
-          type: array
-          description: List of notification messages
-          items:
-            $ref: '#/components/schemas/InAppNotificationMessage'
-        meta:
-          $ref: '#/components/schemas/InAppNotificationsMetadata'
-    InAppNotificationsMetadata:
-      type: object
-      description: Metadata about the notifications result
-      properties:
-        notSeen:
-          type: integer
-          format: int32
-          description: Count of unseen notifications
-          example: 5

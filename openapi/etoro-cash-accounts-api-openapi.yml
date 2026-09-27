@@ -543,6 +543,163 @@ paths:
                 $ref: '#/components/schemas/PublicErrorResponse'
 components:
   schemas:
+    CashAccount:
+      type: object
+      description: A single cash account with bank details and cards (account type is implied by the cash-accounts API surface)
+      required:
+      - id
+      - currency
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the cash account
+          example: b2c3d4e5-f6a7-8901-bcde-f12345678901
+        currency:
+          type: string
+          description: ISO 4217 currency code (e.g. GBP, EUR, AUD, DKK)
+          example: GBP
+        status:
+          type: string
+          description: Cash account status
+          enum:
+          - Active
+          - ReceiveOnly
+          - SpendOnly
+          - Suspended
+          - Blocked
+          example: Active
+        bankAccount:
+          $ref: '#/components/schemas/BankAccount'
+          description: Bank account linked to this cash account
+        cards:
+          type: array
+          description: Payment cards linked to this cash account
+          items:
+            $ref: '#/components/schemas/Card'
+    BankIdentifierEntry:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    PaginationCursor:
+      type: object
+      required:
+      - pageSize
+      - hasNext
+      properties:
+        pageSize:
+          type: integer
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+        hasNext:
+          type: boolean
+    PublicErrorResponse:
+      type: object
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
+    CashAccountCreationStatusResponse:
+      type: object
+      required:
+      - requestReferenceId
+      - status
+      properties:
+        requestReferenceId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - Pending
+          - Success
+          - Failure
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        account:
+          $ref: '#/components/schemas/CashAccount'
+          description: Present only when status is Success
+    Counterparty:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - merchant
+          - bank_account
+          - internal_account
+          - unknown
+    CreateCashAccountAcceptedResponse:
+      type: object
+      required:
+      - requestReferenceId
+      - eligibilityStatus
+      - status
+      properties:
+        requestReferenceId:
+          type: string
+          format: uuid
+        eligibilityStatus:
+          type: string
+        status:
+          type: string
+          example: Accepted
+    BankAccount:
+      type: object
+      description: Bank account linked to the cash account
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the bank account
+          example: 0f5270fe-200a-4c35-b788-bda212973fa2
+        accountName:
+          type: string
+          description: Name on the bank account
+          example: John Doe
+        identifiers:
+          type: array
+          description: List of bank identifiers represented as key/value entries. Identifier type availability is bank and country specific.
+          items:
+            $ref: '#/components/schemas/BankAccountIdentifier'
+        region:
+          type: string
+          description: Region of the bank account
+          example: UK
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+          example: GB
+        bankProvider:
+          type: string
+          description: Banking provider name
+          example: ClearBank
+        institutionName:
+          type: string
+          description: Name of the banking institution
+          example: ClearBank
     Card:
       type: object
       description: Payment card linked to the cash account
@@ -591,26 +748,6 @@ components:
           format: date-time
           description: Card expiration date
           example: '2028-01-31T23:59:59'
-    CashAccountsResponse:
-      type: object
-      description: Response containing the user's cash accounts and creation eligibility status
-      required:
-      - accounts
-      - eligibilityStatus
-      properties:
-        accounts:
-          type: array
-          description: List of cash accounts
-          items:
-            $ref: '#/components/schemas/CashAccount'
-        eligibilityStatus:
-          type: string
-          description: User's creation eligibility status for cash accounts
-          enum:
-          - Ineligible
-          - CardAndIbanEligible
-          - IbanEligible
-          example: CardAndIbanEligible
     CashAccountUserInfo:
       type: object
       properties:
@@ -622,204 +759,6 @@ components:
           - 'null'
         lastName:
           type: string
-    CreateCashAccountAcceptedResponse:
-      type: object
-      required:
-      - requestReferenceId
-      - eligibilityStatus
-      - status
-      properties:
-        requestReferenceId:
-          type: string
-          format: uuid
-        eligibilityStatus:
-          type: string
-        status:
-          type: string
-          example: Accepted
-    CashAccountTransactionsResponse:
-      type: object
-      required:
-      - results
-      - pagination
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CashAccountTransaction'
-        pagination:
-          $ref: '#/components/schemas/PaginationCursor'
-    PaginationCursor:
-      type: object
-      required:
-      - pageSize
-      - hasNext
-      properties:
-        pageSize:
-          type: integer
-        nextPageToken:
-          type:
-          - string
-          - 'null'
-        hasNext:
-          type: boolean
-    BusinessErrorResponse:
-      type: object
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-        errorMessage:
-          type: string
-    CreateCashAccountRequest:
-      type: object
-      required:
-      - requestReferenceId
-      - tncDocId
-      properties:
-        requestReferenceId:
-          type: string
-          format: uuid
-          description: Client-generated idempotency key
-        tncDocId:
-          type: integer
-          format: int64
-          description: Terms and conditions document ID accepted by the user
-    CashAccountEligibilityResponse:
-      type: object
-      required:
-      - eligibilityStatus
-      properties:
-        eligibilityStatus:
-          type: string
-          enum:
-          - Ineligible
-          - CardAndIbanEligible
-          - IbanEligible
-        ineligibilityReasons:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        prerequisite:
-          $ref: '#/components/schemas/CashAccountPrerequisite'
-        contactInfo:
-          $ref: '#/components/schemas/CashAccountContactInfo'
-        userInfo:
-          $ref: '#/components/schemas/CashAccountUserInfo'
-    TncInfo:
-      type: object
-      description: Terms and conditions the client must show and the user must accept before withdrawal.
-      required:
-      - tncDocId
-      - url
-      properties:
-        tncDocId:
-          type: integer
-          format: int64
-          description: Identifier to send back on withdrawal creation.
-          example: 12345
-        url:
-          type: string
-          description: Link the client displays to user (webview/browser).
-          example: https://example.com/tnc/withdraw-crypto-from-trading
-    CashAccountCreationStatusResponse:
-      type: object
-      required:
-      - requestReferenceId
-      - status
-      properties:
-        requestReferenceId:
-          type: string
-          format: uuid
-        status:
-          type: string
-          enum:
-          - Pending
-          - Success
-          - Failure
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        account:
-          $ref: '#/components/schemas/CashAccount'
-          description: Present only when status is Success
-    PublicErrorResponse:
-      type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
-        errorMessage:
-          type: string
-          description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
-    BankAccount:
-      type: object
-      description: Bank account linked to the cash account
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier of the bank account
-          example: 0f5270fe-200a-4c35-b788-bda212973fa2
-        accountName:
-          type: string
-          description: Name on the bank account
-          example: John Doe
-        identifiers:
-          type: array
-          description: List of bank identifiers represented as key/value entries. Identifier type availability is bank and country specific.
-          items:
-            $ref: '#/components/schemas/BankAccountIdentifier'
-        region:
-          type: string
-          description: Region of the bank account
-          example: UK
-        countryCode:
-          type: string
-          description: ISO 3166-1 alpha-2 country code
-          example: GB
-        bankProvider:
-          type: string
-          description: Banking provider name
-          example: ClearBank
-        institutionName:
-          type: string
-          description: Name of the banking institution
-          example: ClearBank
-    BankIdentifierEntry:
-      type: object
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    Counterparty:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - merchant
-          - bank_account
-          - internal_account
-          - unknown
     CardTransactionDetails:
       type: object
       properties:
@@ -847,62 +786,6 @@ components:
           - reversal
           - sysReversal
           - accountFunding
-    CashAccountContactInfo:
-      type: object
-      properties:
-        address:
-          type: string
-        buildingNumber:
-          type: string
-        city:
-          type: string
-        zipCode:
-          type: string
-        country:
-          type: string
-        phone:
-          type: string
-    InternalTransferDetails:
-      type: object
-      required:
-      - transferId
-      properties:
-        transferId:
-          type: string
-    CashAccount:
-      type: object
-      description: A single cash account with bank details and cards (account type is implied by the cash-accounts API surface)
-      required:
-      - id
-      - currency
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier of the cash account
-          example: b2c3d4e5-f6a7-8901-bcde-f12345678901
-        currency:
-          type: string
-          description: ISO 4217 currency code (e.g. GBP, EUR, AUD, DKK)
-          example: GBP
-        status:
-          type: string
-          description: Cash account status
-          enum:
-          - Active
-          - ReceiveOnly
-          - SpendOnly
-          - Suspended
-          - Blocked
-          example: Active
-        bankAccount:
-          $ref: '#/components/schemas/BankAccount'
-          description: Bank account linked to this cash account
-        cards:
-          type: array
-          description: Payment cards linked to this cash account
-          items:
-            $ref: '#/components/schemas/Card'
     BankAccountIdentifier:
       type: object
       required:
@@ -918,6 +801,139 @@ components:
           type: string
           description: Identifier value as returned by the bank.
           example: GB08MRMI04133511549380
+    InternalTransferDetails:
+      type: object
+      required:
+      - transferId
+      properties:
+        transferId:
+          type: string
+    BankTransferDetails:
+      type: object
+      properties:
+        bankIdentifier:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankIdentifierEntry'
+        description:
+          type: string
+        paymentReference:
+          type: string
+    CashAccountsResponse:
+      type: object
+      description: Response containing the user's cash accounts and creation eligibility status
+      required:
+      - accounts
+      - eligibilityStatus
+      properties:
+        accounts:
+          type: array
+          description: List of cash accounts
+          items:
+            $ref: '#/components/schemas/CashAccount'
+        eligibilityStatus:
+          type: string
+          description: User's creation eligibility status for cash accounts
+          enum:
+          - Ineligible
+          - CardAndIbanEligible
+          - IbanEligible
+          example: CardAndIbanEligible
+    TncInfo:
+      type: object
+      description: Terms and conditions the client must show and the user must accept before withdrawal.
+      required:
+      - tncDocId
+      - url
+      properties:
+        tncDocId:
+          type: integer
+          format: int64
+          description: Identifier to send back on withdrawal creation.
+          example: 12345
+        url:
+          type: string
+          description: Link the client displays to user (webview/browser).
+          example: https://example.com/tnc/withdraw-crypto-from-trading
+    CashAccountEligibilityResponse:
+      type: object
+      required:
+      - eligibilityStatus
+      properties:
+        eligibilityStatus:
+          type: string
+          enum:
+          - Ineligible
+          - CardAndIbanEligible
+          - IbanEligible
+        ineligibilityReasons:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        prerequisite:
+          $ref: '#/components/schemas/CashAccountPrerequisite'
+        contactInfo:
+          $ref: '#/components/schemas/CashAccountContactInfo'
+        userInfo:
+          $ref: '#/components/schemas/CashAccountUserInfo'
+    CashAccountTransactionsResponse:
+      type: object
+      required:
+      - results
+      - pagination
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashAccountTransaction'
+        pagination:
+          $ref: '#/components/schemas/PaginationCursor'
+    BusinessErrorResponse:
+      type: object
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+    CreateCashAccountRequest:
+      type: object
+      required:
+      - requestReferenceId
+      - tncDocId
+      properties:
+        requestReferenceId:
+          type: string
+          format: uuid
+          description: Client-generated idempotency key
+        tncDocId:
+          type: integer
+          format: int64
+          description: Terms and conditions document ID accepted by the user
+    CashAccountContactInfo:
+      type: object
+      properties:
+        address:
+          type: string
+        buildingNumber:
+          type: string
+        city:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+    CashAccountPrerequisite:
+      type: object
+      properties:
+        tncInfo:
+          $ref: '#/components/schemas/TncInfo'
     CashAccountTransaction:
       type: object
       required:
@@ -1004,19 +1020,3 @@ components:
           $ref: '#/components/schemas/BankTransferDetails'
         internalTransferTransactionDetails:
           $ref: '#/components/schemas/InternalTransferDetails'
-    BankTransferDetails:
-      type: object
-      properties:
-        bankIdentifier:
-          type: array
-          items:
-            $ref: '#/components/schemas/BankIdentifierEntry'
-        description:
-          type: string
-        paymentReference:
-          type: string
-    CashAccountPrerequisite:
-      type: object
-      properties:
-        tncInfo:
-          $ref: '#/components/schemas/TncInfo'

@@ -460,79 +460,25 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ExposureHistoryResponse:
+    AssetsHistoryAsset:
       type: object
       required:
-      - userName
-      - results
+      - instrumentId
+      - symbol
+      - investedPct
+      - valuePct
       properties:
-        userName:
+        instrumentId:
+          type: integer
+        symbol:
           type: string
-        results:
-          type: array
-          description: Daily snapshots ordered ascending by date.
-          items:
-            $ref: '#/components/schemas/ExposureHistoryEntry'
-    StandardErrorResponse:
-      type: object
-      description: Standard public API error envelope.
-      required:
-      - success
-      - error
-      - timestamp
-      - requestId
-      properties:
-        success:
-          type: boolean
-          example: false
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code.
-              example: UserNotFound
-            message:
-              type: string
-              description: Human-readable error message.
-              example: Username not found.
-            field:
-              type: string
-              description: Request field associated with the error, when applicable.
-        timestamp:
-          type: string
-          format: date-time
-          description: UTC timestamp when the error was generated.
-        requestId:
-          type: string
-          description: Correlation identifier for support and tracing.
-    GainPoint:
-      type: object
-      required:
-      - date
-      - gain
-      properties:
-        date:
-          type: string
-          format: date
-        gain:
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        investedPct:
           type: number
-    RankingPeriod:
-      type: string
-      enum:
-      - CurrMonth
-      - OneMonthAgo
-      - TwoMonthsAgo
-      - CurrQuarter
-      - ThreeMonthsAgo
-      - SixMonthsAgo
-      - CurrYear
-      - OneYearAgo
-      - LastYear
-      - LastTwoYears
+          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
+        valuePct:
+          type: number
+          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
     ExposureHistoryEntry:
       type: object
       required:
@@ -552,6 +498,59 @@ components:
           description: Per-instrument exposure breakdown
           items:
             $ref: '#/components/schemas/ExposureItem'
+    AssetsHistoryEntry:
+      type: object
+      required:
+      - date
+      - cashPct
+      - cashOfTotalEquityPct
+      - assets
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of this snapshot (YYYY-MM-DD)
+        cashPct:
+          type: number
+          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
+        cashOfTotalEquityPct:
+          type: number
+          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
+        assets:
+          type: array
+          description: Per-instrument breakdown. Mirror allocations are excluded.
+          items:
+            $ref: '#/components/schemas/AssetsHistoryAsset'
+    Error:
+      type: object
+      required:
+      - success
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
     ExposureItem:
       type: object
       required:
@@ -593,6 +592,32 @@ components:
           - string
           - 'null'
           description: Human-readable AUM tier label; null when not provided upstream.
+    RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
+    ExposureHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+        results:
+          type: array
+          description: Daily snapshots ordered ascending by date.
+          items:
+            $ref: '#/components/schemas/ExposureHistoryEntry'
     AssetsHistoryResponse:
       type: object
       required:
@@ -606,15 +631,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AssetsHistoryEntry'
-    Error:
+    GainPoint:
       type: object
       required:
+      - date
+      - gain
+      properties:
+        date:
+          type: string
+          format: date
+        gain:
+          type: number
+    StandardErrorResponse:
+      type: object
+      description: Standard public API error envelope.
+      required:
       - success
+      - error
       - timestamp
       - requestId
       properties:
         success:
           type: boolean
+          example: false
         error:
           type: object
           required:
@@ -623,42 +662,22 @@ components:
           properties:
             code:
               type: string
+              description: Machine-readable error code.
+              example: UserNotFound
             message:
               type: string
-            details:
-              type: string
+              description: Human-readable error message.
+              example: Username not found.
             field:
               type: string
-            value:
-              type: string
+              description: Request field associated with the error, when applicable.
         timestamp:
           type: string
           format: date-time
+          description: UTC timestamp when the error was generated.
         requestId:
           type: string
-    AssetsHistoryEntry:
-      type: object
-      required:
-      - date
-      - cashPct
-      - cashOfTotalEquityPct
-      - assets
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date of this snapshot (YYYY-MM-DD)
-        cashPct:
-          type: number
-          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
-        cashOfTotalEquityPct:
-          type: number
-          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
-        assets:
-          type: array
-          description: Per-instrument breakdown. Mirror allocations are excluded.
-          items:
-            $ref: '#/components/schemas/AssetsHistoryAsset'
+          description: Correlation identifier for support and tracing.
     GainHistoryResponse:
       type: object
       required:
@@ -683,22 +702,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GainPoint'
-    AssetsHistoryAsset:
-      type: object
-      required:
-      - instrumentId
-      - symbol
-      - investedPct
-      - valuePct
-      properties:
-        instrumentId:
-          type: integer
-        symbol:
-          type: string
-          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
-        investedPct:
-          type: number
-          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
-        valuePct:
-          type: number
-          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'

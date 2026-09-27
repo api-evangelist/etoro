@@ -621,6 +621,148 @@ paths:
                 errorMessage: Global Error
 components:
   schemas:
+    GetBalancesResponse:
+      type: object
+      description: Aggregated balances for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        totalBalance:
+          type: number
+          format: double
+          description: Sum of all account balances converted to the requested display currency.
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for totalBalance and displayBalance values.
+        balances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AccountBalanceData'
+          description: Individual account balances.
+      additionalProperties: false
+    BalancesErrorResponse:
+      type: object
+      description: Error response returned for client-side errors (4xx).
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
+        message:
+          type:
+          - string
+          - 'null'
+          description: Human-readable error message.
+        requestId:
+          type:
+          - string
+          - 'null'
+          description: Request ID for tracing and support.
+      additionalProperties: false
+    EquityDetailsData:
+      type: object
+      description: Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account's provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex.
+      properties:
+        available:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Available balance or buying power (Trading, Options, MoneyFarm, Cash).
+        frozenCash:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Cash frozen by the platform pending settlement (Trading).
+        currentPNL:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Current unrealized profit and loss on open positions (Trading).
+        totalUsedMargin:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Total margin used by open positions (Trading).
+        cryptoId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: eToro internal crypto asset identifier (Crypto).
+        balance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Balance in native crypto units (Crypto).
+        totalBalance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Total balance in native crypto units, including pending (Crypto).
+        spendableBalance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Spendable balance in native crypto units (Crypto).
+        balanceInFiat:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Balance converted to fiat (Crypto).
+        totalBalanceInFiat:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Total balance converted to fiat, including pending (Crypto).
+        spendableBalanceInFiat:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Spendable balance converted to fiat (Crypto).
+        fiatConversionCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for the InFiat values (Crypto).
+        orderIndex:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Display order index for sorting (Crypto).
+      additionalProperties: false
+    PublicErrorResponse:
+      type: object
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
     HistoricalDailySnapshotData:
       type: object
       description: End-of-day balance snapshot for a specific date.
@@ -735,6 +877,41 @@ components:
           format: double
           description: Exchange rate applied to convert to displayCurrency.
       additionalProperties: false
+    AccountType:
+      type: string
+      enum:
+      - trading
+      - options
+      - cash
+    GetHistoricalBalancesResponse:
+      type: object
+      description: Historical end-of-day balance snapshots for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for display values.
+        fromDate:
+          type: string
+          format: date
+          description: Start of the returned date range (inclusive, ISO 8601).
+        toDate:
+          type: string
+          format: date
+          description: End of the returned date range (inclusive, ISO 8601).
+        snapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/HistoricalDailySnapshotData'
+          description: End-of-day balance snapshots, one entry per day in the requested range.
+      additionalProperties: false
     AccountBalanceData:
       type: object
       description: Balance data for a single account.
@@ -775,181 +952,4 @@ components:
           description: Exchange rate applied to convert balance to displayCurrency.
         equityDetails:
           $ref: '#/components/schemas/EquityDetailsData'
-      additionalProperties: false
-    BalancesErrorResponse:
-      type: object
-      description: Error response returned for client-side errors (4xx).
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
-        message:
-          type:
-          - string
-          - 'null'
-          description: Human-readable error message.
-        requestId:
-          type:
-          - string
-          - 'null'
-          description: Request ID for tracing and support.
-      additionalProperties: false
-    GetHistoricalBalancesResponse:
-      type: object
-      description: Historical end-of-day balance snapshots for the authenticated user.
-      properties:
-        gcid:
-          type: integer
-          format: int64
-          description: The user's global customer ID.
-        displayCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for display values.
-        fromDate:
-          type: string
-          format: date
-          description: Start of the returned date range (inclusive, ISO 8601).
-        toDate:
-          type: string
-          format: date
-          description: End of the returned date range (inclusive, ISO 8601).
-        snapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/HistoricalDailySnapshotData'
-          description: End-of-day balance snapshots, one entry per day in the requested range.
-      additionalProperties: false
-    PublicErrorResponse:
-      type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
-        errorMessage:
-          type: string
-          description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
-    GetBalancesResponse:
-      type: object
-      description: Aggregated balances for the authenticated user.
-      properties:
-        gcid:
-          type: integer
-          format: int64
-          description: The user's global customer ID.
-        totalBalance:
-          type: number
-          format: double
-          description: Sum of all account balances converted to the requested display currency.
-        displayCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for totalBalance and displayBalance values.
-        balances:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AccountBalanceData'
-          description: Individual account balances.
-      additionalProperties: false
-    AccountType:
-      type: string
-      enum:
-      - trading
-      - options
-      - cash
-    EquityDetailsData:
-      type: object
-      description: Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account's provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex.
-      properties:
-        available:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Available balance or buying power (Trading, Options, MoneyFarm, Cash).
-        frozenCash:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Cash frozen by the platform pending settlement (Trading).
-        currentPNL:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Current unrealized profit and loss on open positions (Trading).
-        totalUsedMargin:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Total margin used by open positions (Trading).
-        cryptoId:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: eToro internal crypto asset identifier (Crypto).
-        balance:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Balance in native crypto units (Crypto).
-        totalBalance:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Total balance in native crypto units, including pending (Crypto).
-        spendableBalance:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Spendable balance in native crypto units (Crypto).
-        balanceInFiat:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Balance converted to fiat (Crypto).
-        totalBalanceInFiat:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Total balance converted to fiat, including pending (Crypto).
-        spendableBalanceInFiat:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Spendable balance converted to fiat (Crypto).
-        fiatConversionCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for the InFiat values (Crypto).
-        orderIndex:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: Display order index for sorting (Crypto).
       additionalProperties: false

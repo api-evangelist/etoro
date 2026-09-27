@@ -523,74 +523,6 @@ paths:
                 $ref: '#/components/schemas/StocksIndustriesResponse'
 components:
   schemas:
-    LiveRatesResponse:
-      type: object
-      description: Container for real-time market rates data
-      properties:
-        rates:
-          type: array
-          description: Array of current market rates for requested instruments
-          items:
-            type: object
-            description: Individual instrument rate information
-            properties:
-              instrumentID:
-                type: integer
-                description: Unique identifier for the financial instrument
-              ask:
-                type: number
-                format: float
-                description: Current asking price (offer) for the instrument. This is the price at which you can buy the asset.
-              bid:
-                type: number
-                format: float
-                description: Current bid price for the instrument. This is the price at which you can sell the asset.
-              lastExecution:
-                type: number
-                format: float
-                description: Price of the most recent trade execution for this instrument
-              conversionRateAsk:
-                type: number
-                format: float
-                description: Current conversion rate (ask) from instrument's currency to USD, used for position value calculations
-              conversionRateBid:
-                type: number
-                format: float
-                description: Current conversion rate (bid) from instrument's currency to USD, used for position value calculations
-              date:
-                type: string
-                format: date-time
-                description: The date-time of the price in the system
-              unitMargin:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument price
-              unitMarginAsk:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument ask price
-              unitMarginBid:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument bid price
-              priceRateID:
-                type: integer
-              bidDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              askDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              unitMarginBidDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              unitMarginAskDiscounted:
-                type: number
-                format: float
-                description: Obsolete
     ExchangesResponse:
       type: object
       properties:
@@ -603,22 +535,6 @@ components:
                 type: integer
               exchangeDescription:
                 type: string
-    InstrumentSearchResponse:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: The current page number.
-        pageSize:
-          type: integer
-          description: The number of items per page.
-        totalItems:
-          type: integer
-          description: The total number of instruments matching the search criteria.
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Instrument'
     closingPricesResponse:
       type: array
       description: List of closing prices for all instruments
@@ -676,30 +592,6 @@ components:
                     type: string
                     format: date-time
                     description: Date and time of the closing price in ISO 8601 format. Default date (0001-01-01) indicates no data available.
-    InstrumentTypesResponse:
-      type: object
-      properties:
-        instrumentTypes:
-          type: array
-          items:
-            type: object
-            properties:
-              instrumentTypeID:
-                type: integer
-              instrumentTypeDescription:
-                type: string
-    StocksIndustriesResponse:
-      type: object
-      properties:
-        stocksIndustries:
-          type: array
-          items:
-            type: object
-            properties:
-              industryID:
-                type: integer
-              industryName:
-                type: string
     candlesResponse:
       type: object
       description: Response containing historical price data in candlestick format
@@ -976,6 +868,18 @@ components:
         sectorNameId:
           type: integer
           description: The sector name ID.
+    StocksIndustriesResponse:
+      type: object
+      properties:
+        stocksIndustries:
+          type: array
+          items:
+            type: object
+            properties:
+              industryID:
+                type: integer
+              industryName:
+                type: string
     InstrumentsResponse:
       type: object
       properties:
@@ -1021,3 +925,99 @@ components:
                       type: string
                     textColor:
                       type: string
+    InstrumentSearchResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: The current page number.
+        pageSize:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of instruments matching the search criteria.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instrument'
+    LiveRatesResponse:
+      type: object
+      description: Container for real-time market rates data
+      properties:
+        rates:
+          type: array
+          description: Array of current market rates for requested instruments
+          items:
+            type: object
+            description: Individual instrument rate information
+            properties:
+              instrumentID:
+                type: integer
+                description: Unique identifier for the financial instrument
+              ask:
+                type: number
+                format: float
+                description: Current asking price (offer) for the instrument. This is the price at which you can buy the asset.
+              bid:
+                type: number
+                format: float
+                description: Current bid price for the instrument. This is the price at which you can sell the asset.
+              lastExecution:
+                type: number
+                format: float
+                description: Price of the most recent trade execution for this instrument
+              conversionRateAsk:
+                type: number
+                format: float
+                description: Current conversion rate (ask) from instrument's currency to USD, used for position value calculations
+              conversionRateBid:
+                type: number
+                format: float
+                description: Current conversion rate (bid) from instrument's currency to USD, used for position value calculations
+              date:
+                type: string
+                format: date-time
+                description: The date-time of the price in the system
+              unitMargin:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument price
+              unitMarginAsk:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument ask price
+              unitMarginBid:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument bid price
+              priceRateID:
+                type: integer
+              bidDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              askDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              unitMarginBidDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              unitMarginAskDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+    InstrumentTypesResponse:
+      type: object
+      properties:
+        instrumentTypes:
+          type: array
+          items:
+            type: object
+            properties:
+              instrumentTypeID:
+                type: integer
+              instrumentTypeDescription:
+                type: string

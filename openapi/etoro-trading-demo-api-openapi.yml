@@ -1346,31 +1346,795 @@ paths:
           description: Internal server error.
 components:
   schemas:
-    ProblemDetails:
+    UnifiedOrderResponse:
+      type: object
+      description: Response payload after successfully submitting an order.
+      properties:
+        token:
+          type: string
+          format: uuid
+          description: A tracking token for the order request, used for correlation and debugging.
+          example: 066faaee-e1e9-49d2-a568-c6e1cc336ad8
+        orderId:
+          type: integer
+          format: int64
+          description: The unique identifier of the created order.
+          example: 13902598
+        referenceId:
+          type: string
+          format: uuid
+          description: The client reference identifier for the order, matching the X-Request-Id header if provided.
+          example: 1c94300c-90aa-4303-9d00-dec376d74efb
+    ClientPortfolio:
       type: object
       properties:
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Position'
+          description: List of currently open trading positions
+        credit:
+          type: number
+          format: float
+          description: Available trading balance in USD, representing funds available for new actions
+        mirrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mirror'
+          description: Copy trading configurations and positions
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+          description: List of pending orders
+        ordersForOpen:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderForOpen'
+          description: Active orders to open positions
+        ordersForClose:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderForClose'
+          description: Active orders to close positions
+        ordersForCloseMultiple:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderForCloseMultiple'
+          description: Active orders to close multiple positions
+        bonusCredit:
+          type: number
+          format: float
+          description: Bonus credit amount in USD in the account
+        unrealizedPnL:
+          type: number
+          format: float
+          description: Total unrealized profit and loss across all open positions in the portfolio
+        accountCurrencyId:
+          type: integer
+          description: Currency ID of the account (1 = USD)
+        stockOrders:
+          type: array
+          items:
+            type: object
+          description: Stock-specific pending orders
+        entryOrders:
+          type: array
+          items:
+            type: object
+          description: Entry orders awaiting execution
+        exitOrders:
+          type: array
+          items:
+            type: object
+          description: Exit orders awaiting execution
+    GetOrderInfoResponse:
+      type: object
+      description: Detailed information about a specific order retrieved via the orders lookup endpoint.
+      properties:
+        accountId:
+          type: integer
+          format: int64
+          description: The account identifier associated with this order.
+        gcid:
+          type: integer
+          format: int64
+          description: The global customer identifier.
+        portfolioId:
+          type: integer
+          format: int32
+          description: The portfolio identifier.
+        orderId:
+          type: integer
+          format: int64
+          description: The unique identifier of the order.
+        action:
+          type: string
+          description: 'The order action. Possible values: open, close.'
+        transaction:
+          type: string
+          description: 'The transaction direction. Possible values: buy, sell, sellShort, buyToCover.'
         type:
-          type:
-          - string
-          - 'null'
-        title:
-          type:
-          - string
-          - 'null'
+          type: string
+          description: 'The order type. Possible values: mkt, mit.'
+        etoroOrderTypeId:
+          type: integer
+          format: int32
+          description: The internal eToro order type identifier.
         status:
+          $ref: '#/components/schemas/GetOrderInfoStatus'
+        asset:
+          $ref: '#/components/schemas/GetOrderInfoAsset'
+        orderCurrency:
+          type: string
+          description: The currency used for the order.
+        requestedAmount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The requested monetary amount for the order.
+        requestedUnits:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The requested number of units for the order.
+        requestedContracts:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The requested number of contracts for the order.
+        frozenAmount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The amount frozen/reserved for the order including costs.
+        requestedTriggerRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The trigger rate for limit or stop orders.
+        openStopLossRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The stop-loss rate at order open.
+        openTakeProfitRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The take-profit rate at order open.
+        stopLossType:
+          type:
+          - string
+          - 'null'
+          description: 'The stop-loss type. Possible values: fixed, trailing.'
+        totalCosts:
+          type: number
+          format: double
+          description: Total costs associated with the order.
+        positionsToClose:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: List of position IDs to close as part of a close order.
+        positionExecutions:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetOrderInfoPositionExecution'
+          description: List of position executions resulting from this order.
+        requestTime:
+          type: string
+          format: date-time
+          description: The timestamp when the order was requested.
+        lastUpdate:
+          type: string
+          format: date-time
+          description: The timestamp of the last update to the order.
+        openActionType:
+          type: string
+          description: The action type that initiated the order.
+        requestType:
+          type: string
+          description: 'The request sizing type. Possible values: byAmount, byUnits, byContracts.'
+    Mirror:
+      type: object
+      properties:
+        mirrorID:
+          type: integer
+          description: Unique identifier for the mirror
+        CID:
+          type: integer
+          description: Customer ID associated with the mirror
+        parentCID:
+          type: integer
+          description: Customer ID of the trader being copied
+        stopLossPercentage:
+          type: number
+          format: float
+          description: The precentage of the mirror value that the StopLossAmount represented at the time of the last edit. Adding or removing funds from the mirror will trigger recalculation of StopLossAmount based on this value compared to the current mirror value
+        isPaused:
+          type: boolean
+          description: Indication if the mirror is currently paused, restricting open of additional positions inside the mirror
+        copyExistingPositions:
+          type: boolean
+          description: Indication if mirror originally copied all parent existing position on mirror registration
+        availableAmount:
+          type: number
+          format: float
+          description: Available to trade USD balance in the mirror. This balance is reserved for mirror operations
+        stopLossAmount:
+          type: number
+          format: float
+          description: USD value of the mirror at which MirrorStopLoss will be triggered and cause liquidation of the mirror. Adding or removing funds from the mirror will trigger recalculation of this value based on StopLossPercentage compared to the current mirror value
+        initialInvestment:
+          type: number
+          format: float
+          description: USD amount initially invested in the mirror
+        depositSummary:
+          type: number
+          format: float
+          description: Total USD amount deposited into the mirror after initial investment
+        withdrawalSummary:
+          type: number
+          format: float
+          description: Total USD amount withdrawn from the mirror
+        positions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Position'
+          description: List of currently open trading positions in the mirror
+        parentUsername:
+          type: string
+          description: Username of the trader being copied
+        closedPositionsNetProfit:
+          type: number
+          format: float
+          description: Total USD net profit of all positions that closed in the mirror
+        startedCopyDate:
+          type: string
+          format: date-time
+          description: Date and time when the mirror trading was initiated
+        pendingForClosure:
+          type: boolean
+          description: Indication if the mirror is in closure process
+        parentMirrors:
+          type: array
+          items:
+            type: object
+          description: Parent mirrors for this mirror (if any)
+        mirrorCalculationType:
+          type: integer
+          description: (Obsolete) Mirror positions weights calculation methodology
+        ordersForOpen:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderForOpen'
+          description: Active orders in the mirror to open positions
+        ordersForClose:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderForClose'
+          description: Active orders in the mirror to close positions
+        ordersForCloseMultiple:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderForCloseMultiple'
+          description: Active orders in the mirror to close positions
+        mirrorStatusID:
+          type: integer
+          description: Current status of the mirror. 0 - Active, 1 - Paused, 2 - Pending Closure, 3 - In Alignment Process
+        delayedOrderForClose:
+          type: array
+          items:
+            type: object
+          description: Delayed orders for closing positions
+        delayedOrderForOpen:
+          type: array
+          items:
+            type: object
+          description: Delayed orders for opening positions
+        entryOrders:
+          type: array
+          items:
+            type: object
+          description: Entry orders awaiting execution in the mirror
+        exitOrders:
+          type: array
+          items:
+            type: object
+          description: Exit orders awaiting execution in the mirror
+    InstrumentEligibilityRequest:
+      type: object
+      description: Request payload for checking instrument eligibility. At least one of `instrumentIds` or `symbols` must be provided; combined length must not exceed 100 instruments.
+      properties:
+        instrumentIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+            format: int32
+          description: Optional list of instrument IDs to check.
+        symbols:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Optional list of instrument symbols to check.
+        currency:
+          type: string
+          default: USD
+          description: Requested currency for financial amounts in the eligibility response (e.g. minimum position size). Currently only USD is supported.
+    UnifiedOrderRequest:
+      type: object
+      description: Request payload for creating an order to open or close a position.
+      required:
+      - action
+      - transaction
+      properties:
+        action:
+          type: string
+          description: 'The order action type. Possible values: open, close.'
+          enum:
+          - open
+          - close
+          example: open
+        transaction:
+          type: string
+          description: 'The transaction direction. Possible values: buy, sell, sellShort, buyToCover.'
+          enum:
+          - buy
+          - sell
+          - sellShort
+          - buyToCover
+          example: buy
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: The asset ticker symbol. Required for open orders.
+          example: AAPL
+        instrumentId:
           type:
           - integer
           - 'null'
           format: int32
-        detail:
+          description: The eToro instrument identifier. Required for open orders.
+          example: 101
+        settlementType:
           type:
           - string
           - 'null'
-        instance:
+          description: 'The settlement type. Possible values: cfd, real, realFutures, marginTrade. Required for open orders.'
+          enum:
+          - cfd
+          - real
+          - realFutures
+          - marginTrade
+          example: cfd
+        orderType:
+          type: string
+          description: 'The order execution type. Possible values: mkt (market), mit (market if touched).'
+          enum:
+          - mkt
+          - mit
+          example: mkt
+        triggerRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The trigger rate for mit orders. Required for mit orders.
+        leverage:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: The leverage multiplier to apply. Required for open orders.
+          example: 2
+        amount:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The monetary amount to invest in the order currency. Mutually exclusive with units and contracts.
+          example: 1000.0
+        orderCurrency:
           type:
           - string
           - 'null'
-      additionalProperties: {}
+          description: The currency for the order amount. Typically usd.
+          example: usd
+        units:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The number of units to trade. Mutually exclusive with amount and contracts.
+        contracts:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The number of contracts to trade. Mutually exclusive with amount and units.
+        stopLossRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The stop-loss rate at which the position will automatically close.
+          example: 1.2
+        takeProfitRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The take-profit rate at which the position will automatically close.
+          example: 1.5
+        stopLossType:
+          type:
+          - string
+          - 'null'
+          description: 'The stop-loss type. Possible values: fixed, trailing.'
+          enum:
+          - fixed
+          - trailing
+          example: fixed
+        additionalMargin:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Additional margin to allocate to the position.
+        positionIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+            format: int64
+          description: List of position IDs to close. Required for close orders.
+    Order:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          description: Unique identifier for the order
+        cid:
+          type: integer
+          description: Customer ID associated with the order
+        openDateTime:
+          type: string
+          format: date-time
+          description: Date and time when the order was created
+        instrumentId:
+          type: integer
+          description: Identifier of the instrument being traded
+        isBuy:
+          type: boolean
+          description: Direction of the position. true - Long, false - Short
+        takeProfitRate:
+          type: number
+          format: float
+          description: Rate at which TakeProfit will trigger and send MarketOrder to close the position once it is open
+        stopLossRate:
+          type: number
+          format: float
+          description: Rate at which StopLoss will trigger and send MarketOrder to close the position once it is open
+        rate:
+          type: number
+          format: float
+          description: Asset rate at which to send market order to the market
+        amount:
+          type: number
+          format: float
+          description: USD amount to invest in the position
+        leverage:
+          type: integer
+          description: Leverage multiplier to apply to the position
+        units:
+          type: number
+          format: float
+          description: Units to open the position. If this value is greater than zero the position will open on the requested units, and not amount
+        isTslEnabled:
+          type: boolean
+          description: Indication if to enable TSL feature on the position once it is open
+        executionType:
+          type: integer
+          description: Type of order execution
+        isDiscounted:
+          type: boolean
+          description: Obsolete
+        isNoTakeProfit:
+          type: boolean
+          description: Indication if TakeProfit is enabled for the order. false = enabled, true = disabled
+        isNoStopLoss:
+          type: boolean
+          description: Indication if StopLoss is enabled for the order. false = enabled, true = disabled
+    GetOrderInfoAsset:
+      type: object
+      description: Asset information associated with the order.
+      properties:
+        symbol:
+          type: string
+          description: The asset ticker symbol.
+        instrumentId:
+          type: integer
+          format: int32
+          description: The eToro instrument identifier.
+        currency:
+          type: string
+          description: The asset's base currency.
+        settlementType:
+          type: string
+          description: 'Settlement type. Possible values: cfd, real, realFutures, marginTrade.'
+        leverage:
+          type: integer
+          format: int32
+          description: The leverage applied to the order.
+        side:
+          type: string
+          description: 'The position side. Possible values: long, short.'
+    InstrumentEligibilityResponse:
+      type: object
+      description: Response containing trading configuration for all requested instruments.
+      properties:
+        currency:
+          type: string
+          description: The currency used for all monetary values in this response.
+        eligibilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentEligibility'
+          description: Trading configuration for each resolved instrument.
+        notFoundInstrumentIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Instrument IDs that were requested but could not be found.
+        notFoundSymbols:
+          type: array
+          items:
+            type: string
+          description: Symbols that were requested but could not be found.
+    Position:
+      type: object
+      properties:
+        positionID:
+          type: integer
+          description: Unique identifier for the position
+        CID:
+          type: integer
+          description: Customer ID associated with the position
+        openDateTime:
+          type: string
+          format: date-time
+          description: Timestamp when the position was opened in ISO 8601 format
+        openRate:
+          type: number
+          format: float
+          description: Entry price of the position in the instrument's currency
+        instrumentID:
+          type: integer
+          description: Identifier of the traded instrument
+        mirrorID:
+          type: integer
+          description: Mirror ID if the position is part of copy trading, 0 otherwise
+        parentPositionID:
+          type: integer
+          description: Parent position ID for mirrored positions, 0 otherwise
+        isBuy:
+          type: boolean
+          description: 'Position direction: true for long (buy) positions, false for short (sell) positions'
+        takeProfitRate:
+          type: number
+          format: float
+          description: Rate at which TakeProfit will trigger and send MarketOrder to close the position
+        stopLossRate:
+          type: number
+          format: float
+          description: Rate at which StopLoss will trigger and send MarketOrder to close the position
+        amount:
+          type: number
+          format: float
+          description: USD amount allocated to the position. This amount includes both the initial investment, and additional margin allocated to the position as collateral
+        leverage:
+          type: integer
+          description: Leverage multiplier applied to the position
+        orderID:
+          type: integer
+          description: Original orderID the position was opened by. Need to match together with orderType
+        orderType:
+          type: integer
+          description: Original orderType of the order the position was opened by. Need to match together with orderId
+        units:
+          type: number
+          format: float
+          description: Number of units in the position
+        totalFees:
+          type: number
+          format: float
+          description: Total overnight fees and dividends charged/paid on the position in USD. Negative amount represents refund
+        initialAmountInDollars:
+          type: number
+          format: float
+          description: Initial investment USD amount in the position. This value does not change in case the position was partially closed
+        isTslEnabled:
+          type: boolean
+          description: Indication if TrailingStopLoss feature is active on this position
+        stopLossVersion:
+          type: integer
+          description: Manual stop loss edit version. Each time StopLossRate is manually update this value is incremented
+        isSettled:
+          type: boolean
+          description: Obsolete
+        redeemStatusID:
+          type: integer
+          description: If the position is currently in redeem process, this value represents the current status
+        initialUnits:
+          type: number
+          format: float
+          description: Initial invested units in the position. This value does not change in case the position was partially closed
+        isPartiallyAltered:
+          type: boolean
+          description: Indication whether this position was partially closed
+        unitsBaseValueDollars:
+          type: number
+          format: float
+          description: USD value of the current units in the position, based on the initial investment. If the position was not partially altered, this value equals initialAmountInDollars
+        isDiscounted:
+          type: boolean
+          description: Obsolete. This value is used to indicate if the relevant prices for the position are Ask/Bid or AskDiscounted/BidDiscounted
+        openPositionActionType:
+          type: integer
+          description: Position open reason
+        settlementTypeID:
+          type: integer
+          description: Position investment type. 0 - CFD, 1 - Real Asset, 2 - SWAP, 3 - Crypto MarginTrade, 4 - Future Contract
+        isDetached:
+          type: boolean
+          description: Indication if the position was originally opened inside a mirror and detached from it
+        openConversionRate:
+          type: number
+          format: float
+          description: Conversion rate from the asset currency to USD at the time the position was opened
+        pnlVersion:
+          type: integer
+          description: Pnl formula used for calculating profit and loss
+        totalExternalFees:
+          type: number
+          format: float
+          description: Total fees in USD charged on the position. Example - TicketFee. This value does not include overnight fees and dividends
+        totalExternalTaxes:
+          type: number
+          format: float
+          description: Total taxes in USD charged on the position. Example - SDRT
+        isNoTakeProfit:
+          type: boolean
+          description: Indication if TakeProfit is enabled for the position. false = enabled, true = disabled
+        isNoStopLoss:
+          type: boolean
+          description: Indication if StopLoss is enabled for the position. false = enabled, true = disabled
+        lotCount:
+          type: number
+          format: float
+          description: Number of lots the position represents. For FutureContracts, this value represents the number of contracts acquired. This property is not relevant for instruments that are not futures instruments
+        unrealizedPnL:
+          type:
+          - object
+          - 'null'
+          description: Unrealized profit/loss details for the position (only present in PnL endpoints)
+          properties:
+            pnL:
+              type: number
+              format: float
+              description: Unrealized P&L in account currency
+            pnlAssetCurrency:
+              type: number
+              format: float
+              description: Unrealized P&L in asset currency
+            exposureInAccountCurrency:
+              type: number
+              format: float
+              description: Current exposure in account currency
+            exposureInAssetCurrency:
+              type: number
+              format: float
+              description: Current exposure in asset currency
+            marginInAccountCurrency:
+              type: number
+              format: float
+              description: Margin in account currency
+            marginInAssetCurrency:
+              type: number
+              format: float
+              description: Margin in asset currency
+            marginCurrencyId:
+              type: integer
+              description: Currency ID for margin
+            assetCurrencyId:
+              type: integer
+              description: Currency ID for the asset
+            closeRate:
+              type: number
+              format: float
+              description: Current close rate
+            closeConversionRate:
+              type: number
+              format: float
+              description: Current close conversion rate
+            timestamp:
+              type: string
+              format: date-time
+              description: Timestamp of the PnL calculation
+    CostBreakdown:
+      type: object
+      description: Individual cost component (markup, fees, SDRT) in the requested order currency.
+      properties:
+        costType:
+          type: string
+          description: Identifies which cost component this entry represents.
+          enum:
+          - markup
+          - marketSpread
+          - transactionFee
+          - overnightFee
+          - overWeekendFee
+          - sdrt
+        amount:
+          type: number
+          format: double
+          description: The monetary value of this cost component, expressed in `currency`.
+        currency:
+          type: string
+          description: ISO 4217 currency code in which `amount` is denominated.
+    OrderForClose:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          description: Unique identifier for the closing order.
+        orderType:
+          type: integer
+          description: Type of order executed.
+        statusId:
+          type: integer
+          description: Status of the closing order.
+        cid:
+          type: integer
+          description: Customer ID associated with the order.
+        openDateTime:
+          type: string
+          format: date-time
+          description: The timestamp when the order was placed.
+        lastUpdate:
+          type: string
+          format: date-time
+          description: The timestamp of the last update to this order.
+        instrumentId:
+          type: integer
+          description: The ID of the instrument traded.
+        unitsToDeduct:
+          type: number
+          format: float
+          description: The number of units closed in this order.
+        lotsToDeduct:
+          type: number
+          format: float
+          description: The number of lots closed in this order.
+        positionId:
+          type: integer
+          description: The ID of the closed position.
     AggregatedPortfolioMirrorTotals:
       type: object
       description: Aggregated totals for a copy-trading mirror.
@@ -1403,113 +2167,89 @@ components:
           type: number
           format: double
           description: 'Total margin in active use within this mirror: mirrorAvailableCash + sum of position margins minus closed positions P&L.'
-    InstrumentEligibility:
+    OrderForOpen:
       type: object
-      description: Full trading configuration for a single instrument, including position limits, trading permissions, order configuration, margin settings, and available leverage.
       properties:
-        instrumentId:
+        orderId:
           type: integer
-          format: int32
-          description: Unique identifier for the instrument.
-        symbol:
-          type: string
-          description: Trading symbol of the instrument (e.g. AAPL, EURUSD).
-        minPositionExposure:
-          type: number
-          format: decimal
-          description: Minimum exposure value required to open a position on this instrument.
-        maxUnitsPerOrder:
-          type: number
-          format: decimal
-          description: Maximum number of units allowed per single order.
-        allowOpenPosition:
-          type: boolean
-          description: Whether opening new positions is currently permitted.
-        allowClosePosition:
-          type: boolean
-          description: Whether closing existing positions is currently permitted.
-        allowPartialClosePosition:
-          type: boolean
-          description: Whether partially closing an existing position is permitted.
-        allowMitOrders:
-          type: boolean
-          description: Whether Market-if-Touched (limit) orders are supported.
-        allowEntryOrders:
-          type: boolean
-          description: Whether submitting open orders when the market is closed is allowed.
-        allowExitOrders:
-          type: boolean
-          description: Whether submitting close orders when the market is closed is allowed.
-        allowTrailingStopLoss:
-          type: boolean
-          description: Whether a trailing stop-loss can be set on positions for this instrument.
-        requiresW8Ben:
-          type:
-          - boolean
-          - 'null'
-          description: Whether a W-8BEN tax form is required to trade this instrument. Null if not applicable.
-        unitsQuantityType:
-          type: string
-          description: 'What trade quantity type is allowed. Possible values: `WholeUnits`, `FractionalUnits`.'
-        orderFillBehaviorType:
-          type: string
-          description: 'How orders are filled for this instrument. Possible values: `BestEffort`, `FillOrKill`.'
-        allowedOrderQuantityType:
-          type: string
-          description: 'How order size can be specified. Possible values: `Units`, `Amount`, `Both`.'
-        tradeUnitType:
-          type: string
-          description: 'Unit type used to express trade size. Possible values: `Units`, `Lots`.'
-        initialMarginInAssetCurrency:
-          type:
-          - number
-          - 'null'
-          format: decimal
-          description: Initial margin expressed in the asset currency. Null if not applicable.
-        stopLossMarginInAssetCurrency:
-          type:
-          - number
-          - 'null'
-          format: decimal
-          description: Stop-loss margin expressed in the asset currency. Null if not applicable.
-        additionalBufferPercent:
-          type:
-          - number
-          - 'null'
-          format: decimal
-          description: Additional buffer applied to the current rate to limit the order execution price - usually for low-liquidity assets. This also causes additional funds to be reserved for the order. Null if no buffer.
-        leverageConfigs:
-          type: array
-          items:
-            $ref: '#/components/schemas/LeverageConfiguration'
-          description: Available leverage configurations, each specific to a settlement type and direction.
-    AggregatedPortfolioResponse:
-      type: object
-      description: Complete snapshot of the authenticated user's investment portfolio, organized by asset.
-      properties:
+          description: Unique identifier for the order
+        orderType:
+          type: integer
+          description: Type of order executed
+        statusId:
+          type: integer
+          description: Status of the order
         cid:
           type: integer
-          format: int32
-          description: Customer ID.
-        timestamp:
+          description: Customer ID associated with the order
+        openDateTime:
           type: string
           format: date-time
-          description: Time at which this portfolio snapshot was calculated.
-        accountCurrency:
+          description: The timestamp when the order was opened.
+        lastUpdate:
           type: string
-          description: ISO 4217 code of the account's base currency (e.g. 'USD').
-        accountTotals:
-          $ref: '#/components/schemas/AggregatedPortfolioAccountTotals'
-        instrumentAggregates:
-          type: array
-          description: Positions held directly (not via copy trading), grouped by instrument.
-          items:
-            $ref: '#/components/schemas/AggregatedPortfolioInstrumentAggregate'
-        mirrors:
-          type: array
-          description: Copy-trading relationships the user has active.
-          items:
-            $ref: '#/components/schemas/AggregatedPortfolioMirrorAggregate'
+          format: date-time
+          description: The last update timestamp of the order.
+        instrumentId:
+          type: integer
+          description: The unique identifier of the financial instrument to trade.
+        amount:
+          type: number
+          format: float
+          description: The amount of money to invest in the trade.
+        amountInUnits:
+          type: number
+          format: float
+          description: The number of units to trade.
+        isBuy:
+          type: boolean
+          description: True for a buy (long) order, false for a sell (short) order.
+        leverage:
+          type: integer
+          description: The leverage multiplier for the trade.
+        stopLossRate:
+          type: number
+          format: float
+          description: The stop-loss rate at which the trade will automatically close to limit losses.
+        takeProfitRate:
+          type: number
+          format: float
+          description: The take-profit rate at which the trade will automatically close to secure profits.
+        isTslEnabled:
+          type: boolean
+          description: Indicates whether a trailing stop-loss is enabled.
+        isDiscounted:
+          type: boolean
+          description: Indicates if the order is eligible for a discount.
+        mirrorId:
+          type: integer
+          description: ID related to mirrored trades, if applicable.
+        frozenAmount:
+          type: number
+          format: float
+          description: Amount frozen for the order.
+        totalExternalCosts:
+          type: number
+          format: float
+          description: Total external costs associated with the trade.
+        isNoTakeProfit:
+          type: boolean
+          description: True if no take-profit is set for this order.
+        isNoStopLoss:
+          type: boolean
+          description: True if no stop-loss is set for this order.
+        lotCount:
+          type: number
+          format: float
+          description: The number of lots in the order.
+        openPositionActionType:
+          type: integer
+          description: Position open reason.
+        externalOperation:
+          type:
+          - object
+          - 'null'
+          description: External operation details, if any.
     PortfolioResponse:
       type: object
       description: Comprehensive portfolio information including positions, orders, and account status
@@ -1727,69 +2467,33 @@ components:
               type: number
               format: float
               description: Bonus credit amount in USD available for trading
-    ClientPortfolio:
+    GetOrderInfoStatus:
       type: object
+      description: Status information for the order.
       properties:
-        positions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Position'
-          description: List of currently open trading positions
-        credit:
-          type: number
-          format: float
-          description: Available trading balance in USD, representing funds available for new actions
-        mirrors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Mirror'
-          description: Copy trading configurations and positions
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Order'
-          description: List of pending orders
-        ordersForOpen:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderForOpen'
-          description: Active orders to open positions
-        ordersForClose:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderForClose'
-          description: Active orders to close positions
-        ordersForCloseMultiple:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderForCloseMultiple'
-          description: Active orders to close multiple positions
-        bonusCredit:
-          type: number
-          format: float
-          description: Bonus credit amount in USD in the account
-        unrealizedPnL:
-          type: number
-          format: float
-          description: Total unrealized profit and loss across all open positions in the portfolio
-        accountCurrencyId:
+        id:
           type: integer
-          description: Currency ID of the account (1 = USD)
-        stockOrders:
-          type: array
-          items:
-            type: object
-          description: Stock-specific pending orders
-        entryOrders:
-          type: array
-          items:
-            type: object
-          description: Entry orders awaiting execution
-        exitOrders:
-          type: array
-          items:
-            type: object
-          description: Exit orders awaiting execution
+          format: int32
+          description: 'Status identifier. Common values: 1 = Executed, 2 = Cancelled, 3 = Rejected.'
+        name:
+          type: string
+          description: Human-readable status name.
+        errorCode:
+          type: integer
+          format: int32
+          description: Error code if the order failed. Zero indicates no error.
+        errorMessage:
+          type:
+          - string
+          - 'null'
+          description: Human-readable error message if the order failed.
+    PortfolioResponseWithPnl:
+      type: object
+      description: Comprehensive portfolio information including positions, orders, and account status
+      properties:
+        clientPortfolio:
+          $ref: '#/components/schemas/ClientPortfolio'
+          description: Container for all portfolio-related information
     GetCostResponse:
       type: object
       description: Cost breakdown for a hypothetical open or close order.
@@ -1812,6 +2516,181 @@ components:
           type: string
           format: date-time
           description: Timestamp (ISO 8601) at which the cost figures were generated.
+    InstrumentEligibility:
+      type: object
+      description: Full trading configuration for a single instrument, including position limits, trading permissions, order configuration, margin settings, and available leverage.
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+          description: Unique identifier for the instrument.
+        symbol:
+          type: string
+          description: Trading symbol of the instrument (e.g. AAPL, EURUSD).
+        minPositionExposure:
+          type: number
+          format: decimal
+          description: Minimum exposure value required to open a position on this instrument.
+        maxUnitsPerOrder:
+          type: number
+          format: decimal
+          description: Maximum number of units allowed per single order.
+        allowOpenPosition:
+          type: boolean
+          description: Whether opening new positions is currently permitted.
+        allowClosePosition:
+          type: boolean
+          description: Whether closing existing positions is currently permitted.
+        allowPartialClosePosition:
+          type: boolean
+          description: Whether partially closing an existing position is permitted.
+        allowMitOrders:
+          type: boolean
+          description: Whether Market-if-Touched (limit) orders are supported.
+        allowEntryOrders:
+          type: boolean
+          description: Whether submitting open orders when the market is closed is allowed.
+        allowExitOrders:
+          type: boolean
+          description: Whether submitting close orders when the market is closed is allowed.
+        allowTrailingStopLoss:
+          type: boolean
+          description: Whether a trailing stop-loss can be set on positions for this instrument.
+        requiresW8Ben:
+          type:
+          - boolean
+          - 'null'
+          description: Whether a W-8BEN tax form is required to trade this instrument. Null if not applicable.
+        unitsQuantityType:
+          type: string
+          description: 'What trade quantity type is allowed. Possible values: `WholeUnits`, `FractionalUnits`.'
+        orderFillBehaviorType:
+          type: string
+          description: 'How orders are filled for this instrument. Possible values: `BestEffort`, `FillOrKill`.'
+        allowedOrderQuantityType:
+          type: string
+          description: 'How order size can be specified. Possible values: `Units`, `Amount`, `Both`.'
+        tradeUnitType:
+          type: string
+          description: 'Unit type used to express trade size. Possible values: `Units`, `Lots`.'
+        initialMarginInAssetCurrency:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          description: Initial margin expressed in the asset currency. Null if not applicable.
+        stopLossMarginInAssetCurrency:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          description: Stop-loss margin expressed in the asset currency. Null if not applicable.
+        additionalBufferPercent:
+          type:
+          - number
+          - 'null'
+          format: decimal
+          description: Additional buffer applied to the current rate to limit the order execution price - usually for low-liquidity assets. This also causes additional funds to be reserved for the order. Null if no buffer.
+        leverageConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeverageConfiguration'
+          description: Available leverage configurations, each specific to a settlement type and direction.
+    AggregatedPortfolioMirrorAggregate:
+      type: object
+      description: Aggregated data for a single copy-trading relationship.
+      properties:
+        mirrorId:
+          type: integer
+          format: int32
+          description: Mirror identifier. A value of 0 represents manually held positions.
+        mirrorAvailableCash:
+          type: number
+          format: double
+          description: Cash available within this mirror for new copy positions.
+        mirrorDepositTotal:
+          type: number
+          format: double
+          description: 'Total amount ever deposited into this mirror: initialInvestment + depositSummary.'
+        mirrorWithdrawalTotal:
+          type: number
+          format: double
+          description: Total amount ever withdrawn from this mirror.
+        mirrorStopLossPercentage:
+          type: number
+          format: double
+          description: Stop-loss threshold as a percentage of the mirror's current value.
+        mirrorStopLoss:
+          type: number
+          format: double
+          description: Stop-loss threshold in account currency. The mirror liquidates when its value falls to this level.
+        mirrorClosedPositionsPnl:
+          type: number
+          format: double
+          description: Accumulated net profit from all closed positions within this mirror.
+        mirrorTotals:
+          $ref: '#/components/schemas/AggregatedPortfolioMirrorTotals'
+        instrumentAggregates:
+          type: array
+          description: Positions held within this copy-trading mirror, grouped by instrument.
+          items:
+            $ref: '#/components/schemas/AggregatedPortfolioInstrumentAggregate'
+    GetOrderInfoOpeningData:
+      type: object
+      description: Execution data recorded when the position was opened.
+      properties:
+        openTime:
+          type: string
+          format: date-time
+          description: The timestamp when the position was opened.
+        orderId:
+          type: integer
+          format: int64
+          description: The order identifier that opened the position.
+        executionTime:
+          type: string
+          format: date-time
+          description: The execution timestamp.
+        units:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Number of units executed.
+        contracts:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Number of contracts executed.
+        avgPrice:
+          type: number
+          format: double
+          description: The average execution price.
+        avgConversionRate:
+          type: number
+          format: double
+          description: The average currency conversion rate applied.
+        marketSpread:
+          type: number
+          format: double
+          description: The market spread at execution time.
+        markup:
+          type: number
+          format: double
+          description: The markup applied to the spread.
+        priceId:
+          type: integer
+          format: int64
+          description: The price snapshot identifier used for execution.
+        fees:
+          type: number
+          format: double
+          description: Fees charged for the execution.
+        taxes:
+          type: number
+          format: double
+          description: Taxes applied to the execution.
     GetOrderInfoPositionExecution:
       type: object
       description: Details of a position execution resulting from the order.
@@ -1871,87 +2750,62 @@ components:
           description: The take-profit rate for the position.
         openingData:
           $ref: '#/components/schemas/GetOrderInfoOpeningData'
-    Order:
+    LeverageConfiguration:
       type: object
+      description: Leverage configuration for a specific settlement type and trade direction combination.
       properties:
-        orderId:
-          type: integer
-          description: Unique identifier for the order
-        cid:
-          type: integer
-          description: Customer ID associated with the order
-        openDateTime:
-          type: string
-          format: date-time
-          description: Date and time when the order was created
-        instrumentId:
-          type: integer
-          description: Identifier of the instrument being traded
-        isBuy:
-          type: boolean
-          description: Direction of the position. true - Long, false - Short
-        takeProfitRate:
-          type: number
-          format: float
-          description: Rate at which TakeProfit will trigger and send MarketOrder to close the position once it is open
-        stopLossRate:
-          type: number
-          format: float
-          description: Rate at which StopLoss will trigger and send MarketOrder to close the position once it is open
-        rate:
-          type: number
-          format: float
-          description: Asset rate at which to send market order to the market
-        amount:
-          type: number
-          format: float
-          description: USD amount to invest in the position
-        leverage:
-          type: integer
-          description: Leverage multiplier to apply to the position
-        units:
-          type: number
-          format: float
-          description: Units to open the position. If this value is greater than zero the position will open on the requested units, and not amount
-        isTslEnabled:
-          type: boolean
-          description: Indication if to enable TSL feature on the position once it is open
-        executionType:
-          type: integer
-          description: Type of order execution
-        isDiscounted:
-          type: boolean
-          description: Obsolete
-        isNoTakeProfit:
-          type: boolean
-          description: Indication if TakeProfit is enabled for the order. false = enabled, true = disabled
-        isNoStopLoss:
-          type: boolean
-          description: Indication if StopLoss is enabled for the order. false = enabled, true = disabled
-    GetOrderInfoAsset:
-      type: object
-      description: Asset information associated with the order.
-      properties:
-        symbol:
-          type: string
-          description: The asset ticker symbol.
-        instrumentId:
-          type: integer
-          format: int32
-          description: The eToro instrument identifier.
-        currency:
-          type: string
-          description: The asset's base currency.
         settlementType:
           type: string
-          description: 'Settlement type. Possible values: cfd, real, realFutures, marginTrade.'
-        leverage:
-          type: integer
-          format: int32
-          description: The leverage applied to the order.
-        side:
+          description: 'The settlement type this configuration applies to. Possible values: CFD, REAL, REAL_FUTURES, MARGIN_TRADE.'
+        direction:
           type: string
-          description: 'The position side. Possible values: long, short.'
+          description: 'The trade direction. Possible values: LONG, SHORT.'
+        leverageValues:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Available leverage multipliers for this settlement type and direction.
+        isPotential:
+          type: boolean
+          description: Additional user questionnaire may be required to allow the user to trade with this setup of settlement and leverages.
+        minPositionAmount:
+          type: number
+          format: decimal
+          description: Minimum monetary collateral required to open a position under this leverage configuration.
+        allowEditStopLoss:
+          type: boolean
+          description: Whether the stop-loss can be edited for positions under this configuration.
+        minStopLossPercentage:
+          type: number
+          format: decimal
+          description: Minimum stop-loss percentage allowed from the allocated margin of the position.
+        maxStopLossPercentage:
+          type: number
+          format: decimal
+          description: Maximum stop-loss percentage allowed from the allocated margin of the position.
+        defaultStopLossPercentage:
+          type: number
+          format: decimal
+          description: Default stop-loss percentage applied when no explicit value is provided.
+        allowEditTakeProfit:
+          type: boolean
+          description: Whether the take-profit can be edited.
+        minTakeProfitPercentage:
+          type: number
+          format: decimal
+          description: Minimum take-profit percentage allowed from the allocated margin of the position.
+        maxTakeProfitPercentage:
+          type: number
+          format: decimal
+          description: Maximum take-profit percentage allowed from the allocated margin of the position.
+        defaultTakeProfitPercentage:
+          type: number
+          format: decimal
+          description: Default take-profit percentage applied when no explicit value is provided.
+        allowStopLossTakeProfit:
+          type: boolean
+          description: Whether stop-loss and take-profit can be set on a position.
     AggregatedPortfolioAccountTotals:
       type: object
       description: Account-level balance and equity totals.
@@ -1980,427 +2834,31 @@ components:
           type: number
           format: double
           description: Total cash balance (available + frozen), excluding invested amounts.
-    OrderForOpen:
+    ProblemDetails:
       type: object
       properties:
-        orderId:
-          type: integer
-          description: Unique identifier for the order
-        orderType:
-          type: integer
-          description: Type of order executed
-        statusId:
-          type: integer
-          description: Status of the order
-        cid:
-          type: integer
-          description: Customer ID associated with the order
-        openDateTime:
-          type: string
-          format: date-time
-          description: The timestamp when the order was opened.
-        lastUpdate:
-          type: string
-          format: date-time
-          description: The last update timestamp of the order.
-        instrumentId:
-          type: integer
-          description: The unique identifier of the financial instrument to trade.
-        amount:
-          type: number
-          format: float
-          description: The amount of money to invest in the trade.
-        amountInUnits:
-          type: number
-          format: float
-          description: The number of units to trade.
-        isBuy:
-          type: boolean
-          description: True for a buy (long) order, false for a sell (short) order.
-        leverage:
-          type: integer
-          description: The leverage multiplier for the trade.
-        stopLossRate:
-          type: number
-          format: float
-          description: The stop-loss rate at which the trade will automatically close to limit losses.
-        takeProfitRate:
-          type: number
-          format: float
-          description: The take-profit rate at which the trade will automatically close to secure profits.
-        isTslEnabled:
-          type: boolean
-          description: Indicates whether a trailing stop-loss is enabled.
-        isDiscounted:
-          type: boolean
-          description: Indicates if the order is eligible for a discount.
-        mirrorId:
-          type: integer
-          description: ID related to mirrored trades, if applicable.
-        frozenAmount:
-          type: number
-          format: float
-          description: Amount frozen for the order.
-        totalExternalCosts:
-          type: number
-          format: float
-          description: Total external costs associated with the trade.
-        isNoTakeProfit:
-          type: boolean
-          description: True if no take-profit is set for this order.
-        isNoStopLoss:
-          type: boolean
-          description: True if no stop-loss is set for this order.
-        lotCount:
-          type: number
-          format: float
-          description: The number of lots in the order.
-        openPositionActionType:
-          type: integer
-          description: Position open reason.
-        externalOperation:
-          type:
-          - object
-          - 'null'
-          description: External operation details, if any.
-    AggregatedPortfolioMirrorAggregate:
-      type: object
-      description: Aggregated data for a single copy-trading relationship.
-      properties:
-        mirrorId:
-          type: integer
-          format: int32
-          description: Mirror identifier. A value of 0 represents manually held positions.
-        mirrorAvailableCash:
-          type: number
-          format: double
-          description: Cash available within this mirror for new copy positions.
-        mirrorDepositTotal:
-          type: number
-          format: double
-          description: 'Total amount ever deposited into this mirror: initialInvestment + depositSummary.'
-        mirrorWithdrawalTotal:
-          type: number
-          format: double
-          description: Total amount ever withdrawn from this mirror.
-        mirrorStopLossPercentage:
-          type: number
-          format: double
-          description: Stop-loss threshold as a percentage of the mirror's current value.
-        mirrorStopLoss:
-          type: number
-          format: double
-          description: Stop-loss threshold in account currency. The mirror liquidates when its value falls to this level.
-        mirrorClosedPositionsPnl:
-          type: number
-          format: double
-          description: Accumulated net profit from all closed positions within this mirror.
-        mirrorTotals:
-          $ref: '#/components/schemas/AggregatedPortfolioMirrorTotals'
-        instrumentAggregates:
-          type: array
-          description: Positions held within this copy-trading mirror, grouped by instrument.
-          items:
-            $ref: '#/components/schemas/AggregatedPortfolioInstrumentAggregate'
-    UnifiedOrderRequest:
-      type: object
-      description: Request payload for creating an order to open or close a position.
-      required:
-      - action
-      - transaction
-      properties:
-        action:
-          type: string
-          description: 'The order action type. Possible values: open, close.'
-          enum:
-          - open
-          - close
-          example: open
-        transaction:
-          type: string
-          description: 'The transaction direction. Possible values: buy, sell, sellShort, buyToCover.'
-          enum:
-          - buy
-          - sell
-          - sellShort
-          - buyToCover
-          example: buy
-        symbol:
+        type:
           type:
           - string
           - 'null'
-          description: The asset ticker symbol. Required for open orders.
-          example: AAPL
-        instrumentId:
+        title:
+          type:
+          - string
+          - 'null'
+        status:
           type:
           - integer
           - 'null'
           format: int32
-          description: The eToro instrument identifier. Required for open orders.
-          example: 101
-        settlementType:
+        detail:
           type:
           - string
           - 'null'
-          description: 'The settlement type. Possible values: cfd, real, realFutures, marginTrade. Required for open orders.'
-          enum:
-          - cfd
-          - real
-          - realFutures
-          - marginTrade
-          example: cfd
-        orderType:
-          type: string
-          description: 'The order execution type. Possible values: mkt (market), mit (market if touched).'
-          enum:
-          - mkt
-          - mit
-          example: mkt
-        triggerRate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The trigger rate for mit orders. Required for mit orders.
-        leverage:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: The leverage multiplier to apply. Required for open orders.
-          example: 2
-        amount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The monetary amount to invest in the order currency. Mutually exclusive with units and contracts.
-          example: 1000.0
-        orderCurrency:
+        instance:
           type:
           - string
           - 'null'
-          description: The currency for the order amount. Typically usd.
-          example: usd
-        units:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The number of units to trade. Mutually exclusive with amount and contracts.
-        contracts:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The number of contracts to trade. Mutually exclusive with amount and units.
-        stopLossRate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The stop-loss rate at which the position will automatically close.
-          example: 1.2
-        takeProfitRate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The take-profit rate at which the position will automatically close.
-          example: 1.5
-        stopLossType:
-          type:
-          - string
-          - 'null'
-          description: 'The stop-loss type. Possible values: fixed, trailing.'
-          enum:
-          - fixed
-          - trailing
-          example: fixed
-        additionalMargin:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Additional margin to allocate to the position.
-        positionIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: integer
-            format: int64
-          description: List of position IDs to close. Required for close orders.
-    Position:
-      type: object
-      properties:
-        positionID:
-          type: integer
-          description: Unique identifier for the position
-        CID:
-          type: integer
-          description: Customer ID associated with the position
-        openDateTime:
-          type: string
-          format: date-time
-          description: Timestamp when the position was opened in ISO 8601 format
-        openRate:
-          type: number
-          format: float
-          description: Entry price of the position in the instrument's currency
-        instrumentID:
-          type: integer
-          description: Identifier of the traded instrument
-        mirrorID:
-          type: integer
-          description: Mirror ID if the position is part of copy trading, 0 otherwise
-        parentPositionID:
-          type: integer
-          description: Parent position ID for mirrored positions, 0 otherwise
-        isBuy:
-          type: boolean
-          description: 'Position direction: true for long (buy) positions, false for short (sell) positions'
-        takeProfitRate:
-          type: number
-          format: float
-          description: Rate at which TakeProfit will trigger and send MarketOrder to close the position
-        stopLossRate:
-          type: number
-          format: float
-          description: Rate at which StopLoss will trigger and send MarketOrder to close the position
-        amount:
-          type: number
-          format: float
-          description: USD amount allocated to the position. This amount includes both the initial investment, and additional margin allocated to the position as collateral
-        leverage:
-          type: integer
-          description: Leverage multiplier applied to the position
-        orderID:
-          type: integer
-          description: Original orderID the position was opened by. Need to match together with orderType
-        orderType:
-          type: integer
-          description: Original orderType of the order the position was opened by. Need to match together with orderId
-        units:
-          type: number
-          format: float
-          description: Number of units in the position
-        totalFees:
-          type: number
-          format: float
-          description: Total overnight fees and dividends charged/paid on the position in USD. Negative amount represents refund
-        initialAmountInDollars:
-          type: number
-          format: float
-          description: Initial investment USD amount in the position. This value does not change in case the position was partially closed
-        isTslEnabled:
-          type: boolean
-          description: Indication if TrailingStopLoss feature is active on this position
-        stopLossVersion:
-          type: integer
-          description: Manual stop loss edit version. Each time StopLossRate is manually update this value is incremented
-        isSettled:
-          type: boolean
-          description: Obsolete
-        redeemStatusID:
-          type: integer
-          description: If the position is currently in redeem process, this value represents the current status
-        initialUnits:
-          type: number
-          format: float
-          description: Initial invested units in the position. This value does not change in case the position was partially closed
-        isPartiallyAltered:
-          type: boolean
-          description: Indication whether this position was partially closed
-        unitsBaseValueDollars:
-          type: number
-          format: float
-          description: USD value of the current units in the position, based on the initial investment. If the position was not partially altered, this value equals initialAmountInDollars
-        isDiscounted:
-          type: boolean
-          description: Obsolete. This value is used to indicate if the relevant prices for the position are Ask/Bid or AskDiscounted/BidDiscounted
-        openPositionActionType:
-          type: integer
-          description: Position open reason
-        settlementTypeID:
-          type: integer
-          description: Position investment type. 0 - CFD, 1 - Real Asset, 2 - SWAP, 3 - Crypto MarginTrade, 4 - Future Contract
-        isDetached:
-          type: boolean
-          description: Indication if the position was originally opened inside a mirror and detached from it
-        openConversionRate:
-          type: number
-          format: float
-          description: Conversion rate from the asset currency to USD at the time the position was opened
-        pnlVersion:
-          type: integer
-          description: Pnl formula used for calculating profit and loss
-        totalExternalFees:
-          type: number
-          format: float
-          description: Total fees in USD charged on the position. Example - TicketFee. This value does not include overnight fees and dividends
-        totalExternalTaxes:
-          type: number
-          format: float
-          description: Total taxes in USD charged on the position. Example - SDRT
-        isNoTakeProfit:
-          type: boolean
-          description: Indication if TakeProfit is enabled for the position. false = enabled, true = disabled
-        isNoStopLoss:
-          type: boolean
-          description: Indication if StopLoss is enabled for the position. false = enabled, true = disabled
-        lotCount:
-          type: number
-          format: float
-          description: Number of lots the position represents. For FutureContracts, this value represents the number of contracts acquired. This property is not relevant for instruments that are not futures instruments
-        unrealizedPnL:
-          type:
-          - object
-          - 'null'
-          description: Unrealized profit/loss details for the position (only present in PnL endpoints)
-          properties:
-            pnL:
-              type: number
-              format: float
-              description: Unrealized P&L in account currency
-            pnlAssetCurrency:
-              type: number
-              format: float
-              description: Unrealized P&L in asset currency
-            exposureInAccountCurrency:
-              type: number
-              format: float
-              description: Current exposure in account currency
-            exposureInAssetCurrency:
-              type: number
-              format: float
-              description: Current exposure in asset currency
-            marginInAccountCurrency:
-              type: number
-              format: float
-              description: Margin in account currency
-            marginInAssetCurrency:
-              type: number
-              format: float
-              description: Margin in asset currency
-            marginCurrencyId:
-              type: integer
-              description: Currency ID for margin
-            assetCurrencyId:
-              type: integer
-              description: Currency ID for the asset
-            closeRate:
-              type: number
-              format: float
-              description: Current close rate
-            closeConversionRate:
-              type: number
-              format: float
-              description: Current close conversion rate
-            timestamp:
-              type: string
-              format: date-time
-              description: Timestamp of the PnL calculation
+      additionalProperties: {}
     OrderForCloseMultiple:
       type: object
       properties:
@@ -2440,113 +2898,6 @@ components:
           items:
             type: integer
           description: IDs of positions pending close in this order.
-    Mirror:
-      type: object
-      properties:
-        mirrorID:
-          type: integer
-          description: Unique identifier for the mirror
-        CID:
-          type: integer
-          description: Customer ID associated with the mirror
-        parentCID:
-          type: integer
-          description: Customer ID of the trader being copied
-        stopLossPercentage:
-          type: number
-          format: float
-          description: The precentage of the mirror value that the StopLossAmount represented at the time of the last edit. Adding or removing funds from the mirror will trigger recalculation of StopLossAmount based on this value compared to the current mirror value
-        isPaused:
-          type: boolean
-          description: Indication if the mirror is currently paused, restricting open of additional positions inside the mirror
-        copyExistingPositions:
-          type: boolean
-          description: Indication if mirror originally copied all parent existing position on mirror registration
-        availableAmount:
-          type: number
-          format: float
-          description: Available to trade USD balance in the mirror. This balance is reserved for mirror operations
-        stopLossAmount:
-          type: number
-          format: float
-          description: USD value of the mirror at which MirrorStopLoss will be triggered and cause liquidation of the mirror. Adding or removing funds from the mirror will trigger recalculation of this value based on StopLossPercentage compared to the current mirror value
-        initialInvestment:
-          type: number
-          format: float
-          description: USD amount initially invested in the mirror
-        depositSummary:
-          type: number
-          format: float
-          description: Total USD amount deposited into the mirror after initial investment
-        withdrawalSummary:
-          type: number
-          format: float
-          description: Total USD amount withdrawn from the mirror
-        positions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Position'
-          description: List of currently open trading positions in the mirror
-        parentUsername:
-          type: string
-          description: Username of the trader being copied
-        closedPositionsNetProfit:
-          type: number
-          format: float
-          description: Total USD net profit of all positions that closed in the mirror
-        startedCopyDate:
-          type: string
-          format: date-time
-          description: Date and time when the mirror trading was initiated
-        pendingForClosure:
-          type: boolean
-          description: Indication if the mirror is in closure process
-        parentMirrors:
-          type: array
-          items:
-            type: object
-          description: Parent mirrors for this mirror (if any)
-        mirrorCalculationType:
-          type: integer
-          description: (Obsolete) Mirror positions weights calculation methodology
-        ordersForOpen:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderForOpen'
-          description: Active orders in the mirror to open positions
-        ordersForClose:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderForClose'
-          description: Active orders in the mirror to close positions
-        ordersForCloseMultiple:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderForCloseMultiple'
-          description: Active orders in the mirror to close positions
-        mirrorStatusID:
-          type: integer
-          description: Current status of the mirror. 0 - Active, 1 - Paused, 2 - Pending Closure, 3 - In Alignment Process
-        delayedOrderForClose:
-          type: array
-          items:
-            type: object
-          description: Delayed orders for closing positions
-        delayedOrderForOpen:
-          type: array
-          items:
-            type: object
-          description: Delayed orders for opening positions
-        entryOrders:
-          type: array
-          items:
-            type: object
-          description: Entry orders awaiting execution in the mirror
-        exitOrders:
-          type: array
-          items:
-            type: object
-          description: Exit orders awaiting execution in the mirror
     AggregatedPortfolioInstrumentAggregate:
       type: object
       description: Aggregated data across all positions for a single instrument.
@@ -2640,381 +2991,30 @@ components:
           type: number
           format: double
           description: Weighted average asset-to-account-currency conversion rate at position open.
-    InstrumentEligibilityResponse:
+    AggregatedPortfolioResponse:
       type: object
-      description: Response containing trading configuration for all requested instruments.
+      description: Complete snapshot of the authenticated user's investment portfolio, organized by asset.
       properties:
-        currency:
-          type: string
-          description: The currency used for all monetary values in this response.
-        eligibilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentEligibility'
-          description: Trading configuration for each resolved instrument.
-        notFoundInstrumentIds:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: Instrument IDs that were requested but could not be found.
-        notFoundSymbols:
-          type: array
-          items:
-            type: string
-          description: Symbols that were requested but could not be found.
-    UnifiedOrderResponse:
-      type: object
-      description: Response payload after successfully submitting an order.
-      properties:
-        token:
-          type: string
-          format: uuid
-          description: A tracking token for the order request, used for correlation and debugging.
-          example: 066faaee-e1e9-49d2-a568-c6e1cc336ad8
-        orderId:
-          type: integer
-          format: int64
-          description: The unique identifier of the created order.
-          example: 13902598
-        referenceId:
-          type: string
-          format: uuid
-          description: The client reference identifier for the order, matching the X-Request-Id header if provided.
-          example: 1c94300c-90aa-4303-9d00-dec376d74efb
-    InstrumentEligibilityRequest:
-      type: object
-      description: Request payload for checking instrument eligibility. At least one of `instrumentIds` or `symbols` must be provided; combined length must not exceed 100 instruments.
-      properties:
-        instrumentIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: integer
-            format: int32
-          description: Optional list of instrument IDs to check.
-        symbols:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Optional list of instrument symbols to check.
-        currency:
-          type: string
-          default: USD
-          description: Requested currency for financial amounts in the eligibility response (e.g. minimum position size). Currently only USD is supported.
-    CostBreakdown:
-      type: object
-      description: Individual cost component (markup, fees, SDRT) in the requested order currency.
-      properties:
-        costType:
-          type: string
-          description: Identifies which cost component this entry represents.
-          enum:
-          - markup
-          - marketSpread
-          - transactionFee
-          - overnightFee
-          - overWeekendFee
-          - sdrt
-        amount:
-          type: number
-          format: double
-          description: The monetary value of this cost component, expressed in `currency`.
-        currency:
-          type: string
-          description: ISO 4217 currency code in which `amount` is denominated.
-    PortfolioResponseWithPnl:
-      type: object
-      description: Comprehensive portfolio information including positions, orders, and account status
-      properties:
-        clientPortfolio:
-          $ref: '#/components/schemas/ClientPortfolio'
-          description: Container for all portfolio-related information
-    GetOrderInfoResponse:
-      type: object
-      description: Detailed information about a specific order retrieved via the orders lookup endpoint.
-      properties:
-        accountId:
-          type: integer
-          format: int64
-          description: The account identifier associated with this order.
-        gcid:
-          type: integer
-          format: int64
-          description: The global customer identifier.
-        portfolioId:
-          type: integer
-          format: int32
-          description: The portfolio identifier.
-        orderId:
-          type: integer
-          format: int64
-          description: The unique identifier of the order.
-        action:
-          type: string
-          description: 'The order action. Possible values: open, close.'
-        transaction:
-          type: string
-          description: 'The transaction direction. Possible values: buy, sell, sellShort, buyToCover.'
-        type:
-          type: string
-          description: 'The order type. Possible values: mkt, mit.'
-        etoroOrderTypeId:
-          type: integer
-          format: int32
-          description: The internal eToro order type identifier.
-        status:
-          $ref: '#/components/schemas/GetOrderInfoStatus'
-        asset:
-          $ref: '#/components/schemas/GetOrderInfoAsset'
-        orderCurrency:
-          type: string
-          description: The currency used for the order.
-        requestedAmount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The requested monetary amount for the order.
-        requestedUnits:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The requested number of units for the order.
-        requestedContracts:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The requested number of contracts for the order.
-        frozenAmount:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The amount frozen/reserved for the order including costs.
-        requestedTriggerRate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The trigger rate for limit or stop orders.
-        openStopLossRate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The stop-loss rate at order open.
-        openTakeProfitRate:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The take-profit rate at order open.
-        stopLossType:
-          type:
-          - string
-          - 'null'
-          description: 'The stop-loss type. Possible values: fixed, trailing.'
-        totalCosts:
-          type: number
-          format: double
-          description: Total costs associated with the order.
-        positionsToClose:
-          type: array
-          items:
-            type: integer
-            format: int64
-          description: List of position IDs to close as part of a close order.
-        positionExecutions:
-          type: array
-          items:
-            $ref: '#/components/schemas/GetOrderInfoPositionExecution'
-          description: List of position executions resulting from this order.
-        requestTime:
-          type: string
-          format: date-time
-          description: The timestamp when the order was requested.
-        lastUpdate:
-          type: string
-          format: date-time
-          description: The timestamp of the last update to the order.
-        openActionType:
-          type: string
-          description: The action type that initiated the order.
-        requestType:
-          type: string
-          description: 'The request sizing type. Possible values: byAmount, byUnits, byContracts.'
-    GetOrderInfoOpeningData:
-      type: object
-      description: Execution data recorded when the position was opened.
-      properties:
-        openTime:
-          type: string
-          format: date-time
-          description: The timestamp when the position was opened.
-        orderId:
-          type: integer
-          format: int64
-          description: The order identifier that opened the position.
-        executionTime:
-          type: string
-          format: date-time
-          description: The execution timestamp.
-        units:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Number of units executed.
-        contracts:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Number of contracts executed.
-        avgPrice:
-          type: number
-          format: double
-          description: The average execution price.
-        avgConversionRate:
-          type: number
-          format: double
-          description: The average currency conversion rate applied.
-        marketSpread:
-          type: number
-          format: double
-          description: The market spread at execution time.
-        markup:
-          type: number
-          format: double
-          description: The markup applied to the spread.
-        priceId:
-          type: integer
-          format: int64
-          description: The price snapshot identifier used for execution.
-        fees:
-          type: number
-          format: double
-          description: Fees charged for the execution.
-        taxes:
-          type: number
-          format: double
-          description: Taxes applied to the execution.
-    OrderForClose:
-      type: object
-      properties:
-        orderId:
-          type: integer
-          description: Unique identifier for the closing order.
-        orderType:
-          type: integer
-          description: Type of order executed.
-        statusId:
-          type: integer
-          description: Status of the closing order.
         cid:
           type: integer
-          description: Customer ID associated with the order.
-        openDateTime:
+          format: int32
+          description: Customer ID.
+        timestamp:
           type: string
           format: date-time
-          description: The timestamp when the order was placed.
-        lastUpdate:
+          description: Time at which this portfolio snapshot was calculated.
+        accountCurrency:
           type: string
-          format: date-time
-          description: The timestamp of the last update to this order.
-        instrumentId:
-          type: integer
-          description: The ID of the instrument traded.
-        unitsToDeduct:
-          type: number
-          format: float
-          description: The number of units closed in this order.
-        lotsToDeduct:
-          type: number
-          format: float
-          description: The number of lots closed in this order.
-        positionId:
-          type: integer
-          description: The ID of the closed position.
-    LeverageConfiguration:
-      type: object
-      description: Leverage configuration for a specific settlement type and trade direction combination.
-      properties:
-        settlementType:
-          type: string
-          description: 'The settlement type this configuration applies to. Possible values: CFD, REAL, REAL_FUTURES, MARGIN_TRADE.'
-        direction:
-          type: string
-          description: 'The trade direction. Possible values: LONG, SHORT.'
-        leverageValues:
+          description: ISO 4217 code of the account's base currency (e.g. 'USD').
+        accountTotals:
+          $ref: '#/components/schemas/AggregatedPortfolioAccountTotals'
+        instrumentAggregates:
           type: array
+          description: Positions held directly (not via copy trading), grouped by instrument.
           items:
-            type: integer
-            format: int32
-          description: Available leverage multipliers for this settlement type and direction.
-        isPotential:
-          type: boolean
-          description: Additional user questionnaire may be required to allow the user to trade with this setup of settlement and leverages.
-        minPositionAmount:
-          type: number
-          format: decimal
-          description: Minimum monetary collateral required to open a position under this leverage configuration.
-        allowEditStopLoss:
-          type: boolean
-          description: Whether the stop-loss can be edited for positions under this configuration.
-        minStopLossPercentage:
-          type: number
-          format: decimal
-          description: Minimum stop-loss percentage allowed from the allocated margin of the position.
-        maxStopLossPercentage:
-          type: number
-          format: decimal
-          description: Maximum stop-loss percentage allowed from the allocated margin of the position.
-        defaultStopLossPercentage:
-          type: number
-          format: decimal
-          description: Default stop-loss percentage applied when no explicit value is provided.
-        allowEditTakeProfit:
-          type: boolean
-          description: Whether the take-profit can be edited.
-        minTakeProfitPercentage:
-          type: number
-          format: decimal
-          description: Minimum take-profit percentage allowed from the allocated margin of the position.
-        maxTakeProfitPercentage:
-          type: number
-          format: decimal
-          description: Maximum take-profit percentage allowed from the allocated margin of the position.
-        defaultTakeProfitPercentage:
-          type: number
-          format: decimal
-          description: Default take-profit percentage applied when no explicit value is provided.
-        allowStopLossTakeProfit:
-          type: boolean
-          description: Whether stop-loss and take-profit can be set on a position.
-    GetOrderInfoStatus:
-      type: object
-      description: Status information for the order.
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: 'Status identifier. Common values: 1 = Executed, 2 = Cancelled, 3 = Rejected.'
-        name:
-          type: string
-          description: Human-readable status name.
-        errorCode:
-          type: integer
-          format: int32
-          description: Error code if the order failed. Zero indicates no error.
-        errorMessage:
-          type:
-          - string
-          - 'null'
-          description: Human-readable error message if the order failed.
+            $ref: '#/components/schemas/AggregatedPortfolioInstrumentAggregate'
+        mirrors:
+          type: array
+          description: Copy-trading relationships the user has active.
+          items:
+            $ref: '#/components/schemas/AggregatedPortfolioMirrorAggregate'

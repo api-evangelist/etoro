@@ -6,7 +6,7 @@ tags:
   - Copy Trading
   - Investing
   - Market Data
-  - Portfolio-Management
+  - Portfolio Management
   - Fintech
   - Trading
   - Stocks
@@ -23,6 +23,7 @@ tags_raw:
   - Stocks
   - Cryptocurrency
   - ETFs
+  - Portfolio-Management
 type: Index
 kind: company
 deliveryModel:
@@ -224,11 +225,12 @@ apis:
   tags:
   - Watchlist
   - Instruments
-  - Portfolio-Management
+  - Portfolio Management
   tags_raw:
   - Watchlists
   - Instruments
   - Portfolio Management
+  - Portfolio-Management
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://public-api.etoro.com/api/v1
   humanURL: https://builders.etoro.com/
@@ -288,12 +290,13 @@ apis:
   - Artificial Intelligence
   - Agent Portfolios
   - Automation
-  - Portfolio-Management
+  - Portfolio Management
   tags_raw:
   - AI
   - Agent Portfolios
   - Automation
   - Portfolio Management
+  - Portfolio-Management
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://public-api.etoro.com/api/v2
   humanURL: https://builders.etoro.com/

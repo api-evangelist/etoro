@@ -1593,6 +1593,135 @@ paths:
       - Trading Real
 components:
   schemas:
+    OrderForOpenPositionInfo:
+      type: object
+      description: Detailed information about a position that was opened from an order. This object contains all the essential details needed to identify and track the position.
+      required:
+      - positionID
+      - orderType
+      - occurred
+      - rate
+      - units
+      - amount
+      - isOpen
+      properties:
+        positionID:
+          type: integer
+          format: int64
+          description: The unique identifier of the position that was opened from this order. This PositionID is the key property that can be used to query detailed position information, track position status, and perform position-specific operations. This is the primary identifier for the position in the trading system.
+          example: 9876543210
+        orderType:
+          type: integer
+          description: The type of order that was used to open this position. This matches the orderType from the parent order and indicates the execution method (e.g., Market Order, Limit Order).
+          example: 1
+        occurred:
+          type: string
+          format: date-time
+          description: The exact timestamp when this position was opened and executed. This is in ISO 8601 format (UTC) and represents when the position became active in the trading system.
+          example: '2024-01-15T10:30:15Z'
+        rate:
+          type: number
+          format: decimal
+          description: The execution rate (price) at which the position was opened. This is the actual price at which the trade was executed, which may differ from the requested rate depending on market conditions and order type.
+          example: 1.2345
+        units:
+          type: number
+          format: decimal
+          description: The number of units in the position. This represents the quantity of the instrument that was acquired when the position was opened.
+          example: 10.5
+        conversionRate:
+          type: number
+          format: decimal
+          description: The currency conversion rate that was applied when opening the position. This rate is used to convert between the instrument's base currency and the account currency (typically USD) at the time of execution.
+          example: 1.0
+        amount:
+          type: number
+          format: decimal
+          description: The USD amount that was invested in this position. This represents the monetary value allocated to this specific position.
+          example: 1000.0
+        isOpen:
+          type: boolean
+          description: Indicates whether the position is currently open (true) or has been closed (false). This status reflects the current state of the position at the time the order information was retrieved.
+          example: true
+    LeverageConfiguration:
+      type: object
+      description: Leverage configuration for a specific settlement type and trade direction combination.
+      properties:
+        settlementType:
+          type: string
+          description: 'The settlement type this configuration applies to. Possible values: CFD, REAL, REAL_FUTURES, MARGIN_TRADE.'
+        direction:
+          type: string
+          description: 'The trade direction. Possible values: LONG, SHORT.'
+        leverageValues:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Available leverage multipliers for this settlement type and direction.
+        isPotential:
+          type: boolean
+          description: Additional user questionnaire may be required to allow the user to trade with this setup of settlement and leverages.
+        minPositionAmount:
+          type: number
+          format: decimal
+          description: Minimum monetary collateral required to open a position under this leverage configuration.
+        allowEditStopLoss:
+          type: boolean
+          description: Whether the stop-loss can be edited for positions under this configuration.
+        minStopLossPercentage:
+          type: number
+          format: decimal
+          description: Minimum stop-loss percentage allowed from the allocated margin of the position.
+        maxStopLossPercentage:
+          type: number
+          format: decimal
+          description: Maximum stop-loss percentage allowed from the allocated margin of the position.
+        defaultStopLossPercentage:
+          type: number
+          format: decimal
+          description: Default stop-loss percentage applied when no explicit value is provided.
+        allowEditTakeProfit:
+          type: boolean
+          description: Whether the take-profit can be edited.
+        minTakeProfitPercentage:
+          type: number
+          format: decimal
+          description: Minimum take-profit percentage allowed from the allocated margin of the position.
+        maxTakeProfitPercentage:
+          type: number
+          format: decimal
+          description: Maximum take-profit percentage allowed from the allocated margin of the position.
+        defaultTakeProfitPercentage:
+          type: number
+          format: decimal
+          description: Default take-profit percentage applied when no explicit value is provided.
+        allowStopLossTakeProfit:
+          type: boolean
+          description: Whether stop-loss and take-profit can be set on a position.
+    InstrumentEligibilityResponse:
+      type: object
+      description: Response containing trading configuration for all requested instruments.
+      properties:
+        currency:
+          type: string
+          description: The currency used for all monetary values in this response.
+        eligibilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstrumentEligibility'
+          description: Trading configuration for each resolved instrument.
+        notFoundInstrumentIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Instrument IDs that were requested but could not be found.
+        notFoundSymbols:
+          type: array
+          items:
+            type: string
+          description: Symbols that were requested but could not be found.
     ProblemDetails:
       type: object
       properties:
@@ -1693,158 +1822,6 @@ components:
           description: List of all positions that were opened as a result of this order. Each position in this array represents a successfully executed position created from the order. This array is empty if the order has not yet been executed or if execution failed.
           items:
             $ref: '#/components/schemas/OrderForOpenPositionInfo'
-    OrderForOpenPositionInfo:
-      type: object
-      description: Detailed information about a position that was opened from an order. This object contains all the essential details needed to identify and track the position.
-      required:
-      - positionID
-      - orderType
-      - occurred
-      - rate
-      - units
-      - amount
-      - isOpen
-      properties:
-        positionID:
-          type: integer
-          format: int64
-          description: The unique identifier of the position that was opened from this order. This PositionID is the key property that can be used to query detailed position information, track position status, and perform position-specific operations. This is the primary identifier for the position in the trading system.
-          example: 9876543210
-        orderType:
-          type: integer
-          description: The type of order that was used to open this position. This matches the orderType from the parent order and indicates the execution method (e.g., Market Order, Limit Order).
-          example: 1
-        occurred:
-          type: string
-          format: date-time
-          description: The exact timestamp when this position was opened and executed. This is in ISO 8601 format (UTC) and represents when the position became active in the trading system.
-          example: '2024-01-15T10:30:15Z'
-        rate:
-          type: number
-          format: decimal
-          description: The execution rate (price) at which the position was opened. This is the actual price at which the trade was executed, which may differ from the requested rate depending on market conditions and order type.
-          example: 1.2345
-        units:
-          type: number
-          format: decimal
-          description: The number of units in the position. This represents the quantity of the instrument that was acquired when the position was opened.
-          example: 10.5
-        conversionRate:
-          type: number
-          format: decimal
-          description: The currency conversion rate that was applied when opening the position. This rate is used to convert between the instrument's base currency and the account currency (typically USD) at the time of execution.
-          example: 1.0
-        amount:
-          type: number
-          format: decimal
-          description: The USD amount that was invested in this position. This represents the monetary value allocated to this specific position.
-          example: 1000.0
-        isOpen:
-          type: boolean
-          description: Indicates whether the position is currently open (true) or has been closed (false). This status reflects the current state of the position at the time the order information was retrieved.
-          example: true
-    InstrumentEligibilityResponse:
-      type: object
-      description: Response containing trading configuration for all requested instruments.
-      properties:
-        currency:
-          type: string
-          description: The currency used for all monetary values in this response.
-        eligibilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstrumentEligibility'
-          description: Trading configuration for each resolved instrument.
-        notFoundInstrumentIds:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: Instrument IDs that were requested but could not be found.
-        notFoundSymbols:
-          type: array
-          items:
-            type: string
-          description: Symbols that were requested but could not be found.
-    InstrumentEligibilityRequest:
-      type: object
-      description: Request payload for checking instrument eligibility. At least one of `instrumentIds` or `symbols` must be provided; combined length must not exceed 100 instruments.
-      properties:
-        instrumentIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: integer
-            format: int32
-          description: Optional list of instrument IDs to check.
-        symbols:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Optional list of instrument symbols to check.
-        currency:
-          type: string
-          default: USD
-          description: Requested currency for financial amounts in the eligibility response (e.g. minimum position size). Currently only USD is supported.
-    LeverageConfiguration:
-      type: object
-      description: Leverage configuration for a specific settlement type and trade direction combination.
-      properties:
-        settlementType:
-          type: string
-          description: 'The settlement type this configuration applies to. Possible values: CFD, REAL, REAL_FUTURES, MARGIN_TRADE.'
-        direction:
-          type: string
-          description: 'The trade direction. Possible values: LONG, SHORT.'
-        leverageValues:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: Available leverage multipliers for this settlement type and direction.
-        isPotential:
-          type: boolean
-          description: Additional user questionnaire may be required to allow the user to trade with this setup of settlement and leverages.
-        minPositionAmount:
-          type: number
-          format: decimal
-          description: Minimum monetary collateral required to open a position under this leverage configuration.
-        allowEditStopLoss:
-          type: boolean
-          description: Whether the stop-loss can be edited for positions under this configuration.
-        minStopLossPercentage:
-          type: number
-          format: decimal
-          description: Minimum stop-loss percentage allowed from the allocated margin of the position.
-        maxStopLossPercentage:
-          type: number
-          format: decimal
-          description: Maximum stop-loss percentage allowed from the allocated margin of the position.
-        defaultStopLossPercentage:
-          type: number
-          format: decimal
-          description: Default stop-loss percentage applied when no explicit value is provided.
-        allowEditTakeProfit:
-          type: boolean
-          description: Whether the take-profit can be edited.
-        minTakeProfitPercentage:
-          type: number
-          format: decimal
-          description: Minimum take-profit percentage allowed from the allocated margin of the position.
-        maxTakeProfitPercentage:
-          type: number
-          format: decimal
-          description: Maximum take-profit percentage allowed from the allocated margin of the position.
-        defaultTakeProfitPercentage:
-          type: number
-          format: decimal
-          description: Default take-profit percentage applied when no explicit value is provided.
-        allowStopLossTakeProfit:
-          type: boolean
-          description: Whether stop-loss and take-profit can be set on a position.
     InstrumentEligibility:
       type: object
       description: Full trading configuration for a single instrument, including position limits, trading permissions, order configuration, margin settings, and available leverage.
@@ -1925,3 +1902,26 @@ components:
           items:
             $ref: '#/components/schemas/LeverageConfiguration'
           description: Available leverage configurations, each specific to a settlement type and direction.
+    InstrumentEligibilityRequest:
+      type: object
+      description: Request payload for checking instrument eligibility. At least one of `instrumentIds` or `symbols` must be provided; combined length must not exceed 100 instruments.
+      properties:
+        instrumentIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+            format: int32
+          description: Optional list of instrument IDs to check.
+        symbols:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Optional list of instrument symbols to check.
+        currency:
+          type: string
+          default: USD
+          description: Requested currency for financial amounts in the eligibility response (e.g. minimum position size). Currently only USD is supported.
