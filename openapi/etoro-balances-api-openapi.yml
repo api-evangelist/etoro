@@ -621,6 +621,92 @@ paths:
                 errorMessage: Global Error
 components:
   schemas:
+    HistoricalDailySnapshotData:
+      type: object
+      description: End-of-day balance snapshot for a specific date.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The snapshot date (ISO 8601).
+        totalCurrencyIso:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code for the total figures in native currency.
+        totalCash:
+          type: number
+          format: double
+          description: Total cash across all accounts in native currency.
+        totalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount across all accounts in native currency.
+        totalPnl:
+          type: number
+          format: double
+          description: Total profit and loss across all accounts in native currency.
+        totalBalance:
+          type: number
+          format: double
+          description: Total balance across all accounts in native currency.
+        displayTotalCash:
+          type: number
+          format: double
+          description: Total cash converted to the requested display currency.
+        displayTotalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount converted to the requested display currency.
+        displayTotalPnl:
+          type: number
+          format: double
+          description: Total profit and loss converted to the requested display currency.
+        displayTotalBalance:
+          type: number
+          format: double
+          description: Total balance converted to the requested display currency.
+        totalExchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert totals to displayCurrency.
+        accountSnapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/HistoricalAccountData'
+          description: Individual account breakdowns within this snapshot.
+      additionalProperties: false
+    GetHistoricalBalancesResponse:
+      type: object
+      description: Historical end-of-day balance snapshots for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for display values.
+        fromDate:
+          type: string
+          format: date
+          description: Start of the returned date range (inclusive, ISO 8601).
+        toDate:
+          type: string
+          format: date
+          description: End of the returned date range (inclusive, ISO 8601).
+        snapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/HistoricalDailySnapshotData'
+          description: End-of-day balance snapshots, one entry per day in the requested range.
+      additionalProperties: false
     GetBalancesResponse:
       type: object
       description: Aggregated balances for the authenticated user.
@@ -646,6 +732,12 @@ components:
             $ref: '#/components/schemas/AccountBalanceData'
           description: Individual account balances.
       additionalProperties: false
+    AccountType:
+      type: string
+      enum:
+      - trading
+      - options
+      - cash
     BalancesErrorResponse:
       type: object
       description: Error response returned for client-side errors (4xx).
@@ -748,78 +840,6 @@ components:
           format: int32
           description: Display order index for sorting (Crypto).
       additionalProperties: false
-    PublicErrorResponse:
-      type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
-        errorMessage:
-          type: string
-          description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
-    HistoricalDailySnapshotData:
-      type: object
-      description: End-of-day balance snapshot for a specific date.
-      properties:
-        date:
-          type: string
-          format: date
-          description: The snapshot date (ISO 8601).
-        totalCurrencyIso:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code for the total figures in native currency.
-        totalCash:
-          type: number
-          format: double
-          description: Total cash across all accounts in native currency.
-        totalInvestedAmount:
-          type: number
-          format: double
-          description: Total invested amount across all accounts in native currency.
-        totalPnl:
-          type: number
-          format: double
-          description: Total profit and loss across all accounts in native currency.
-        totalBalance:
-          type: number
-          format: double
-          description: Total balance across all accounts in native currency.
-        displayTotalCash:
-          type: number
-          format: double
-          description: Total cash converted to the requested display currency.
-        displayTotalInvestedAmount:
-          type: number
-          format: double
-          description: Total invested amount converted to the requested display currency.
-        displayTotalPnl:
-          type: number
-          format: double
-          description: Total profit and loss converted to the requested display currency.
-        displayTotalBalance:
-          type: number
-          format: double
-          description: Total balance converted to the requested display currency.
-        totalExchangeRate:
-          type: number
-          format: double
-          description: Exchange rate applied to convert totals to displayCurrency.
-        accountSnapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/HistoricalAccountData'
-          description: Individual account breakdowns within this snapshot.
-      additionalProperties: false
     HistoricalAccountData:
       type: object
       description: Individual account balance within a historical daily snapshot.
@@ -877,41 +897,21 @@ components:
           format: double
           description: Exchange rate applied to convert to displayCurrency.
       additionalProperties: false
-    AccountType:
-      type: string
-      enum:
-      - trading
-      - options
-      - cash
-    GetHistoricalBalancesResponse:
+    PublicErrorResponse:
       type: object
-      description: Historical end-of-day balance snapshots for the authenticated user.
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
       properties:
-        gcid:
-          type: integer
-          format: int64
-          description: The user's global customer ID.
-        displayCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for display values.
-        fromDate:
+        errorCode:
           type: string
-          format: date
-          description: Start of the returned date range (inclusive, ISO 8601).
-        toDate:
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
           type: string
-          format: date
-          description: End of the returned date range (inclusive, ISO 8601).
-        snapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/HistoricalDailySnapshotData'
-          description: End-of-day balance snapshots, one entry per day in the requested range.
-      additionalProperties: false
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
     AccountBalanceData:
       type: object
       description: Balance data for a single account.

@@ -917,6 +917,33 @@ paths:
       operationId: removeItemsFromWatchlist
 components:
   schemas:
+    CuratedList:
+      type: object
+      description: Represents a curated investment list
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier of the curated list
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the curated list
+          example: Tech Watchlist
+        description:
+          type: string
+          description: Description of the curated list
+          example: A list of tech stocks
+        listImageUrl:
+          type: string
+          description: URL of the list's image
+          example: https://example.com/tech-watchlist.jpg
+        items:
+          type: array
+          description: Items in the curated list
+          items:
+            $ref: '#/components/schemas/CuratedListItem'
+          example:
+          - instrumentId: 12345
     MarketRecommendationsResponse:
       type: object
       description: Response containing market recommendations
@@ -934,6 +961,24 @@ components:
           example:
           - 12345
           - 67890
+    CuratedListItem:
+      type: object
+      description: Represents an item in a curated list
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+          description: ID of the financial instrument
+          example: 12345
+    CuratedListsResponse:
+      type: object
+      description: Response containing curated investment lists
+      properties:
+        curatedLists:
+          type: array
+          description: List of curated investment lists
+          items:
+            $ref: '#/components/schemas/CuratedList'
     WatchlistsResponse:
       type: object
       description: Response containing multiple watchlists with metadata
@@ -991,42 +1036,6 @@ components:
           type: boolean
           description: Whether the request succeeded
           example: true
-    CuratedListsResponse:
-      type: object
-      description: Response containing curated investment lists
-      properties:
-        curatedLists:
-          type: array
-          description: List of curated investment lists
-          items:
-            $ref: '#/components/schemas/CuratedList'
-    CuratedList:
-      type: object
-      description: Represents a curated investment list
-      properties:
-        uuid:
-          type: string
-          description: Unique identifier of the curated list
-          example: '12345'
-        name:
-          type: string
-          description: Display name of the curated list
-          example: Tech Watchlist
-        description:
-          type: string
-          description: Description of the curated list
-          example: A list of tech stocks
-        listImageUrl:
-          type: string
-          description: URL of the list's image
-          example: https://example.com/tech-watchlist.jpg
-        items:
-          type: array
-          description: Items in the curated list
-          items:
-            $ref: '#/components/schemas/CuratedListItem'
-          example:
-          - instrumentId: 12345
     WatchlistResponse:
       type: object
       description: Represents a watchlist with its metadata and items
@@ -1170,12 +1179,3 @@ components:
                       type: string
                     textColor:
                       type: string
-    CuratedListItem:
-      type: object
-      description: Represents an item in a curated list
-      properties:
-        instrumentId:
-          type: integer
-          format: int32
-          description: ID of the financial instrument
-          example: 12345
