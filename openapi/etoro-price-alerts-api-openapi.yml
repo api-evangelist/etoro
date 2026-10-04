@@ -501,48 +501,6 @@ components:
           format: date-time
           description: Timestamp when the alert was last updated (ISO 8601 UTC)
           example: '2026-04-25T14:30:00Z'
-    DeletePriceAlertResponse:
-      type: object
-      description: Response for price alert delete operation
-      properties:
-        success:
-          type: boolean
-          description: Indicates the operation completed successfully
-          example: true
-        data:
-          type: object
-          properties:
-            alertId:
-              type: string
-              format: uuid
-              description: Unique identifier of the deleted price alert
-              example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-    PriceAlertCollectionResponse:
-      type: object
-      description: Collection of price alerts for the authenticated user
-      properties:
-        results:
-          type: array
-          description: List of price alerts matching the query criteria
-          items:
-            $ref: '#/components/schemas/PriceAlert'
-    CreatePriceAlertRequest:
-      type: object
-      description: Request body for creating a new price alert
-      required:
-      - symbol
-      - targetPrice
-      properties:
-        symbol:
-          type: string
-          description: Trading symbol to identify the instrument (e.g. AAPL, TSLA)
-          example: AAPL
-        targetPrice:
-          type: number
-          format: decimal
-          description: Target price at which the alert should trigger. Must be greater than 0.
-          example: 185.5
-          exclusiveMinimum: 0
     UpdatePriceAlertRequest:
       type: object
       description: Request body for updating an existing price alert
@@ -570,16 +528,48 @@ components:
           type: string
           description: Human-readable error message.
           example: Internal server error. Please retry or contact support
-    PriceAlertMutationResponse:
+    PriceAlertCollectionResponse:
       type: object
-      description: Response for price alert create and update operations
+      description: Collection of price alerts for the authenticated user
+      properties:
+        results:
+          type: array
+          description: List of price alerts matching the query criteria
+          items:
+            $ref: '#/components/schemas/PriceAlert'
+    DeletePriceAlertResponse:
+      type: object
+      description: Response for price alert delete operation
       properties:
         success:
           type: boolean
           description: Indicates the operation completed successfully
           example: true
         data:
-          $ref: '#/components/schemas/PriceAlert'
+          type: object
+          properties:
+            alertId:
+              type: string
+              format: uuid
+              description: Unique identifier of the deleted price alert
+              example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    CreatePriceAlertRequest:
+      type: object
+      description: Request body for creating a new price alert
+      required:
+      - symbol
+      - targetPrice
+      properties:
+        symbol:
+          type: string
+          description: Trading symbol to identify the instrument (e.g. AAPL, TSLA)
+          example: AAPL
+        targetPrice:
+          type: number
+          format: decimal
+          description: Target price at which the alert should trigger. Must be greater than 0.
+          example: 185.5
+          exclusiveMinimum: 0
     PriceAlertErrorResponse:
       type: object
       description: Error response from the price alerts service
@@ -613,3 +603,13 @@ components:
               type: string
               description: The specific field that caused the error (if applicable)
               example: targetPrice
+    PriceAlertMutationResponse:
+      type: object
+      description: Response for price alert create and update operations
+      properties:
+        success:
+          type: boolean
+          description: Indicates the operation completed successfully
+          example: true
+        data:
+          $ref: '#/components/schemas/PriceAlert'

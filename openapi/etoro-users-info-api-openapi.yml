@@ -998,6 +998,102 @@ paths:
       operationId: getTradeInfoSpecificUser
 components:
   schemas:
+    gainEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        gain:
+          type: number
+    PublicAggregatedInfoResponse:
+      type: object
+      description: Container for the aggregated user information response
+      properties:
+        users:
+          type: array
+          description: Array of user profiles with their associated information
+          items:
+            $ref: '#/components/schemas/PublicAggregatedInfoUser'
+    PublicAggregatedInfoPlayerStatus:
+      type:
+      - integer
+      - 'null'
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      x-enumNames:
+      - Normal
+      - Blocked
+      - ChatBlocked
+      - BlockedUponRequest
+      - Warning
+      - BlockedUnderInvestigation
+      - ScalpersBlock
+      - BlockedPayPalInvestigation
+      - TradeBlock
+      - DepositBlocked
+      - SocialIndex
+      - CopyBlock
+      - PendingVerification
+      - BlockedFailedVerification
+      - BlockTrading
+    PublicAggregatedInfoAccountStatus:
+      type:
+      - integer
+      - 'null'
+      enum:
+      - 1
+      - 2
+      x-enumNames:
+      - Open
+      - Closed
+    getUserDailyGainResponse:
+      oneOf:
+      - type: array
+        items:
+          $ref: '#/components/schemas/gainEntry'
+      - type: object
+        properties:
+          gain:
+            type: number
+    PublicAggregatedInfoUiUserBio:
+      type: object
+      properties:
+        gcid:
+          type: integer
+        languageCode:
+          type:
+          - string
+          - 'null'
+        aboutMe:
+          type:
+          - string
+          - 'null'
+          description: User's full about me text
+        aboutMeShort:
+          type:
+          - string
+          - 'null'
+          description: Short summary of user's about me text
+        strategyID:
+          type:
+          - integer
+          - 'null'
+          description: ID of the user's trading strategy
     PublicAggregatedInfoPlayerStatusReason:
       type:
       - integer
@@ -1107,53 +1203,6 @@ components:
           - Resized
           - Retouched
           description: Type of avatar image
-    PublicAggregatedInfoAccountStatus:
-      type:
-      - integer
-      - 'null'
-      enum:
-      - 1
-      - 2
-      x-enumNames:
-      - Open
-      - Closed
-    gainEntry:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        gain:
-          type: number
-    PublicAggregatedInfoResponse:
-      type: object
-      description: Container for the aggregated user information response
-      properties:
-        users:
-          type: array
-          description: Array of user profiles with their associated information
-          items:
-            $ref: '#/components/schemas/PublicAggregatedInfoUser'
-    getUserDailyGainResponse:
-      oneOf:
-      - type: array
-        items:
-          $ref: '#/components/schemas/gainEntry'
-      - type: object
-        properties:
-          gain:
-            type: number
-    getUserGainResponse:
-      type: object
-      properties:
-        monthly:
-          type: array
-          items:
-            $ref: '#/components/schemas/gainEntry'
-        yearly:
-          type: array
-          items:
-            $ref: '#/components/schemas/gainEntry'
     PublicAggregatedInfoUser:
       type: object
       description: Comprehensive user profile information including account details, verification status, and preferences
@@ -1299,63 +1348,14 @@ components:
           description: List of customer restrictions applied to the account
         userFlowSignature:
           type: string
-    PublicAggregatedInfoUiUserBio:
+    getUserGainResponse:
       type: object
       properties:
-        gcid:
-          type: integer
-        languageCode:
-          type:
-          - string
-          - 'null'
-        aboutMe:
-          type:
-          - string
-          - 'null'
-          description: User's full about me text
-        aboutMeShort:
-          type:
-          - string
-          - 'null'
-          description: Short summary of user's about me text
-        strategyID:
-          type:
-          - integer
-          - 'null'
-          description: ID of the user's trading strategy
-    PublicAggregatedInfoPlayerStatus:
-      type:
-      - integer
-      - 'null'
-      enum:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      x-enumNames:
-      - Normal
-      - Blocked
-      - ChatBlocked
-      - BlockedUponRequest
-      - Warning
-      - BlockedUnderInvestigation
-      - ScalpersBlock
-      - BlockedPayPalInvestigation
-      - TradeBlock
-      - DepositBlocked
-      - SocialIndex
-      - CopyBlock
-      - PendingVerification
-      - BlockedFailedVerification
-      - BlockTrading
+        monthly:
+          type: array
+          items:
+            $ref: '#/components/schemas/gainEntry'
+        yearly:
+          type: array
+          items:
+            $ref: '#/components/schemas/gainEntry'

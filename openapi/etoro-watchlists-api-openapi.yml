@@ -917,33 +917,6 @@ paths:
       operationId: removeItemsFromWatchlist
 components:
   schemas:
-    CuratedList:
-      type: object
-      description: Represents a curated investment list
-      properties:
-        uuid:
-          type: string
-          description: Unique identifier of the curated list
-          example: '12345'
-        name:
-          type: string
-          description: Display name of the curated list
-          example: Tech Watchlist
-        description:
-          type: string
-          description: Description of the curated list
-          example: A list of tech stocks
-        listImageUrl:
-          type: string
-          description: URL of the list's image
-          example: https://example.com/tech-watchlist.jpg
-        items:
-          type: array
-          description: Items in the curated list
-          items:
-            $ref: '#/components/schemas/CuratedListItem'
-          example:
-          - instrumentId: 12345
     MarketRecommendationsResponse:
       type: object
       description: Response containing market recommendations
@@ -961,81 +934,6 @@ components:
           example:
           - 12345
           - 67890
-    CuratedListItem:
-      type: object
-      description: Represents an item in a curated list
-      properties:
-        instrumentId:
-          type: integer
-          format: int32
-          description: ID of the financial instrument
-          example: 12345
-    CuratedListsResponse:
-      type: object
-      description: Response containing curated investment lists
-      properties:
-        curatedLists:
-          type: array
-          description: List of curated investment lists
-          items:
-            $ref: '#/components/schemas/CuratedList'
-    WatchlistsResponse:
-      type: object
-      description: Response containing multiple watchlists with metadata
-      properties:
-        status:
-          type: integer
-          format: int32
-          description: HTTP status code of the response
-          example: 200
-        watchlists:
-          type: array
-          description: List of user watchlists
-          items:
-            $ref: '#/components/schemas/WatchlistResponse'
-        exception:
-          type: object
-          description: Exception details when the request partially failed
-          properties:
-            invalidItems:
-              type: array
-              description: List of invalid item identifiers
-              items:
-                type: string
-            reason:
-              type: string
-              description: Reason for the exception
-            message:
-              type: string
-              description: Human-readable exception message
-        meta:
-          type: object
-          description: Response metadata including pagination info
-          properties:
-            pageNumber:
-              type: integer
-              format: int32
-              description: Current page number
-              example: 0
-            itemsPerPage:
-              type: integer
-              format: int32
-              description: Number of items per page
-              example: 100
-            maxItemsInWatchlistLimit:
-              type: integer
-              format: int32
-              description: Maximum allowed items per watchlist
-              example: 1000
-            maxWatchlistsLimit:
-              type: integer
-              format: int32
-              description: Maximum allowed watchlists per user
-              example: 10
-        isSucceeded:
-          type: boolean
-          description: Whether the request succeeded
-          example: true
     WatchlistResponse:
       type: object
       description: Represents a watchlist with its metadata and items
@@ -1105,6 +1003,108 @@ components:
           example:
           - 12345
           - 67890
+    CuratedList:
+      type: object
+      description: Represents a curated investment list
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier of the curated list
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the curated list
+          example: Tech Watchlist
+        description:
+          type: string
+          description: Description of the curated list
+          example: A list of tech stocks
+        listImageUrl:
+          type: string
+          description: URL of the list's image
+          example: https://example.com/tech-watchlist.jpg
+        items:
+          type: array
+          description: Items in the curated list
+          items:
+            $ref: '#/components/schemas/CuratedListItem'
+          example:
+          - instrumentId: 12345
+    WatchlistsResponse:
+      type: object
+      description: Response containing multiple watchlists with metadata
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code of the response
+          example: 200
+        watchlists:
+          type: array
+          description: List of user watchlists
+          items:
+            $ref: '#/components/schemas/WatchlistResponse'
+        exception:
+          type: object
+          description: Exception details when the request partially failed
+          properties:
+            invalidItems:
+              type: array
+              description: List of invalid item identifiers
+              items:
+                type: string
+            reason:
+              type: string
+              description: Reason for the exception
+            message:
+              type: string
+              description: Human-readable exception message
+        meta:
+          type: object
+          description: Response metadata including pagination info
+          properties:
+            pageNumber:
+              type: integer
+              format: int32
+              description: Current page number
+              example: 0
+            itemsPerPage:
+              type: integer
+              format: int32
+              description: Number of items per page
+              example: 100
+            maxItemsInWatchlistLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed items per watchlist
+              example: 1000
+            maxWatchlistsLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed watchlists per user
+              example: 10
+        isSucceeded:
+          type: boolean
+          description: Whether the request succeeded
+          example: true
+    CuratedListsResponse:
+      type: object
+      description: Response containing curated investment lists
+      properties:
+        curatedLists:
+          type: array
+          description: List of curated investment lists
+          items:
+            $ref: '#/components/schemas/CuratedList'
+    CuratedListItem:
+      type: object
+      description: Represents an item in a curated list
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+          description: ID of the financial instrument
+          example: 12345
     WatchlistItemDto:
       type: object
       description: Represents an item in a watchlist

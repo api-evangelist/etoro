@@ -523,6 +523,131 @@ paths:
                 $ref: '#/components/schemas/StocksIndustriesResponse'
 components:
   schemas:
+    LiveRatesResponse:
+      type: object
+      description: Container for real-time market rates data
+      properties:
+        rates:
+          type: array
+          description: Array of current market rates for requested instruments
+          items:
+            type: object
+            description: Individual instrument rate information
+            properties:
+              instrumentID:
+                type: integer
+                description: Unique identifier for the financial instrument
+              ask:
+                type: number
+                format: float
+                description: Current asking price (offer) for the instrument. This is the price at which you can buy the asset.
+              bid:
+                type: number
+                format: float
+                description: Current bid price for the instrument. This is the price at which you can sell the asset.
+              lastExecution:
+                type: number
+                format: float
+                description: Price of the most recent trade execution for this instrument
+              conversionRateAsk:
+                type: number
+                format: float
+                description: Current conversion rate (ask) from instrument's currency to USD, used for position value calculations
+              conversionRateBid:
+                type: number
+                format: float
+                description: Current conversion rate (bid) from instrument's currency to USD, used for position value calculations
+              date:
+                type: string
+                format: date-time
+                description: The date-time of the price in the system
+              unitMargin:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument price
+              unitMarginAsk:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument ask price
+              unitMarginBid:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument bid price
+              priceRateID:
+                type: integer
+              bidDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              askDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              unitMarginBidDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              unitMarginAskDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+    InstrumentTypesResponse:
+      type: object
+      properties:
+        instrumentTypes:
+          type: array
+          items:
+            type: object
+            properties:
+              instrumentTypeID:
+                type: integer
+              instrumentTypeDescription:
+                type: string
+    InstrumentsResponse:
+      type: object
+      properties:
+        instrumentDisplayDatas:
+          type: array
+          items:
+            type: object
+            properties:
+              instrumentID:
+                type: integer
+              instrumentDisplayName:
+                type: string
+              instrumentTypeID:
+                type: integer
+              exchangeID:
+                type: integer
+              symbolFull:
+                type: string
+              stocksIndustryId:
+                type: integer
+              priceSource:
+                type: string
+                description: The data provider or market source for the price, such as Nasdaq, LSE, or CME.
+              hasExpirationDate:
+                type: boolean
+              isInternalInstrument:
+                type: boolean
+                description: If set to true, the instrument is restricted from public access.
+              images:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    instrumentID:
+                      type: integer
+                    width:
+                      type: number
+                    height:
+                      type: number
+                    uri:
+                      type: string
+                    backgroundColor:
+                      type: string
+                    textColor:
+                      type: string
     Instrument:
       type: object
       properties:
@@ -718,30 +843,79 @@ components:
         sectorNameId:
           type: integer
           description: The sector name ID.
-    StocksIndustriesResponse:
+    InstrumentSearchResponse:
       type: object
       properties:
-        stocksIndustries:
+        page:
+          type: integer
+          description: The current page number.
+        pageSize:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of instruments matching the search criteria.
+        items:
           type: array
           items:
+            $ref: '#/components/schemas/Instrument'
+    closingPricesResponse:
+      type: array
+      description: List of closing prices for all instruments
+      items:
+        type: object
+        description: Closing price information for a specific instrument
+        properties:
+          instrumentId:
+            type: integer
+            description: Unique identifier of the instrument
+          officialClosingPrice:
+            type: number
+            format: float
+            description: Most recent official closing price for the instrument
+          isMarketOpen:
+            type: boolean
+            description: Obsolete - Do not use
+          closingPrices:
             type: object
+            description: Historical closing prices at different time intervals
             properties:
-              industryID:
-                type: integer
-              industryName:
-                type: string
-    InstrumentTypesResponse:
-      type: object
-      properties:
-        instrumentTypes:
-          type: array
-          items:
-            type: object
-            properties:
-              instrumentTypeID:
-                type: integer
-              instrumentTypeDescription:
-                type: string
+              daily:
+                type: object
+                description: Official closing price from the previous trading day
+                properties:
+                  price:
+                    type: number
+                    format: float
+                    description: Closing price value
+                  date:
+                    type: string
+                    format: date-time
+                    description: Date and time of the closing price in ISO 8601 format
+              weekly:
+                type: object
+                description: Official closing price from the previous trading week
+                properties:
+                  price:
+                    type: number
+                    format: float
+                    description: Closing price value
+                  date:
+                    type: string
+                    format: date-time
+                    description: Date and time of the closing price in ISO 8601 format
+              monthly:
+                type: object
+                description: Official closing price from the previous trading month
+                properties:
+                  price:
+                    type: number
+                    format: float
+                    description: Closing price value. A value of -1 indicates no data available.
+                  date:
+                    type: string
+                    format: date-time
+                    description: Date and time of the closing price in ISO 8601 format. Default date (0001-01-01) indicates no data available.
     candlesResponse:
       type: object
       description: Response containing historical price data in candlestick format
@@ -823,192 +997,6 @@ components:
                 type: number
                 format: float
                 description: Total trading volume across all candles in the range
-    LiveRatesResponse:
-      type: object
-      description: Container for real-time market rates data
-      properties:
-        rates:
-          type: array
-          description: Array of current market rates for requested instruments
-          items:
-            type: object
-            description: Individual instrument rate information
-            properties:
-              instrumentID:
-                type: integer
-                description: Unique identifier for the financial instrument
-              ask:
-                type: number
-                format: float
-                description: Current asking price (offer) for the instrument. This is the price at which you can buy the asset.
-              bid:
-                type: number
-                format: float
-                description: Current bid price for the instrument. This is the price at which you can sell the asset.
-              lastExecution:
-                type: number
-                format: float
-                description: Price of the most recent trade execution for this instrument
-              conversionRateAsk:
-                type: number
-                format: float
-                description: Current conversion rate (ask) from instrument's currency to USD, used for position value calculations
-              conversionRateBid:
-                type: number
-                format: float
-                description: Current conversion rate (bid) from instrument's currency to USD, used for position value calculations
-              date:
-                type: string
-                format: date-time
-                description: The date-time of the price in the system
-              unitMargin:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument price
-              unitMarginAsk:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument ask price
-              unitMarginBid:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument bid price
-              priceRateID:
-                type: integer
-              bidDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              askDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              unitMarginBidDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              unitMarginAskDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-    InstrumentsResponse:
-      type: object
-      properties:
-        instrumentDisplayDatas:
-          type: array
-          items:
-            type: object
-            properties:
-              instrumentID:
-                type: integer
-              instrumentDisplayName:
-                type: string
-              instrumentTypeID:
-                type: integer
-              exchangeID:
-                type: integer
-              symbolFull:
-                type: string
-              stocksIndustryId:
-                type: integer
-              priceSource:
-                type: string
-                description: The data provider or market source for the price, such as Nasdaq, LSE, or CME.
-              hasExpirationDate:
-                type: boolean
-              isInternalInstrument:
-                type: boolean
-                description: If set to true, the instrument is restricted from public access.
-              images:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    instrumentID:
-                      type: integer
-                    width:
-                      type: number
-                    height:
-                      type: number
-                    uri:
-                      type: string
-                    backgroundColor:
-                      type: string
-                    textColor:
-                      type: string
-    InstrumentSearchResponse:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: The current page number.
-        pageSize:
-          type: integer
-          description: The number of items per page.
-        totalItems:
-          type: integer
-          description: The total number of instruments matching the search criteria.
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Instrument'
-    closingPricesResponse:
-      type: array
-      description: List of closing prices for all instruments
-      items:
-        type: object
-        description: Closing price information for a specific instrument
-        properties:
-          instrumentId:
-            type: integer
-            description: Unique identifier of the instrument
-          officialClosingPrice:
-            type: number
-            format: float
-            description: Most recent official closing price for the instrument
-          isMarketOpen:
-            type: boolean
-            description: Obsolete - Do not use
-          closingPrices:
-            type: object
-            description: Historical closing prices at different time intervals
-            properties:
-              daily:
-                type: object
-                description: Official closing price from the previous trading day
-                properties:
-                  price:
-                    type: number
-                    format: float
-                    description: Closing price value
-                  date:
-                    type: string
-                    format: date-time
-                    description: Date and time of the closing price in ISO 8601 format
-              weekly:
-                type: object
-                description: Official closing price from the previous trading week
-                properties:
-                  price:
-                    type: number
-                    format: float
-                    description: Closing price value
-                  date:
-                    type: string
-                    format: date-time
-                    description: Date and time of the closing price in ISO 8601 format
-              monthly:
-                type: object
-                description: Official closing price from the previous trading month
-                properties:
-                  price:
-                    type: number
-                    format: float
-                    description: Closing price value. A value of -1 indicates no data available.
-                  date:
-                    type: string
-                    format: date-time
-                    description: Date and time of the closing price in ISO 8601 format. Default date (0001-01-01) indicates no data available.
     ExchangesResponse:
       type: object
       properties:
@@ -1020,4 +1008,16 @@ components:
               exchangeID:
                 type: integer
               exchangeDescription:
+                type: string
+    StocksIndustriesResponse:
+      type: object
+      properties:
+        stocksIndustries:
+          type: array
+          items:
+            type: object
+            properties:
+              industryID:
+                type: integer
+              industryName:
                 type: string

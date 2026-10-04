@@ -460,66 +460,92 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ExposureHistoryEntry:
-      type: object
-      required:
-      - date
-      - absExposurePct
-      - exposureItems
-      properties:
-        date:
-          type: string
-          format: date
-          description: ISO 8601 date of this snapshot (YYYY-MM-DD)
-        absExposurePct:
-          type: number
-          description: 'Sum of absolute exposure across all instruments as a ratio of total daily investment. Decimal fraction: 0.5 = 50%.'
-        exposureItems:
-          type: array
-          description: Per-instrument exposure breakdown
-          items:
-            $ref: '#/components/schemas/ExposureItem'
-    CopiersCurrentResponse:
-      type: object
-      description: Current copiers snapshot and AUM tier for portfolio display.
-      required:
-      - copiers
-      - aumTier
-      properties:
-        copiers:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Current number of copiers.
-        aumTier:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Assets-under-management tier level.
-        aumTierDesc:
-          type:
-          - string
-          - 'null'
-          description: Human-readable AUM tier label; null when not provided upstream.
-    ExposureItem:
+    AssetsHistoryAsset:
       type: object
       required:
       - instrumentId
       - symbol
-      - netExposurePct
-      - absExposurePct
+      - investedPct
+      - valuePct
       properties:
         instrumentId:
           type: integer
         symbol:
           type: string
           description: Trading symbol for this instrument (e.g. AAPL, TSLA)
-        netExposurePct:
+        investedPct:
           type: number
-          description: 'Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.'
-        absExposurePct:
+          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
+        valuePct:
           type: number
-          description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
+          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
+    GainPoint:
+      type: object
+      required:
+      - date
+      - gain
+      properties:
+        date:
+          type: string
+          format: date
+        gain:
+          type: number
+    Error:
+      type: object
+      required:
+      - success
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+    AssetsHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+          description: Echoes the requested username.
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetsHistoryEntry'
+    ExposureHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+        results:
+          type: array
+          description: Daily snapshots ordered ascending by date.
+          items:
+            $ref: '#/components/schemas/ExposureHistoryEntry'
     StandardErrorResponse:
       type: object
       description: Standard public API error envelope.
@@ -556,49 +582,102 @@ components:
         requestId:
           type: string
           description: Correlation identifier for support and tracing.
-    Error:
+    CopiersCurrentResponse:
+      type: object
+      description: Current copiers snapshot and AUM tier for portfolio display.
+      required:
+      - copiers
+      - aumTier
+      properties:
+        copiers:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Current number of copiers.
+        aumTier:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Assets-under-management tier level.
+        aumTierDesc:
+          type:
+          - string
+          - 'null'
+          description: Human-readable AUM tier label; null when not provided upstream.
+    AssetsHistoryEntry:
       type: object
       required:
-      - success
-      - timestamp
-      - requestId
+      - date
+      - cashPct
+      - cashOfTotalEquityPct
+      - assets
       properties:
-        success:
-          type: boolean
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            details:
-              type: string
-            field:
-              type: string
-            value:
-              type: string
-        timestamp:
+        date:
           type: string
-          format: date-time
-        requestId:
-          type: string
-    ExposureHistoryResponse:
-      type: object
-      required:
-      - userName
-      - results
-      properties:
-        userName:
-          type: string
-        results:
+          format: date
+          description: Date of this snapshot (YYYY-MM-DD)
+        cashPct:
+          type: number
+          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
+        cashOfTotalEquityPct:
+          type: number
+          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
+        assets:
           type: array
-          description: Daily snapshots ordered ascending by date.
+          description: Per-instrument breakdown. Mirror allocations are excluded.
           items:
-            $ref: '#/components/schemas/ExposureHistoryEntry'
+            $ref: '#/components/schemas/AssetsHistoryAsset'
+    ExposureHistoryEntry:
+      type: object
+      required:
+      - date
+      - absExposurePct
+      - exposureItems
+      properties:
+        date:
+          type: string
+          format: date
+          description: ISO 8601 date of this snapshot (YYYY-MM-DD)
+        absExposurePct:
+          type: number
+          description: 'Sum of absolute exposure across all instruments as a ratio of total daily investment. Decimal fraction: 0.5 = 50%.'
+        exposureItems:
+          type: array
+          description: Per-instrument exposure breakdown
+          items:
+            $ref: '#/components/schemas/ExposureItem'
+    ExposureItem:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - netExposurePct
+      - absExposurePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        netExposurePct:
+          type: number
+          description: 'Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.'
+        absExposurePct:
+          type: number
+          description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
+    RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
     GainHistoryResponse:
       type: object
       required:
@@ -623,82 +702,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GainPoint'
-    GainPoint:
-      type: object
-      required:
-      - date
-      - gain
-      properties:
-        date:
-          type: string
-          format: date
-        gain:
-          type: number
-    AssetsHistoryEntry:
-      type: object
-      required:
-      - date
-      - cashPct
-      - cashOfTotalEquityPct
-      - assets
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date of this snapshot (YYYY-MM-DD)
-        cashPct:
-          type: number
-          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
-        cashOfTotalEquityPct:
-          type: number
-          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
-        assets:
-          type: array
-          description: Per-instrument breakdown. Mirror allocations are excluded.
-          items:
-            $ref: '#/components/schemas/AssetsHistoryAsset'
-    AssetsHistoryResponse:
-      type: object
-      required:
-      - userName
-      - results
-      properties:
-        userName:
-          type: string
-          description: Echoes the requested username.
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetsHistoryEntry'
-    AssetsHistoryAsset:
-      type: object
-      required:
-      - instrumentId
-      - symbol
-      - investedPct
-      - valuePct
-      properties:
-        instrumentId:
-          type: integer
-        symbol:
-          type: string
-          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
-        investedPct:
-          type: number
-          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
-        valuePct:
-          type: number
-          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
-    RankingPeriod:
-      type: string
-      enum:
-      - CurrMonth
-      - OneMonthAgo
-      - TwoMonthsAgo
-      - CurrQuarter
-      - ThreeMonthsAgo
-      - SixMonthsAgo
-      - CurrYear
-      - OneYearAgo
-      - LastYear
-      - LastTwoYears

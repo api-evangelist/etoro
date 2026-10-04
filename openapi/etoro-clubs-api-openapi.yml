@@ -86,6 +86,101 @@ paths:
       operationId: getClubDashboardData
 components:
   schemas:
+    DowngradeRiskResponse:
+      type: object
+      description: Club tier downgrade risk assessment
+      properties:
+        isAtRisk:
+          type: boolean
+          description: Whether the user is at risk of club tier downgrade
+          example: false
+        daysUntilDowngrade:
+          type:
+          - integer
+          - 'null'
+          description: Days remaining until potential downgrade. Present only when isAtRisk is true.
+          example: 30
+    OfferInBundle:
+      type: object
+      description: An offer included in a bundle
+      properties:
+        type:
+          type: string
+          enum:
+          - Entertainment
+          - Gifts
+          - News
+          - Signals
+          - Tools
+          - Exclusive events
+          - Tickets
+          - Zoom meetings
+          - Educational
+          - Services
+          - Association Membership
+          - Financial
+          - Travel
+          - Gift card
+          - Client meetup
+          - Emotional
+          - Bundle
+          description: Bundle offer type
+          example: Services
+        offerLimit:
+          type: integer
+          description: Maximum number of offers in this bundle
+          example: 3
+    ClubInfo:
+      type: object
+      description: A single club tier with equity thresholds
+      properties:
+        name:
+          type: string
+          enum:
+          - Internal
+          - Bronze
+          - Silver
+          - Gold
+          - Platinum
+          - PlatinumPlus
+          - Diamond
+          description: Display name of the club tier
+          example: Silver
+        minRealizedEquity:
+          type:
+          - integer
+          - 'null'
+          description: Minimum realized equity threshold for this tier
+          example: 5000
+        maxRealizedEquity:
+          type:
+          - integer
+          - 'null'
+          description: Maximum realized equity threshold for this tier
+          example: 10000
+        rank:
+          type: integer
+          description: Display rank of this tier
+          example: 2
+    UserOffersData:
+      type: object
+      description: Club offers categorized by availability
+      properties:
+        currentPlayerLevelAvailableOffers:
+          type: array
+          description: Offers available at the user's current club tier
+          items:
+            $ref: '#/components/schemas/ClubOffer'
+        nextPlayerLevelAvailableOffers:
+          type: array
+          description: Offers that become available at the next club tier
+          items:
+            $ref: '#/components/schemas/ClubOffer'
+        staticEligibleOffers:
+          type: array
+          description: Offers eligible across specific club tiers
+          items:
+            $ref: '#/components/schemas/StaticEligibleOffer'
     ContactsResponse:
       type: object
       description: Account manager contact details
@@ -93,6 +188,21 @@ components:
         manager:
           description: Assigned account manager profile
           $ref: '#/components/schemas/ContactInfo'
+    PublicErrorResponse:
+      type: object
+      description: Error response with code and message.
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code.
+          example: GeneralError
+        errorMessage:
+          type: string
+          description: Human-readable error message.
+          example: Internal server error. Please retry or contact support
     ClubOffer:
       type: object
       description: A club benefit offer
@@ -196,23 +306,21 @@ components:
           description: Sub-offers within this offer
           items:
             $ref: '#/components/schemas/ClubOffer'
-    Avatar:
+    Svg:
       type: object
       properties:
-        small:
+        url:
           type:
           - string
           - 'null'
-        medium:
+        backgroundColor:
           type:
           - string
           - 'null'
-        large:
+        textColor:
           type:
           - string
           - 'null'
-        svg:
-          $ref: '#/components/schemas/Svg'
       additionalProperties: false
     ClubDashboardDataResponse:
       type: object
@@ -235,171 +343,6 @@ components:
         webinars:
           description: Upcoming and past club webinars
           $ref: '#/components/schemas/WebinarsResponse'
-    OfferInBundle:
-      type: object
-      description: An offer included in a bundle
-      properties:
-        type:
-          type: string
-          enum:
-          - Entertainment
-          - Gifts
-          - News
-          - Signals
-          - Tools
-          - Exclusive events
-          - Tickets
-          - Zoom meetings
-          - Educational
-          - Services
-          - Association Membership
-          - Financial
-          - Travel
-          - Gift card
-          - Client meetup
-          - Emotional
-          - Bundle
-          description: Bundle offer type
-          example: Services
-        offerLimit:
-          type: integer
-          description: Maximum number of offers in this bundle
-          example: 3
-    ContactInfo:
-      type: object
-      description: Account manager profile
-      properties:
-        firstName:
-          type: string
-          description: Account manager first name
-          example: John
-        lastName:
-          type: string
-          description: Account manager last name
-          example: Smith
-        email:
-          type: string
-          format: email
-          description: Account manager email address
-          example: john.smith@etoro.com
-        calendarUrl:
-          type:
-          - string
-          - 'null'
-          description: Calendar booking URL for scheduling meetings
-          example: https://calendly.com/etoro-club
-        avatars:
-          type: array
-          description: Manager avatar images in different sizes
-          items:
-            $ref: '#/components/schemas/Avatar'
-    PublicErrorResponse:
-      type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
-        errorMessage:
-          type: string
-          description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
-    Svg:
-      type: object
-      properties:
-        url:
-          type:
-          - string
-          - 'null'
-        backgroundColor:
-          type:
-          - string
-          - 'null'
-        textColor:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    DowngradeRiskResponse:
-      type: object
-      description: Club tier downgrade risk assessment
-      properties:
-        isAtRisk:
-          type: boolean
-          description: Whether the user is at risk of club tier downgrade
-          example: false
-        daysUntilDowngrade:
-          type:
-          - integer
-          - 'null'
-          description: Days remaining until potential downgrade. Present only when isAtRisk is true.
-          example: 30
-    Webinar:
-      type: object
-      description: A club webinar event
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Webinar identifier
-          example: 83618564462
-        topic:
-          type: string
-          description: Webinar topic
-          example: Club Webinars with Lale Akoner and Sam North
-        startTime:
-          type: string
-          format: date-time
-          description: Scheduled start time in UTC
-          example: '2026-05-20T14:00:00Z'
-        joinUrl:
-          type:
-          - string
-          - 'null'
-          description: URL to join the webinar (upcoming webinars only)
-          example: https://us02web.zoom.us/j/83618564462
-        recordUrl:
-          type:
-          - string
-          - 'null'
-          description: URL to the recording (past webinars only)
-          example: https://us02web.zoom.us/rec/play/example
-    ClubInfo:
-      type: object
-      description: A single club tier with equity thresholds
-      properties:
-        name:
-          type: string
-          enum:
-          - Internal
-          - Bronze
-          - Silver
-          - Gold
-          - Platinum
-          - PlatinumPlus
-          - Diamond
-          description: Display name of the club tier
-          example: Silver
-        minRealizedEquity:
-          type:
-          - integer
-          - 'null'
-          description: Minimum realized equity threshold for this tier
-          example: 5000
-        maxRealizedEquity:
-          type:
-          - integer
-          - 'null'
-          description: Maximum realized equity threshold for this tier
-          example: 10000
-        rank:
-          type: integer
-          description: Display rank of this tier
-          example: 2
     StaticEligibleOffer:
       type: object
       description: An offer eligible across specific club tiers
@@ -496,22 +439,79 @@ components:
           description: List of past webinars with recordings
           items:
             $ref: '#/components/schemas/Webinar'
-    UserOffersData:
+    Avatar:
       type: object
-      description: Club offers categorized by availability
       properties:
-        currentPlayerLevelAvailableOffers:
+        small:
+          type:
+          - string
+          - 'null'
+        medium:
+          type:
+          - string
+          - 'null'
+        large:
+          type:
+          - string
+          - 'null'
+        svg:
+          $ref: '#/components/schemas/Svg'
+      additionalProperties: false
+    Webinar:
+      type: object
+      description: A club webinar event
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Webinar identifier
+          example: 83618564462
+        topic:
+          type: string
+          description: Webinar topic
+          example: Club Webinars with Lale Akoner and Sam North
+        startTime:
+          type: string
+          format: date-time
+          description: Scheduled start time in UTC
+          example: '2026-05-20T14:00:00Z'
+        joinUrl:
+          type:
+          - string
+          - 'null'
+          description: URL to join the webinar (upcoming webinars only)
+          example: https://us02web.zoom.us/j/83618564462
+        recordUrl:
+          type:
+          - string
+          - 'null'
+          description: URL to the recording (past webinars only)
+          example: https://us02web.zoom.us/rec/play/example
+    ContactInfo:
+      type: object
+      description: Account manager profile
+      properties:
+        firstName:
+          type: string
+          description: Account manager first name
+          example: John
+        lastName:
+          type: string
+          description: Account manager last name
+          example: Smith
+        email:
+          type: string
+          format: email
+          description: Account manager email address
+          example: john.smith@etoro.com
+        calendarUrl:
+          type:
+          - string
+          - 'null'
+          description: Calendar booking URL for scheduling meetings
+          example: https://calendly.com/etoro-club
+        avatars:
           type: array
-          description: Offers available at the user's current club tier
+          description: Manager avatar images in different sizes
           items:
-            $ref: '#/components/schemas/ClubOffer'
-        nextPlayerLevelAvailableOffers:
-          type: array
-          description: Offers that become available at the next club tier
-          items:
-            $ref: '#/components/schemas/ClubOffer'
-        staticEligibleOffers:
-          type: array
-          description: Offers eligible across specific club tiers
-          items:
-            $ref: '#/components/schemas/StaticEligibleOffer'
+            $ref: '#/components/schemas/Avatar'
