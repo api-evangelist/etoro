@@ -934,75 +934,15 @@ components:
           example:
           - 12345
           - 67890
-    WatchlistResponse:
+    CuratedListsResponse:
       type: object
-      description: Represents a watchlist with its metadata and items
+      description: Response containing curated investment lists
       properties:
-        watchlistId:
-          type: string
-          description: Unique identifier of the watchlist
-          example: '12345'
-        name:
-          type: string
-          description: Display name of the watchlist
-          example: Tech Watchlist
-        Gcid:
-          type: integer
-          format: int32
-          description: Global Customer ID of the watchlist owner
-          example: 12345
-        watchlistType:
-          type: string
-          enum:
-          - Static
-          - Dynamic
-          - RecentlyInvested
-          - Default
-          description: Type of the watchlist
-          example: Static
-        totalItems:
-          type: integer
-          format: int32
-          description: Total number of items in the watchlist
-          example: 100
-        isDefault:
-          type: boolean
-          description: Whether this is a default system watchlist
-          example: true
-        isUserSelectedDefault:
-          type: boolean
-          description: Whether this is the user's selected default watchlist
-          example: true
-        watchlistRank:
-          type: integer
-          format: int32
-          description: Display order rank of the watchlist
-          example: 1
-        dynamicUrl:
-          type:
-          - string
-          - 'null'
-          description: URL for dynamic watchlist queries
-        items:
+        curatedLists:
           type: array
-          description: Items contained in the watchlist
+          description: List of curated investment lists
           items:
-            $ref: '#/components/schemas/WatchlistItemDto'
-          example:
-          - itemId: 12345
-            itemType: Instrument
-            itemRank: 1
-        relatedAssets:
-          type:
-          - array
-          - 'null'
-          description: Related asset IDs
-          items:
-            type: integer
-            format: int32
-          example:
-          - 12345
-          - 67890
+            $ref: '#/components/schemas/CuratedList'
     CuratedList:
       type: object
       description: Represents a curated investment list
@@ -1030,81 +970,6 @@ components:
             $ref: '#/components/schemas/CuratedListItem'
           example:
           - instrumentId: 12345
-    WatchlistsResponse:
-      type: object
-      description: Response containing multiple watchlists with metadata
-      properties:
-        status:
-          type: integer
-          format: int32
-          description: HTTP status code of the response
-          example: 200
-        watchlists:
-          type: array
-          description: List of user watchlists
-          items:
-            $ref: '#/components/schemas/WatchlistResponse'
-        exception:
-          type: object
-          description: Exception details when the request partially failed
-          properties:
-            invalidItems:
-              type: array
-              description: List of invalid item identifiers
-              items:
-                type: string
-            reason:
-              type: string
-              description: Reason for the exception
-            message:
-              type: string
-              description: Human-readable exception message
-        meta:
-          type: object
-          description: Response metadata including pagination info
-          properties:
-            pageNumber:
-              type: integer
-              format: int32
-              description: Current page number
-              example: 0
-            itemsPerPage:
-              type: integer
-              format: int32
-              description: Number of items per page
-              example: 100
-            maxItemsInWatchlistLimit:
-              type: integer
-              format: int32
-              description: Maximum allowed items per watchlist
-              example: 1000
-            maxWatchlistsLimit:
-              type: integer
-              format: int32
-              description: Maximum allowed watchlists per user
-              example: 10
-        isSucceeded:
-          type: boolean
-          description: Whether the request succeeded
-          example: true
-    CuratedListsResponse:
-      type: object
-      description: Response containing curated investment lists
-      properties:
-        curatedLists:
-          type: array
-          description: List of curated investment lists
-          items:
-            $ref: '#/components/schemas/CuratedList'
-    CuratedListItem:
-      type: object
-      description: Represents an item in a curated list
-      properties:
-        instrumentId:
-          type: integer
-          format: int32
-          description: ID of the financial instrument
-          example: 12345
     WatchlistItemDto:
       type: object
       description: Represents an item in a watchlist
@@ -1179,3 +1044,138 @@ components:
                       type: string
                     textColor:
                       type: string
+    CuratedListItem:
+      type: object
+      description: Represents an item in a curated list
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+          description: ID of the financial instrument
+          example: 12345
+    WatchlistResponse:
+      type: object
+      description: Represents a watchlist with its metadata and items
+      properties:
+        watchlistId:
+          type: string
+          description: Unique identifier of the watchlist
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the watchlist
+          example: Tech Watchlist
+        Gcid:
+          type: integer
+          format: int32
+          description: Global Customer ID of the watchlist owner
+          example: 12345
+        watchlistType:
+          type: string
+          enum:
+          - Static
+          - Dynamic
+          - RecentlyInvested
+          - Default
+          description: Type of the watchlist
+          example: Static
+        totalItems:
+          type: integer
+          format: int32
+          description: Total number of items in the watchlist
+          example: 100
+        isDefault:
+          type: boolean
+          description: Whether this is a default system watchlist
+          example: true
+        isUserSelectedDefault:
+          type: boolean
+          description: Whether this is the user's selected default watchlist
+          example: true
+        watchlistRank:
+          type: integer
+          format: int32
+          description: Display order rank of the watchlist
+          example: 1
+        dynamicUrl:
+          type:
+          - string
+          - 'null'
+          description: URL for dynamic watchlist queries
+        items:
+          type: array
+          description: Items contained in the watchlist
+          items:
+            $ref: '#/components/schemas/WatchlistItemDto'
+          example:
+          - itemId: 12345
+            itemType: Instrument
+            itemRank: 1
+        relatedAssets:
+          type:
+          - array
+          - 'null'
+          description: Related asset IDs
+          items:
+            type: integer
+            format: int32
+          example:
+          - 12345
+          - 67890
+    WatchlistsResponse:
+      type: object
+      description: Response containing multiple watchlists with metadata
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code of the response
+          example: 200
+        watchlists:
+          type: array
+          description: List of user watchlists
+          items:
+            $ref: '#/components/schemas/WatchlistResponse'
+        exception:
+          type: object
+          description: Exception details when the request partially failed
+          properties:
+            invalidItems:
+              type: array
+              description: List of invalid item identifiers
+              items:
+                type: string
+            reason:
+              type: string
+              description: Reason for the exception
+            message:
+              type: string
+              description: Human-readable exception message
+        meta:
+          type: object
+          description: Response metadata including pagination info
+          properties:
+            pageNumber:
+              type: integer
+              format: int32
+              description: Current page number
+              example: 0
+            itemsPerPage:
+              type: integer
+              format: int32
+              description: Number of items per page
+              example: 100
+            maxItemsInWatchlistLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed items per watchlist
+              example: 1000
+            maxWatchlistsLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed watchlists per user
+              example: 10
+        isSucceeded:
+          type: boolean
+          description: Whether the request succeeded
+          example: true

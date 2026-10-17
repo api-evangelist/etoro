@@ -460,6 +460,19 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
     AssetsHistoryAsset:
       type: object
       required:
@@ -479,17 +492,107 @@ components:
         valuePct:
           type: number
           description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
-    GainPoint:
+    AssetsHistoryEntry:
       type: object
       required:
       - date
-      - gain
+      - cashPct
+      - cashOfTotalEquityPct
+      - assets
       properties:
         date:
           type: string
           format: date
-        gain:
+          description: Date of this snapshot (YYYY-MM-DD)
+        cashPct:
           type: number
+          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
+        cashOfTotalEquityPct:
+          type: number
+          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
+        assets:
+          type: array
+          description: Per-instrument breakdown. Mirror allocations are excluded.
+          items:
+            $ref: '#/components/schemas/AssetsHistoryAsset'
+    ExposureHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+        results:
+          type: array
+          description: Daily snapshots ordered ascending by date.
+          items:
+            $ref: '#/components/schemas/ExposureHistoryEntry'
+    GainHistoryResponse:
+      type: object
+      required:
+      - username
+      - granularity
+      - gains
+      properties:
+        username:
+          type: string
+        granularity:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - yearly
+        totalGain:
+          type:
+          - number
+          - 'null'
+          description: Compound gain over the returned series as a decimal fraction. Null when gains is empty.
+        gains:
+          type: array
+          items:
+            $ref: '#/components/schemas/GainPoint'
+    ExposureItem:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - netExposurePct
+      - absExposurePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        netExposurePct:
+          type: number
+          description: 'Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.'
+        absExposurePct:
+          type: number
+          description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
+    CopiersCurrentResponse:
+      type: object
+      description: Current copiers snapshot and AUM tier for portfolio display.
+      required:
+      - copiers
+      - aumTier
+      properties:
+        copiers:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Current number of copiers.
+        aumTier:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Assets-under-management tier level.
+        aumTierDesc:
+          type:
+          - string
+          - 'null'
+          description: Human-readable AUM tier label; null when not provided upstream.
     Error:
       type: object
       required:
@@ -520,32 +623,6 @@ components:
           format: date-time
         requestId:
           type: string
-    AssetsHistoryResponse:
-      type: object
-      required:
-      - userName
-      - results
-      properties:
-        userName:
-          type: string
-          description: Echoes the requested username.
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetsHistoryEntry'
-    ExposureHistoryResponse:
-      type: object
-      required:
-      - userName
-      - results
-      properties:
-        userName:
-          type: string
-        results:
-          type: array
-          description: Daily snapshots ordered ascending by date.
-          items:
-            $ref: '#/components/schemas/ExposureHistoryEntry'
     StandardErrorResponse:
       type: object
       description: Standard public API error envelope.
@@ -582,51 +659,6 @@ components:
         requestId:
           type: string
           description: Correlation identifier for support and tracing.
-    CopiersCurrentResponse:
-      type: object
-      description: Current copiers snapshot and AUM tier for portfolio display.
-      required:
-      - copiers
-      - aumTier
-      properties:
-        copiers:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Current number of copiers.
-        aumTier:
-          type: integer
-          format: int32
-          minimum: 0
-          description: Assets-under-management tier level.
-        aumTierDesc:
-          type:
-          - string
-          - 'null'
-          description: Human-readable AUM tier label; null when not provided upstream.
-    AssetsHistoryEntry:
-      type: object
-      required:
-      - date
-      - cashPct
-      - cashOfTotalEquityPct
-      - assets
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date of this snapshot (YYYY-MM-DD)
-        cashPct:
-          type: number
-          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
-        cashOfTotalEquityPct:
-          type: number
-          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
-        assets:
-          type: array
-          description: Per-instrument breakdown. Mirror allocations are excluded.
-          items:
-            $ref: '#/components/schemas/AssetsHistoryAsset'
     ExposureHistoryEntry:
       type: object
       required:
@@ -646,59 +678,27 @@ components:
           description: Per-instrument exposure breakdown
           items:
             $ref: '#/components/schemas/ExposureItem'
-    ExposureItem:
+    AssetsHistoryResponse:
       type: object
       required:
-      - instrumentId
-      - symbol
-      - netExposurePct
-      - absExposurePct
+      - userName
+      - results
       properties:
-        instrumentId:
-          type: integer
-        symbol:
+        userName:
           type: string
-          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
-        netExposurePct:
-          type: number
-          description: 'Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.'
-        absExposurePct:
-          type: number
-          description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
-    RankingPeriod:
-      type: string
-      enum:
-      - CurrMonth
-      - OneMonthAgo
-      - TwoMonthsAgo
-      - CurrQuarter
-      - ThreeMonthsAgo
-      - SixMonthsAgo
-      - CurrYear
-      - OneYearAgo
-      - LastYear
-      - LastTwoYears
-    GainHistoryResponse:
-      type: object
-      required:
-      - username
-      - granularity
-      - gains
-      properties:
-        username:
-          type: string
-        granularity:
-          type: string
-          enum:
-          - daily
-          - monthly
-          - yearly
-        totalGain:
-          type:
-          - number
-          - 'null'
-          description: Compound gain over the returned series as a decimal fraction. Null when gains is empty.
-        gains:
+          description: Echoes the requested username.
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/GainPoint'
+            $ref: '#/components/schemas/AssetsHistoryEntry'
+    GainPoint:
+      type: object
+      required:
+      - date
+      - gain
+      properties:
+        date:
+          type: string
+          format: date
+        gain:
+          type: number

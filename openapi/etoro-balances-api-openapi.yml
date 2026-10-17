@@ -621,6 +621,51 @@ paths:
                 errorMessage: Global Error
 components:
   schemas:
+    GetBalancesResponse:
+      type: object
+      description: Aggregated balances for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        totalBalance:
+          type: number
+          format: double
+          description: Sum of all account balances converted to the requested display currency.
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for totalBalance and displayBalance values.
+        balances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AccountBalanceData'
+          description: Individual account balances.
+      additionalProperties: false
+    BalancesErrorResponse:
+      type: object
+      description: Error response returned for client-side errors (4xx).
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
+        message:
+          type:
+          - string
+          - 'null'
+          description: Human-readable error message.
+        requestId:
+          type:
+          - string
+          - 'null'
+          description: Request ID for tracing and support.
+      additionalProperties: false
     AccountType:
       type: string
       enum:
@@ -668,30 +713,119 @@ components:
         equityDetails:
           $ref: '#/components/schemas/EquityDetailsData'
       additionalProperties: false
-    GetBalancesResponse:
+    HistoricalDailySnapshotData:
       type: object
-      description: Aggregated balances for the authenticated user.
+      description: End-of-day balance snapshot for a specific date.
       properties:
-        gcid:
-          type: integer
-          format: int64
-          description: The user's global customer ID.
-        totalBalance:
-          type: number
-          format: double
-          description: Sum of all account balances converted to the requested display currency.
-        displayCurrency:
+        date:
+          type: string
+          format: date
+          description: The snapshot date (ISO 8601).
+        totalCurrencyIso:
           type:
           - string
           - 'null'
-          description: ISO 4217 currency code used for totalBalance and displayBalance values.
-        balances:
+          description: ISO 4217 currency code for the total figures in native currency.
+        totalCash:
+          type: number
+          format: double
+          description: Total cash across all accounts in native currency.
+        totalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount across all accounts in native currency.
+        totalPnl:
+          type: number
+          format: double
+          description: Total profit and loss across all accounts in native currency.
+        totalBalance:
+          type: number
+          format: double
+          description: Total balance across all accounts in native currency.
+        displayTotalCash:
+          type: number
+          format: double
+          description: Total cash converted to the requested display currency.
+        displayTotalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount converted to the requested display currency.
+        displayTotalPnl:
+          type: number
+          format: double
+          description: Total profit and loss converted to the requested display currency.
+        displayTotalBalance:
+          type: number
+          format: double
+          description: Total balance converted to the requested display currency.
+        totalExchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert totals to displayCurrency.
+        accountSnapshots:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/AccountBalanceData'
-          description: Individual account balances.
+            $ref: '#/components/schemas/HistoricalAccountData'
+          description: Individual account breakdowns within this snapshot.
+      additionalProperties: false
+    HistoricalAccountData:
+      type: object
+      description: Individual account balance within a historical daily snapshot.
+      properties:
+        accountId:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier of the account.
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+        currency:
+          type:
+          - string
+          - 'null'
+          description: The account's native currency (ISO 4217).
+        cash:
+          type: number
+          format: double
+          description: Cash balance in the account's native currency.
+        investedAmount:
+          type: number
+          format: double
+          description: Invested amount in the account's native currency.
+        pnl:
+          type: number
+          format: double
+          description: Profit and loss in the account's native currency.
+        total:
+          type: number
+          format: double
+          description: Total balance in the account's native currency.
+        usdRate:
+          type: number
+          format: double
+          description: Exchange rate to USD.
+        displayCash:
+          type: number
+          format: double
+          description: Cash balance converted to the requested display currency.
+        displayInvestedAmount:
+          type: number
+          format: double
+          description: Invested amount converted to the requested display currency.
+        displayPnl:
+          type: number
+          format: double
+          description: Profit and loss converted to the requested display currency.
+        displayTotal:
+          type: number
+          format: double
+          description: Total balance converted to the requested display currency.
+        exchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert to displayCurrency.
       additionalProperties: false
     PublicErrorResponse:
       type: object
@@ -708,6 +842,35 @@ components:
           type: string
           description: Human-readable error message.
           example: Internal server error. Please retry or contact support
+    GetHistoricalBalancesResponse:
+      type: object
+      description: Historical end-of-day balance snapshots for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for display values.
+        fromDate:
+          type: string
+          format: date
+          description: Start of the returned date range (inclusive, ISO 8601).
+        toDate:
+          type: string
+          format: date
+          description: End of the returned date range (inclusive, ISO 8601).
+        snapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/HistoricalDailySnapshotData'
+          description: End-of-day balance snapshots, one entry per day in the requested range.
+      additionalProperties: false
     EquityDetailsData:
       type: object
       description: Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account's provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex.
@@ -789,167 +952,4 @@ components:
           - 'null'
           format: int32
           description: Display order index for sorting (Crypto).
-      additionalProperties: false
-    BalancesErrorResponse:
-      type: object
-      description: Error response returned for client-side errors (4xx).
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
-        message:
-          type:
-          - string
-          - 'null'
-          description: Human-readable error message.
-        requestId:
-          type:
-          - string
-          - 'null'
-          description: Request ID for tracing and support.
-      additionalProperties: false
-    HistoricalDailySnapshotData:
-      type: object
-      description: End-of-day balance snapshot for a specific date.
-      properties:
-        date:
-          type: string
-          format: date
-          description: The snapshot date (ISO 8601).
-        totalCurrencyIso:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code for the total figures in native currency.
-        totalCash:
-          type: number
-          format: double
-          description: Total cash across all accounts in native currency.
-        totalInvestedAmount:
-          type: number
-          format: double
-          description: Total invested amount across all accounts in native currency.
-        totalPnl:
-          type: number
-          format: double
-          description: Total profit and loss across all accounts in native currency.
-        totalBalance:
-          type: number
-          format: double
-          description: Total balance across all accounts in native currency.
-        displayTotalCash:
-          type: number
-          format: double
-          description: Total cash converted to the requested display currency.
-        displayTotalInvestedAmount:
-          type: number
-          format: double
-          description: Total invested amount converted to the requested display currency.
-        displayTotalPnl:
-          type: number
-          format: double
-          description: Total profit and loss converted to the requested display currency.
-        displayTotalBalance:
-          type: number
-          format: double
-          description: Total balance converted to the requested display currency.
-        totalExchangeRate:
-          type: number
-          format: double
-          description: Exchange rate applied to convert totals to displayCurrency.
-        accountSnapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/HistoricalAccountData'
-          description: Individual account breakdowns within this snapshot.
-      additionalProperties: false
-    GetHistoricalBalancesResponse:
-      type: object
-      description: Historical end-of-day balance snapshots for the authenticated user.
-      properties:
-        gcid:
-          type: integer
-          format: int64
-          description: The user's global customer ID.
-        displayCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for display values.
-        fromDate:
-          type: string
-          format: date
-          description: Start of the returned date range (inclusive, ISO 8601).
-        toDate:
-          type: string
-          format: date
-          description: End of the returned date range (inclusive, ISO 8601).
-        snapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/HistoricalDailySnapshotData'
-          description: End-of-day balance snapshots, one entry per day in the requested range.
-      additionalProperties: false
-    HistoricalAccountData:
-      type: object
-      description: Individual account balance within a historical daily snapshot.
-      properties:
-        accountId:
-          type:
-          - string
-          - 'null'
-          description: Unique identifier of the account.
-        accountType:
-          $ref: '#/components/schemas/AccountType'
-        currency:
-          type:
-          - string
-          - 'null'
-          description: The account's native currency (ISO 4217).
-        cash:
-          type: number
-          format: double
-          description: Cash balance in the account's native currency.
-        investedAmount:
-          type: number
-          format: double
-          description: Invested amount in the account's native currency.
-        pnl:
-          type: number
-          format: double
-          description: Profit and loss in the account's native currency.
-        total:
-          type: number
-          format: double
-          description: Total balance in the account's native currency.
-        usdRate:
-          type: number
-          format: double
-          description: Exchange rate to USD.
-        displayCash:
-          type: number
-          format: double
-          description: Cash balance converted to the requested display currency.
-        displayInvestedAmount:
-          type: number
-          format: double
-          description: Invested amount converted to the requested display currency.
-        displayPnl:
-          type: number
-          format: double
-          description: Profit and loss converted to the requested display currency.
-        displayTotal:
-          type: number
-          format: double
-          description: Total balance converted to the requested display currency.
-        exchangeRate:
-          type: number
-          format: double
-          description: Exchange rate applied to convert to displayCurrency.
       additionalProperties: false
