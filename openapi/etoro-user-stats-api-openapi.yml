@@ -1,0 +1,1018 @@
+openapi: 3.2.0
+info:
+  title: eToro User Stats API
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
+tags:
+- name: User Stats
+paths:
+  /api/v2/portfolios/{username}/assets/history:
+    get:
+      tags:
+      - User Stats
+      summary: Get asset allocation history
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns a daily asset-allocation breakdown for a publicly visible portfolio. Data is only available for investors who have not opted out — opted-out portfolios return 403 for third-party callers. Callers must authenticate with their own token. Use period OR minDate+maxDate (mutually exclusive). All ratio fields use decimal fraction format: 0.5 = 50%.'
+      operationId: getAssetsHistory
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 06fec8e3-8e17-4c88-967f-82ba5bb79eea
+        description: A unique request identifier.
+        example: 06fec8e3-8e17-4c88-967f-82ba5bb79eea
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: period
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/StatsAssetsApi_RankingPeriod'
+        description: Predefined rolling window. Mutually exclusive with minDate/maxDate.
+        x-mutual-exclusivity-group: dateFilter
+      - name: minDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Start date inclusive (YYYY-MM-DD). Mutually exclusive with period. Required together with maxDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: maxDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: End date inclusive (YYYY-MM-DD). Mutually exclusive with period. Required together with minDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+        description: Downsample time axis to at most N buckets. Omit or pass 0 for no downsampling.
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Cache-Control:
+              description: public, max-age=3600 for opted-in users; private, max-age=3600 for opted-out self-view.
+              schema:
+                type: string
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetsHistoryResponse'
+              example:
+                userName: john.smith
+                results:
+                - date: '2024-01-31'
+                  cashPct: 0.28
+                  cashOfTotalEquityPct: 0.24
+                  assets:
+                  - instrumentId: 1001
+                    symbol: AAPL
+                    investedPct: 0.45
+                    valuePct: 0.51
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsAssetsApi_Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsAssetsApi_Error'
+        '403':
+          description: Target user has opted out of portfolio exposure
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsAssetsApi_Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsAssetsApi_Error'
+        '502':
+          description: Upstream dependency returned a server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsAssetsApi_Error'
+        '503':
+          description: Upstream dependency timed out or was unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsAssetsApi_Error'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/{username}/copiers:
+    get:
+      tags:
+      - User Stats
+      summary: Get portfolio copier stats
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the investor''s live copier count and assets-under-management tier for a public username. Requires `etoro-public:user-info:read`.'
+      operationId: getPortfolioCopiers
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 1cd5c2ce-b2ef-4051-8488-5a1fd4baf913
+        description: A unique request identifier.
+        example: 1cd5c2ce-b2ef-4051-8488-5a1fd4baf913
+      - name: username
+        in: path
+        required: true
+        description: Public eToro username.
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 50
+      responses:
+        '200':
+          description: Current copiers snapshot for the requested portfolio.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopiersCurrentResponse'
+              examples:
+                populated:
+                  value:
+                    copiers: 42
+                    aumTier: 3
+                    aumTierDesc: Gold
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Request validation failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '401':
+          description: Missing or invalid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '403':
+          description: User has opted out of public profile display.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '404':
+          description: Username not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardErrorResponse'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/{username}/exposure/history:
+    get:
+      tags:
+      - User Stats
+      summary: Get market exposure history
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns daily directional exposure breakdown per instrument for a publicly visible portfolio. Data is only available for investors who have not opted out - opted-out portfolios return 403 for third-party callers. Callers must authenticate with their own token. Use period OR minDate+maxDate (mutually exclusive). All values are decimal fractions of total daily investment: 0.5 = 50%. Simulated positions are excluded.'
+      operationId: getExposureHistory
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 02d9fcbd-3c50-4a52-8b47-58f13ecc1c85
+        description: A unique request identifier.
+        example: 02d9fcbd-3c50-4a52-8b47-58f13ecc1c85
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The eToro username of the portfolio owner.
+      - name: period
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/StatsExposureApi_RankingPeriod'
+        description: Predefined rolling window. Mutually exclusive with minDate/maxDate.
+        x-mutual-exclusivity-group: dateFilter
+      - name: minDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Start date inclusive (ISO 8601 date, YYYY-MM-DD). Mutually exclusive with period. Required together with maxDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: maxDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: End date inclusive (ISO 8601 date, YYYY-MM-DD). Mutually exclusive with period. Required together with minDate when period is omitted.
+        x-mutual-exclusivity-group: dateFilter
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+        description: Downsample time axis to at most N buckets. Omit or pass 0 for no downsampling.
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Cache-Control:
+              description: public, max-age=3600 for opted-in users; private, max-age=3600 for opted-out self-view.
+              schema:
+                type: string
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExposureHistoryResponse'
+              example:
+                userName: john.smith
+                results:
+                - date: '2024-01-31'
+                  absExposurePct: 0.72
+                  exposureItems:
+                  - instrumentId: 1001
+                    symbol: AAPL
+                    netExposurePct: 0.43
+                    absExposurePct: 0.43
+                  - instrumentId: 2005
+                    symbol: TSLA
+                    netExposurePct: -0.25
+                    absExposurePct: 0.25
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsExposureApi_Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsExposureApi_Error'
+        '403':
+          description: Target user has opted out of portfolio exposure
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsExposureApi_Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsExposureApi_Error'
+        '502':
+          description: Upstream service returned an error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsExposureApi_Error'
+        '504':
+          description: Upstream service timed out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsExposureApi_Error'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/{username}/gain/{granularity}:
+    get:
+      tags:
+      - User Stats
+      summary: Get investor gain time-series
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns a gain time-series scoped by date range, count, or a combination of one date and a count. Gain values are decimal fractions: 0.06 = 6%, -0.03 = -3%.'
+      operationId: getGainHistory
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 11d1b02d-5e06-4e18-82b8-65ed976b697d
+        description: A unique request identifier.
+        example: 11d1b02d-5e06-4e18-82b8-65ed976b697d
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: granularity
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - yearly
+      - name: minDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: maxDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Cache-Control:
+              description: public, max-age=3600 for opted-in users; private, max-age=3600 for opted-out self-view.
+              schema:
+                type: string
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GainHistoryResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsGainApi_Error'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsGainApi_Error'
+        '403':
+          description: Target user has opted out of portfolio exposure
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsGainApi_Error'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatsGainApi_Error'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+components:
+  schemas:
+    StatsGainApi_Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+    AssetsHistoryEntry:
+      type: object
+      required:
+      - date
+      - cashPct
+      - cashOfTotalEquityPct
+      - assets
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of this snapshot (YYYY-MM-DD)
+        cashPct:
+          type: number
+          description: 'Cash/credit as a ratio of realized equity (cash + invested capital, excluding open P&L). Decimal fraction: 0.5 = 50%.'
+        cashOfTotalEquityPct:
+          type: number
+          description: 'Cash/credit as a ratio of total equity (cash + invested capital + open P&L). Decimal fraction: 0.5 = 50%.'
+        assets:
+          type: array
+          description: Per-instrument breakdown. Mirror allocations are excluded.
+          items:
+            $ref: '#/components/schemas/AssetsHistoryAsset'
+    StatsAssetsApi_RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
+    ExposureItem:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - netExposurePct
+      - absExposurePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        netExposurePct:
+          type: number
+          description: 'Net exposure for this instrument as a ratio of total equity. Signed - positive = long, negative = short. Decimal fraction: 0.5 = 50%.'
+        absExposurePct:
+          type: number
+          description: 'Absolute exposure for this instrument as a ratio of total equity. Always positive. Decimal fraction: 0.5 = 50%.'
+    StatsExposureApi_RankingPeriod:
+      type: string
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
+    AssetsHistoryAsset:
+      type: object
+      required:
+      - instrumentId
+      - symbol
+      - investedPct
+      - valuePct
+      properties:
+        instrumentId:
+          type: integer
+        symbol:
+          type: string
+          description: Trading symbol for this instrument (e.g. AAPL, TSLA)
+        investedPct:
+          type: number
+          description: 'Amount invested in this instrument as a ratio of realized equity. Decimal fraction: 0.5 = 50%.'
+        valuePct:
+          type: number
+          description: 'Current value of this instrument as a ratio of total equity. Decimal fraction: 0.5 = 50%.'
+    CopiersCurrentResponse:
+      type: object
+      description: Current copiers snapshot and AUM tier for portfolio display.
+      required:
+      - copiers
+      - aumTier
+      properties:
+        copiers:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Current number of copiers.
+        aumTier:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Assets-under-management tier level.
+        aumTierDesc:
+          type:
+          - string
+          - 'null'
+          description: Human-readable AUM tier label; null when not provided upstream.
+    StatsExposureApi_Error:
+      type: object
+      required:
+      - success
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+    ExposureHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+        results:
+          type: array
+          description: Daily snapshots ordered ascending by date.
+          items:
+            $ref: '#/components/schemas/ExposureHistoryEntry'
+    AssetsHistoryResponse:
+      type: object
+      required:
+      - userName
+      - results
+      properties:
+        userName:
+          type: string
+          description: Echoes the requested username.
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetsHistoryEntry'
+    GainHistoryResponse:
+      type: object
+      required:
+      - username
+      - granularity
+      - gains
+      properties:
+        username:
+          type: string
+        granularity:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - yearly
+        totalGain:
+          type:
+          - number
+          - 'null'
+          description: Compound gain over the returned series as a decimal fraction. Null when gains is empty.
+        gains:
+          type: array
+          items:
+            $ref: '#/components/schemas/GainPoint'
+    StandardErrorResponse:
+      type: object
+      description: Standard public API error envelope.
+      required:
+      - success
+      - error
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+              example: UserNotFound
+            message:
+              type: string
+              description: Human-readable error message.
+              example: Username not found.
+            field:
+              type: string
+              description: Request field associated with the error, when applicable.
+        timestamp:
+          type: string
+          format: date-time
+          description: UTC timestamp when the error was generated.
+        requestId:
+          type: string
+          description: Correlation identifier for support and tracing.
+    GainPoint:
+      type: object
+      required:
+      - date
+      - gain
+      properties:
+        date:
+          type: string
+          format: date
+        gain:
+          type: number
+    StatsAssetsApi_Error:
+      type: object
+      required:
+      - success
+      - timestamp
+      - requestId
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+    ExposureHistoryEntry:
+      type: object
+      required:
+      - date
+      - absExposurePct
+      - exposureItems
+      properties:
+        date:
+          type: string
+          format: date
+          description: ISO 8601 date of this snapshot (YYYY-MM-DD)
+        absExposurePct:
+          type: number
+          description: 'Sum of absolute exposure across all instruments as a ratio of total daily investment. Decimal fraction: 0.5 = 50%.'
+        exposureItems:
+          type: array
+          description: Per-instrument exposure breakdown
+          items:
+            $ref: '#/components/schemas/ExposureItem'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

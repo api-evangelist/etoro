@@ -1,0 +1,1387 @@
+openapi: 3.2.0
+info:
+  title: eToro Data API
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
+tags:
+- name: Data
+paths:
+  /api/v1/data/instruments/{instrumentId}/candles:
+    get:
+      operationId: getPriceCandles
+      tags:
+      - Data
+      summary: Get price candles for an instrument
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/data/instruments/{instrumentId}/candles/coverage`
+
+
+        ---
+
+
+        Full-history OHLC candles for one instrument and interval, from a public view built and kept current by a DataPlatform job. Not user-scoped: identical for every caller for the same instrument and parameters. A range without `from` returns the most recent slice; a slice covers at most 10,080 periods of the interval (7 days of 1m, up to all history for 1d/1w), and a longer range is paged with the keyset `cursor` in `pagination.nextCursor`. An instrument with no data for the interval, or one eToro shows internally only, returns 200 with an empty `results` array, not 404. Call the coverage endpoint first to find a range that has data.'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 85d4021d-1b0c-44a1-a812-36b3a2eec6fb
+        description: A unique request identifier.
+        example: 85d4021d-1b0c-44a1-a812-36b3a2eec6fb
+      - name: instrumentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+        description: eToro instrument id, e.g. 1001 for AAPL.
+      - name: interval
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - 1m
+          - 5m
+          - 10m
+          - 15m
+          - 30m
+          - 1h
+          - 4h
+          - 1d
+          - 1w
+        description: Candle interval.
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Inclusive lower bound on candle open time, ISO 8601 with a time zone. Defaults to one slice before `to`.
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Exclusive upper bound on candle open time, ISO 8601 with a time zone. Defaults to now.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 2000
+          default: 100
+        description: Candles per page. Defaults to 100, maximum 2000.
+      - name: side
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - bid
+          - ask
+          - both
+          default: bid
+        description: Price side to return. Defaults to bid.
+      - name: format
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - verbose
+          - compact
+          default: verbose
+        description: '`compact` names each column once; `results` becomes one array per candle instead of an object.'
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Opaque token from `pagination.nextCursor`.
+      responses:
+        '200':
+          description: One page of candles for the requested instrument and interval, newest first unless walking an older slice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceCandlesPage'
+              example:
+                instrumentId: 1001
+                symbol: AAPL
+                interval: 1d
+                side: bid
+                window:
+                  from: '2026-09-01T00:00:00Z'
+                  to: '2026-09-28T00:00:00Z'
+                pagination:
+                  limit: 100
+                  hasNext: false
+                  nextCursor: null
+                results:
+                - time: '2026-09-27T21:00:00Z'
+                  open: '228.5'
+                  high: '231.2'
+                  low: '227.9'
+                  close: '230.1'
+                  volume: '1234567'
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `public, max-age=30` -- this is market data, not customer-scoped.
+              example: public, max-age=30
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 2 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '400':
+          description: Invalid parameters -- an out-of-range interval, a malformed timestamp without a time zone, `from` not earlier than `to`, or an unrecognized cursor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: INVALID_TIME_RANGE
+                  message: '`from` must be earlier than `to`'
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `public, max-age=30` -- this is market data, not customer-scoped.
+              example: public, max-age=30
+        '503':
+          description: The serving dependency is temporarily unavailable; the upstream already retried with backoff before returning this. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: DEPENDENCY_UNAVAILABLE
+                  message: The requested resource is temporarily unavailable
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `public, max-age=30` -- this is market data, not customer-scoped.
+              example: public, max-age=30
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 2 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:market-data:read
+      x-real-money: false
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/data/instruments/{instrumentId}/candles/coverage
+  /api/v1/data/instruments/{instrumentId}/candles/coverage:
+    get:
+      operationId: getPriceCandleCoverage
+      tags:
+      - Data
+      summary: Get where price candles exist for an instrument
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/data/instruments/{instrumentId}/candles`
+
+
+        ---
+
+
+        Returns, per interval, the oldest and newest candle, how many exist, and when the daily load last refreshed them. Call it before requesting candles to pick an interval and a range that has data: history can span more than 15 years, and ranges outside it return empty pages. Not user-scoped. An instrument with no data, or one eToro shows internally only, returns an empty `intervals` list, not a 404.'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 33fdb95c-6295-4af9-8d4e-7e5ad59f9cd0
+        description: A unique request identifier.
+        example: 33fdb95c-6295-4af9-8d4e-7e5ad59f9cd0
+      - name: instrumentId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+        description: eToro instrument id, e.g. 1001 for AAPL.
+      responses:
+        '200':
+          description: Where candles exist for this instrument, one entry per interval that has data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceCandleCoverage'
+              example:
+                instrumentId: 1001
+                symbol: AAPL
+                intervals:
+                - interval: 1d
+                  firstCandle: '2006-03-21T00:00:00Z'
+                  lastCandle: '2026-09-27T21:00:00Z'
+                  candles: 5123
+                  loadedAt: '2026-09-28T07:30:00Z'
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `public, max-age=30` -- this is market data, not customer-scoped.
+              example: public, max-age=30
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 2 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '400':
+          description: Invalid instrument id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: INVALID_REQUEST
+                  message: The request is invalid
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `public, max-age=30` -- this is market data, not customer-scoped.
+              example: public, max-age=30
+        '503':
+          description: The serving dependency is temporarily unavailable; the upstream already retried with backoff before returning this. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: DEPENDENCY_UNAVAILABLE
+                  message: The requested resource is temporarily unavailable
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `public, max-age=30` -- this is market data, not customer-scoped.
+              example: public, max-age=30
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 2 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:market-data:read
+      x-real-money: false
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/data/instruments/{instrumentId}/candles
+  /api/v1/data/positions/closed-events/history:
+    get:
+      operationId: getClosedPositionEventsHistory
+      tags:
+      - Data
+      summary: Get the caller's closed position event history counts
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the calling customer''s historical count of closed position events, broken down by close year and asset type, one entry per (closeYear, assetType) combination sorted ascending by year then asset type. This is user-scoped: the caller is identified by their own gateway-issued GCID, not a path or query parameter, so it always answers for ''me''. Results are returned under `results` with a `pagination` block; a customer with no closed-position history returns 200 with an empty `results` array, not 404 - there is no distinguishable ''not found'' state for this endpoint.'
+      responses:
+        '200':
+          description: One page of the caller's closed position event history counts, oldest year first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClosedPositionEventsHistoryPage'
+              example:
+                results:
+                - closeYear: 2023
+                  assetType: Stocks
+                  closedPositionEvents: 4
+                - closeYear: 2024
+                  assetType: Crypto
+                  closedPositionEvents: 2
+                pagination:
+                  page: 1
+                  pageSize: 50
+                  hasNext: false
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: The page or pageSize query parameter is out of range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: INVALID_REQUEST
+                  message: The request is invalid
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '401':
+          description: The gateway did not inject a GCID for this request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: GCID_REQUIRED
+                  message: This endpoint requires a gateway-issued GCID
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '503':
+          description: The serving dependency is temporarily unavailable; the upstream already retried with backoff before returning this. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: DEPENDENCY_UNAVAILABLE
+                  message: The requested resource is temporarily unavailable
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 0984d261-e0cd-4374-bcf0-1643d0d9b6ec
+        description: A unique request identifier.
+        example: 0984d261-e0cd-4374-bcf0-1643d0d9b6ec
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          default: 1
+        description: 1-based page number to return.
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 500
+          default: 50
+        description: Items per page. Defaults to 50, maximum 500.
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:trade.real:read
+      - oauth2:
+        - etoro-public:trade.demo:read
+      x-real-money: false
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v1/data/stockback/promo-status:
+    get:
+      operationId: getStockbackPromoStatus
+      tags:
+      - Data
+      summary: Get the caller's StockBack/Cashback promo status
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the calling customer''s current StockBack/Cashback promo enrollment and lifetime USD reward figures - opted-in status, selected stock, professional-investor status, reward channel, club tier, country, this month''s expected reward, and lifetime StockBack/Cashback/total USD earned. This is user-scoped: the caller is identified by their own gateway-issued GCID, not a path or query parameter, so it always answers for ''me''. A customer who is not (or not yet) enrolled in the promo still returns 200, with every value field null, rather than 404 - a 404 means no row exists for this GCID at all, which is a data-completeness gap, not simply ''not enrolled''.'
+      responses:
+        '200':
+          description: The caller's current StockBack/Cashback promo status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockbackPromoStatus'
+              example:
+                isOptedIn: true
+                selectedStock: AAPL
+                currentIsPi: false
+                rewardChannel: stockback
+                currentClub: Silver
+                currentCountry: GB
+                expectedCurrentMonthUsd: 12.34
+                stockbackLifetimeUsd: 100.5
+                cashbackLifetimeUsd: 50.25
+                totalLifetimeUsd: 150.75
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: The gateway did not inject a GCID for this request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: GCID_REQUIRED
+                  message: This endpoint requires a gateway-issued GCID
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '404':
+          description: No stockback promo status row exists for this GCID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: STOCKBACK_PROMO_STATUS_NOT_FOUND
+                  message: Stockback promo status was not found
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '500':
+          description: The query returned an inconsistent result for this GCID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: DATA_INTEGRITY_ERROR
+                  message: The requested resource could not be resolved
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '503':
+          description: The serving dependency is temporarily unavailable; the upstream already retried with backoff before returning this. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataApiError'
+              example:
+                success: false
+                error:
+                  code: DEPENDENCY_UNAVAILABLE
+                  message: The requested resource is temporarily unavailable
+          headers:
+            X-Correlation-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Correlation id for this call, generated by the data platform upstream when the request arrives without one and identical end to end. Quote it to eToro support to find the request in logs.
+            X-Request-Id:
+              schema:
+                type: string
+                format: uuid
+              description: Echoed back only when the caller supplied it. The upstream never generates one.
+            X-Timestamp:
+              schema:
+                type: string
+                format: date-time
+              description: RFC 3339 instant the response was produced.
+            Cache-Control:
+              schema:
+                type: string
+              description: Always `private, no-store` -- this is customer-scoped data.
+              example: private, no-store
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:trade.real:read
+      - oauth2:
+        - etoro-public:trade.demo:read
+      x-real-money: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 309b6b40-dd61-4c8f-b581-c39876c44876
+        description: A unique request identifier.
+        example: 309b6b40-dd61-4c8f-b581-c39876c44876
+components:
+  schemas:
+    PriceCandleCoverage:
+      type: object
+      description: Where candles exist for one instrument, per interval. A single resource, not a collection.
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Instrument display name, e.g. AAPL/USD. Null when there is no data.
+        intervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntervalCoverage'
+      required:
+      - instrumentId
+      - symbol
+      - intervals
+    Pagination:
+      type: object
+      description: Offset pagination metadata for a collection response.
+      properties:
+        page:
+          type: integer
+          format: int32
+          description: 1-based index of the page returned.
+          example: 1
+        pageSize:
+          type: integer
+          format: int32
+          description: Maximum number of items that could be returned on this page.
+          example: 50
+        hasNext:
+          type: boolean
+          description: Whether a further page exists after this one.
+          example: false
+      required:
+      - page
+      - pageSize
+      - hasNext
+    PriceCandlesPage:
+      type: object
+      description: One page of price candles for a single instrument and interval.
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+        symbol:
+          type:
+          - string
+          - 'null'
+          description: Instrument display name, e.g. AAPL/USD. Null when the page is empty.
+        interval:
+          type: string
+          enum:
+          - 1m
+          - 5m
+          - 10m
+          - 15m
+          - 30m
+          - 1h
+          - 4h
+          - 1d
+          - 1w
+        side:
+          type: string
+          enum:
+          - bid
+          - ask
+          - both
+        window:
+          $ref: '#/components/schemas/TimeWindow'
+        pagination:
+          $ref: '#/components/schemas/CursorPagination'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceCandle'
+      required:
+      - instrumentId
+      - symbol
+      - interval
+      - side
+      - window
+      - pagination
+      - results
+    StockbackPromoStatus:
+      type: object
+      description: 'The caller''s current StockBack/Cashback promo enrollment and lifetime USD figures. Every field is nullable: a caller not (yet) enrolled in the promo still returns 200 with mostly-null values.'
+      properties:
+        isOptedIn:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the caller is currently opted into the StockBack promo.
+          example: true
+        selectedStock:
+          type:
+          - string
+          - 'null'
+          description: Ticker symbol of the stock the caller selected for StockBack, if opted in.
+          example: AAPL
+        currentIsPi:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the caller is currently classified as a Professional Investor.
+          example: false
+        rewardChannel:
+          type:
+          - string
+          - 'null'
+          description: The channel this caller's reward is delivered through.
+          example: stockback
+        currentClub:
+          type:
+          - string
+          - 'null'
+          description: The caller's current eToro Club tier.
+          example: Silver
+        currentCountry:
+          type:
+          - string
+          - 'null'
+          description: The caller's current country.
+          example: GB
+        expectedCurrentMonthUsd:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Reward expected to accrue this calendar month, in USD.
+          example: 12.34
+        stockbackLifetimeUsd:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Lifetime StockBack reward earned, in USD.
+          example: 100.5
+        cashbackLifetimeUsd:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Lifetime Cashback reward earned, in USD.
+          example: 50.25
+        totalLifetimeUsd:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Lifetime total reward earned (StockBack + Cashback), in USD.
+          example: 150.75
+    DataApiError:
+      type: object
+      description: 'Error envelope returned by the data platform upstream. Response metadata is not in the body: the correlation id, the request id and the timestamp are returned as the `X-Correlation-Id`, `X-Request-Id` and `X-Timestamp` response headers. Quote `X-Correlation-Id` to eToro support to find the request in logs.'
+      properties:
+        success:
+          type: boolean
+          description: Always false on an error response.
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Stable machine-readable error code, UPPER_SNAKE_CASE.
+            message:
+              type: string
+              description: Human-readable description. Not intended for display to end users.
+          required:
+          - code
+          - message
+      required:
+      - success
+      - error
+    PriceCandle:
+      type: object
+      description: One candle for a single price side (`side=bid` or `side=ask`).
+      properties:
+        time:
+          type: string
+          format: date-time
+          description: Candle open time, UTC.
+        open:
+          type:
+          - string
+          - 'null'
+          description: First price in the candle, as an exact decimal string.
+        high:
+          type:
+          - string
+          - 'null'
+          description: Highest price in the candle.
+        low:
+          type:
+          - string
+          - 'null'
+          description: Lowest price in the candle.
+        close:
+          type:
+          - string
+          - 'null'
+          description: Last price in the candle.
+        volume:
+          type:
+          - string
+          - 'null'
+          description: Source volume, passed through. Frequently null; null means not reported.
+      required:
+      - time
+      - open
+      - high
+      - low
+      - close
+      - volume
+    IntervalCoverage:
+      type: object
+      description: Where one interval has data for an instrument.
+      properties:
+        interval:
+          type: string
+          enum:
+          - 1m
+          - 5m
+          - 10m
+          - 15m
+          - 30m
+          - 1h
+          - 4h
+          - 1d
+          - 1w
+        firstCandle:
+          type: string
+          format: date-time
+          description: Open time of the oldest candle, UTC.
+        lastCandle:
+          type: string
+          format: date-time
+          description: Open time of the newest candle, UTC.
+        candles:
+          type: integer
+          format: int64
+          description: Number of candles available.
+        loadedAt:
+          type: string
+          format: date-time
+          description: When the daily load last refreshed this interval, UTC.
+      required:
+      - interval
+      - firstCandle
+      - lastCandle
+      - candles
+      - loadedAt
+    TimeWindow:
+      type: object
+      description: 'The requested time range, after defaults: [from, to).'
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: Inclusive lower bound, UTC.
+        to:
+          type: string
+          format: date-time
+          description: Exclusive upper bound, UTC.
+      required:
+      - from
+      - to
+    ClosedPositionEventsHistoryItem:
+      type: object
+      description: 'One closed-position history entry: the count of closed position events for a single close year and asset type.'
+      properties:
+        closeYear:
+          type: integer
+          format: int32
+          description: Calendar year the position events closed in.
+          example: 2023
+        assetType:
+          type: string
+          description: Asset type of the closed positions counted in this entry.
+          example: Stocks
+        closedPositionEvents:
+          type: integer
+          format: int32
+          description: Count of closed position events for this close year and asset type.
+          example: 4
+      required:
+      - closeYear
+      - assetType
+      - closedPositionEvents
+    CursorPagination:
+      type: object
+      description: Keyset pagination metadata for a time-ordered collection. `hasNext` is always present; `nextCursor` is opaque and is null exactly when `hasNext` is false.
+      properties:
+        limit:
+          type: integer
+          format: int32
+          description: Maximum number of items that could be returned on this page.
+          example: 100
+        hasNext:
+          type: boolean
+          description: Whether a further page exists after this one.
+          example: false
+        nextCursor:
+          type:
+          - string
+          - 'null'
+          description: Opaque token for the next page; pass it back unchanged as `cursor`. Null when there is no further page.
+      required:
+      - limit
+      - hasNext
+      - nextCursor
+    ClosedPositionEventsHistoryPage:
+      type: object
+      description: One page of closed-position history entries. The collection is a property of this object rather than a bare top-level array, so further fields can be added without a breaking change.
+      properties:
+        results:
+          type: array
+          description: History entries for this page, oldest close year first.
+          items:
+            $ref: '#/components/schemas/ClosedPositionEventsHistoryItem'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+      - results
+      - pagination
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

@@ -1,11 +1,24 @@
 openapi: 3.2.0
 info:
   title: eToro Balances API
-  version: v1.244.0
-  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
 servers:
 - url: https://public-api.etoro.com
   description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
 tags:
 - name: Balances
 paths:
@@ -14,7 +27,16 @@ paths:
       tags:
       - Balances
       summary: Get aggregated balances
-      description: Returns aggregated balances across all account types for the authenticated user. Optionally filter by account type or specify the display currency for totals.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns aggregated balances across all account types for the authenticated user. Optionally filter by account type or specify the display currency for totals.
+
+
+        Important: totalBalance and displayBalance are portfolio value, not spendable cash. For Trading, Options, MoneyFarm, Spaceship and Plaee they represent total account value including invested positions; for Crypto, the fiat value of holdings. Only for Cash accounts do they equal available cash. Do not use them to decide whether a trade or withdrawal is affordable — request expand=equityDetails and read equityDetails.available (Trading, Options, MoneyFarm, Cash, Plaee) or equityDetails.spendableBalanceInFiat (Crypto). Spaceship accounts expose no spendable figure. Note that equityDetails amounts are denominated in each account''s own native currency, not in displayCurrency, so they must be converted before being compared with displayBalance or totalBalance.'
       operationId: getBalances
       parameters:
       - name: x-request-id
@@ -23,27 +45,12 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 2a284616-e619-4daf-b778-9a6305e36e9a
+          example: 93e903f7-fe99-4a57-9be9-930871879678
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 93e903f7-fe99-4a57-9be9-930871879678
       - name: accountTypes
         in: query
-        description: 'Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship.'
+        description: 'Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship, Plaee (case-insensitive). Unrecognised values are silently ignored rather than rejected: if none of the supplied values are recognised the filter is dropped and all account types are returned, so verify the accountType values in the response rather than assuming the filter applied.'
         schema:
           type: string
       - name: displayCurrency
@@ -57,6 +64,13 @@ paths:
         description: Whether to include accounts with a zero balance in the response. Defaults to false.
         schema:
           type: boolean
+          default: false
+      - name: includeSubAccounts
+        in: query
+        description: Whether to also include the user's sub-account Trading balances. Only effective when Trading is in scope — that is, when no accountTypes filter is supplied, or the filter includes trading. Sub-account entries are returned with accountType Trading and subType "subAccount". Defaults to false.
+        schema:
+          type: boolean
+          default: false
       - name: expand
         in: query
         description: 'Comma-separated list of optional sections to include in the response. Valid values: equityDetails.'
@@ -69,6 +83,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBalancesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request — invalid query parameter value.
           content:
@@ -80,7 +113,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -91,25 +124,65 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.balance:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/balances/history:
     get:
       tags:
       - Balances
       summary: Get historical balance snapshots
-      description: Returns end-of-day balance snapshots across all account types for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns end-of-day balance snapshots across all account types for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.'
       operationId: getHistoricalBalances
       parameters:
       - name: x-request-id
@@ -118,24 +191,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: aa34941f-8c0e-47e9-a372-4e3821b845f5
+          example: d0e3ccea-74a6-439c-9850-002191e92b9b
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: d0e3ccea-74a6-439c-9850-002191e92b9b
       - name: displayCurrency
         in: query
         description: ISO 4217 currency code for totals and conversions. Defaults to USD.
@@ -156,9 +214,15 @@ paths:
           format: date
       - name: accountTypes
         in: query
-        description: 'Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship.'
+        description: 'Optional comma-separated list of account types to include. Valid values: Trading, Cash, Options, Crypto, MoneyFarm, Spaceship, Plaee (case-insensitive). Plaee accounts have no end-of-day history yet: filtering by Plaee returns snapshots whose accountSnapshots are empty. Unrecognised values are silently ignored rather than rejected: if none of the supplied values are recognised the filter is dropped and all account types are returned, so verify the accountType values in the response rather than assuming the filter applied.'
         schema:
           type: string
+      - name: includeSubAccounts
+        in: query
+        description: Whether to also include the user's qualifying sub-accounts in the aggregated history. Their end-of-day snapshots are merged by date with the primary account's and the daily totals are recalculated across all accounts. Only effective when Trading is in scope. Defaults to false.
+        schema:
+          type: boolean
+          default: false
       responses:
         '200':
           description: Historical balance snapshots retrieved successfully.
@@ -166,6 +230,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetHistoricalBalancesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request — invalid date range or query parameter value.
           content:
@@ -177,7 +260,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -190,25 +273,74 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+        '502':
+          description: Bad Gateway — the historical balance archive is unavailable. No snapshots could be read; do not treat this as an empty history. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.balance:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/balances/{accountType}:
     get:
       tags:
       - Balances
       summary: Get balances by account type
-      description: Returns balances for a specific account type for the authenticated user. Optionally filter by account IDs.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns balances for a specific account type for the authenticated user. Optionally filter by account IDs.
+
+
+        Important: totalBalance and displayBalance are portfolio value, not spendable cash. For Trading, Options, MoneyFarm, Spaceship and Plaee they represent total account value including invested positions; for Crypto, the fiat value of holdings. Only for Cash accounts do they equal available cash. Do not use them to decide whether a trade or withdrawal is affordable — request expand=equityDetails and read equityDetails.available (Trading, Options, MoneyFarm, Cash, Plaee) or equityDetails.spendableBalanceInFiat (Crypto). Spaceship accounts expose no spendable figure. Note that equityDetails amounts are denominated in each account''s own native currency, not in displayCurrency, so they must be converted before being compared with displayBalance or totalBalance.'
       operationId: getBalancesByAccountType
       parameters:
       - name: x-request-id
@@ -217,30 +349,15 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 9bad2f6e-2179-4c3a-9a08-c80b5237d80b
+          example: 8fa957fd-b4c9-4686-a9cd-f02581f9b090
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 8fa957fd-b4c9-4686-a9cd-f02581f9b090
       - name: accountType
         in: path
         required: true
-        description: The account type to retrieve balances for.
+        description: The account type to retrieve balances for. Must be lowercase — any other casing does not match the route and returns 404.
         schema:
-          $ref: '#/components/schemas/AccountType'
+          $ref: '#/components/schemas/AccountTypePathParam'
       - name: accountIds
         in: query
         description: Optional comma-separated list of account IDs to include.
@@ -257,6 +374,13 @@ paths:
         description: Whether to include accounts with a zero balance in the response. Defaults to false.
         schema:
           type: boolean
+          default: false
+      - name: includeSubAccounts
+        in: query
+        description: Whether to also include the user's sub-account Trading balances. Only effective when the accountType path segment is trading; ignored for every other account type. Sub-account entries are returned with accountType Trading and subType "subAccount". Defaults to false.
+        schema:
+          type: boolean
+          default: false
       - name: expand
         in: query
         description: 'Comma-separated list of optional sections to include in the response. Valid values: equityDetails.'
@@ -269,6 +393,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBalancesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request — invalid account type or query parameter value.
           content:
@@ -280,7 +423,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -291,25 +434,65 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.balance:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/balances/{accountType}/history:
     get:
       tags:
       - Balances
       summary: Get historical balances by account type
-      description: Returns end-of-day balance snapshots for a specific account type for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns end-of-day balance snapshots for a specific account type for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.'
       operationId: getHistoricalBalancesByAccountType
       parameters:
       - name: x-request-id
@@ -318,30 +501,15 @@ paths:
         schema:
           type: string
           format: uuid
-          example: b203aadb-404e-478e-bb90-453ad5bd7c33
+          example: 225e7552-4c89-47d4-a18a-fd5740716d39
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 225e7552-4c89-47d4-a18a-fd5740716d39
       - name: accountType
         in: path
         required: true
-        description: The account type to retrieve historical balances for.
+        description: The account type to retrieve historical balances for. Must be lowercase — any other casing does not match the route and returns 404.
         schema:
-          $ref: '#/components/schemas/AccountType'
+          $ref: '#/components/schemas/AccountTypePathParam'
       - name: displayCurrency
         in: query
         description: ISO 4217 currency code for totals and conversions. Defaults to USD.
@@ -365,6 +533,12 @@ paths:
         description: Optional comma-separated list of account IDs to include.
         schema:
           type: string
+      - name: includeSubAccounts
+        in: query
+        description: Whether to also include the user's qualifying sub-accounts in the aggregated history. Their end-of-day snapshots are merged by date with the primary account's and the daily totals are recalculated across all accounts. Only effective when the accountType path segment is trading; ignored for every other account type. Defaults to false.
+        schema:
+          type: boolean
+          default: false
       responses:
         '200':
           description: Historical balance snapshots for the specified account type retrieved successfully.
@@ -372,6 +546,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetHistoricalBalancesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request — invalid account type, date range, or query parameter value.
           content:
@@ -383,7 +576,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -396,25 +589,74 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+        '502':
+          description: Bad Gateway — the historical balance archive is unavailable. No snapshots could be read; do not treat this as an empty history. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.balance:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/balances/{accountType}/{accountId}:
     get:
       tags:
       - Balances
       summary: Get balance for a specific account
-      description: Returns the balance for a specific account identified by type and account ID for the authenticated user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the balance for a specific account identified by type and account ID for the authenticated user. Zero-balance accounts are always returned by this endpoint, so a 404 means the account does not exist rather than that its balance is zero.
+
+
+        Important: totalBalance and displayBalance are portfolio value, not spendable cash. For Trading, Options, MoneyFarm, Spaceship and Plaee they represent total account value including invested positions; for Crypto, the fiat value of holdings. Only for Cash accounts do they equal available cash. Do not use them to decide whether a trade or withdrawal is affordable — request expand=equityDetails and read equityDetails.available (Trading, Options, MoneyFarm, Cash, Plaee) or equityDetails.spendableBalanceInFiat (Crypto). Spaceship accounts expose no spendable figure. Note that equityDetails amounts are denominated in each account''s own native currency, not in displayCurrency, so they must be converted before being compared with displayBalance or totalBalance.'
       operationId: getBalanceByAccount
       parameters:
       - name: x-request-id
@@ -423,30 +665,15 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 79dd59ed-0c79-41c6-8d01-f3bb910fbf74
+          example: 985667d9-4cd7-40fa-bad4-a2a3b27a513b
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 985667d9-4cd7-40fa-bad4-a2a3b27a513b
       - name: accountType
         in: path
         required: true
-        description: The account type.
+        description: The account type. Must be lowercase — any other casing does not match the route and returns 404.
         schema:
-          $ref: '#/components/schemas/AccountType'
+          $ref: '#/components/schemas/AccountTypePathParam'
       - name: accountId
         in: path
         required: true
@@ -459,11 +686,6 @@ paths:
         schema:
           type: string
           default: USD
-      - name: includeZeroBalances
-        in: query
-        description: Whether to include accounts with a zero balance in the response. Defaults to false.
-        schema:
-          type: boolean
       - name: expand
         in: query
         description: 'Comma-separated list of optional sections to include in the response. Valid values: equityDetails.'
@@ -476,6 +698,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetBalancesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request — invalid account type or account ID.
           content:
@@ -487,7 +728,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -500,25 +741,71 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+        '502':
+          description: Bad Gateway — the upstream balance provider for this account type is unavailable or returned an error. The balance could not be determined; do not treat this as a zero balance. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.balance:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/balances/{accountType}/{accountId}/history:
     get:
       tags:
       - Balances
-      summary: Get historical balances for a specific account
-      description: Returns end-of-day balance snapshots for a specific account identified by type and account ID for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.
+      summary: Get account balance history
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns end-of-day balance snapshots for a specific account identified by type and account ID for the authenticated user. History is available for the last 12 months. The maximum date range per request is 365 days.'
       operationId: getHistoricalBalanceByAccount
       parameters:
       - name: x-request-id
@@ -527,30 +814,15 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 2faf6249-c7ab-4057-9760-923619a1a280
+          example: d6f27c7c-5704-4f6f-a1e2-97673842a9d8
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: d6f27c7c-5704-4f6f-a1e2-97673842a9d8
       - name: accountType
         in: path
         required: true
-        description: The account type.
+        description: The account type. Must be lowercase — any other casing does not match the route and returns 404.
         schema:
-          $ref: '#/components/schemas/AccountType'
+          $ref: '#/components/schemas/AccountTypePathParam'
       - name: accountId
         in: path
         required: true
@@ -575,6 +847,12 @@ paths:
         schema:
           type: string
           format: date
+      - name: includeSubAccounts
+        in: query
+        description: Whether to also include the user's qualifying sub-accounts in the aggregated history. Their end-of-day snapshots are merged by date with the primary account's and the daily totals are recalculated across all accounts. Only effective when the accountType path segment is trading; ignored for every other account type. Defaults to false.
+        schema:
+          type: boolean
+          default: false
       responses:
         '200':
           description: Historical balance snapshots for the specified account retrieved successfully.
@@ -582,6 +860,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetHistoricalBalancesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request — invalid account type, account ID, or date range.
           content:
@@ -593,7 +890,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -606,170 +903,61 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/BalanceAggregatorApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+        '502':
+          description: Bad Gateway — the historical balance archive is unavailable. No snapshots could be read; do not treat this as an empty history. Safe to retry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalancesErrorResponse'
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.balance:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
 components:
   schemas:
-    GetBalancesResponse:
-      type: object
-      description: Aggregated balances for the authenticated user.
-      properties:
-        gcid:
-          type: integer
-          format: int64
-          description: The user's global customer ID.
-        totalBalance:
-          type: number
-          format: double
-          description: Sum of all account balances converted to the requested display currency.
-        displayCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for totalBalance and displayBalance values.
-        balances:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AccountBalanceData'
-          description: Individual account balances.
-      additionalProperties: false
-    BalancesErrorResponse:
-      type: object
-      description: Error response returned for client-side errors (4xx).
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
-        message:
-          type:
-          - string
-          - 'null'
-          description: Human-readable error message.
-        requestId:
-          type:
-          - string
-          - 'null'
-          description: Request ID for tracing and support.
-      additionalProperties: false
-    AccountType:
-      type: string
-      enum:
-      - trading
-      - options
-      - cash
-    AccountBalanceData:
-      type: object
-      description: Balance data for a single account.
-      properties:
-        accountId:
-          type:
-          - string
-          - 'null'
-          description: Unique identifier of the account.
-        accountType:
-          $ref: '#/components/schemas/AccountType'
-        subType:
-          type:
-          - string
-          - 'null'
-          description: Account sub-type, where applicable.
-        balance:
-          type: number
-          format: double
-          description: Account balance in the account's native currency.
-        currency:
-          type:
-          - string
-          - 'null'
-          description: The account's native currency (ISO 4217).
-        displayBalance:
-          type: number
-          format: double
-          description: Account balance converted to the requested display currency.
-        displayCurrency:
-          type:
-          - string
-          - 'null'
-          description: The display currency (ISO 4217) used for displayBalance.
-        exchangeRate:
-          type: number
-          format: double
-          description: Exchange rate applied to convert balance to displayCurrency.
-        equityDetails:
-          $ref: '#/components/schemas/EquityDetailsData'
-      additionalProperties: false
-    HistoricalDailySnapshotData:
-      type: object
-      description: End-of-day balance snapshot for a specific date.
-      properties:
-        date:
-          type: string
-          format: date
-          description: The snapshot date (ISO 8601).
-        totalCurrencyIso:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code for the total figures in native currency.
-        totalCash:
-          type: number
-          format: double
-          description: Total cash across all accounts in native currency.
-        totalInvestedAmount:
-          type: number
-          format: double
-          description: Total invested amount across all accounts in native currency.
-        totalPnl:
-          type: number
-          format: double
-          description: Total profit and loss across all accounts in native currency.
-        totalBalance:
-          type: number
-          format: double
-          description: Total balance across all accounts in native currency.
-        displayTotalCash:
-          type: number
-          format: double
-          description: Total cash converted to the requested display currency.
-        displayTotalInvestedAmount:
-          type: number
-          format: double
-          description: Total invested amount converted to the requested display currency.
-        displayTotalPnl:
-          type: number
-          format: double
-          description: Total profit and loss converted to the requested display currency.
-        displayTotalBalance:
-          type: number
-          format: double
-          description: Total balance converted to the requested display currency.
-        totalExchangeRate:
-          type: number
-          format: double
-          description: Exchange rate applied to convert totals to displayCurrency.
-        accountSnapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/HistoricalAccountData'
-          description: Individual account breakdowns within this snapshot.
-      additionalProperties: false
     HistoricalAccountData:
       type: object
       description: Individual account balance within a historical daily snapshot.
@@ -780,7 +968,7 @@ components:
           - 'null'
           description: Unique identifier of the account.
         accountType:
-          $ref: '#/components/schemas/AccountType'
+          $ref: '#/components/schemas/BalanceAggregatorApi_AccountType'
         currency:
           type:
           - string
@@ -827,21 +1015,262 @@ components:
           format: double
           description: Exchange rate applied to convert to displayCurrency.
       additionalProperties: false
-    PublicErrorResponse:
+    AccountBalanceData:
       type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
+      description: Balance data for a single account.
+      properties:
+        accountId:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier of the account.
+        accountType:
+          $ref: '#/components/schemas/BalanceAggregatorApi_AccountType'
+        subType:
+          type:
+          - string
+          - 'null'
+          description: Account sub-type, where applicable.
+        balance:
+          type: number
+          format: double
+          description: 'Account balance in the account''s native currency (see the currency field). Its meaning depends on accountType: total account value including invested positions for Trading, Options, MoneyFarm, Spaceship and Plaee (for Plaee: cash plus the mark-to-market value of open prediction-market positions); holdings in native crypto units for Crypto; available cash for Cash. For Trading it equals equityDetails.available + equityDetails.totalUsedMargin + equityDetails.currentPNL. Not a spendable amount except on Cash accounts — see equityDetails.available.'
+        currency:
+          type:
+          - string
+          - 'null'
+          description: The account's native currency (ISO 4217).
+        displayBalance:
+          type: number
+          format: double
+          description: Account balance converted to the requested display currency. Carries the same per-accountType meaning as balance, and is likewise not a spendable amount except on Cash accounts.
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: The display currency (ISO 4217) used for displayBalance.
+        exchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert balance to displayCurrency.
+        equityDetails:
+          $ref: '#/components/schemas/EquityDetailsData'
+      additionalProperties: false
+    BalanceAggregatorApi_AccountType:
+      type: string
+      description: The type of eToro account, as returned in response bodies.
+      enum:
+      - Trading
+      - Cash
+      - Options
+      - Crypto
+      - MoneyFarm
+      - Spaceship
+      - Plaee
+    HistoricalDailySnapshotData:
+      type: object
+      description: End-of-day balance snapshot for a specific date.
+      properties:
+        date:
+          type: string
+          format: date
+          description: The snapshot date (ISO 8601).
+        totalCurrencyIso:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code for the total figures in native currency.
+        totalCash:
+          type: number
+          format: double
+          description: Total cash across all accounts in native currency.
+        totalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount across all accounts in native currency.
+        totalPnl:
+          type: number
+          format: double
+          description: Total profit and loss across all accounts in native currency.
+        totalBalance:
+          type: number
+          format: double
+          description: Total end-of-day equity across all accounts in native currency, as recorded in the snapshot. Reported independently of totalCash, totalInvestedAmount and totalPnl — do not assume it is their exact sum. This is a historical equity figure, not available cash, and not a current balance.
+        displayTotalCash:
+          type: number
+          format: double
+          description: Total cash converted to the requested display currency.
+        displayTotalInvestedAmount:
+          type: number
+          format: double
+          description: Total invested amount converted to the requested display currency.
+        displayTotalPnl:
+          type: number
+          format: double
+          description: Total profit and loss converted to the requested display currency.
+        displayTotalBalance:
+          type: number
+          format: double
+          description: Total end-of-day equity converted to the requested display currency. This is a historical equity figure, not available cash, and not a current balance.
+        totalExchangeRate:
+          type: number
+          format: double
+          description: Exchange rate applied to convert totals to displayCurrency.
+        accountSnapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/HistoricalAccountData'
+          description: Individual account breakdowns within this snapshot.
+      additionalProperties: false
+    BalancesErrorResponse:
+      type: object
+      description: Error response returned for client-side errors (4xx).
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+          description: Error code (e.g., VALIDATION_ERROR, USER_NOT_FOUND).
+        message:
+          type:
+          - string
+          - 'null'
+          description: Human-readable error message.
+        requestId:
+          type:
+          - string
+          - 'null'
+          description: Request ID for tracing and support.
+      additionalProperties: false
+    EquityDetailsData:
+      type: object
+      description: 'Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account''s provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex; Spaceship accounts return no equityDetails object at all; Plaee accounts populate available (withdrawable cash), frozenCash (cash reserved by resting prediction-market orders), currentPNL (unrealised profit and loss on open positions), balance (cash) and totalBalance (cash plus open positions), all in the account currency, plus hasOpenPositions (true when an open position or a resting order exists at Plaee). Currency: the fiat amounts here are denominated in the enclosing account''s native currency (its currency field), not in displayCurrency — the object carries no currency marker of its own. The exception is the *InFiat crypto fields, which use fiatConversionCurrency.'
+      properties:
+        available:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'Funds available to trade or withdraw (buying power). This is the correct field for pre-trade affordability checks — use it instead of totalBalance or displayBalance. IMPORTANT: this value is denominated in the account''s native currency (the sibling currency field), NOT in displayCurrency, and no currency is stated inside equityDetails itself. Convert it before comparing against displayBalance, totalBalance, or any amount in the display currency — for example a GBP Cash account reports available in GBP while displayBalance is in USD. Populated for Trading, Options, MoneyFarm, Cash and Plaee (where it is the withdrawable cash) only; for Crypto use spendableBalanceInFiat instead, and Spaceship accounts return no equityDetails at all. For Cash accounts this equals the account''s balance.'
+        frozenCash:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Cash frozen by the platform pending settlement. Already accounted for within the other figures — do not add it to balance, which is available + totalUsedMargin + currentPNL (Trading). For Plaee accounts this is the cash reserved by resting prediction-market orders.
+        currentPNL:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Current unrealized profit and loss on open positions (Trading, Plaee).
+        totalUsedMargin:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Total margin used by open positions (Trading).
+        cryptoId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: eToro internal crypto asset identifier (Crypto).
+        balance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Balance in native crypto units (Crypto); cash in the account currency (Plaee).
+        totalBalance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Total balance in native crypto units, including pending (Crypto); cash plus open positions (Plaee).
+        spendableBalance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Spendable balance in native crypto units — not a currency amount. Use spendableBalanceInFiat for a value comparable to other accounts (Crypto).
+        balanceInFiat:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Balance converted to fiat (Crypto).
+        totalBalanceInFiat:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Total balance converted to fiat, including pending (Crypto).
+        spendableBalanceInFiat:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Spendable balance converted to fiat, in fiatConversionCurrency. This is the correct field for affordability checks on Crypto accounts — the available field is not populated for Crypto (Crypto).
+        fiatConversionCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for the InFiat values (Crypto).
+        hasOpenPositions:
+          type:
+          - boolean
+          - 'null'
+          description: 'Plaee only: true when the user has something open at Plaee - an open prediction-market position or a resting order - and false when nothing is open. Absent when Plaee did not report it. Read this to decide whether to show an "open positions" state; the amounts cannot tell (a position can be worth 0).'
+        orderIndex:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Display order index for sorting (Crypto).
+      additionalProperties: false
+    GetBalancesResponse:
+      type: object
+      description: Aggregated balances for the authenticated user.
+      properties:
+        gcid:
+          type: integer
+          format: int64
+          description: The user's global customer ID.
+        totalBalance:
+          type: number
+          format: double
+          description: 'Sum of every included account''s balance, converted to the requested display currency. Treat this as portfolio value, not spendable cash: for Trading, Options, MoneyFarm, Spaceship and Plaee it is the total account value including invested positions, and for Crypto it is the fiat value of holdings. For Trading specifically it equals equityDetails.available + equityDetails.totalUsedMargin + equityDetails.currentPNL, so it includes margin deployed in open positions and unrealized profit and loss — the available portion can be a small fraction of it. Only for Cash accounts does it equal available cash. Do not use it to decide whether a trade or withdrawal is affordable — request expand=equityDetails and read equityDetails.available (Trading, Options, MoneyFarm, Cash, Plaee) or equityDetails.spendableBalanceInFiat (Crypto). Spaceship accounts expose no spendable figure. Note that equityDetails amounts are denominated in each account''s own native currency, not in displayCurrency, so they must be converted before being compared with displayBalance or totalBalance.'
+        displayCurrency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 currency code used for totalBalance and displayBalance values.
+        balances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AccountBalanceData'
+          description: Individual account balances.
+      additionalProperties: false
+    BalanceAggregatorApi_PublicErrorResponse:
+      type: object
+      description: Standard error response returned by the API gateway.
       properties:
         errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
+          type:
+          - string
+          - 'null'
+          description: Error code.
         errorMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
+      additionalProperties: false
     GetHistoricalBalancesResponse:
       type: object
       description: Historical end-of-day balance snapshots for the authenticated user.
@@ -871,85 +1300,73 @@ components:
             $ref: '#/components/schemas/HistoricalDailySnapshotData'
           description: End-of-day balance snapshots, one entry per day in the requested range.
       additionalProperties: false
-    EquityDetailsData:
-      type: object
-      description: Provider-specific balance details, returned only when the request includes expand=equityDetails. All fields are nullable; only fields relevant to the account's provider are populated. Trading accounts populate available/frozenCash/currentPNL/totalUsedMargin; Crypto accounts populate cryptoId, the balance variants, fiatConversionCurrency, and orderIndex.
-      properties:
-        available:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Available balance or buying power (Trading, Options, MoneyFarm, Cash).
-        frozenCash:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Cash frozen by the platform pending settlement (Trading).
-        currentPNL:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Current unrealized profit and loss on open positions (Trading).
-        totalUsedMargin:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Total margin used by open positions (Trading).
-        cryptoId:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: eToro internal crypto asset identifier (Crypto).
-        balance:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Balance in native crypto units (Crypto).
-        totalBalance:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Total balance in native crypto units, including pending (Crypto).
-        spendableBalance:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Spendable balance in native crypto units (Crypto).
-        balanceInFiat:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Balance converted to fiat (Crypto).
-        totalBalanceInFiat:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Total balance converted to fiat, including pending (Crypto).
-        spendableBalanceInFiat:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: Spendable balance converted to fiat (Crypto).
-        fiatConversionCurrency:
-          type:
-          - string
-          - 'null'
-          description: ISO 4217 currency code used for the InFiat values (Crypto).
-        orderIndex:
-          type:
-          - integer
-          - 'null'
-          format: int32
-          description: Display order index for sorting (Crypto).
-      additionalProperties: false
+    AccountTypePathParam:
+      type: string
+      description: 'The type of eToro account, as accepted in the accountType path segment. Lowercase only: the route matches these values exactly and returns 404 for any other casing or for numeric values. Note this differs from the casing used for accountType in response bodies.'
+      enum:
+      - trading
+      - cash
+      - options
+      - crypto
+      - moneyfarm
+      - spaceship
+      - plaee
+      example: trading
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

@@ -1,11 +1,24 @@
 openapi: 3.2.0
 info:
   title: eToro Agent Portfolios API
-  version: v1.244.0
-  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
 servers:
 - url: https://public-api.etoro.com
   description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
 tags:
 - name: Agent Portfolios
 paths:
@@ -14,7 +27,13 @@ paths:
       tags:
       - Agent Portfolios
       summary: Get Agent Portfolios
-      description: Retrieves all agent-portfolios belonging to the authenticated user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Retrieves all agent-portfolios belonging to the authenticated user.'
       operationId: getAgentPortfolios
       responses:
         '200':
@@ -23,12 +42,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAgentPortfoliosResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -37,19 +75,59 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:agent-portfolio:read
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
       parameters:
       - name: x-request-id
         in: header
@@ -57,126 +135,22 @@ paths:
         schema:
           type: string
           format: uuid
-          example: b0a205f2-b2d2-42b2-9185-372deba22fa4
+          example: d355c5b5-f046-41c7-ab55-0e8a6c88d8e3
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-    post:
-      tags:
-      - Agent Portfolios
-      summary: Create Agent Portfolio
-      deprecated: true
-      description: '[DEPRECATED — use POST /api/v2/agent-portfolios (scope names) instead] Creates a new agent-portfolio — a dedicated user account that receives its own fixed virtual balance (returned in agentPortfolioVirtualBalance). IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller''s) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio''s own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,000, each position is copied at 20% of its size into your account.'
-      operationId: createAgentPortfolio
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateAgentPortfolioRequest'
-      responses:
-        '201':
-          description: Agent-portfolio and user token created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateAgentPortfolioResponse'
-        '207':
-          description: Agent-portfolio created but user token provisioning failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateAgentPortfolioPartialResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                NameTooShort:
-                  summary: Agent-portfolio name too short
-                  value:
-                    errorCode: ValidationFailed
-                    errorMessage: Agent-portfolio name must be between 6 and 10 characters
-                InvestmentBelowMinimum:
-                  summary: Investment amount below minimum
-                  value:
-                    errorCode: ValidationFailed
-                    errorMessage: Investment amount is below the minimum threshold
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: Unauthorized
-                errorMessage: Unauthorized
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: TooManyRequests
-                errorMessage: Too many requests
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: UnhandledException
-                errorMessage: Global Error
-      parameters:
-      - name: x-request-id
-        in: header
-        required: true
-        schema:
-          type: string
-          format: uuid
-          example: 2280f6b8-2224-44ff-b0fe-a4b7d5c86af0
-        description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: d355c5b5-f046-41c7-ab55-0e8a6c88d8e3
   /api/v1/agent-portfolios/{agentPortfolioId}:
     delete:
       tags:
       - Agent Portfolios
       summary: Delete Agent Portfolio
-      description: Permanently removes a agent-portfolio by revoking all user tokens, stopping the copy mirror, and deleting from storage.
-      operationId: deleteAgentPortfolio
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Permanently removes a agent-portfolio by revoking all user tokens, stopping the copy mirror, and deleting from storage.'
+      operationId: deleteAgentPortfoliosByAgentPortfolioId
       parameters:
       - name: x-request-id
         in: header
@@ -184,24 +158,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: ed18a032-7968-4134-b214-63fe4ce2472e
+          example: 99f2f6d5-65ae-4123-aa21-55144f1a0ecc
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 99f2f6d5-65ae-4123-aa21-55144f1a0ecc
       - name: agentPortfolioId
         in: path
         required: true
@@ -212,12 +171,31 @@ paths:
       responses:
         '204':
           description: Agent-portfolio was successfully removed
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: ValidationFailed
                 errorMessage: Invalid agent-portfolio ID
@@ -226,7 +204,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -235,7 +213,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: NotFound
                 errorMessage: Agent-portfolio not found
@@ -244,141 +222,68 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
-  /api/v1/agent-portfolios/{agentPortfolioId}/user-tokens:
-    post:
-      tags:
-      - Agent Portfolios
-      summary: Create User Token
-      deprecated: true
-      description: '[DEPRECATED — use POST /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens (scope names) instead] Creates a new user token for the specified agent-portfolio.'
-      operationId: createAgentPortfolioUserToken
-      parameters:
-      - name: x-request-id
-        in: header
-        required: true
-        schema:
-          type: string
-          format: uuid
-          example: c267d233-e0c3-4a8a-bc6b-d17b941ff6da
-        description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      - name: agentPortfolioId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The unique identifier of the agent-portfolio.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserTokenRequest'
-      responses:
-        '201':
-          description: User token created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateUserTokenResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                ScopeIdsRequired:
-                  summary: Scope IDs are required
-                  value:
-                    errorCode: ScopeIdsRequired
-                    errorMessage: ScopeIds is required
-                InvalidIp:
-                  summary: Invalid IP address
-                  value:
-                    errorCode: IpsWhitelistInvalidIp
-                    errorMessage: IpsWhitelist contains an invalid IPv4 address
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: Unauthorized
-                errorMessage: Unauthorized
-        '404':
-          description: Agent-portfolio not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: NotFound
-                errorMessage: Agent-portfolio not found
-        '409':
-          description: Conflict — a user token with the requested name already exists for this agent-portfolio
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: UserKeyNameAlreadyExists
-                errorMessage: UserKeyName already exists
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: MaxUserTokensExceeded
-                errorMessage: Maximum number of user tokens exceeded
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: UnhandledException
-                errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}:
     delete:
       tags:
       - Agent Portfolios
       summary: Delete User Token
-      description: Permanently revokes the specified user token from a agent-portfolio.
-      operationId: deleteAgentPortfolioUserToken
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Permanently revokes the specified user token from a agent-portfolio.'
+      operationId: deleteAgentPortfoliosByAgentPortfolioIdUserTokensByUserTokenId
       parameters:
       - name: x-request-id
         in: header
@@ -386,24 +291,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 0dd4f9c9-56c8-48f0-8f4a-efdd68968456
+          example: 2b4a1cec-e84e-4ba5-9e35-cbc545b05f46
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 2b4a1cec-e84e-4ba5-9e35-cbc545b05f46
       - name: agentPortfolioId
         in: path
         required: true
@@ -421,12 +311,31 @@ paths:
       responses:
         '204':
           description: User token revoked successfully
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: ValidationFailed
                 errorMessage: Invalid agent-portfolio ID or user token ID
@@ -435,7 +344,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -444,7 +353,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: NotFound
                 errorMessage: Agent-portfolio not found
@@ -453,133 +362,61 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
-    patch:
-      tags:
-      - Agent Portfolios
-      summary: Update User Token
-      deprecated: true
-      description: '[DEPRECATED — use PATCH /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId} (scope names) instead] Updates the settings of an existing user token for a agent-portfolio. At least one field must be provided.'
-      operationId: updateAgentPortfolioUserToken
-      parameters:
-      - name: x-request-id
-        in: header
-        required: true
-        schema:
-          type: string
-          format: uuid
-          example: acfc5a98-fefd-4fb5-8774-543f74274e81
-        description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      - name: agentPortfolioId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The unique identifier of the agent-portfolio.
-      - name: userTokenId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
-        description: The unique identifier of the user token to update.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateUserTokenRequest'
-      responses:
-        '204':
-          description: User token updated successfully
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                NoChanges:
-                  summary: No changes provided
-                  value:
-                    errorCode: NoChangesDetected
-                    errorMessage: At least one field must be provided
-                InvalidScopes:
-                  summary: Invalid scope IDs
-                  value:
-                    errorCode: ScopeIdNotAllowed
-                    errorMessage: ScopeIds contains values not in the allowed set
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: Unauthorized
-                errorMessage: Unauthorized
-        '404':
-          description: Agent-portfolio or user token not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                AgentPortfolioNotFound:
-                  summary: Agent-portfolio not found
-                  value:
-                    errorCode: NotFound
-                    errorMessage: Agent-portfolio not found
-                UserTokenNotFound:
-                  summary: User token not found
-                  value:
-                    errorCode: NotFound
-                    errorMessage: User token not found
         '429':
-          description: Too Many Requests
-          content:
-            application/json:
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: TooManyRequests
-                errorMessage: Too many requests
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                errorCode: UnhandledException
-                errorMessage: Global Error
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v2/agent-portfolios:
     post:
       tags:
       - Agent Portfolios
       summary: Create Agent Portfolio (v2)
-      description: 'Creates a new agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2. IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller''s) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio''s own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,000, each position is copied at 20% of its size into your account.'
-      operationId: createAgentPortfolioV2
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Creates a new agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2. IMPORTANT: investmentAmountInUsd is the amount deducted from YOUR (the caller''s) account balance to copy-trade this agent-portfolio — it is NOT the agent-portfolio''s own balance. Positions are mirrored proportionally: e.g. if you invest $2,000 and agentPortfolioVirtualBalance is $10,000, each position is copied at 20% of its size into your account.'
+      operationId: createAgentPortfoliosV2
       requestBody:
         required: true
         content:
@@ -593,18 +430,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAgentPortfolioV2Response'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '207':
           description: Agent-portfolio created but user token provisioning failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateAgentPortfolioPartialResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               examples:
                 ScopeNameNotAllowed:
                   summary: Scope name not allowed
@@ -621,7 +496,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -630,19 +505,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
       parameters:
       - name: x-request-id
         in: header
@@ -650,44 +559,54 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 1f7bab86-9687-4f77-9714-7caae8542911
+          example: 6ac78cef-4c01-4986-81ce-806f6d88ecfe
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 6ac78cef-4c01-4986-81ce-806f6d88ecfe
   /api/v2/agent-portfolios/user-tokens/scopes:
     get:
       tags:
       - Agent Portfolios
       summary: Get Allowed Scopes (v2)
-      description: Returns the permission scope names that may be assigned to agent-portfolio user tokens.
-      operationId: getAgentPortfolioAllowedScopesV2
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the permission scope names that may be assigned to agent-portfolio user tokens.'
+      operationId: getAgentPortfoliosScopes
       responses:
         '200':
           description: Allowed scopes retrieved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAllowedScopesResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_GetAllowedScopesResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -696,19 +615,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:agent-portfolio:read
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
       parameters:
       - name: x-request-id
         in: header
@@ -716,31 +671,22 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 0b9f5b04-1fc4-492a-a2c2-02731caf3ce4
+          example: 163c4087-855a-48a0-8b37-d939ccb5e6d8
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 163c4087-855a-48a0-8b37-d939ccb5e6d8
   /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens:
     post:
       tags:
       - Agent Portfolios
       summary: Create User Token (v2)
-      description: Creates a new user token for the specified agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2.
-      operationId: createAgentPortfolioUserTokenV2
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Creates a new user token for the specified agent-portfolio using scope names. Scopes are specified by name (scopeNames); scope ids are not supported in v2.'
+      operationId: createAgentPortfoliosByAgentPortfolioIdUserTokensV2
       parameters:
       - name: x-request-id
         in: header
@@ -748,24 +694,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 8651915d-62c3-4941-a275-9cc731a88658
+          example: c958b7dc-b79e-4947-927a-6b7ea625f9f1
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: c958b7dc-b79e-4947-927a-6b7ea625f9f1
       - name: agentPortfolioId
         in: path
         required: true
@@ -785,13 +716,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateUserTokenResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_CreateUserTokenResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               examples:
                 ScopeNamesRequired:
                   summary: Scope names are required
@@ -803,7 +753,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: ScopeNameNotAllowed
                 errorMessage: Scope name not allowed
@@ -812,7 +762,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -821,7 +771,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: NotFound
                 errorMessage: Agent-portfolio not found
@@ -830,7 +780,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UserKeyNameAlreadyExists
                 errorMessage: UserKeyName already exists
@@ -839,26 +789,66 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: MaxUserTokensExceeded
                 errorMessage: Maximum number of user tokens exceeded
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v2/agent-portfolios/{agentPortfolioId}/user-tokens/{userTokenId}:
     patch:
       tags:
       - Agent Portfolios
       summary: Update User Token (v2)
-      description: Updates the settings of an existing user token using scope names. At least one field must be provided. Scopes are specified by name (scopeNames); scope ids are not supported in v2.
-      operationId: updateAgentPortfolioUserTokenV2
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Updates the settings of an existing user token using scope names. At least one field must be provided. Scopes are specified by name (scopeNames); scope ids are not supported in v2.'
+      operationId: updateAgentPortfoliosByAgentPortfolioIdUserTokensByUserTokenIdV2
       parameters:
       - name: x-request-id
         in: header
@@ -866,24 +856,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 1448a179-93c0-4bad-815e-5da83901f5f7
+          example: 650ce228-8318-4db3-a827-c54b5ef35dee
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 650ce228-8318-4db3-a827-c54b5ef35dee
       - name: agentPortfolioId
         in: path
         required: true
@@ -907,12 +882,31 @@ paths:
       responses:
         '204':
           description: User token updated successfully
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               examples:
                 NoChanges:
                   summary: No changes provided
@@ -924,7 +918,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: ScopeNameNotAllowed
                 errorMessage: Scope name not allowed
@@ -933,7 +927,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -942,7 +936,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               examples:
                 AgentPortfolioNotFound:
                   summary: Agent-portfolio not found
@@ -959,69 +953,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/AgentPortfolioApi_ErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:agent-portfolio:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
 components:
   schemas:
-    GetAgentPortfoliosResponse:
-      type: object
-      properties:
-        agentPortfolios:
-          type: array
-          items:
-            $ref: '#/components/schemas/AgentPortfolioItem'
-          description: The collection of agent-portfolios owned by the user.
-    GetAllowedScopesResponse:
-      type: object
-      properties:
-        scopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScopeNameItem'
-          description: The permission scope names that may be assigned to agent-portfolio user tokens.
-          example:
-          - name: etoro-public:trade.real:read
-          - name: etoro-public:trade.real:write
-    CreateAgentPortfolioResponse:
-      type: object
-      properties:
-        agentPortfolioId:
-          type: string
-          format: uuid
-          description: The unique identifier of the newly created agent-portfolio.
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        agentPortfolioName:
-          type: string
-          description: The display name assigned to the agent-portfolio.
-          example: MyPort1
-        agentPortfolioGcid:
-          type: integer
-          description: The GCID associated with the agent-portfolio.
-          example: 12345678
-        agentPortfolioVirtualBalance:
-          type: number
-          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
-          example: 10000
-        mirrorId:
-          type: integer
-          description: The Trading API mirror ID for this agent-portfolio's copy trade.
-          example: 12345
-        userTokens:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateAgentPortfolioUserTokenItem'
-          description: The user tokens generated during agent-portfolio creation.
     AgentPortfolioItem:
       type: object
       properties:
@@ -1056,280 +1036,6 @@ components:
           items:
             $ref: '#/components/schemas/AgentPortfolioUserTokenItem'
           description: The user tokens associated with this agent-portfolio.
-    ScopeNameItem:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The permission scope name.
-          example: etoro-public:trade.real:read
-    UpdateUserTokenRequest:
-      type: object
-      properties:
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] An updated set of permission scope identifiers for the token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An updated set of IPv4 addresses allowed to use this token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An updated expiration date and time (UTC) for the token.
-          example: '2026-12-31T23:59:59Z'
-    CreateAgentPortfolioRequest:
-      type: object
-      properties:
-        investmentAmountInUsd:
-          type: number
-          description: 'The amount in USD deducted from the CALLER''s account balance to copy-trade this agent-portfolio. This is NOT the agent-portfolio''s own balance — the agent-portfolio receives a separate fixed virtual balance (returned as agentPortfolioVirtualBalance). Positions are mirrored proportionally: e.g. $2,000 with a $10,000 virtual balance = 20% position sizing.'
-          example: 2000
-        agentPortfolioName:
-          type: string
-          description: A unique display name for the agent-portfolio (6-10 characters).
-          example: MyPort1
-        agentPortfolioDescription:
-          type: string
-          description: An optional description of the agent-portfolio's purpose or strategy.
-          example: My trading portfolio
-        userTokenName:
-          type: string
-          description: A human-readable name for the user token provisioned with the agent-portfolio.
-          example: my-trading-token
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers to grant to the provisioned user token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An optional set of IPv4 addresses allowed to use the provisioned user token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An optional expiration date and time (UTC) for the provisioned user token.
-          example: '2026-12-31T23:59:59Z'
-      required:
-      - investmentAmountInUsd
-      - agentPortfolioName
-      - userTokenName
-    CreateAgentPortfolioPartialResponse:
-      type: object
-      properties:
-        agentPortfolioId:
-          type: string
-          format: uuid
-          description: The unique identifier of the newly created agent-portfolio.
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        agentPortfolioName:
-          type: string
-          description: The display name assigned to the agent-portfolio.
-          example: MyPort1
-        agentPortfolioGcid:
-          type: integer
-          description: The GCID associated with the agent-portfolio.
-          example: 12345678
-        agentPortfolioVirtualBalance:
-          type: integer
-          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
-          example: 10000
-        mirrorId:
-          type: integer
-          description: The Trading API mirror ID for this agent-portfolio's copy trade.
-          example: 12345
-        userTokenCreated:
-          type: boolean
-          description: Always false — indicates that the user token was not created.
-          example: false
-    CreateAgentPortfolioUserTokenItem:
-      type: object
-      properties:
-        userTokenId:
-          type: string
-          format: uuid
-          description: The unique identifier of the newly created user token.
-          example: f9e8d7c6-b5a4-3210-fedc-ba9876543210
-        userToken:
-          type: string
-          description: The generated user token secret. Only available at creation time.
-          example: sk_live_a1b2c3d4e5f6...
-        userTokenName:
-          type: string
-          description: The user-defined name for the user token.
-          example: my-trading-token
-        clientId:
-          type: string
-          format: uuid
-          description: The OAuth client identifier associated with the user token.
-          example: c1d2e3f4-a5b6-7890-cdef-123456789abc
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: The set of whitelisted IP addresses authorized to use this token.
-          example:
-          - 192.168.1.1
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers granted to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        expiresAt:
-          type: string
-          format: date-time
-          description: The expiration date and time of the user token in UTC.
-          example: '2026-12-31T23:59:59Z'
-    CreateUserTokenRequest:
-      type: object
-      properties:
-        userTokenName:
-          type: string
-          description: A human-readable name to identify the user token.
-          example: my-trading-token
-        scopeIds:
-          type: array
-          items:
-            type: integer
-          deprecated: true
-          description: '[DEPRECATED — use scopeNames instead] The set of permission scope identifiers to grant to this token. Available scopes: 200 = etoro-public:real:read, 201 = etoro-public:demo:read, 202 = etoro-public:real:write, 203 = etoro-public:demo:write.'
-          example:
-          - 211
-          - 212
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names (preferred; replaces the deprecated scopeIds). Provide either scopeNames or scopeIds. Available scopes: etoro-public:real:read, etoro-public:demo:read, etoro-public:real:write, etoro-public:demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An optional set of IPv4 addresses allowed to use this token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An optional expiration date and time for the token in UTC.
-          example: '2026-12-31T23:59:59Z'
-      required:
-      - userTokenName
-    UpdateUserTokenV2Request:
-      type: object
-      properties:
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'An updated set of permission scope names for the token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An updated set of IPv4 addresses allowed to use this token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An updated expiration date and time (UTC) for the token.
-          example: '2026-12-31T23:59:59Z'
-    CreateAgentPortfolioV2Request:
-      type: object
-      properties:
-        investmentAmountInUsd:
-          type: number
-          description: 'The amount in USD deducted from the CALLER''s account balance to copy-trade this agent-portfolio. This is NOT the agent-portfolio''s own balance — the agent-portfolio receives a separate fixed virtual balance (returned as agentPortfolioVirtualBalance). Positions are mirrored proportionally: e.g. $2,000 with a $10,000 virtual balance = 20% position sizing.'
-          example: 2000
-        agentPortfolioName:
-          type: string
-          description: A unique display name for the agent-portfolio (6-10 characters).
-          example: MyPort1
-        agentPortfolioDescription:
-          type: string
-          description: An optional description of the agent-portfolio's purpose or strategy.
-          example: My trading portfolio
-        userTokenName:
-          type: string
-          description: A human-readable name for the user token provisioned with the agent-portfolio.
-          example: my-trading-token
-        scopeNames:
-          type: array
-          items:
-            type: string
-          description: 'The set of permission scope names to grant to the provisioned user token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
-          example:
-          - etoro-public:trade.real:read
-          - etoro-public:trade.real:write
-        ipsWhitelist:
-          type: array
-          items:
-            type: string
-          description: An optional set of IPv4 addresses allowed to use the provisioned user token.
-          example:
-          - 192.168.1.1
-        expiresAt:
-          type: string
-          format: date-time
-          description: An optional expiration date and time (UTC) for the provisioned user token.
-          example: '2026-12-31T23:59:59Z'
-      required:
-      - investmentAmountInUsd
-      - agentPortfolioName
-      - userTokenName
-      - scopeNames
     AgentPortfolioUserTokenItem:
       type: object
       properties:
@@ -1385,35 +1091,13 @@ components:
           format: date-time
           description: When this user token was created.
           example: '2026-03-01T10:30:00Z'
-    CreateAgentPortfolioV2Response:
+    AgentPortfolioApi_ErrorResponse:
       type: object
       properties:
-        agentPortfolioId:
+        errorCode:
           type: string
-          format: uuid
-          description: The unique identifier of the newly created agent-portfolio.
-          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-        agentPortfolioName:
+        errorMessage:
           type: string
-          description: The display name assigned to the agent-portfolio.
-          example: MyPort1
-        agentPortfolioGcid:
-          type: integer
-          description: The GCID associated with the agent-portfolio.
-          example: 12345678
-        agentPortfolioVirtualBalance:
-          type: number
-          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
-          example: 10000
-        mirrorId:
-          type: integer
-          description: The Trading API mirror ID for this agent-portfolio's copy trade.
-          example: 12345
-        userTokens:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateAgentPortfolioV2UserTokenItem'
-          description: The user tokens generated during agent-portfolio creation.
     CreateUserTokenV2Request:
       type: object
       properties:
@@ -1444,14 +1128,7 @@ components:
       required:
       - userTokenName
       - scopeNames
-    ErrorResponse:
-      type: object
-      properties:
-        errorCode:
-          type: string
-        errorMessage:
-          type: string
-    CreateUserTokenResponse:
+    AgentPortfolioApi_CreateUserTokenResponse:
       type: object
       properties:
         userTokenId:
@@ -1498,6 +1175,50 @@ components:
           format: date-time
           description: The UTC timestamp at which the token was created.
           example: '2026-03-06T12:00:00Z'
+    GetAgentPortfoliosResponse:
+      type: object
+      properties:
+        agentPortfolios:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentPortfolioItem'
+          description: The collection of agent-portfolios owned by the user.
+    ScopeNameItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The permission scope name.
+          example: etoro-public:trade.real:read
+    CreateAgentPortfolioV2Response:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: number
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateAgentPortfolioV2UserTokenItem'
+          description: The user tokens generated during agent-portfolio creation.
     CreateAgentPortfolioV2UserTokenItem:
       type: object
       properties:
@@ -1538,3 +1259,167 @@ components:
           format: date-time
           description: The expiration date and time of the user token in UTC.
           example: '2026-12-31T23:59:59Z'
+    UpdateUserTokenV2Request:
+      type: object
+      properties:
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'An updated set of permission scope names for the token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An updated set of IPv4 addresses allowed to use this token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An updated expiration date and time (UTC) for the token.
+          example: '2026-12-31T23:59:59Z'
+    CreateAgentPortfolioPartialResponse:
+      type: object
+      properties:
+        agentPortfolioId:
+          type: string
+          format: uuid
+          description: The unique identifier of the newly created agent-portfolio.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        agentPortfolioName:
+          type: string
+          description: The display name assigned to the agent-portfolio.
+          example: MyPort1
+        agentPortfolioGcid:
+          type: integer
+          description: The GCID associated with the agent-portfolio.
+          example: 12345678
+        agentPortfolioVirtualBalance:
+          type: integer
+          description: The fixed virtual balance (in USD) that the agent-portfolio was funded with. The investmentAmountInUsd used to copy is proportional to this balance.
+          example: 10000
+        mirrorId:
+          type: integer
+          description: The Trading API mirror ID for this agent-portfolio's copy trade.
+          example: 12345
+        userTokenCreated:
+          type: boolean
+          description: Always false — indicates that the user token was not created.
+          example: false
+    AgentPortfolioApi_GetAllowedScopesResponse:
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScopeNameItem'
+          description: The permission scope names that may be assigned to agent-portfolio user tokens.
+          example:
+          - name: etoro-public:trade.real:read
+          - name: etoro-public:trade.real:write
+    CreateAgentPortfolioV2Request:
+      type: object
+      properties:
+        investmentAmountInUsd:
+          type: number
+          description: 'The amount in USD deducted from the CALLER''s account balance to copy-trade this agent-portfolio. This is NOT the agent-portfolio''s own balance — the agent-portfolio receives a separate fixed virtual balance (returned as agentPortfolioVirtualBalance). Positions are mirrored proportionally: e.g. $2,000 with a $10,000 virtual balance = 20% position sizing.'
+          example: 2000
+        agentPortfolioName:
+          type: string
+          description: A unique display name for the agent-portfolio (6-10 characters).
+          example: MyPort1
+        agentPortfolioDescription:
+          type: string
+          description: An optional description of the agent-portfolio's purpose or strategy.
+          example: My trading portfolio
+        userTokenName:
+          type: string
+          description: A human-readable name for the user token provisioned with the agent-portfolio.
+          example: my-trading-token
+        scopeNames:
+          type: array
+          items:
+            type: string
+          description: 'The set of permission scope names to grant to the provisioned user token. Available scopes: etoro-public:trade.real:read, etoro-public:trade.real:write, etoro-public:trade.demo:read, etoro-public:trade.demo:write.'
+          example:
+          - etoro-public:trade.real:read
+          - etoro-public:trade.real:write
+        ipsWhitelist:
+          type: array
+          items:
+            type: string
+          description: An optional set of IPv4 addresses allowed to use the provisioned user token.
+          example:
+          - 192.168.1.1
+        expiresAt:
+          type: string
+          format: date-time
+          description: An optional expiration date and time (UTC) for the provisioned user token.
+          example: '2026-12-31T23:59:59Z'
+      required:
+      - investmentAmountInUsd
+      - agentPortfolioName
+      - userTokenName
+      - scopeNames
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

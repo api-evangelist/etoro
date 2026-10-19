@@ -1,0 +1,1084 @@
+openapi: 3.2.0
+info:
+  title: eToro Transfer API
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
+tags:
+- name: Transfer
+paths:
+  /api/v1/money/transfer-eligibility:
+    get:
+      tags:
+      - Transfer
+      summary: Transfer eligibility (source and destination accounts)
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the full eligibility graph for the authenticated customer: for each source account, the destination accounts allowed for transfers.'
+      operationId: getTransferEligibility
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:read
+      responses:
+        '200':
+          description: List of eligibility rows for the authenticated customer.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransferEligibility'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 43f00d8c-613b-4c5b-9a1a-5d81827cdb05
+        description: A unique request identifier.
+        example: 43f00d8c-613b-4c5b-9a1a-5d81827cdb05
+  /api/v1/money/transfer-fee-configurations:
+    get:
+      tags:
+      - Transfer
+      summary: List transfer fees
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns transfer fee configuration for the authenticated customer as a list of rows, one per source/destination account type route.'
+      operationId: getTransferFeeConfiguration
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:read
+      responses:
+        '200':
+          description: Fee configuration rows for the authenticated customer.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransferFeeConfigurationRow'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 604a73ff-c48d-42d0-90dc-3aceb568186b
+        description: A unique request identifier.
+        example: 604a73ff-c48d-42d0-90dc-3aceb568186b
+  /api/v1/money/transfer-limits:
+    get:
+      tags:
+      - Transfer
+      summary: List transfer limits
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns transfer amount limits for each allowed combination of source and destination account types.'
+      operationId: getTransferLimits
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:read
+      responses:
+        '200':
+          description: Limit rows per source/destination account type pair.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransferLimitRow'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: a555a46f-81db-45db-8200-6bcfe41be155
+        description: A unique request identifier.
+        example: a555a46f-81db-45db-8200-6bcfe41be155
+  /api/v1/money/transferable-balance:
+    get:
+      tags:
+      - Transfer
+      summary: Get max transferable amount
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the maximum amount the customer may transfer from the specified source account to the specified destination account.'
+      operationId: getTransferableBalance
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:read
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: d24cb506-a456-4b5f-9a45-872b9ddb37fe
+        description: A unique request identifier.
+        example: d24cb506-a456-4b5f-9a45-872b9ddb37fe
+      - name: sourceAccountType
+        in: query
+        required: true
+        description: Source account type (trading, options, or cash).
+        schema:
+          $ref: '#/components/schemas/MoneybusApi_AccountType'
+      - name: sourceAccountId
+        in: query
+        required: true
+        description: Source account identifier.
+        schema:
+          type: string
+        example: ACC-100100
+      - name: destinationAccountType
+        in: query
+        required: true
+        description: Destination account type (trading, options, or cash).
+        schema:
+          $ref: '#/components/schemas/MoneybusApi_AccountType'
+      - name: destinationAccountId
+        in: query
+        required: true
+        description: Destination account identifier.
+        schema:
+          type: string
+        example: ACC-200200
+      responses:
+        '200':
+          description: Transferable amount and account identifiers for the route.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferableBalanceResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Bad request (missing or invalid query parameters).
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: No transferable amount / accounts not found for the pair.
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v1/money/transfers:
+    post:
+      tags:
+      - Transfer
+      summary: Execute an internal account-to-account transfer
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Executes an internal transfer from the source account to the destination account for the authenticated customer.'
+      operationId: postMoneyTransfer
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoneyTransferRequest'
+      responses:
+        '200':
+          description: Transfer accepted; returns transfer id and optional echoed request reference id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoneyTransferResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation error (accounts, amount, currency, or route).
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '409':
+          description: Conflict (e.g. idempotency / duplicate request reference per policy)
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8e0a9607-a0cd-4eae-90c2-fada12a42321
+        description: A unique request identifier.
+        example: 8e0a9607-a0cd-4eae-90c2-fada12a42321
+  /api/v1/money/transfers/{transferId}:
+    get:
+      tags:
+      - Transfer
+      summary: Get transfer by ID
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the TransferLookupResult wrapper containing exactly one TransferLookupResponse matching the server transferId. Returns 404 when the transfer does not exist or is not visible to the authenticated customer.'
+      operationId: getTransferById
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:read
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 114a67c7-c721-4e54-8bcf-e649b72129ec
+        description: A unique request identifier.
+        example: 114a67c7-c721-4e54-8bcf-e649b72129ec
+      - name: transferId
+        in: path
+        required: true
+        description: Server transfer identifier (same value as transferId from POST /api/v1/money/transfers and id on TransferLookupResponse).
+        schema:
+          type: integer
+          format: int64
+        example: 9876543210
+      responses:
+        '200':
+          description: TransferLookupResult with results containing exactly one TransferLookupResponse.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferLookupResult'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Transfer not found or not visible to this customer.
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v1/money/transfers:lookup:
+    get:
+      tags:
+      - Transfer
+      summary: List transfers by reference ID
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns a list of transfers for the authenticated customer, keyed by the client requestReferenceId query parameter.'
+      operationId: lookupTransfersByRequestReferenceId
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:money.transfer:read
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: c6286865-86d0-4b77-8279-f09af8906359
+        description: A unique request identifier.
+        example: c6286865-86d0-4b77-8279-f09af8906359
+      - name: requestReferenceId
+        in: query
+        required: true
+        description: Same value as requestReferenceId on POST /api/v1/money/transfers.
+        schema:
+          type: string
+        example: client-ref-8f3a-001
+      responses:
+        '200':
+          description: List of transfers in results array (zero or more TransferLookupResponse). Empty results when no transfer matches — not 404.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferLookupResult'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Missing or invalid requestReferenceId.
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Server error
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+components:
+  schemas:
+    TransferLookupSource:
+      type: object
+      required:
+      - sourceAccount
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/LookupAccountIdentifier'
+        accountCurrency:
+          type: string
+        exchangeRate:
+          type: number
+          format: double
+        exchangeFeeInAccountCurrency:
+          type: number
+          format: double
+          description: Exchange fee amount in accountCurrency for this leg.
+        accountReferenceId:
+          type: string
+          description: Reference identifier for the transaction amount posted on this leg's sub-account (omit or empty when not applicable).
+        holdReferenceId:
+          type: string
+    TransferAccountRef:
+      type: object
+      description: Account identifier for a transfer participant
+      required:
+      - accountType
+      - accountId
+      properties:
+        accountType:
+          $ref: '#/components/schemas/MoneybusApi_AccountType'
+        accountId:
+          type: string
+          description: Account identifier
+          example: ACC-100100
+    TransferLookupResponse:
+      type: object
+      required:
+      - id
+      - status
+      - statusReason
+      - referenceId
+      - amount
+      - currency
+      - created
+      - modified
+      - destination
+      - source
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          description: Transfer-level status (product-defined strings, e.g. pending, completed, failed).
+        statusReason:
+          type: string
+        referenceId:
+          type: string
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+          description: ISO 4217 alphabetic code.
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        destination:
+          $ref: '#/components/schemas/TransferLookupDestination'
+        source:
+          $ref: '#/components/schemas/TransferLookupSource'
+    MoneybusApi_AccountType:
+      type: string
+      enum:
+      - trading
+      - options
+      - cash
+      - moneyFarm
+    LookupAccountIdentifier:
+      type: object
+      required:
+      - accountType
+      - accountId
+      properties:
+        accountType:
+          $ref: '#/components/schemas/LookupAccountType'
+        accountId:
+          type: string
+    MoneyTransferRequest:
+      type: object
+      description: Request model for executing an internal transfer
+      required:
+      - requestReferenceId
+      - sourceAccount
+      - destinationAccount
+      - amount
+      - currency
+      properties:
+        requestReferenceId:
+          type: string
+          description: Client reference / idempotency key.
+          example: client-ref-8f3a-001
+        sourceAccount:
+          $ref: '#/components/schemas/TransferAccountRef'
+        destinationAccount:
+          $ref: '#/components/schemas/TransferAccountRef'
+        amount:
+          type: number
+          format: double
+          description: Amount to transfer.
+          example: 250.0
+        currency:
+          type:
+          - string
+          - 'null'
+          description: ISO 4217 alphabetic currency code; must match the source account currency.
+          example: USD
+        extraData:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+          description: Optional client metadata (opaque JSON object).
+    TransferEligibility:
+      type: object
+      required:
+      - sourceAccount
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/AccountIdentifier'
+        destinationAccounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountIdentifier'
+    TransferFeeConfigurationRow:
+      type: object
+      description: Transfer fee configuration for a source/destination account type and currency pair
+      required:
+      - sourceAccountType
+      - destinationAccountType
+      - sourceCurrency
+      - destinationCurrency
+      - percentageFee
+      properties:
+        sourceAccountType:
+          type: string
+          description: Source AccountType (trading, options, cash, moneyFarm).
+        destinationAccountType:
+          type: string
+          description: Destination AccountType (trading, options, cash, moneyFarm).
+        sourceCurrency:
+          type: string
+          pattern: ^[A-Z]{3}$
+          description: Source currency as ISO 4217 alphabetic code.
+          example: USD
+        destinationCurrency:
+          type: string
+          pattern: ^[A-Z]{3}$
+          description: Destination currency as ISO 4217 alphabetic code.
+          example: EUR
+        percentageFee:
+          type: number
+          format: double
+          description: Percentage fee applicable to this route.
+    PaymentsApi_AccountType:
+      type: string
+      enum:
+      - trading
+      - options
+      - cash
+    AccountIdentifier:
+      type: object
+      required:
+      - accountType
+      - accountId
+      properties:
+        accountType:
+          $ref: '#/components/schemas/PaymentsApi_AccountType'
+        accountId:
+          type: string
+          description: Account identifier
+          example: ACC-100100
+    TransferLookupDestination:
+      type: object
+      required:
+      - destinationAccount
+      properties:
+        destinationAccount:
+          $ref: '#/components/schemas/LookupAccountIdentifier'
+        accountCurrency:
+          type: string
+        exchangeRate:
+          type: number
+          format: double
+        exchangeFeeInAccountCurrency:
+          type: number
+          format: double
+          description: Exchange fee amount in accountCurrency for this leg.
+        accountReferenceId:
+          type: string
+          description: Reference identifier for the transaction amount posted on this leg's sub-account (omit or empty when not applicable).
+    TransferableBalanceResponse:
+      type: object
+      description: Transferable balance for a source/destination account pair
+      required:
+      - sourceAccount
+      - destinationAccount
+      - transferableAmount
+      - currency
+      - amountInUsd
+      - exchangeRate
+      properties:
+        sourceAccount:
+          $ref: '#/components/schemas/TransferAccountRef'
+          description: Confirmed source account.
+        destinationAccount:
+          $ref: '#/components/schemas/TransferAccountRef'
+          description: Confirmed destination account.
+        transferableAmount:
+          type: number
+          format: double
+          description: Maximum amount the user may transfer on this route in Currency.
+          example: 1500.5
+        currency:
+          type: string
+          pattern: ^[A-Z]{3}$
+          description: ISO 4217 alphabetic currency code for transferableAmount.
+          example: USD
+        amountInUsd:
+          type: number
+          format: double
+          description: transferableAmount expressed in USD for display or analytics.
+          example: 1500.5
+        exchangeRate:
+          type: number
+          format: double
+          description: Raw FX rate used to derive amountInUsd from the amount in currency.
+          example: 1.0
+    MoneyTransferResponse:
+      type: object
+      description: Response after executing a transfer
+      required:
+      - transferId
+      properties:
+        transferId:
+          type: integer
+          format: int64
+          description: Server transfer identifier.
+          example: 9876543210
+        requestReferenceId:
+          type:
+          - string
+          - 'null'
+          description: Echo of client requestReferenceId when provided.
+          example: client-ref-8f3a-001
+    LookupAccountType:
+      type: string
+      enum:
+      - trading
+      - options
+      - cash
+      - moneyFarm
+    TransferLimitRow:
+      type: object
+      description: Transfer limit for a source/destination account type pair
+      required:
+      - sourceAccountType
+      - destinationAccountType
+      - minAmount
+      - maxAmount
+      properties:
+        sourceAccountType:
+          type: string
+          description: Source AccountType (trading, options, cash, moneyFarm).
+        destinationAccountType:
+          type: string
+          description: Destination AccountType (trading, options, cash, moneyFarm).
+        minAmount:
+          type: number
+          format: double
+          description: Minimum transfer amount allowed for this route.
+        maxAmount:
+          type: number
+          format: double
+          description: Maximum transfer amount allowed for this route.
+    TransferLookupResult:
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferLookupResponse'
+          description: List of transfers matching the lookup (zero or more). Empty if none match.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

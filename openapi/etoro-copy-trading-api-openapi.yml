@@ -1,0 +1,946 @@
+openapi: 3.2.0
+info:
+  title: eToro Copy Trading API
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
+tags:
+- name: Copy Trading
+paths:
+  /api/v2/trading/copy:
+    post:
+      operationId: registerCopyTrading
+      tags:
+      - Copy Trading
+      summary: Start copying an investor, or adjust an existing copy
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Registers a copy relationship with the given investor for the authenticated account. If the copy already exists, funds will be added to or removed from it; if it does not exist, a new copy will be created and funds transferred into it. Every change of funds causes a realignment process that adjusts all the positions inside the sub-portfolio to match the parent portfolio proportions. Investor account ids (parentCID) are the ids surfaced by the platform''s public endpoints (for example, the Rankings endpoints). The operation is asynchronous: the response token acknowledges acceptance, and the outcome can be checked via GET /api/v2/trading/copy/{referenceId} using the referenceID supplied here.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyTradingRegisterRequest'
+            example:
+              parentCID: 5551234
+              amount: 500.0
+              referenceID: partner-op-2026-07-15-0001
+      responses:
+        '200':
+          description: Request accepted for asynchronous processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenedResponse'
+              example:
+                token: 3c0e5b1f-8d2a-4f6e-9b7c-1a2b3c4d5e6f
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation failure (e.g. zero amount, missing referenceID, referenceID longer than 35 characters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+              example:
+                error: Amount must not be zero
+        '401':
+          description: Missing or invalid credential
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Caller not authorized for this operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: InsufficientPermissions
+                errorMessage: InsufficientPermissions
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:trade.real:write
+      x-real-money: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: d9901ab7-8deb-400f-94fe-6a644b1673bc
+        description: A unique request identifier.
+        example: d9901ab7-8deb-400f-94fe-6a644b1673bc
+    delete:
+      operationId: closeCopyTrading
+      tags:
+      - Copy Trading
+      summary: Close or detach a copy relationship
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        This action closes the sub-portfolio of the copy relationship. There are 2 ways to close the sub-portfolio: (a) Close — close all positions and withdraw the funds back to the main portfolio balance; (b) Detach — detach the positions from the sub-portfolio and move them into the main portfolio, and withdraw the sub-portfolio cash balance back into the main portfolio balance. These correspond to the unregisterType values Close and Detach. The relationship is selected by mirrorID; identity is resolved from the authenticated caller. This binding takes all fields as query parameters and rejects any request carrying a body — use POST /api/v2/trading/copy/close for a JSON-body equivalent. The operation is asynchronous and the response token is an acknowledgment only: close completion is not pollable through this API.'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: be1b314e-a52a-48c1-80a8-f905cf63a3fd
+        description: A unique request identifier.
+        example: be1b314e-a52a-48c1-80a8-f905cf63a3fd
+      - name: mirrorID
+        in: query
+        required: true
+        description: The copy relationship to close, as returned in the status response after a successful registration.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+        example: 424242
+      - name: unregisterType
+        in: query
+        required: false
+        description: Close liquidates the copy's positions; Detach releases them as self-managed positions. Defaults to Close.
+        schema:
+          type: string
+          enum:
+          - Close
+          - Detach
+          default: Close
+      - name: clientRequestID
+        in: query
+        required: false
+        description: 'Optional idempotency key (UUID): repeated requests with the same value produce the same operation, and the response token echoes it.'
+        schema:
+          type: string
+          format: uuid
+        example: 7f1da128-f516-4710-8474-915566c4b22e
+      responses:
+        '200':
+          description: Request accepted — acknowledgment only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenedResponse'
+              example:
+                token: 7f1da128-f516-4710-8474-915566c4b22e
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation failure (e.g. missing or non-positive mirrorID, unknown unregisterType, zero-valued clientRequestID, or a request body on this binding)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+              example:
+                error: MirrorId must be greater than 0
+        '401':
+          description: Missing or invalid credential
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Caller not authorized for this operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: InsufficientPermissions
+                errorMessage: InsufficientPermissions
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:trade.real:write
+      x-real-money: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/trading/copy/close:
+    post:
+      operationId: closeCopyTradingViaPost
+      tags:
+      - Copy Trading
+      summary: Close or detach a copy relationship (JSON body)
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        This action closes the sub-portfolio of the copy relationship. There are 2 ways to close the sub-portfolio: (a) Close — close all positions and withdraw the funds back to the main portfolio balance; (b) Detach — detach the positions from the sub-portfolio and move them into the main portfolio, and withdraw the sub-portfolio cash balance back into the main portfolio balance. These correspond to the unregisterType values Close and Detach. Identical semantics to DELETE /api/v2/trading/copy, with the fields carried in a JSON body instead of query parameters — provided because some HTTP clients and proxies handle DELETE requests with bodies unreliably. The response token is an acknowledgment only: close completion is not pollable through this API.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyTradingCloseRequest'
+            example:
+              mirrorID: 424242
+              unregisterType: Close
+              clientRequestID: 7f1da128-f516-4710-8474-915566c4b22e
+      responses:
+        '200':
+          description: Request accepted — acknowledgment only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenedResponse'
+              example:
+                token: 7f1da128-f516-4710-8474-915566c4b22e
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation failure (e.g. missing or non-positive mirrorID, unknown unregisterType, zero-valued clientRequestID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+              example:
+                error: MirrorId must be greater than 0
+        '401':
+          description: Missing or invalid credential
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Caller not authorized for this operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: InsufficientPermissions
+                errorMessage: InsufficientPermissions
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:trade.real:write
+      x-real-money: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 9a5d18d0-31c6-4085-83a4-a16822043c9d
+        description: A unique request identifier.
+        example: 9a5d18d0-31c6-4085-83a4-a16822043c9d
+  /api/v2/trading/copy/eligibility:
+    post:
+      operationId: checkCopyTradingEligibility
+      tags:
+      - Copy Trading
+      summary: Pre-check whether a copy registration would be allowed
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        A dry run of the register operation that changes nothing: verifies whether the authenticated account can copy the given investor with the given amount. Request body is the same as starting a new copy (POST /api/v2/trading/copy). A positive verdict is a point-in-time check, not a reservation. When isSuccess is false, errorCode and errorMessage may be absent.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CopyTradingEligibilityRequest'
+            example:
+              parentCID: 5551234
+              amount: 500.0
+      responses:
+        '200':
+          description: Eligibility verdict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingEligibilityResponse'
+              example:
+                CID: 4441234
+                parentCID: 5551234
+                isSuccess: false
+                errorCode: 42
+                errorMessage: Copy limit reached
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation failure (e.g. zero amount or missing parentCID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+              example:
+                error: Amount must not be zero
+        '401':
+          description: Missing or invalid credential
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Caller not authorized for this operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: InsufficientPermissions
+                errorMessage: InsufficientPermissions
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+        '500':
+          description: Eligibility could not be determined — retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:trade.real:read
+      - oauth2:
+        - etoro-public:trade.real:write
+      x-read-only: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 615290e0-3991-42d5-b7f5-f3893f7c3cde
+        description: A unique request identifier.
+        example: 615290e0-3991-42d5-b7f5-f3893f7c3cde
+  /api/v2/trading/copy/{referenceId}:
+    get:
+      operationId: getCopyTradingStatus
+      tags:
+      - Copy Trading
+      summary: Poll a copy operation's outcome
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the terminal outcome of a copy request for register, add or remove funds, looked up by the referenceID supplied on the copy request. The lookup is case-sensitive and scoped to the authenticated account. On success the response carries the mirrorID used to close the copy later; parentCID and parentUsername are either both present or both absent. This endpoint returns only the status of the copy request, not the status of the mirror sub-portfolio. For sub-portfolio status use a portfolio endpoint.'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 7c722dc6-eaa9-4cc8-af05-d1a2d94fc8c6
+        description: A unique request identifier.
+        example: 7c722dc6-eaa9-4cc8-af05-d1a2d94fc8c6
+      - name: referenceId
+        in: path
+        required: true
+        description: The referenceID supplied on the copy request (max 35 characters, case-sensitive).
+        schema:
+          type: string
+        example: partner-op-2026-07-15-0001
+      responses:
+        '200':
+          description: Terminal operation outcome
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingStatusResponse'
+              examples:
+                succeeded:
+                  summary: Successful registration
+                  value:
+                    referenceID: partner-op-2026-07-15-0001
+                    isSuccess: true
+                    mirrorID: 424242
+                    parentCID: 5551234
+                    parentUsername: investor-username
+                failed:
+                  summary: Failed registration
+                  value:
+                    referenceID: partner-op-2026-07-15-0002
+                    isSuccess: false
+                    errorMessageCode: 623
+                    failReason: Insufficient funds
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+              example:
+                error: The value 'abc' is not valid.
+        '401':
+          description: Missing or invalid credential
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: Unauthorized
+                errorMessage: Unauthorized
+        '403':
+          description: Caller not authorized for this operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+              example:
+                errorCode: InsufficientPermissions
+                errorMessage: InsufficientPermissions
+        '404':
+          description: 'No terminal outcome exists yet for this referenceID on the authenticated account. This happens in both of these cases: the copy request is still being processed, or no copy request with this referenceID was ever submitted by this account.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyTradingErrorResponse'
+              example:
+                error: No copy operation was found for the supplied reference id.
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GatewayErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:trade.real:read
+      - oauth2:
+        - etoro-public:trade.real:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+components:
+  schemas:
+    CopyTradingEligibilityResponse:
+      type: object
+      description: Eligibility verdict. Fields with no value are omitted from the response rather than sent as null.
+      required:
+      - CID
+      - parentCID
+      - isSuccess
+      properties:
+        CID:
+          type: integer
+          format: int32
+          description: The authenticated account id the verdict applies to.
+        parentCID:
+          type: integer
+          format: int32
+          description: The investor account id the verdict applies to.
+        isSuccess:
+          type: boolean
+          description: Whether a copy registration with these parameters would be allowed.
+        errorCode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Machine-readable reason when not eligible. Values are not currently enumerated — treat as opaque diagnostic data. May be absent even when isSuccess is false.
+        errorMessage:
+          type:
+          - string
+          - 'null'
+          description: Human-readable reason when not eligible. May be absent even when isSuccess is false.
+    CopyTradingStatusResponse:
+      type: object
+      description: Terminal outcome of a copy operation. Fields with no value are omitted from the response rather than sent as null.
+      required:
+      - referenceID
+      - isSuccess
+      properties:
+        referenceID:
+          type: string
+          description: The caller-supplied operation reference this status answers.
+        isSuccess:
+          type: boolean
+          description: Whether the copy operation completed successfully.
+        mirrorID:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: The copy relationship the operation created or edited — the id used to close it. Present only when isSuccess is true.
+        parentCID:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: The copied investor's account id. Either both parentCID and parentUsername are present, or both are absent.
+        parentUsername:
+          type:
+          - string
+          - 'null'
+          description: The copied investor's username. Either both parentCID and parentUsername are present, or both are absent.
+        errorMessageCode:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Machine-readable error code when the operation failed. Values are not currently enumerated — treat as opaque diagnostic data.
+        failReason:
+          type:
+          - string
+          - 'null'
+          description: Human-readable failure reason when the operation failed.
+    CopyTradingErrorResponse:
+      type: object
+      description: Error response from the Copy Trading API (400, 404 and 500 statuses).
+      required:
+      - error
+      properties:
+        error:
+          type: string
+          description: Human-readable error message naming the offending field where applicable.
+          example: Amount must not be zero
+    TokenedResponse:
+      type: object
+      required:
+      - token
+      properties:
+        token:
+          type: string
+          format: uuid
+          description: Correlation token for the accepted asynchronous operation.
+    GatewayErrorResponse:
+      type: object
+      description: Standard error response from the public API gateway (401, 403 and 429 statuses).
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code
+          example: Unauthorized
+        errorMessage:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized
+    CopyTradingEligibilityRequest:
+      type: object
+      required:
+      - parentCID
+      - amount
+      properties:
+        parentCID:
+          type: integer
+          format: int32
+          description: The investor account id to copy.
+        amount:
+          type: number
+          format: decimal
+          description: Amount that would be allocated to the copy, in the account currency. Value must be non-zero.
+    CopyTradingRegisterRequest:
+      type: object
+      required:
+      - parentCID
+      - amount
+      - referenceID
+      properties:
+        parentCID:
+          type: integer
+          format: int32
+          description: The investor account id to copy.
+        amount:
+          type: number
+          format: decimal
+          description: Amount to allocate to the copy, in the account currency. Value must be non-zero. A positive value adds these funds into the copy sub-portfolio; a negative value removes funds from the sub-portfolio. Every change of funds causes a realignment process that adjusts all the positions inside the sub-portfolio to match the parent portfolio proportions.
+        referenceID:
+          type: string
+          maxLength: 35
+          description: 'Caller-supplied operation reference used to poll the outcome. Case-sensitive, URL-safe characters without ''/'', unique per operation within your account. Not an idempotency key: resubmitting the same value creates a new operation, and status lookups for a reused reference prefer the successful outcome.'
+    CopyTradingCloseRequest:
+      type: object
+      required:
+      - mirrorID
+      properties:
+        mirrorID:
+          type: integer
+          format: int32
+          description: The copy relationship to close, as returned in the status response after a successful registration.
+          minimum: 1
+        unregisterType:
+          type: string
+          enum:
+          - Close
+          - Detach
+          default: Close
+          description: Close liquidates the copy's positions; Detach releases them as self-managed positions.
+        clientRequestID:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: 'Optional idempotency key: repeated requests with the same value produce the same operation, and the response token echoes it.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

@@ -1,20 +1,40 @@
 openapi: 3.2.0
 info:
   title: eToro Watchlists API
-  version: v1.244.0
-  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
 servers:
 - url: https://public-api.etoro.com
   description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
 tags:
 - name: Watchlists
 paths:
   /api/v1/curated-lists:
     get:
+      operationId: getCuratedLists
       tags:
       - Watchlists
       summary: Get curated lists
-      description: Retrieves curated investment lists available to the authenticated user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **dedicated** limit for this endpoint — it is **not shared** with (pooled across) any other endpoint, so the full rate is available to this endpoint alone.
+
+
+        ---
+
+
+        Retrieves curated investment lists available to the authenticated user.'
       responses:
         '200':
           description: Successfully retrieved curated lists
@@ -22,8 +42,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CuratedListsResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '204':
           description: No curated lists available
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: false
+        defaultPool: false
       parameters:
       - name: x-request-id
         in: header
@@ -31,31 +135,22 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 5b43a95b-8b78-4daa-891f-2e2dcc4cba11
+          example: a682c047-8044-4478-985f-34fe46d5bd89
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      operationId: getCuratedLists
+        example: a682c047-8044-4478-985f-34fe46d5bd89
   /api/v1/market-recommendations/{itemsCount}:
     get:
+      operationId: getMarketRecommendationsByItemsCount
       tags:
       - Watchlists
       summary: Get market recommendations
-      description: Retrieves personalized market recommendations for the authenticated user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **dedicated** limit for this endpoint — it is **not shared** with (pooled across) any other endpoint, so the full rate is available to this endpoint alone.
+
+
+        ---
+
+
+        Retrieves personalized market recommendations for the authenticated user.'
       parameters:
       - name: x-request-id
         in: header
@@ -63,24 +158,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: a09d9f87-13c3-4d09-9da3-20f059084a77
+          example: 11596d1d-b35a-4457-8a3f-1450aa3994b1
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 11596d1d-b35a-4457-8a3f-1450aa3994b1
       - name: itemsCount
         in: path
         description: Number of recommendations to return
@@ -99,15 +179,113 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MarketRecommendationsResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '204':
           description: No recommendations available
-      operationId: getMarketRecommendations
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: false
+        defaultPool: false
   /api/v1/watchlists:
     get:
+      operationId: getWatchlists
       tags:
       - Watchlists
       summary: Get user watchlists
-      description: Retrieves all watchlists for the authenticated user with optional pagination and built-in watchlist management.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/watchlists/default-watchlists/items`
+
+        - `GET /api/v1/watchlists/public/{userId}`
+
+        - `GET /api/v1/watchlists/public/{userId}/{watchlistId}`
+
+        - `GET /api/v1/watchlists/{watchlistId}`
+
+
+        ---
+
+
+        Retrieves all watchlists for the authenticated user with optional pagination and built-in watchlist management.'
       parameters:
       - name: x-request-id
         in: header
@@ -115,24 +293,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: a23f4ec5-4334-4bd2-a5e6-27543bfde4c9
+          example: 97b432cf-07b8-4cb8-9485-29b12566b360
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 97b432cf-07b8-4cb8-9485-29b12566b360
       - name: itemsPerPageForSingle
         in: query
         description: Number of items to include per watchlist for pagination
@@ -143,6 +306,7 @@ paths:
           minimum: 1
           maximum: 1000
           example: 100
+        example: 100
       - name: ensureBuiltinWatchlists
         in: query
         description: Whether to ensure built-in watchlists are included
@@ -150,6 +314,7 @@ paths:
           type: boolean
           default: true
           example: true
+        example: true
       - name: addRelatedAssets
         in: query
         description: Whether to include related assets in the response
@@ -157,6 +322,7 @@ paths:
           type: boolean
           default: false
           example: false
+        example: false
       responses:
         '200':
           description: Successfully retrieved user watchlists
@@ -164,12 +330,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistsResponse'
-      operationId: getUserWatchlists
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/watchlists/default-watchlists/items
+        - GET /api/v1/watchlists/public/{userId}
+        - GET /api/v1/watchlists/public/{userId}/{watchlistId}
+        - GET /api/v1/watchlists/{watchlistId}
     post:
+      operationId: postWatchlists
       tags:
       - Watchlists
       summary: Create a new watchlist
-      description: Creates a new watchlist for the authenticated user with the specified name and type.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Creates a new watchlist for the authenticated user with the specified name and type.'
       parameters:
       - name: x-request-id
         in: header
@@ -177,24 +437,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 629691ba-bb2b-4e3c-9e23-a1f354025822
+          example: 2e41f751-add4-41f6-bd7a-ebc3631ea20a
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 2e41f751-add4-41f6-bd7a-ebc3631ea20a
       - name: name
         in: query
         description: Name of the new watchlist
@@ -203,6 +448,7 @@ paths:
           type: string
           maxLength: 100
           example: Tech Watchlist
+        example: Tech Watchlist
       - name: type
         in: query
         description: Type of watchlist to create
@@ -213,6 +459,7 @@ paths:
           - Dynamic
           default: Static
           example: Static
+        example: Static
       - name: dynamicQuery
         in: query
         description: Dynamic query URL for dynamic watchlists
@@ -225,13 +472,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistsResponse'
-      operationId: createANewWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
   /api/v1/watchlists/default-watchlist/selected-items:
     post:
+      operationId: postWatchlistsDefaultWatchlistSelectedItems
       tags:
       - Watchlists
       summary: Create default watchlist with selected items
-      description: Creates a default watchlist populated with the specified items.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Creates a default watchlist populated with the specified items.'
       requestBody:
         description: Items to include in the default watchlist
         required: true
@@ -248,6 +588,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistsResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
       parameters:
       - name: x-request-id
         in: header
@@ -255,31 +664,30 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 551daa42-12de-478c-b3a2-2b4c2a1a193a
+          example: 5c542687-46d4-45a2-91a3-6656b643bc24
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      operationId: createDefaultWatchlistWithSelectedItems
+        example: 5c542687-46d4-45a2-91a3-6656b643bc24
   /api/v1/watchlists/default-watchlists/items:
     get:
+      operationId: getWatchlistsDefaultWatchlistsItems
       tags:
       - Watchlists
       summary: Get default watchlist items
-      description: Retrieves items from user's default watchlists with optional pagination.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/watchlists`
+
+        - `GET /api/v1/watchlists/public/{userId}`
+
+        - `GET /api/v1/watchlists/public/{userId}/{watchlistId}`
+
+        - `GET /api/v1/watchlists/{watchlistId}`
+
+
+        ---
+
+
+        Retrieves items from user''s default watchlists with optional pagination.'
       parameters:
       - name: x-request-id
         in: header
@@ -287,24 +695,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 8728c1c7-1dc2-47b7-97ae-89b7de489bf1
+          example: f3a42c0c-69cc-4f96-ab69-0f4b848c95c6
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: f3a42c0c-69cc-4f96-ab69-0f4b848c95c6
       - name: itemsLimit
         in: query
         description: Maximum number of items to return
@@ -329,13 +722,107 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/WatchlistItemDto'
-      operationId: getDefaultWatchlistItems
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/watchlists
+        - GET /api/v1/watchlists/public/{userId}
+        - GET /api/v1/watchlists/public/{userId}/{watchlistId}
+        - GET /api/v1/watchlists/{watchlistId}
   /api/v1/watchlists/newasdefault-watchlist:
     post:
+      operationId: postWatchlistsNewasdefaultWatchlist
       tags:
       - Watchlists
       summary: Create watchlist and set as default
-      description: Creates a new watchlist and immediately sets it as the user's default watchlist.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Creates a new watchlist and immediately sets it as the user''s default watchlist.'
       parameters:
       - name: x-request-id
         in: header
@@ -343,24 +830,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: a6361668-9105-402a-a786-10a96dc76298
+          example: ed3e1d09-2691-4c54-aa37-ff823c9b23e0
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: ed3e1d09-2691-4c54-aa37-ff823c9b23e0
       - name: name
         in: query
         description: Name of the new watchlist
@@ -391,13 +863,96 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistsResponse'
-      operationId: createWatchlistAndSetAsDefault
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
   /api/v1/watchlists/public/{userId}:
     get:
+      operationId: getWatchlistsPublicByUserId
       tags:
       - Watchlists
       summary: Get user's public watchlists
-      description: Retrieves all public watchlists for a specific user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/watchlists`
+
+        - `GET /api/v1/watchlists/default-watchlists/items`
+
+        - `GET /api/v1/watchlists/public/{userId}/{watchlistId}`
+
+        - `GET /api/v1/watchlists/{watchlistId}`
+
+
+        ---
+
+
+        Retrieves all public watchlists for a specific user.'
       parameters:
       - name: x-request-id
         in: header
@@ -405,24 +960,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 8b51647e-8058-40e1-8a1e-bffd83f090e4
+          example: f9e43a44-d933-4e0e-be0e-c7123cffa32b
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: f9e43a44-d933-4e0e-be0e-c7123cffa32b
       - name: userId
         in: path
         description: User ID whose public watchlists to retrieve
@@ -446,13 +986,97 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistsResponse'
-      operationId: getUserSPublicWatchlists
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/watchlists
+        - GET /api/v1/watchlists/default-watchlists/items
+        - GET /api/v1/watchlists/public/{userId}/{watchlistId}
+        - GET /api/v1/watchlists/{watchlistId}
   /api/v1/watchlists/public/{userId}/{watchlistId}:
     get:
+      operationId: getWatchlistsPublicByUserIdByWatchlistId
       tags:
       - Watchlists
       summary: Get single public watchlist
-      description: Retrieves a specific public watchlist from a user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/watchlists`
+
+        - `GET /api/v1/watchlists/default-watchlists/items`
+
+        - `GET /api/v1/watchlists/public/{userId}`
+
+        - `GET /api/v1/watchlists/{watchlistId}`
+
+
+        ---
+
+
+        Retrieves a specific public watchlist from a user.'
       parameters:
       - name: x-request-id
         in: header
@@ -460,24 +1084,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 9240375b-cb71-43d7-afbb-0452d1c5d35a
+          example: 17f1559c-307a-4006-8983-ee1c8fc1568f
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 17f1559c-307a-4006-8983-ee1c8fc1568f
       - name: userId
         in: path
         description: User ID who owns the watchlist
@@ -516,13 +1125,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistResponse'
-      operationId: getSinglePublicWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/watchlists
+        - GET /api/v1/watchlists/default-watchlists/items
+        - GET /api/v1/watchlists/public/{userId}
+        - GET /api/v1/watchlists/{watchlistId}
   /api/v1/watchlists/rank/{watchlistId}:
     put:
+      operationId: putWatchlistsRankByWatchlistId
       tags:
       - Watchlists
       summary: Change watchlist rank
-      description: Updates the display rank of a watchlist.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Updates the display rank of a watchlist.'
       parameters:
       - name: x-request-id
         in: header
@@ -530,24 +1233,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 9b133378-9700-464a-aa83-92e5b0dc41a9
+          example: cc2e7c5d-aa52-4ffb-a7cb-c037b3c592bb
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: cc2e7c5d-aa52-4ffb-a7cb-c037b3c592bb
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist
@@ -563,16 +1251,110 @@ paths:
           type: integer
           format: int32
           example: 500
+        example: 500
       responses:
         '204':
           description: Watchlist rank updated successfully
-      operationId: changeWatchlistRank
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
   /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}:
     put:
+      operationId: putWatchlistsSetUserSelectedUserDefaultByWatchlistId
       tags:
       - Watchlists
-      summary: Set a specific watchlist as user's default
-      description: Sets the specified watchlist as the user's default watchlist.
+      summary: Set watchlist as default
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Sets the specified watchlist as the user''s default watchlist.'
       parameters:
       - name: x-request-id
         in: header
@@ -580,24 +1362,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 38fe16da-5365-451d-9f8d-f3e06bb40fe3
+          example: 7e1f13a9-c10c-4230-a90d-ede4e4c1cc95
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 7e1f13a9-c10c-4230-a90d-ede4e4c1cc95
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist to set as default
@@ -608,13 +1375,96 @@ paths:
       responses:
         '200':
           description: Default watchlist set successfully
-      operationId: setSpecificWatchlistUserSDefault
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
   /api/v1/watchlists/{watchlistId}:
     get:
+      operationId: getWatchlistsByWatchlistId
       tags:
       - Watchlists
       summary: Get single watchlist
-      description: Retrieves a specific watchlist with its items using pagination.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/watchlists`
+
+        - `GET /api/v1/watchlists/default-watchlists/items`
+
+        - `GET /api/v1/watchlists/public/{userId}`
+
+        - `GET /api/v1/watchlists/public/{userId}/{watchlistId}`
+
+
+        ---
+
+
+        Retrieves a specific watchlist with its items using pagination.'
       parameters:
       - name: x-request-id
         in: header
@@ -622,24 +1472,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: fc166ad7-1b19-45f8-acdc-5d14dc316821
+          example: 217b806c-2b1f-491f-9b93-0fa9b7de1fa1
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 217b806c-2b1f-491f-9b93-0fa9b7de1fa1
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist
@@ -673,12 +1508,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WatchlistsResponse'
-      operationId: getSingleWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 5 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/watchlists
+        - GET /api/v1/watchlists/default-watchlists/items
+        - GET /api/v1/watchlists/public/{userId}
+        - GET /api/v1/watchlists/public/{userId}/{watchlistId}
     put:
+      operationId: putWatchlistsByWatchlistId
       tags:
       - Watchlists
       summary: Rename watchlist
-      description: Updates the name of an existing watchlist.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Updates the name of an existing watchlist.'
       parameters:
       - name: x-request-id
         in: header
@@ -686,24 +1615,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 07486a96-1ef5-417f-b9a2-c4de10d162a3
+          example: 4c1750e4-1102-48b1-b50d-df88bb14b838
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 4c1750e4-1102-48b1-b50d-df88bb14b838
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist
@@ -722,12 +1636,105 @@ paths:
       responses:
         '204':
           description: Watchlist renamed successfully
-      operationId: renameWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
     delete:
+      operationId: deleteWatchlistsByWatchlistId
       tags:
       - Watchlists
       summary: Delete watchlist
-      description: Removes a watchlist and all its items.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Removes a watchlist and all its items.'
       parameters:
       - name: x-request-id
         in: header
@@ -735,24 +1742,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: f2c1a05a-eef0-45c1-9b53-3bb36e8e1aab
+          example: 0897c48e-a8b4-4d22-bde6-da2847490b3a
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 0897c48e-a8b4-4d22-bde6-da2847490b3a
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist to delete
@@ -763,13 +1755,106 @@ paths:
       responses:
         '204':
           description: Watchlist deleted successfully
-      operationId: deleteWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
   /api/v1/watchlists/{watchlistId}/items:
     post:
+      operationId: postWatchlistsByWatchlistIdItems
       tags:
       - Watchlists
       summary: Add items to watchlist
-      description: Adds new items to an existing watchlist.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Adds new items to an existing watchlist.'
       parameters:
       - name: x-request-id
         in: header
@@ -777,24 +1862,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: bba0ac38-7ad7-460a-a359-a8d8a5958d03
+          example: 596d7b32-8117-43b0-8cfd-7e2735c89df2
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 596d7b32-8117-43b0-8cfd-7e2735c89df2
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist
@@ -814,12 +1884,105 @@ paths:
       responses:
         '201':
           description: Items added successfully
-      operationId: addItemsToWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
     put:
+      operationId: putWatchlistsByWatchlistIdItems
       tags:
       - Watchlists
       summary: Update items in watchlist
-      description: Updates existing items in a watchlist (rank, etc.).
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `DELETE /api/v1/watchlists/{watchlistId}/items`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+
+        ---
+
+
+        Updates existing items in a watchlist (rank, etc.).'
       parameters:
       - name: x-request-id
         in: header
@@ -827,24 +1990,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 96697288-1bfe-4c1f-b750-b6872a7f6a1d
+          example: f945f54e-9982-4adc-bf6b-9802b4c0550b
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: f945f54e-9982-4adc-bf6b-9802b4c0550b
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist
@@ -864,12 +2012,105 @@ paths:
       responses:
         '204':
           description: Items updated successfully
-      operationId: updateItemsInWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - DELETE /api/v1/watchlists/{watchlistId}/items
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
     delete:
+      operationId: deleteWatchlistsByWatchlistIdItems
       tags:
       - Watchlists
       summary: Remove items from watchlist
-      description: Removes specified items from a watchlist.
+      description: '**Rate limit:** 20 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `DELETE /api/v1/watchlists/{watchlistId}`
+
+        - `POST /api/v1/watchlists`
+
+        - `POST /api/v1/watchlists/default-watchlist/selected-items`
+
+        - `POST /api/v1/watchlists/newasdefault-watchlist`
+
+        - `POST /api/v1/watchlists/{watchlistId}/items`
+
+        - `PUT /api/v1/watchlists/rank/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}`
+
+        - `PUT /api/v1/watchlists/{watchlistId}/items`
+
+
+        ---
+
+
+        Removes specified items from a watchlist.'
       parameters:
       - name: x-request-id
         in: header
@@ -877,24 +2118,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 90e34eb0-31bc-414d-8451-20546f3035ac
+          example: f974556e-965c-451e-9015-877a191dfafb
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: f974556e-965c-451e-9015-877a191dfafb
       - name: watchlistId
         in: path
         description: Unique identifier of the watchlist
@@ -914,62 +2140,522 @@ paths:
       responses:
         '204':
           description: Items removed successfully
-      operationId: removeItemsFromWatchlist
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (20 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 10 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 20
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 20;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-ratelimit:
+        limit: 20
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - DELETE /api/v1/watchlists/{watchlistId}
+        - POST /api/v1/watchlists
+        - POST /api/v1/watchlists/default-watchlist/selected-items
+        - POST /api/v1/watchlists/newasdefault-watchlist
+        - POST /api/v1/watchlists/{watchlistId}/items
+        - PUT /api/v1/watchlists/rank/{watchlistId}
+        - PUT /api/v1/watchlists/setUserSelectedUserDefault/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}
+        - PUT /api/v1/watchlists/{watchlistId}/items
+  /api/v2/watchlists:
+    post:
+      operationId: getWatchlistsV2
+      tags:
+      - Watchlists
+      summary: Get user watchlists (BFF V2)
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **dedicated** limit for this endpoint — it is **not shared** with (pooled across) any other endpoint, so the full rate is available to this endpoint alone.
+
+
+        ---
+
+
+        Retrieves the authenticated user''s watchlists as a BFF component response (V2 facade). The request body selects the userWatchlists component and its params.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BffFacadeRequest'
+            example:
+              version: 1
+              requestId: d1aab7dd-8a63-4a64-9b9f-8b6c0e2e0f2a
+              components:
+              - type: userWatchlists
+                supportedVariations: []
+                params:
+                  itemsPerPageForSingle: 2
+                  ensureBuiltinWatchlists: true
+                  addRelatedAssets: true
+      responses:
+        '200':
+          description: Successfully retrieved user watchlists as BFF component
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchlistComponentResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid BFF facade request
+        '429':
+          description: Too Many Requests — the rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:watchlist:read
+      - oauth2:
+        - etoro-public:watchlist:write
+      x-read-only: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: false
+        defaultPool: false
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: e0fc773c-1ce6-4e17-be95-9d4d01b6397b
+        description: A unique request identifier.
+        example: e0fc773c-1ce6-4e17-be95-9d4d01b6397b
 components:
   schemas:
-    MarketRecommendationsResponse:
+    WatchlistApi_Avatar:
       type: object
-      description: Response containing market recommendations
+      description: Instrument or user avatar in multiple sizes.
       properties:
-        ResponseType:
+        small:
+          type:
+          - string
+          - 'null'
+          description: URL of the small avatar image.
+        medium:
+          type:
+          - string
+          - 'null'
+          description: URL of the medium avatar image.
+        large:
+          type:
+          - string
+          - 'null'
+          description: URL of the large avatar image.
+        svg:
+          $ref: '#/components/schemas/SvgAvatar'
+    UserEnrichData:
+      type: object
+      description: Enrichment data for a user (popular investor) referenced by a watchlist item.
+      properties:
+        Cid:
+          type: integer
+          format: int32
+          description: Customer id of the user.
+          example: 12345
+        username:
           type: string
-          description: Type of recommendation response
-          example: Instrument
-        Recommendations:
+          description: Username.
+          example: johndoe
+        fullName:
+          type:
+          - string
+          - 'null'
+          description: Full name of the user.
+        isPi:
+          type: boolean
+          description: Whether the user is a Popular Investor.
+        avatar:
+          $ref: '#/components/schemas/WatchlistApi_Avatar'
+        changePercentage1M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last month.
+        changePercentage3M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last 3 months.
+        changePercentage6M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last 6 months.
+        changePercentage1Y:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last year.
+        riskScore1M:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last month.
+        riskScore3M:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last 3 months.
+        riskScore6M:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last 6 months.
+        riskScore1Y:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last year.
+        copiers:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Number of users copying this investor.
+        return1M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last month.
+        return3M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last 3 months.
+        return6M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last 6 months.
+        return1Y:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last year.
+    LeverageConfig:
+      type: object
+      description: Leverage configuration for a trade direction.
+      properties:
+        leverageValues:
           type: array
-          description: List of recommended instrument IDs
+          description: Allowed leverage values.
           items:
             type: integer
             format: int32
-          example:
-          - 12345
-          - 67890
-    CuratedListsResponse:
+        settlementTypeId:
+          type: integer
+          format: int32
+          description: Settlement type id.
+        isBuy:
+          type: boolean
+          description: Whether this configuration applies to buy positions.
+        isPotential:
+          type: boolean
+          description: Whether this configuration is potential.
+        defaultLeverage:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Default leverage.
+        minPositionAmountAbsolute:
+          type: number
+          format: double
+          description: Minimum absolute position amount.
+        maxStopLossPercentage:
+          type: number
+          format: double
+          description: Maximum stop-loss percentage.
+        maxTakeProfitPercentage:
+          type: number
+          format: double
+          description: Maximum take-profit percentage.
+        allowTrailingStopLoss:
+          type: boolean
+          description: Whether trailing stop-loss is allowed.
+        allowEditStopLoss:
+          type: boolean
+          description: Whether editing stop-loss is allowed.
+        allowEditTakeProfit:
+          type: boolean
+          description: Whether editing take-profit is allowed.
+        minStopLossPercentage:
+          type: number
+          format: double
+          description: Minimum stop-loss percentage.
+        minTakeProfitPercentage:
+          type: number
+          format: double
+          description: Minimum take-profit percentage.
+        defaultStopLossPercentage:
+          type: number
+          format: double
+          description: Default stop-loss percentage.
+        defaultTakeProfitPercentage:
+          type: number
+          format: double
+          description: Default take-profit percentage.
+    CandlePoint:
       type: object
-      description: Response containing curated investment lists
+      description: A single price candle point.
       properties:
-        curatedLists:
-          type: array
-          description: List of curated investment lists
-          items:
-            $ref: '#/components/schemas/CuratedList'
-    CuratedList:
+        price:
+          type: number
+          format: double
+          description: Price at the candle timestamp.
+        timestamp:
+          type: string
+          format: date-time
+          description: Candle timestamp (ISO 8601 UTC).
+    BffFacadeRequest:
       type: object
-      description: Represents a curated investment list
+      description: BFF facade request selecting one or more components to resolve
+      required:
+      - version
+      - requestId
+      - components
       properties:
-        uuid:
+        version:
+          type: integer
+          format: int32
+          minimum: 1
+          description: BFF request contract version
+          example: 1
+        requestId:
           type: string
-          description: Unique identifier of the curated list
-          example: '12345'
-        name:
-          type: string
-          description: Display name of the curated list
-          example: Tech Watchlist
-        description:
-          type: string
-          description: Description of the curated list
-          example: A list of tech stocks
-        listImageUrl:
-          type: string
-          description: URL of the list's image
-          example: https://example.com/tech-watchlist.jpg
-        items:
+          description: Caller-supplied correlation id for the BFF request
+          example: d1aab7dd-8a63-4a64-9b9f-8b6c0e2e0f2a
+        components:
           type: array
-          description: Items in the curated list
+          description: Components to resolve; must include a userWatchlists entry
+          minItems: 1
           items:
-            $ref: '#/components/schemas/CuratedListItem'
-          example:
-          - instrumentId: 12345
+            type: object
+            required:
+            - type
+            properties:
+              type:
+                type: string
+                description: Component type
+                example: userWatchlists
+              supportedVariations:
+                type: array
+                items:
+                  type: string
+                example: []
+              params:
+                type: object
+                description: Component-specific parameters
+                properties:
+                  itemsPerPageForSingle:
+                    type: integer
+                    format: int32
+                    description: Number of items to include per watchlist
+                    example: 2
+                  ensureBuiltinWatchlists:
+                    type: boolean
+                    description: Whether to ensure built-in watchlists exist for the user
+                    example: true
+                  addRelatedAssets:
+                    type: boolean
+                    description: Whether to include related assets on watchlists
+                    example: true
+    WatchlistsResponse:
+      type: object
+      description: Response containing multiple watchlists with metadata
+      properties:
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code of the response
+          example: 200
+        watchlists:
+          type: array
+          description: List of user watchlists
+          items:
+            $ref: '#/components/schemas/WatchlistResponse'
+        exception:
+          type: object
+          description: Exception details when the request partially failed
+          properties:
+            invalidItems:
+              type: array
+              description: List of invalid item identifiers
+              items:
+                type: string
+            reason:
+              type: string
+              description: Reason for the exception
+            message:
+              type: string
+              description: Human-readable exception message
+        meta:
+          type: object
+          description: Response metadata including pagination info
+          properties:
+            pageNumber:
+              type: integer
+              format: int32
+              description: Current page number
+              example: 0
+            itemsPerPage:
+              type: integer
+              format: int32
+              description: Number of items per page
+              example: 100
+            maxItemsInWatchlistLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed items per watchlist
+              example: 1000
+            maxWatchlistsLimit:
+              type: integer
+              format: int32
+              description: Maximum allowed watchlists per user
+              example: 10
+        isSucceeded:
+          type: boolean
+          description: Whether the request succeeded
+          example: true
+    TradingAdditionalData:
+      type: object
+      description: Additional trading configuration for an instrument.
+      properties:
+        leveragesConfig:
+          type: array
+          description: Available leverage configurations.
+          items:
+            $ref: '#/components/schemas/LeverageConfig'
+        highLeverage:
+          type:
+          - object
+          - 'null'
+          description: High-leverage configuration, when available.
+        requiresW8Ben:
+          type: boolean
+          description: Whether a W-8BEN form is required to trade.
+        allowRevolvingDoors:
+          type: boolean
+          description: Whether revolving-doors trading is allowed.
+        minExposureAmount:
+          type: number
+          format: double
+          description: Minimum exposure amount.
     WatchlistItemDto:
       type: object
       description: Represents an item in a watchlist
@@ -1044,6 +2730,15 @@ components:
                       type: string
                     textColor:
                       type: string
+    CuratedListsResponse:
+      type: object
+      description: Response containing curated investment lists
+      properties:
+        curatedLists:
+          type: array
+          description: List of curated investment lists
+          items:
+            $ref: '#/components/schemas/CuratedList'
     CuratedListItem:
       type: object
       description: Represents an item in a curated list
@@ -1122,60 +2817,673 @@ components:
           example:
           - 12345
           - 67890
-    WatchlistsResponse:
+    InstrumentMarketData:
       type: object
-      description: Response containing multiple watchlists with metadata
+      description: Core market metadata for an instrument.
       properties:
-        status:
+        id:
           type: integer
           format: int32
-          description: HTTP status code of the response
-          example: 200
-        watchlists:
-          type: array
-          description: List of user watchlists
-          items:
-            $ref: '#/components/schemas/WatchlistResponse'
-        exception:
+          description: Instrument id.
+          example: 100000
+        symbolName:
+          type: string
+          description: Instrument symbol.
+          example: AAPL
+        displayName:
+          type: string
+          description: Human-readable instrument name.
+          example: Apple
+        assetTypeId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Asset type id.
+        assetTypeSubCategoryId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Asset type sub-category id.
+        exchangeId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Exchange id.
+        hasExpirationDate:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the instrument has an expiration date.
+        avatar:
+          $ref: '#/components/schemas/WatchlistApi_Avatar'
+    WatchlistComponentResponse:
+      type: object
+      description: BFF component envelope returned by watchlist V2 facade endpoints
+      properties:
+        kind:
+          type: string
+          example: component
+        type:
+          type: string
+          description: Component type
+          example: userWatchlists
+        status:
+          type: string
+          example: ok
+        data:
           type: object
-          description: Exception details when the request partially failed
+          description: Component payload containing the user's watchlists and enrichment data
           properties:
-            invalidItems:
+            watchlists:
               type: array
-              description: List of invalid item identifiers
+              description: User watchlists, enriched for client rendering
               items:
-                type: string
-            reason:
-              type: string
-              description: Reason for the exception
-            message:
-              type: string
-              description: Human-readable exception message
+                allOf:
+                - $ref: '#/components/schemas/WatchlistResponse'
+                - type: object
+                  properties:
+                    userActions:
+                      type: object
+                      description: Which watchlist operations the caller may offer for this watchlist
+                      properties:
+                        enableRename:
+                          type: boolean
+                          example: true
+                        enableDelete:
+                          type: boolean
+                          example: true
+                        enableSetAsDefault:
+                          type: boolean
+                          example: true
+                        enableRearrangedWithDragAndDrop:
+                          type: boolean
+                          example: true
+                        enableAddingItems:
+                          type: boolean
+                          example: true
+            enrichmentData:
+              type: object
+              description: Shared enrichment data referenced by the watchlist items, keyed by item identifier. Instruments are keyed by instrument id; users and smart portfolios are keyed by GCID.
+              properties:
+                instruments:
+                  type: object
+                  description: Market enrichment data for instrument items, keyed by instrument id.
+                  additionalProperties:
+                    $ref: '#/components/schemas/MarketEnrichData'
+                users:
+                  type: object
+                  description: Popular-investor enrichment data for user items, keyed by GCID.
+                  additionalProperties:
+                    $ref: '#/components/schemas/UserEnrichData'
+                smartPortfolios:
+                  type: object
+                  description: Smart-portfolio enrichment data for smart-portfolio items, keyed by GCID.
+                  additionalProperties:
+                    $ref: '#/components/schemas/SmartPortfolioEnrichData'
+            pagination:
+              type: object
+              description: Pagination applied to the watchlist items
+              properties:
+                page:
+                  type: integer
+                  format: int32
+                  example: 0
+                pageSize:
+                  type: integer
+                  format: int32
+                  example: 100
+                totalCount:
+                  type: integer
+                  format: int32
+                  example: 1
+                hasNext:
+                  type: boolean
+                  example: false
+        actions:
+          type: object
+          description: Client actions available on the component, keyed by action name
         meta:
           type: object
-          description: Response metadata including pagination info
+          description: Component metadata, including the client cache directive
           properties:
-            pageNumber:
-              type: integer
-              format: int32
-              description: Current page number
-              example: 0
-            itemsPerPage:
-              type: integer
-              format: int32
-              description: Number of items per page
-              example: 100
-            maxItemsInWatchlistLimit:
-              type: integer
-              format: int32
-              description: Maximum allowed items per watchlist
-              example: 1000
-            maxWatchlistsLimit:
-              type: integer
-              format: int32
-              description: Maximum allowed watchlists per user
-              example: 10
-        isSucceeded:
+            cache:
+              type: object
+              properties:
+                maxAgeSeconds:
+                  type: integer
+                  format: int32
+                  example: 100
+        errors:
+          type: array
+          items:
+            type: object
+    SiblingData:
+      type: object
+      description: Sibling instrument information.
+      properties:
+        hasSibling:
           type: boolean
-          description: Whether the request succeeded
-          example: true
+          description: Whether the instrument has a sibling instrument.
+        isExtendedHoursInstrument:
+          type: boolean
+          description: Whether the instrument trades in extended hours.
+        siblingInstrumentId:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Id of the sibling instrument, when present.
+    MarketEnrichData:
+      type: object
+      description: Market enrichment data for an instrument referenced by a watchlist item.
+      properties:
+        market:
+          $ref: '#/components/schemas/InstrumentMarketData'
+        candles1D:
+          type: array
+          description: Intraday price candles for the last day.
+          items:
+            $ref: '#/components/schemas/CandlePoint'
+        candles1W:
+          type: array
+          description: Price candles for the last week.
+          items:
+            $ref: '#/components/schemas/CandlePoint'
+        candles1M:
+          type: array
+          description: Price candles for the last month.
+          items:
+            $ref: '#/components/schemas/CandlePoint'
+        currentRate:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Current market rate of the instrument.
+          example: 189.25
+        priceChangeAbsolute1D:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Absolute price change over the last day.
+        priceChangeAbsolute1W:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Absolute price change over the last week.
+        priceChangeAbsolute1M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Absolute price change over the last month.
+        priceChangePercentage1D:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Percentage price change over the last day.
+          example: 1.24
+        priceChangePercentage1W:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Percentage price change over the last week.
+        priceChangePercentage1M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Percentage price change over the last month.
+        marketCap:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Market capitalization in the instrument's currency.
+        marketCapInUSD:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Market capitalization in USD.
+        volume:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Traded volume.
+        peRatio:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Price-to-earnings ratio.
+        revenueGrowth:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Revenue growth.
+        dividendYield:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Dividend yield.
+        dividendYieldDaily:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Daily dividend yield.
+        percentPriceChangeYTD:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Year-to-date percentage price change.
+        oneYearPriceChange:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Price change over the last year.
+        highPriceLast52Weeks:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Highest price over the last 52 weeks.
+        lowPriceLast52Weeks:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Lowest price over the last 52 weeks.
+        tipranksAllConsensus:
+          type:
+          - string
+          - 'null'
+          description: TipRanks analyst consensus rating.
+        tipranksAllPriceTarget:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: TipRanks average analyst price target.
+        tipranksAllUpside:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: TipRanks implied upside.
+        buyHoldingPct:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Share of eToro clients holding a buy position.
+        salesOrRevenue:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Sales or revenue.
+        netProfitMargin:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Net profit margin.
+        beta:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Beta relative to the market.
+        priceToSales:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Price-to-sales ratio.
+        umbrellaSector:
+          type:
+          - string
+          - 'null'
+          description: High-level sector classification.
+        isMarketOpen:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the instrument's market is currently open.
+        isTradable:
+          type: boolean
+          description: Whether the instrument is currently tradable.
+        tradeButtonStatusData:
+          $ref: '#/components/schemas/TradeButtonStatusData'
+        52WMin:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 52-week minimum price.
+        52WMax:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 52-week maximum price.
+    MarketRecommendationsResponse:
+      type: object
+      description: Response containing market recommendations
+      properties:
+        ResponseType:
+          type: string
+          description: Type of recommendation response
+          example: Instrument
+        Recommendations:
+          type: array
+          description: List of recommended instrument IDs
+          items:
+            type: integer
+            format: int32
+          example:
+          - 12345
+          - 67890
+    CuratedList:
+      type: object
+      description: Represents a curated investment list
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier of the curated list
+          example: '12345'
+        name:
+          type: string
+          description: Display name of the curated list
+          example: Tech Watchlist
+        description:
+          type: string
+          description: Description of the curated list
+          example: A list of tech stocks
+        listImageUrl:
+          type: string
+          description: URL of the list's image
+          example: https://example.com/tech-watchlist.jpg
+        items:
+          type: array
+          description: Items in the curated list
+          items:
+            $ref: '#/components/schemas/CuratedListItem'
+          example:
+          - instrumentId: 12345
+    TradeButtonStatusData:
+      type: object
+      description: Trade-button availability and trading metadata for an instrument.
+      properties:
+        instrumentId:
+          type: integer
+          format: int32
+          description: Instrument id.
+        buyButtonEnable:
+          type: boolean
+          description: Whether the buy button is enabled.
+        sellButtonEnable:
+          type: boolean
+          description: Whether the sell button is enabled.
+        allowClosePosition:
+          type: boolean
+          description: Whether closing a position is allowed.
+        tradingAdditionalData:
+          $ref: '#/components/schemas/TradingAdditionalData'
+        instrumentMetadataSlim:
+          $ref: '#/components/schemas/InstrumentMetadataSlim'
+        siblingData:
+          $ref: '#/components/schemas/SiblingData'
+    SvgAvatar:
+      type:
+      - object
+      - 'null'
+      description: SVG avatar with background and text colors.
+      properties:
+        url:
+          type:
+          - string
+          - 'null'
+          description: URL of the SVG avatar.
+        backgroundColor:
+          type:
+          - string
+          - 'null'
+          description: Background color.
+        textColor:
+          type:
+          - string
+          - 'null'
+          description: Text color.
+    SmartPortfolioEnrichData:
+      type: object
+      description: Enrichment data for a smart portfolio referenced by a watchlist item.
+      properties:
+        Cid:
+          type: integer
+          format: int32
+          description: Customer id of the smart portfolio.
+          example: 12345
+        username:
+          type: string
+          description: Smart portfolio name.
+          example: TechLeaders
+        fullName:
+          type:
+          - string
+          - 'null'
+          description: Full display name of the smart portfolio.
+        isPi:
+          type: boolean
+          description: Whether the smart portfolio owner is a Popular Investor.
+        avatar:
+          $ref: '#/components/schemas/WatchlistApi_Avatar'
+        changePercentage1M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last month.
+        changePercentage3M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last 3 months.
+        changePercentage6M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last 6 months.
+        changePercentage1Y:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Performance change over the last year.
+        riskScore1M:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last month.
+        riskScore3M:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last 3 months.
+        riskScore6M:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last 6 months.
+        riskScore1Y:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Risk score over the last year.
+        investorsCount:
+          type:
+          - integer
+          - 'null'
+          format: int32
+          description: Number of investors in the smart portfolio.
+        return1M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last month.
+        return3M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last 3 months.
+        return6M:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last 6 months.
+        return1Y:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Return over the last year.
+    InstrumentMetadataSlim:
+      type: object
+      description: Slim instrument metadata used by the trade button.
+      properties:
+        symbol:
+          type: string
+          description: Instrument symbol.
+        symbolFull:
+          type: string
+          description: Full instrument symbol.
+        name:
+          type: string
+          description: Instrument name.
+        avatarUrl:
+          type: string
+          description: Instrument avatar URL.
+        instrumentTypeId:
+          type: integer
+          format: int32
+          description: Instrument type id.
+        exchangeId:
+          type: integer
+          format: int32
+          description: Exchange id.
+        currencyId:
+          type: integer
+          format: int32
+          description: Currency id.
+        exchangeMarket:
+          type: string
+          description: Exchange market.
+        multiplier:
+          type: number
+          format: double
+          description: Price multiplier.
+        indexPointValue:
+          type: number
+          format: double
+          description: Index point value.
+        expirationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Expiration date, when applicable.
+        lastTradingDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last trading date, when applicable.
+        precision:
+          type: integer
+          format: int32
+          description: Price precision.
+        aboveDollarPrecision:
+          type: integer
+          format: int32
+          description: Price precision above one dollar.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

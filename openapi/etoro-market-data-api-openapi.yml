@@ -1,11 +1,24 @@
 openapi: 3.2.0
 info:
   title: eToro Market Data API
-  version: v1.244.0
-  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
 servers:
 - url: https://public-api.etoro.com
   description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
 tags:
 - name: Market Data
 paths:
@@ -13,8 +26,8 @@ paths:
     get:
       tags:
       - Market Data
-      summary: Retrieves a list of exchanges supported by the platform along with basic…
-      operationId: GetExchanges
+      summary: List supported exchanges
+      operationId: getMarketDataExchanges
       parameters:
       - name: x-request-id
         in: header
@@ -22,24 +35,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 25640310-9cff-42be-a7b8-535d9d1c57cf
+          example: f0071529-a9e8-495a-9e8b-da5c8f537c43
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: f0071529-a9e8-495a-9e8b-da5c8f537c43
       - name: exchangeIds
         in: query
         description: A comma seperated list of exchange ids to retrieve
@@ -57,12 +55,98 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExchangesResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`'
   /api/v1/market-data/instrument-types:
     get:
       tags:
       - Market Data
-      summary: Fetch available instrument types (asset classes) such as stocks, ETFs…
-      operationId: GetInstrumentTypes
+      summary: List instrument types
+      operationId: getMarketDataInstrumentTypes
       parameters:
       - name: x-request-id
         in: header
@@ -70,24 +154,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: a69094d3-f69d-4f31-93df-771189497cf1
+          example: e20c1c24-3577-4fa9-8936-6e086289802e
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: e20c1c24-3577-4fa9-8936-6e086289802e
       - name: instrumentTypeIds
         in: query
         description: A comma seperated list of instrument type ids to retrieve
@@ -105,12 +174,98 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstrumentTypesResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`'
   /api/v1/market-data/instruments:
     get:
       tags:
       - Market Data
-      summary: Retrieves metadata for specified instruments, including display names, exchange…
-      operationId: GetInstrumentsByFilters
+      summary: Get instrument display data
+      operationId: getMarketDataInstruments
       parameters:
       - name: x-request-id
         in: header
@@ -118,24 +273,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 318a729a-324c-429f-b0d0-7b9e375012a8
+          example: fc158232-b108-4932-97a9-542dbdc6fe1a
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: fc158232-b108-4932-97a9-542dbdc6fe1a
       - name: instrumentIds
         in: query
         description: A comma seperated list of instrument ids to filter on
@@ -183,12 +323,98 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstrumentsResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`'
   /api/v1/market-data/instruments/history/closing-price:
     get:
       tags:
       - Market Data
-      summary: Get historical closing prices for all instruments
-      operationId: getClosingPrices
+      summary: Get historical closing prices
+      operationId: getMarketDataInstrumentsHistoryClosingPrice
       responses:
         '200':
           description: Successful retrieval of closing prices
@@ -223,6 +449,92 @@ paths:
                   monthly:
                     price: -1
                     date: '0001-01-01 00:00:00Z'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`'
       parameters:
       - name: x-request-id
         in: header
@@ -230,30 +542,42 @@ paths:
         schema:
           type: string
           format: uuid
-          example: d30da319-a8c9-4080-b3d2-fed375fa9a92
+          example: fead7c1c-f7b1-4dc4-a6a6-f00f88c67577
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: fead7c1c-f7b1-4dc4-a6a6-f00f88c67577
   /api/v1/market-data/instruments/rates:
     get:
+      operationId: getMarketDataInstrumentsRates
       tags:
       - Market Data
-      summary: Retrieve current market rates and pricing information for specified instruments
-      description: Provides real-time market data including bid/ask prices, conversion rates, and execution prices for specified financial instruments. Essential for price discovery and trade execution decisions.
+      summary: Get instrument market rates
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`
+
+
+        ---
+
+
+        Provides real-time market data including bid/ask prices, conversion rates, and execution prices for specified financial instruments. Essential for price discovery and trade execution decisions.'
       parameters:
       - name: x-request-id
         in: header
@@ -261,24 +585,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 4fb24302-0053-4948-a468-8b735c27ef44
+          example: 84d1de00-ffb4-409c-8d84-7dfa3fc463c9
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 84d1de00-ffb4-409c-8d84-7dfa3fc463c9
       - name: instrumentIds
         in: query
         style: form
@@ -299,16 +608,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LiveRatesResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
         '400':
           description: Invalid request - Typically due to invalid instrument IDs or exceeding maximum limit
-      operationId: retrieveCurrentMarketRatesPricingInformation
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
   /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}:
     get:
       tags:
       - Market Data
-      summary: Get historical candles data for an instrument
-      description: Retrieves historical price data in OHLCV (Open, High, Low, Close, Volume) format for a specified instrument. The data is organized into time-based candles of various intervals, from one minute to one week.
-      operationId: getCandles
+      summary: Get instrument candle history
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`
+
+
+        ---
+
+
+        Retrieves historical price data in OHLCV (Open, High, Low, Close, Volume) format for a specified instrument. The data is organized into time-based candles of various intervals, from one minute to one week.'
+      operationId: getMarketDataInstrumentsByInstrumentIdHistoryCandlesByDirectionByIntervalByCandlesCount
       parameters:
       - name: x-request-id
         in: header
@@ -316,24 +715,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 344b5024-6cb7-4fc3-84e2-6242a48c0741
+          example: 2858d1e7-92e3-4ed4-aa1d-240eb030720f
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 2858d1e7-92e3-4ed4-aa1d-240eb030720f
       - name: direction
         in: path
         description: Sorting direction of the candles data. Use 'asc' for oldest to newest, or 'desc' for newest to oldest.
@@ -404,12 +788,104 @@ paths:
                   rangeHigh: 1.70277
                   rangeLow: 1.70221
                   volume: 0.0
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
   /api/v1/market-data/search:
     get:
+      operationId: getMarketDataSearch
       tags:
       - Market Data
       summary: Search for Instruments
-      description: Retrieve a list of instruments based on various search criteria. Each field in the response can be utilized as a filter or projection.
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`
+
+
+        ---
+
+
+        Retrieve a paginated list of instruments. Any field in the Instrument response schema can be projected via the required `fields` parameter and/or used as a query-string filter (e.g. `fields=instrumentId,displayname&displayname=Bitcoin`). Use `pageSize`/`pageNumber` to paginate and `sort` to order. Filters that do not match an indexed instrument field are ignored.'
       parameters:
       - name: x-request-id
         in: header
@@ -417,30 +893,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 4fcc77f1-c076-483b-aa6f-898f62bd63eb
+          example: a036d9e3-dea4-47c8-978e-c7d64f2ceff9
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      - name: searchText
-        in: query
-        description: Text to search for within instrument names.
-        required: false
-        schema:
-          type: string
+        example: a036d9e3-dea4-47c8-978e-c7d64f2ceff9
       - name: pageSize
         in: query
         description: The number of results to return per page.
@@ -461,10 +916,12 @@ paths:
           type: string
       - name: sort
         in: query
-        description: 'The field to sort by, with direction (asc/desc). Example: popularityUniques7Day desc'
+        description: 'The field to sort by. Ascending is the default; prefix the field with `-` for descending. Sort on several fields with a comma-separated list, applied left to right (e.g. `-dailyPriceChange,weeklyPriceChange`). There is no `asc`/`desc` keyword and no space in this value - `popularityUniques7Day desc` is rejected. Not every field in the Instrument schema is sortable: unlike a filter, an unsortable or unknown sort field fails the whole request rather than being ignored.'
         required: false
         schema:
           type: string
+          example: -popularityUniques7Day
+        example: -popularityUniques7Day
       responses:
         '200':
           description: Successful response containing the list of instruments.
@@ -472,13 +929,79 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstrumentSearchResponse'
-      operationId: searchForInstruments
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '404':
+          description: The search could not be executed. Returned for a malformed `sort` value or a sort field the index does not support, with a generic body that does not name the offending parameter. A search that simply matches nothing returns 200 with an empty `items` array instead.
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
   /api/v1/market-data/stocks-industries:
     get:
       tags:
       - Market Data
-      summary: Gets data on available stocks industries
-      operationId: GetStocksIndustries
+      summary: Get stocks industries
+      operationId: getMarketDataStocksIndustries
       parameters:
       - name: x-request-id
         in: header
@@ -486,24 +1009,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: b688906f-f192-4861-bf87-4dbbe96f1efa
+          example: fe6d252f-679c-47b0-bb75-e5d536499dcd
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: fe6d252f-679c-47b0-bb75-e5d536499dcd
       - name: stocksIndustryIds
         in: query
         description: A comma seperated list of stock industry ids to retrieves
@@ -521,8 +1029,1009 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StocksIndustriesResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`'
+  /api/v2/market-data/instruments:
+    get:
+      tags:
+      - Market Data
+      summary: Search for securities (instruments) by ID or symbol
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+        - `GET /api/v2/market-data/rates`
+
+
+        ---
+
+
+        Returns instrument (security) metadata, optionally filtered by instrument IDs or symbols, with cursor-based pagination.
+
+
+        `instrumentsIds` and `symbols` are mutually exclusive. All filters are optional and independent; if neither `instrumentsIds` nor `symbols` is provided, results are not filtered by instrument and are simply paginated by `pageSize`.'
+      operationId: getSecurities
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 7a264f68-3e92-4cd5-8afb-38a0afa045f8
+        description: A unique request identifier.
+        example: 7a264f68-3e92-4cd5-8afb-38a0afa045f8
+      - name: instrumentsIds
+        in: query
+        description: Filter by instrument IDs. Mutually exclusive with symbols.
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: symbols
+        in: query
+        description: Filter by trading symbols (e.g. AAPL). Mutually exclusive with instrumentsIds.
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: pageSize
+        in: query
+        description: Maximum number of results per page. Defaults to 100 when omitted.
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - name: pageToken
+        in: query
+        description: Pagination cursor from the previous response's pagination.nextPageToken.
+        required: false
+        schema:
+          type: string
+      - name: exchangeId
+        in: query
+        description: Filter by exchange ID.
+        required: false
+        schema:
+          type: integer
+      - name: type
+        in: query
+        description: Filter by instrument type.
+        required: false
+        schema:
+          type: string
+          enum:
+          - Forex
+          - Commodity
+          - CFD
+          - Indices
+          - Stocks
+          - ETF
+          - Bonds
+          - TrustFunds
+          - Options
+          - Crypto
+      responses:
+        '200':
+          description: Matching securities and pagination metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/marketDataResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Bad or missing API key. Rejected by the gateway before the request reaches this service; uses the gateway error envelope (errorCode/errorMessage), not this route's apiErrorEnvelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gatewayErrorEnvelope'
+        '404':
+          description: No instrument found matching the provided criteria
+        '422':
+          description: 'Missing X-Request-Id header (errorCode: RequestIdRequired). Rejected by the gateway before the request reaches this service; uses the gateway error envelope (errorCode/errorMessage), not this route''s apiErrorEnvelope.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gatewayErrorEnvelope'
+        '500':
+          description: Internal server error
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:market-data:read
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments/search
+        - GET /api/v2/market-data/rates
+  /api/v2/market-data/instruments/search:
+    get:
+      tags:
+      - Market Data
+      summary: Search instruments by free-text query
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/rates`
+
+
+        ---
+
+
+        Free-text search of instruments by name or symbol. Results are relevance-ranked by the upstream search index; non-public instruments are filtered out.'
+      operationId: getInstrumentsSearch
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 50705652-843f-4d0e-b9cf-a84220014446
+        description: A unique request identifier.
+        example: 50705652-843f-4d0e-b9cf-a84220014446
+      - name: query
+        in: query
+        description: Free-text query to match instruments by name or symbol (1-100 chars).
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+      - name: limit
+        in: query
+        description: Maximum number of results (1-50, default 10).
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 10
+      responses:
+        '200':
+          description: Relevance-ranked search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchInstrumentsResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '400':
+          description: Invalid query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiErrorEnvelope'
+        '401':
+          description: Bad or missing API key. Rejected by the gateway before the request reaches this service; uses the gateway error envelope (errorCode/errorMessage), not this route's apiErrorEnvelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gatewayErrorEnvelope'
+        '422':
+          description: 'Missing X-Request-Id header (errorCode: RequestIdRequired). Rejected by the gateway before the request reaches this service; uses the gateway error envelope (errorCode/errorMessage), not this route''s apiErrorEnvelope.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gatewayErrorEnvelope'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/apiErrorEnvelope'
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:market-data:read
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/rates
+  /api/v2/market-data/rates:
+    get:
+      tags:
+      - Market Data
+      summary: Retrieve bid/ask rates for one or more instruments
+      description: '**Rate limit:** 120 requests per 60 seconds. This is a **shared quota** — the same budget is consumed by a group of related endpoints, so calling any of them reduces what is left for the others (you cannot call each at the full rate independently). Endpoints sharing this quota:
+
+        - `GET /api/v1/market-data/exchanges`
+
+        - `GET /api/v1/market-data/instrument-types`
+
+        - `GET /api/v1/market-data/instruments`
+
+        - `GET /api/v1/market-data/instruments/history/closing-price`
+
+        - `GET /api/v1/market-data/instruments/rates`
+
+        - `GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}`
+
+        - `GET /api/v1/market-data/search`
+
+        - `GET /api/v1/market-data/stocks-industries`
+
+        - `GET /api/v2/market-data/instruments`
+
+        - `GET /api/v2/market-data/instruments/search`
+
+
+        ---
+
+
+        Returns current bid/ask rates keyed by instrument ID. Each rate carries a `quoteType` indicating whether it is `realtime` or `delayed`.
+
+
+        Returns 200 when all requested instruments are found, 206 when only a subset is available.'
+      operationId: getRates
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 28c40b78-58a8-431e-b81b-3c2754b08f15
+        description: A unique request identifier.
+        example: 28c40b78-58a8-431e-b81b-3c2754b08f15
+      - name: instrumentIds
+        in: query
+        description: List of instrument IDs to fetch rates for (max 1000).
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: integer
+          maxItems: 1000
+      responses:
+        '200':
+          description: Rates for all requested instruments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ratesResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '206':
+          description: Rates for a subset of the requested instruments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ratesResponse'
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Bad or missing API key. Rejected by the gateway before the request reaches this service; uses the gateway error envelope (errorCode/errorMessage), not this route's apiErrorEnvelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gatewayErrorEnvelope'
+        '404':
+          description: Could not retrieve data for any instrument id
+        '422':
+          description: 'Missing X-Request-Id header (errorCode: RequestIdRequired). Rejected by the gateway before the request reaches this service; uses the gateway error envelope (errorCode/errorMessage), not this route''s apiErrorEnvelope.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gatewayErrorEnvelope'
+        '500':
+          description: Internal server error
+        '429':
+          description: Too Many Requests — the shared rate limit (120 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: 'Maximum number of requests allowed per window. This budget is SHARED across 11 endpoints (it is NOT per-endpoint): a request to any endpoint in the group spends the same budget. See this operation''s description for the full list of endpoints sharing it.'
+              schema:
+                type: integer
+              example: 120
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 120;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:market-data:read
+      x-ratelimit:
+        limit: 120
+        window: 60
+        shared: true
+        defaultPool: false
+        sharedWith:
+        - GET /api/v1/market-data/exchanges
+        - GET /api/v1/market-data/instrument-types
+        - GET /api/v1/market-data/instruments
+        - GET /api/v1/market-data/instruments/history/closing-price
+        - GET /api/v1/market-data/instruments/rates
+        - GET /api/v1/market-data/instruments/{instrumentId}/history/candles/{direction}/{interval}/{candlesCount}
+        - GET /api/v1/market-data/search
+        - GET /api/v1/market-data/stocks-industries
+        - GET /api/v2/market-data/instruments
+        - GET /api/v2/market-data/instruments/search
 components:
   schemas:
+    apiErrorEnvelope:
+      type: object
+      description: Error envelope
+      properties:
+        success:
+          type: boolean
+          description: Always false for error responses.
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+    gatewayErrorEnvelope:
+      type: object
+      description: Error envelope used for gateway-level rejections (bad/missing API key -> 401, missing X-Request-Id -> 422) that occur before the request reaches this service. Unlike apiErrorEnvelope, this shape is {errorCode, errorMessage} with no success/error wrapper.
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code, e.g. Unauthorized, RequestIdRequired
+        errorMessage:
+          type: string
+          description: Human-readable error message
+    instrumentImage:
+      type:
+      - object
+      - 'null'
+      description: Best available image for the instrument. backgroundColor is included only for SVG images.
+      properties:
+        uri:
+          type: string
+          description: Image URI
+        backgroundColor:
+          type:
+          - string
+          - 'null'
+          description: Background color, included only for SVG images
+    instrument:
+      type: object
+      description: Instrument (security) metadata
+      properties:
+        instrumentId:
+          type: integer
+          description: Unique instrument identifier
+        displayName:
+          type: string
+          description: Human-readable display name
+        type:
+          type: string
+          description: Instrument type (e.g. Stocks, ETF, Crypto)
+        symbol:
+          type: string
+          description: Trading symbol (e.g. AAPL)
+        exchangeId:
+          type: integer
+          description: Exchange the instrument is listed on
+        multiplier:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Contract multiplier, relevant for futures and options
+        lastTradingDateTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Last trading date/time, relevant for options and futures
+        expirationDateTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Expiration date/time, relevant for options and futures
+        image:
+          $ref: '#/components/schemas/instrumentImage'
+    ratesResponse:
+      type: object
+      description: Rates for the requested instruments.
+      properties:
+        results:
+          type: array
+          description: Rates for the requested instruments, in request order.
+          items:
+            $ref: '#/components/schemas/rate'
+    LiveRatesResponse:
+      type: object
+      description: Container for real-time market rates data
+      properties:
+        rates:
+          type: array
+          description: Array of current market rates for requested instruments
+          items:
+            type: object
+            description: Individual instrument rate information
+            properties:
+              instrumentID:
+                type: integer
+                description: Unique identifier for the financial instrument
+              ask:
+                type: number
+                format: float
+                description: Current asking price (offer) for the instrument. This is the price at which you can buy the asset.
+              bid:
+                type: number
+                format: float
+                description: Current bid price for the instrument. This is the price at which you can sell the asset.
+              lastExecution:
+                type: number
+                format: float
+                description: Price of the most recent trade execution for this instrument
+              conversionRateAsk:
+                type: number
+                format: float
+                description: Current conversion rate (ask) from instrument's currency to USD, used for position value calculations
+              conversionRateBid:
+                type: number
+                format: float
+                description: Current conversion rate (bid) from instrument's currency to USD, used for position value calculations
+              date:
+                type: string
+                format: date-time
+                description: The date-time of the price in the system
+              unitMargin:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument price
+              unitMarginAsk:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument ask price
+              unitMarginBid:
+                type: number
+                format: float
+                description: (Obsolete) USD equivalent of the instrument bid price
+              priceRateID:
+                type: integer
+              bidDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              askDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              unitMarginBidDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+              unitMarginAskDiscounted:
+                type: number
+                format: float
+                description: Obsolete
+    pagination:
+      type: object
+      description: Cursor-based pagination metadata
+      properties:
+        hasNext:
+          type: boolean
+          description: Whether additional results exist
+        nextPageToken:
+          type:
+          - string
+          - 'null'
+          description: Pass as the pageToken parameter to retrieve the next page
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: The page size used for this request. Reflects the default (100) when the pageSize parameter was omitted.
+    candlesResponse:
+      type: object
+      description: Response containing historical price data in candlestick format
+      properties:
+        interval:
+          type: string
+          description: Time interval of the returned candles. Matches the interval parameter from the request.
+          enum:
+          - OneMinute
+          - FiveMinutes
+          - TenMinutes
+          - FifteenMinutes
+          - ThirtyMinutes
+          - OneHour
+          - FourHours
+          - OneDay
+          - OneWeek
+        candles:
+          type: array
+          description: List of candle data grouped by instrument
+          items:
+            type: object
+            description: Candle data for a specific instrument
+            properties:
+              instrumentId:
+                type: integer
+                description: Identifier of the instrument these candles belong to
+              candles:
+                type: array
+                description: List of individual candles representing price action over time
+                items:
+                  type: object
+                  description: Individual candle data point
+                  properties:
+                    instrumentID:
+                      type: integer
+                      description: Identifier of the instrument this candle belongs to
+                    fromDate:
+                      type: string
+                      format: date-time
+                      description: Start time of the candle period in ISO 8601 format
+                    open:
+                      type: number
+                      format: float
+                      description: Opening price at the start of the candle period
+                    high:
+                      type: number
+                      format: float
+                      description: Highest price reached during the candle period
+                    low:
+                      type: number
+                      format: float
+                      description: Lowest price reached during the candle period
+                    close:
+                      type: number
+                      format: float
+                      description: Closing price at the end of the candle period
+                    volume:
+                      type: number
+                      format: float
+                      description: Trading volume during the candle period
+              rangeOpen:
+                type: number
+                format: float
+                description: Opening price of the first candle in the range
+              rangeClose:
+                type: number
+                format: float
+                description: Closing price of the last candle in the range
+              rangeHigh:
+                type: number
+                format: float
+                description: Highest price across all candles in the range
+              rangeLow:
+                type: number
+                format: float
+                description: Lowest price across all candles in the range
+              volume:
+                type: number
+                format: float
+                description: Total trading volume across all candles in the range
+    closingPricesResponse:
+      type: array
+      description: List of closing prices for all instruments
+      items:
+        type: object
+        description: Closing price information for a specific instrument
+        properties:
+          instrumentId:
+            type: integer
+            description: Unique identifier of the instrument
+          officialClosingPrice:
+            type: number
+            format: float
+            description: Most recent official closing price for the instrument
+          isMarketOpen:
+            type: boolean
+            description: Obsolete - Do not use
+          closingPrices:
+            type: object
+            description: Historical closing prices at different time intervals
+            properties:
+              daily:
+                type: object
+                description: Official closing price from the previous trading day
+                properties:
+                  price:
+                    type: number
+                    format: float
+                    description: Closing price value
+                  date:
+                    type: string
+                    format: date-time
+                    description: Date and time of the closing price in ISO 8601 format
+              weekly:
+                type: object
+                description: Official closing price from the previous trading week
+                properties:
+                  price:
+                    type: number
+                    format: float
+                    description: Closing price value
+                  date:
+                    type: string
+                    format: date-time
+                    description: Date and time of the closing price in ISO 8601 format
+              monthly:
+                type: object
+                description: Official closing price from the previous trading month
+                properties:
+                  price:
+                    type: number
+                    format: float
+                    description: Closing price value. A value of -1 indicates no data available.
+                  date:
+                    type: string
+                    format: date-time
+                    description: Date and time of the closing price in ISO 8601 format. Default date (0001-01-01) indicates no data available.
+    StocksIndustriesResponse:
+      type: object
+      properties:
+        stocksIndustries:
+          type: array
+          items:
+            type: object
+            properties:
+              industryID:
+                type: integer
+              industryName:
+                type: string
+    InstrumentsResponse:
+      type: object
+      properties:
+        instrumentDisplayDatas:
+          type: array
+          items:
+            type: object
+            properties:
+              instrumentID:
+                type: integer
+              instrumentDisplayName:
+                type: string
+              instrumentTypeID:
+                type: integer
+              exchangeID:
+                type: integer
+              symbolFull:
+                type: string
+              stocksIndustryId:
+                type: integer
+              priceSource:
+                type: string
+                description: The data provider or market source for the price, such as Nasdaq, LSE, or CME.
+              hasExpirationDate:
+                type: boolean
+              isInternalInstrument:
+                type: boolean
+                description: If set to true, the instrument is restricted from public access.
+              images:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    instrumentID:
+                      type: integer
+                    width:
+                      type: number
+                    height:
+                      type: number
+                    uri:
+                      type: string
+                    backgroundColor:
+                      type: string
+                    textColor:
+                      type: string
     Instrument:
       type: object
       properties:
@@ -544,9 +2053,6 @@ components:
         exchangeID:
           type: integer
           description: The ID of the exchange where the instrument is traded.
-        symbol:
-          type: string
-          description: The trading symbol of the instrument.
         isOpen:
           type: boolean
           description: Indicates whether the instrument is currently open for trading.
@@ -734,281 +2240,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Instrument'
-    StocksIndustriesResponse:
+    marketDataResponse:
       type: object
+      description: Securities search result with pagination
       properties:
-        stocksIndustries:
+        results:
           type: array
+          description: Matching instruments
           items:
-            type: object
-            properties:
-              industryID:
-                type: integer
-              industryName:
-                type: string
-    closingPricesResponse:
-      type: array
-      description: List of closing prices for all instruments
-      items:
-        type: object
-        description: Closing price information for a specific instrument
-        properties:
-          instrumentId:
-            type: integer
-            description: Unique identifier of the instrument
-          officialClosingPrice:
-            type: number
-            format: float
-            description: Most recent official closing price for the instrument
-          isMarketOpen:
-            type: boolean
-            description: Obsolete - Do not use
-          closingPrices:
-            type: object
-            description: Historical closing prices at different time intervals
-            properties:
-              daily:
-                type: object
-                description: Official closing price from the previous trading day
-                properties:
-                  price:
-                    type: number
-                    format: float
-                    description: Closing price value
-                  date:
-                    type: string
-                    format: date-time
-                    description: Date and time of the closing price in ISO 8601 format
-              weekly:
-                type: object
-                description: Official closing price from the previous trading week
-                properties:
-                  price:
-                    type: number
-                    format: float
-                    description: Closing price value
-                  date:
-                    type: string
-                    format: date-time
-                    description: Date and time of the closing price in ISO 8601 format
-              monthly:
-                type: object
-                description: Official closing price from the previous trading month
-                properties:
-                  price:
-                    type: number
-                    format: float
-                    description: Closing price value. A value of -1 indicates no data available.
-                  date:
-                    type: string
-                    format: date-time
-                    description: Date and time of the closing price in ISO 8601 format. Default date (0001-01-01) indicates no data available.
-    InstrumentsResponse:
+            $ref: '#/components/schemas/instrument'
+        pagination:
+          $ref: '#/components/schemas/pagination'
+    searchInstrumentsResponse:
       type: object
+      description: 'Free-text instrument search results. Note: unlike /instruments, this endpoint wraps results under a `results` key rather than `instruments` -- a genuine naming inconsistency between the two upstream endpoints, documented as-is rather than normalized here since neither endpoint is owned by this gateway.'
       properties:
-        instrumentDisplayDatas:
+        results:
           type: array
+          description: Relevance-ranked matching instruments
           items:
-            type: object
-            properties:
-              instrumentID:
-                type: integer
-              instrumentDisplayName:
-                type: string
-              instrumentTypeID:
-                type: integer
-              exchangeID:
-                type: integer
-              symbolFull:
-                type: string
-              stocksIndustryId:
-                type: integer
-              priceSource:
-                type: string
-                description: The data provider or market source for the price, such as Nasdaq, LSE, or CME.
-              hasExpirationDate:
-                type: boolean
-              isInternalInstrument:
-                type: boolean
-                description: If set to true, the instrument is restricted from public access.
-              images:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    instrumentID:
-                      type: integer
-                    width:
-                      type: number
-                    height:
-                      type: number
-                    uri:
-                      type: string
-                    backgroundColor:
-                      type: string
-                    textColor:
-                      type: string
-    ExchangesResponse:
-      type: object
-      properties:
-        exchangeInfo:
-          type: array
-          items:
-            type: object
-            properties:
-              exchangeID:
-                type: integer
-              exchangeDescription:
-                type: string
-    candlesResponse:
-      type: object
-      description: Response containing historical price data in candlestick format
-      properties:
-        interval:
-          type: string
-          description: Time interval of the returned candles. Matches the interval parameter from the request.
-          enum:
-          - OneMinute
-          - FiveMinutes
-          - TenMinutes
-          - FifteenMinutes
-          - ThirtyMinutes
-          - OneHour
-          - FourHours
-          - OneDay
-          - OneWeek
-        candles:
-          type: array
-          description: List of candle data grouped by instrument
-          items:
-            type: object
-            description: Candle data for a specific instrument
-            properties:
-              instrumentId:
-                type: integer
-                description: Identifier of the instrument these candles belong to
-              candles:
-                type: array
-                description: List of individual candles representing price action over time
-                items:
-                  type: object
-                  description: Individual candle data point
-                  properties:
-                    instrumentID:
-                      type: integer
-                      description: Identifier of the instrument this candle belongs to
-                    fromDate:
-                      type: string
-                      format: date-time
-                      description: Start time of the candle period in ISO 8601 format
-                    open:
-                      type: number
-                      format: float
-                      description: Opening price at the start of the candle period
-                    high:
-                      type: number
-                      format: float
-                      description: Highest price reached during the candle period
-                    low:
-                      type: number
-                      format: float
-                      description: Lowest price reached during the candle period
-                    close:
-                      type: number
-                      format: float
-                      description: Closing price at the end of the candle period
-                    volume:
-                      type: number
-                      format: float
-                      description: Trading volume during the candle period
-              rangeOpen:
-                type: number
-                format: float
-                description: Opening price of the first candle in the range
-              rangeClose:
-                type: number
-                format: float
-                description: Closing price of the last candle in the range
-              rangeHigh:
-                type: number
-                format: float
-                description: Highest price across all candles in the range
-              rangeLow:
-                type: number
-                format: float
-                description: Lowest price across all candles in the range
-              volume:
-                type: number
-                format: float
-                description: Total trading volume across all candles in the range
-    LiveRatesResponse:
-      type: object
-      description: Container for real-time market rates data
-      properties:
-        rates:
-          type: array
-          description: Array of current market rates for requested instruments
-          items:
-            type: object
-            description: Individual instrument rate information
-            properties:
-              instrumentID:
-                type: integer
-                description: Unique identifier for the financial instrument
-              ask:
-                type: number
-                format: float
-                description: Current asking price (offer) for the instrument. This is the price at which you can buy the asset.
-              bid:
-                type: number
-                format: float
-                description: Current bid price for the instrument. This is the price at which you can sell the asset.
-              lastExecution:
-                type: number
-                format: float
-                description: Price of the most recent trade execution for this instrument
-              conversionRateAsk:
-                type: number
-                format: float
-                description: Current conversion rate (ask) from instrument's currency to USD, used for position value calculations
-              conversionRateBid:
-                type: number
-                format: float
-                description: Current conversion rate (bid) from instrument's currency to USD, used for position value calculations
-              date:
-                type: string
-                format: date-time
-                description: The date-time of the price in the system
-              unitMargin:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument price
-              unitMarginAsk:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument ask price
-              unitMarginBid:
-                type: number
-                format: float
-                description: (Obsolete) USD equivalent of the instrument bid price
-              priceRateID:
-                type: integer
-              bidDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              askDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              unitMarginBidDiscounted:
-                type: number
-                format: float
-                description: Obsolete
-              unitMarginAskDiscounted:
-                type: number
-                format: float
-                description: Obsolete
+            $ref: '#/components/schemas/instrument'
     InstrumentTypesResponse:
       type: object
       properties:
@@ -1021,3 +2272,104 @@ components:
                 type: integer
               instrumentTypeDescription:
                 type: string
+    ExchangesResponse:
+      type: object
+      properties:
+        exchangeInfo:
+          type: array
+          items:
+            type: object
+            properties:
+              exchangeID:
+                type: integer
+              exchangeDescription:
+                type: string
+    rate:
+      type: object
+      description: Bid/ask rate for a single instrument
+      properties:
+        instrumentId:
+          type: integer
+          description: Instrument identifier
+        bid:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Current bid price
+        ask:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Current ask price
+        date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC timestamp of the rate
+        quoteType:
+          type: string
+          description: Whether the rate is realtime or delayed
+          enum:
+          - realtime
+          - delayed
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

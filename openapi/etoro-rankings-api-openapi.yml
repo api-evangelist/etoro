@@ -1,0 +1,1246 @@
+openapi: 3.2.0
+info:
+  title: eToro Rankings API
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
+tags:
+- name: Rankings
+paths:
+  /api/v2/portfolios/rankings:
+    get:
+      tags:
+      - Rankings
+      summary: Get paginated investor rankings
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns a paged list of investor ranking rows filtered and sorted by query parameters. `period` is required; all filter parameters are optional.'
+      operationId: getPortfoliosRankings
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 8ce4e2c9-40ce-4b77-a3a1-68debef6ce62
+        description: A unique request identifier.
+        example: 8ce4e2c9-40ce-4b77-a3a1-68debef6ce62
+      - name: period
+        in: query
+        required: true
+        description: Rolling time window for performance metrics.
+        schema:
+          $ref: '#/components/schemas/StatsRankingsApi_RankingPeriod'
+      - name: sort
+        in: query
+        required: false
+        description: Sort field in camelCase; prefix with `-` for descending (e.g. `-copiers`). Unknown values are rejected with 400.
+        schema:
+          type: string
+          example: -copiers
+        example: -copiers
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: country
+        in: query
+        required: false
+        description: Filter by ISO 3166-1 alpha-2 country code (e.g. "GB", "US").
+        schema:
+          type: string
+      - name: gainMin
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: gainMax
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: copiersMin
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: copiersMax
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: riskScoreMin
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10
+      - name: riskScoreMax
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10
+      - name: popularInvestor
+        in: query
+        required: false
+        description: When true, filters to active Popular Investors only.
+        schema:
+          type: boolean
+      - name: aumTier
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsListResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/rankings/multiple:
+    post:
+      tags:
+      - Rankings
+      summary: Bulk-fetch ranking rows
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns ranking rows for a list of investors identified by username. Missing, private, or unranked users are silently omitted. Maximum 100 usernames per request.'
+      operationId: getMultiplePortfoliosRankings
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 32ee2a4d-37da-40cf-8863-a734e91254d2
+        description: A unique request identifier.
+        example: 32ee2a4d-37da-40cf-8863-a734e91254d2
+      - name: period
+        in: query
+        required: true
+        description: Rolling time window for performance metrics.
+        schema:
+          $ref: '#/components/schemas/StatsRankingsApi_RankingPeriod'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - usernames
+              properties:
+                usernames:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 100
+                  example:
+                  - investor1
+                  - investor2
+      responses:
+        '200':
+          description: Successful response (order preserved, missing users omitted)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsMultipleResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-read-only: true
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/rankings/presets:
+    get:
+      tags:
+      - Rankings
+      summary: List available ranking presets
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the names of all publicly available ranking presets. Use a preset name as the `{type}` path parameter in GET /portfolios/rankings/presets/{type}. No pagination.'
+      operationId: listPortfolioRankingsPresets
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - name
+                      properties:
+                        name:
+                          type: string
+                          description: Preset name (use as {type} in GET /portfolios/rankings/presets/{type}).
+                          example: top-gainers
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: d2c6a403-ab75-43a0-82a6-879e66e20dab
+        description: A unique request identifier.
+        example: d2c6a403-ab75-43a0-82a6-879e66e20dab
+  /api/v2/portfolios/rankings/presets/{type}:
+    get:
+      tags:
+      - Rankings
+      summary: Get rankings by named preset
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Applies a predefined filter preset. Equivalent to GET /rankings with the preset''s filters pre-applied. Unknown or non-whitelisted presets return 404 with the verbatim JSON string "Filter Not Found".'
+      operationId: getPortfolioRankingsByPreset
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: e3fb0c89-71c2-4d73-8c1e-0e29febf54b4
+        description: A unique request identifier.
+        example: e3fb0c89-71c2-4d73-8c1e-0e29febf54b4
+      - name: type
+        in: path
+        required: true
+        description: Kebab-cased preset name (e.g. top-gainers, low-risk).
+        schema:
+          type: string
+        example: top-gainers
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsListResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '404':
+          description: Preset not found
+          content:
+            application/json:
+              schema:
+                type: string
+              example: Filter Not Found
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/rankings/summary:
+    get:
+      tags:
+      - Rankings
+      summary: Get ranking universe aggregated by sector or industry
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Aggregates ranked investors into tag-bucketed summaries. The required `summary` query parameter must be "industries" or "sectors". TagIds from the internal service are resolved to readable names.'
+      operationId: getPortfoliosRankingsSummary
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 820da014-6ee8-4781-b5c1-9067bea56ea3
+        description: A unique request identifier.
+        example: 820da014-6ee8-4781-b5c1-9067bea56ea3
+      - name: summary
+        in: query
+        required: true
+        description: Aggregation dimension.
+        schema:
+          type: string
+          enum:
+          - industries
+          - sectors
+        example: industries
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingSummaryResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/rankings/tags:
+    get:
+      tags:
+      - Rankings
+      summary: List all ranking tags
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the full catalog of ranking tags (industries and sectors) with resolved names. Optionally filter to a single dimension via the `type` query parameter. No pagination.'
+      operationId: listPortfolioRankingsTags
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 93c66152-9374-4d92-89f0-95af6c93fd5f
+        description: A unique request identifier.
+        example: 93c66152-9374-4d92-89f0-95af6c93fd5f
+      - name: type
+        in: query
+        required: false
+        description: Restrict the catalog to a single dimension. When omitted, both are returned.
+        schema:
+          type: string
+          enum:
+          - industries
+          - sectors
+        example: industries
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingTagsResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v2/portfolios/{username}/rankings:
+    get:
+      tags:
+      - Rankings
+      summary: Get ranking row for a single investor
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns the full ranking row for the specified investor for a given time period. Returns 404 if the user is private, not found, or not ranked. `period` is required because every performance field is computed over a defined time window.'
+      operationId: getPortfolioRanking
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: e031b0aa-6ad1-466c-aff6-82405fbe0593
+        description: A unique request identifier.
+        example: e031b0aa-6ad1-466c-aff6-82405fbe0593
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: period
+        in: query
+        required: true
+        description: Rolling time window for performance metrics.
+        schema:
+          $ref: '#/components/schemas/StatsRankingsApi_RankingPeriod'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerRankingResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '404':
+          description: User is missing, private, or not ranked (no reason is exposed).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsError'
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+components:
+  schemas:
+    RankingsListResponse:
+      type: object
+      required:
+      - results
+      - pagination
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RankItem'
+        pagination:
+          type: object
+          required:
+          - page
+          - pageSize
+          - hasNext
+          properties:
+            page:
+              type: integer
+            pageSize:
+              type: integer
+            totalItems:
+              type: integer
+              description: Total matching investors (may be omitted for performance on very large result sets).
+            hasNext:
+              type: boolean
+    CustomerRankingResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/RankItem'
+    RankingsError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: string
+            field:
+              type: string
+            value:
+              type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+    RankItem:
+      type: object
+      description: A single investor ranking row. Identity fields come from PublicAggregatedInfo (GDPR-safe); performance fields come from RankingsAPI and are period-scoped. Nullable identity fields are omitted from the body when their condition is not met.
+      properties:
+        cid:
+          type: integer
+          description: Public customer ID (Gcid).
+        username:
+          type: string
+        fullName:
+          type:
+          - string
+          - 'null'
+          description: Display name; omitted when the investor has not opted in to public name display.
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+          description: Avatar image URL; omitted when no avatar is set.
+        type:
+          type: string
+          enum:
+          - trader
+          - smart-portfolio
+          description: Primary portfolio category.
+        subType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - pi-cadet
+          - pi-rising-star
+          - pi-champion
+          - pi-elite
+          - pi-elite-pro
+          - pi-certified
+          - top-traders
+          - partners
+          - market
+          description: Detail within the primary type. PI tier slug for traders; fund strategy for smart portfolios.
+        industryTags:
+          type: array
+          items:
+            type: string
+          description: Resolved industry tag names. Always present; empty array when the investor has no industry tags.
+        sectorTags:
+          type: array
+          items:
+            type: string
+          description: Resolved sector tag names. Always present; empty array when the investor has no sector tags.
+        gain:
+          type: number
+          description: Gain over the requested period as a decimal fraction (0.1234 = 12.34%).
+        dailyGain:
+          type: number
+        thisWeekGain:
+          type: number
+        fiveYearGain:
+          type: number
+        tenYearGain:
+          type: number
+        annualizedReturn:
+          type: number
+        riskScore:
+          type: integer
+          description: Current risk score (1-10).
+        maxDailyRiskScore:
+          type: integer
+        maxMonthlyRiskScore:
+          type: integer
+        copiers:
+          type: integer
+        copiedTrades:
+          type: integer
+        copyTradesPct:
+          type: number
+        copyInvestmentPct:
+          type: number
+        baseLineCopiers:
+          type: integer
+        copiersGain:
+          type: number
+        aumTier:
+          type: integer
+        aumTierDesc:
+          type:
+          - string
+          - 'null'
+        aumValue:
+          type: number
+        virtualCopiers:
+          type: integer
+        dailyDD:
+          type: number
+        weeklyDD:
+          type: number
+        profitableWeeksPct:
+          type: number
+        profitableMonthsPct:
+          type: number
+        peakToValley:
+          type: number
+        peakToValleyStart:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        peakToValleyEnd:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        trades:
+          type: integer
+        winRatio:
+          type: number
+          description: Share of profitable closed trades, as a percentage 0-100 (60.91 = 60.91%).
+        velocity:
+          type: number
+        exposure:
+          type: number
+        avgPosSize:
+          type: number
+        optimalCopyPosSize:
+          type: number
+        highLeveragePct:
+          type: number
+        mediumLeveragePct:
+          type: number
+        lowLeveragePct:
+          type: number
+        longPosPct:
+          type: number
+        topTradedInstrumentId:
+          type: integer
+        topTradedAssetClassId:
+          type: integer
+        topTradedInstrumentPct:
+          type: number
+        totalTradedInstruments:
+          type: integer
+        activeWeeks:
+          type: integer
+        firstActivity:
+          type: string
+          format: date-time
+        lastActivity:
+          type: string
+          format: date-time
+        activeWeeksPct:
+          type: number
+        weeksSinceRegistration:
+          type: integer
+        country:
+          type:
+          - string
+          - 'null'
+          description: ISO 3166-1 alpha-2 country code; omitted for Smart Portfolios and for unmapped country IDs.
+    StatsRankingsApi_RankingPeriod:
+      type: string
+      description: 'Rolling time window over which all performance metrics are computed. Every window ends at the max date (the latest ranking refresh); examples below use a max date of 2026-07-15:
+
+        * `CurrMonth` – current month to date, from the 1st of the current month. E.g. 2026-07-01 to 2026-07-15.
+
+        * `CurrQuarter` – current quarter to date, from the 1st day of the current calendar quarter. E.g. 2026-07-01 to 2026-07-15.
+
+        * `CurrYear` – year to date, from January 1st of the current year. E.g. 2026-01-01 to 2026-07-15.
+
+        * `LastYear` – from January 1st of the previous calendar year to the max date. E.g. 2025-01-01 to 2026-07-15.
+
+        * `LastTwoYears` – from January 1st two calendar years ago to the max date. E.g. 2024-01-01 to 2026-07-15.
+
+        * `OneMonthAgo` – rolling ~1 month window, from the 1st of the previous month. E.g. 2026-06-01 to 2026-07-15.
+
+        * `TwoMonthsAgo` – rolling ~2 month window, from the 1st of the month two months ago. E.g. 2026-05-01 to 2026-07-15.
+
+        * `ThreeMonthsAgo` – rolling ~3 month window, from the 1st of the month three months ago. E.g. 2026-04-01 to 2026-07-15.
+
+        * `SixMonthsAgo` – rolling ~6 month window, from the 1st of the month six months ago. E.g. 2026-01-01 to 2026-07-15.
+
+        * `OneYearAgo` – rolling ~12 month window, from the 1st of the month twelve months ago. E.g. 2025-07-01 to 2026-07-15.
+
+        * `AbsOneYear` – exactly one year before the max date, with no rounding to month/year start. E.g. 2025-07-15 to 2026-07-15.
+
+        * `AbsTwoYears` – exactly two years before the max date, with no rounding. E.g. 2024-07-15 to 2026-07-15.'
+      enum:
+      - CurrMonth
+      - OneMonthAgo
+      - TwoMonthsAgo
+      - CurrQuarter
+      - ThreeMonthsAgo
+      - SixMonthsAgo
+      - CurrYear
+      - OneYearAgo
+      - LastYear
+      - LastTwoYears
+      - AbsOneYear
+      - AbsTwoYears
+    RankingsMultipleResponse:
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RankingsMultipleResponseItem'
+    RankingsMultipleResponseItem:
+      type: object
+      properties:
+        cid:
+          type: integer
+        username:
+          type: string
+        value:
+          $ref: '#/components/schemas/RankItem'
+    RankingSummaryResponse:
+      type: object
+      properties:
+        uniquePortfolios:
+          type: integer
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Resolved sector or industry name.
+              portfolios:
+                type: integer
+    RankingTagsResponse:
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - name
+            - type
+            properties:
+              id:
+                type: integer
+                description: Public tag identifier (TagId).
+              name:
+                type: string
+                description: Resolved tag name (e.g. "Technology").
+              type:
+                type: string
+                enum:
+                - industry
+                - sector
+                description: Tag dimension.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

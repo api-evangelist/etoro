@@ -1,20 +1,40 @@
 openapi: 3.2.0
 info:
   title: eToro Users Info API
-  version: v1.244.0
-  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
 servers:
 - url: https://public-api.etoro.com
   description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
 tags:
 - name: Users Info
 paths:
   /api/v1/user-info/people:
     get:
+      operationId: getUserInfoPeople
       tags:
       - Users Info
-      summary: Retrieve comprehensive user profile data and aggregated account information
-      description: Returns detailed user profile information including account status, verification levels, biographical data, and associated metadata. This endpoint aggregates essential user information from multiple sources to provide a complete user profile overview.
+      summary: Get user profile and account summary
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns detailed user profile information including account status, verification levels, biographical data, and associated metadata. This endpoint aggregates essential user information from multiple sources to provide a complete user profile overview.'
       parameters:
       - name: x-request-id
         in: header
@@ -22,24 +42,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 5394d844-f44c-4169-8122-0091d9c0051c
+          example: 86cc0df7-df8d-4612-af3d-30fb0a394c6b
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 86cc0df7-df8d-4612-af3d-30fb0a394c6b
       - name: usernames
         in: query
         schema:
@@ -103,17 +108,77 @@ paths:
                   accountStatus: 1
                   gdprInfo: null
                   userFlowSignature: 233a065f3f8d7e344516fc75f7e6c4646a0c0d38798c00e4655fa0a9447ea223
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Invalid request - Typically due to exceeding maximum usernames limit or invalid username format
         '404':
           description: One or more requested usernames not found
-      operationId: retrieveComprehensiveUserProfileDataAggregated
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2: []
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/user-info/people/search:
     get:
+      operationId: getUserInfoPeopleSearch
       tags:
       - Users Info
-      summary: Comprehensive search and analytics engine for user discovery and analysis
-      description: Powerful search platform that enables advanced user discovery with comprehensive filtering capabilities. Supports complex queries across multiple dimensions including performance metrics, risk profiles, investment patterns, and account characteristics. Ideal for identifying users based on specific trading behaviors and performance criteria.
+      summary: Search users
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Powerful search platform that enables advanced user discovery with comprehensive filtering capabilities. Supports complex queries across multiple dimensions including performance metrics, risk profiles, investment patterns, and account characteristics. Ideal for identifying users based on specific trading behaviors and performance criteria.'
       parameters:
       - name: x-request-id
         in: header
@@ -121,24 +186,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 84e852a9-bbac-4fc1-8556-40a295a06bc6
+          example: 7e8d12c8-24c6-4e29-8e0f-d81f7888dd67
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 7e8d12c8-24c6-4e29-8e0f-d81f7888dd67
       - name: period
         in: query
         description: Defines the time period for analyzing user metrics and performance data. Supports various predefined intervals for consistent analysis.
@@ -185,6 +235,7 @@ paths:
         schema:
           type: integer
           example: 1
+        example: 1
       - name: pageSize
         in: query
         description: Number of results per page.
@@ -192,6 +243,7 @@ paths:
         schema:
           type: integer
           example: 10
+        example: 10
       - name: sort
         in: query
         description: Sort results by specific field (e.g., -copiers).
@@ -199,6 +251,7 @@ paths:
         schema:
           type: string
           example: -copiers
+        example: -copiers
       - name: popularInvestor
         in: query
         description: Filter for popular investors.
@@ -212,6 +265,7 @@ paths:
         schema:
           type: integer
           example: 100
+        example: 100
       - name: maxDailyRiskScoreMin
         in: query
         description: Minimum daily risk score.
@@ -219,6 +273,7 @@ paths:
         schema:
           type: integer
           example: 1
+        example: 1
       - name: maxDailyRiskScoreMax
         in: query
         description: Maximum daily risk score.
@@ -226,6 +281,7 @@ paths:
         schema:
           type: integer
           example: 7
+        example: 7
       - name: maxMonthlyRiskScoreMin
         in: query
         description: Minimum monthly risk score.
@@ -233,6 +289,7 @@ paths:
         schema:
           type: integer
           example: 1
+        example: 1
       - name: maxMonthlyRiskScoreMax
         in: query
         description: Maximum monthly risk score.
@@ -240,6 +297,7 @@ paths:
         schema:
           type: integer
           example: 6
+        example: 6
       - name: weeksSinceRegistrationMin
         in: query
         description: Minimum weeks since registration.
@@ -247,6 +305,7 @@ paths:
         schema:
           type: integer
           example: 75
+        example: 75
       - name: countryId
         in: query
         description: The registered country ID of the user
@@ -254,6 +313,7 @@ paths:
         schema:
           type: integer
           example: 101
+        example: 101
       - name: instrumentId
         in: query
         description: The instrument ID (you can also use this to exclude an instrument e.g., -5).
@@ -261,6 +321,7 @@ paths:
         schema:
           type: integer
           example: -5
+        example: -5
       - name: instrumentPctMin
         in: query
         description: Minimum percentage of investment in the requested instrument ID.
@@ -268,6 +329,7 @@ paths:
         schema:
           type: integer
           example: 100
+        example: 100
       - name: instrumentPctMax
         in: query
         description: Maximum percentage of investment in the requested instrument ID.
@@ -275,6 +337,7 @@ paths:
         schema:
           type: integer
           example: 100
+        example: 100
       responses:
         '200':
           description: OK
@@ -455,13 +518,82 @@ paths:
                 required:
                 - totalItems
                 - items
-      operationId: comprehensiveSearchAnalyticsEngineUserDiscovery
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:user-info:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/user-info/people/{username}/daily-gain:
     get:
+      operationId: getUserInfoPeopleByUsernameDailyGain
       tags:
       - Users Info
-      summary: Retrieve granular performance data for specific time periods
-      description: Provides detailed performance analytics including daily gains, cumulative returns, and period-specific metrics within a specified date range. Supports various time-based analyses and performance reporting requirements.
+      summary: Get user daily performance
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Provides detailed performance analytics including daily gains, cumulative returns, and period-specific metrics within a specified date range. Supports various time-based analyses and performance reporting requirements.'
       parameters:
       - name: x-request-id
         in: header
@@ -469,24 +601,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: f3fcbba2-53b9-46bb-87c2-5c5ec4ef4ee1
+          example: 9346a433-cc44-4986-ad58-c0078ab342be
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 9346a433-cc44-4986-ad58-c0078ab342be
       - name: username
         in: path
         description: Unique identifier of the user whose performance data is being requested
@@ -543,13 +660,82 @@ paths:
                   summary: Period Gain Example
                   value:
                     gain: 7.52
-      operationId: retrieveGranularPerformanceDataSpecificTime
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:user-info:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/user-info/people/{username}/gain:
     get:
+      operationId: getUserInfoPeopleByUsernameGain
       tags:
       - Users Info
-      summary: Retrieve detailed historical performance metrics and analytics for a specified…
-      description: Returns comprehensive historical monthly and yearly performance data including gain percentages, risk-adjusted returns, and detailed trading statistics. This endpoint provides both aggregated and time-series performance metrics.
+      summary: Get user performance history
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns comprehensive historical monthly and yearly performance data including gain percentages, risk-adjusted returns, and detailed trading statistics. This endpoint provides both aggregated and time-series performance metrics.'
       parameters:
       - name: x-request-id
         in: header
@@ -557,24 +743,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: a0f00368-7db0-4174-ad86-4cd6d313d7d3
+          example: 5203d49e-095d-4df2-9874-51e4e685eefd
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 5203d49e-095d-4df2-9874-51e4e685eefd
       - name: username
         description: Unique identifier of the user whose performance metrics are being requested
         in: path
@@ -589,12 +760,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getUserGainResponse'
-      operationId: retrieveDetailedHistoricalPerformanceMetricsAnalytics
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:user-info:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
   /api/v1/user-info/people/{username}/portfolio/live:
     get:
+      operationId: getUserInfoPeopleByUsernamePortfolioLive
       tags:
       - Users Info
-      summary: Get the live portfolio of a user
+      summary: Get user live portfolio
       parameters:
       - name: x-request-id
         in: header
@@ -602,24 +836,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 6adb70f2-6c01-47a0-8775-0c289ac3fe7a
+          example: da03ea8a-22d9-446d-8040-1a1bc0422579
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: da03ea8a-22d9-446d-8040-1a1bc0422579
       - name: username
         description: The username of the user to retrieve the live portfolio for.
         in: path
@@ -792,12 +1011,76 @@ paths:
                               trailingStopLoss:
                                 type: boolean
                                 description: Trailing Stop loss enabled
-      operationId: getLivePortfolioUser
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:user-info:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: false
+        defaultPool: false
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **dedicated** limit for this endpoint — it is **not shared** with (pooled across) any other endpoint, so the full rate is available to this endpoint alone.'
   /api/v1/user-info/people/{username}/tradeinfo:
     get:
+      operationId: getUserInfoPeopleByUsernameTradeinfo
       tags:
       - Users Info
-      summary: Get trade info for a specific user
+      summary: Get user trade info
       parameters:
       - name: x-request-id
         in: header
@@ -805,24 +1088,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 93d6c631-4763-45fc-9eca-9b15c40773c0
+          example: 7b83153d-dfc1-4cb5-8abe-7d9f911f1409
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 7b83153d-dfc1-4cb5-8abe-7d9f911f1409
       - name: username
         description: The username of the user to retrieve the discovery info for.
         in: path
@@ -995,9 +1263,261 @@ paths:
                     type: number
                     format: float
                     description: Percentage of investment in the requested instrument ID
-      operationId: getTradeInfoSpecificUser
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '429':
+          description: Too Many Requests — the rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This limit is dedicated to this endpoint — it is not shared with (pooled across) any other endpoint.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:real:read
+      - oauth2:
+        - etoro-public:demo:read
+      - oauth2:
+        - etoro-public:real:write
+      - oauth2:
+        - etoro-public:demo:write
+      - oauth2:
+        - etoro-public:user-info:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: false
+        defaultPool: false
+      description: '**Rate limit:** 60 requests per 60 seconds. This is a **dedicated** limit for this endpoint — it is **not shared** with (pooled across) any other endpoint, so the full rate is available to this endpoint alone.'
 components:
   schemas:
+    getUserDailyGainResponse:
+      oneOf:
+      - type: array
+        items:
+          $ref: '#/components/schemas/gainEntry'
+      - type: object
+        properties:
+          gain:
+            type: number
+    gainEntry:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        gain:
+          type: number
+    PublicAggregatedInfoUiUserBio:
+      type: object
+      properties:
+        gcid:
+          type: integer
+        languageCode:
+          type:
+          - string
+          - 'null'
+        aboutMe:
+          type:
+          - string
+          - 'null'
+          description: User's full about me text
+        aboutMeShort:
+          type:
+          - string
+          - 'null'
+          description: Short summary of user's about me text
+        strategyID:
+          type:
+          - integer
+          - 'null'
+          description: ID of the user's trading strategy
+    PublicAggregatedInfoPlayerStatusReason:
+      type:
+      - integer
+      - 'null'
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      x-enumNames:
+      - None
+      - FailedVerification
+      - ExpiredDocument
+      - CloseAccountByUser
+      - Risk
+      - Chargeback
+      - AMLAccountClosed
+      - HRC
+      - Underage
+      - Deceased
+      - AML
+      - AMLreview
+      - OffMarketAbuse
+      - Overpayment
+      - RiskCheck
+      - ThirdParty
+      - PayPalInvestigation
+      - NOC_NOF_RFI
+      - WCHMatch
+      - Other
+      - RightToBeForgotten
+      - SelfService
+      - ByRequest
+      - ACHChargeback
+      - PWMBChargeback
+      - Abuse
+      - AffiliateAccount
+      - PendingDocs
+      - EmployeeAccount
+      - PIAccount
+      - CheckoutChargeback
+      - CheckoutRetrievel
+      - CheckoutCaptureDecline
+      - EToroMoneyRestriction
+      - AbusiveTrading
+      - HackedAccount
+      - PartnersAndPIs
+      - CS_ManagementDecision
+      - Deposits
+      - KYC
+      - AccountClosed
+      - Tax
+      - Corporate
+    PublicAggregatedInfoResponse:
+      type: object
+      description: Container for the aggregated user information response
+      properties:
+        users:
+          type: array
+          description: Array of user profiles with their associated information
+          items:
+            $ref: '#/components/schemas/PublicAggregatedInfoUser'
+    getUserGainResponse:
+      type: object
+      properties:
+        monthly:
+          type: array
+          items:
+            $ref: '#/components/schemas/gainEntry'
+        yearly:
+          type: array
+          items:
+            $ref: '#/components/schemas/gainEntry'
+    PublicAggregatedInfoPlayerStatus:
+      type:
+      - integer
+      - 'null'
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      x-enumNames:
+      - Normal
+      - Blocked
+      - ChatBlocked
+      - BlockedUponRequest
+      - Warning
+      - BlockedUnderInvestigation
+      - ScalpersBlock
+      - BlockedPayPalInvestigation
+      - TradeBlock
+      - DepositBlocked
+      - SocialIndex
+      - CopyBlock
+      - PendingVerification
+      - BlockedFailedVerification
+      - BlockTrading
     PublicAggregatedInfoAccountStatus:
       type:
       - integer
@@ -1008,15 +1528,23 @@ components:
       x-enumNames:
       - Open
       - Closed
-    PublicAggregatedInfoResponse:
+    PublicAggregatedInfoUiUserAvatar:
       type: object
-      description: Container for the aggregated user information response
       properties:
-        users:
-          type: array
-          description: Array of user profiles with their associated information
-          items:
-            $ref: '#/components/schemas/PublicAggregatedInfoUser'
+        url:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        type:
+          type: string
+          enum:
+          - Original
+          - OriginalCropped
+          - Resized
+          - Retouched
+          description: Type of avatar image
     PublicAggregatedInfoUser:
       type: object
       description: Comprehensive user profile information including account details, verification status, and preferences
@@ -1162,200 +1690,61 @@ components:
           description: List of customer restrictions applied to the account
         userFlowSignature:
           type: string
-    PublicAggregatedInfoPlayerStatus:
-      type:
-      - integer
-      - 'null'
-      enum:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      x-enumNames:
-      - Normal
-      - Blocked
-      - ChatBlocked
-      - BlockedUponRequest
-      - Warning
-      - BlockedUnderInvestigation
-      - ScalpersBlock
-      - BlockedPayPalInvestigation
-      - TradeBlock
-      - DepositBlocked
-      - SocialIndex
-      - CopyBlock
-      - PendingVerification
-      - BlockedFailedVerification
-      - BlockTrading
-    getUserGainResponse:
-      type: object
-      properties:
-        monthly:
-          type: array
-          items:
-            $ref: '#/components/schemas/gainEntry'
-        yearly:
-          type: array
-          items:
-            $ref: '#/components/schemas/gainEntry'
-    PublicAggregatedInfoUiUserAvatar:
-      type: object
-      properties:
-        url:
-          type: string
-        width:
-          type: integer
-        height:
-          type: integer
-        type:
-          type: string
-          enum:
-          - Original
-          - OriginalCropped
-          - Resized
-          - Retouched
-          description: Type of avatar image
-    gainEntry:
-      type: object
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-        gain:
-          type: number
-    getUserDailyGainResponse:
-      oneOf:
-      - type: array
-        items:
-          $ref: '#/components/schemas/gainEntry'
-      - type: object
-        properties:
-          gain:
-            type: number
-    PublicAggregatedInfoPlayerStatusReason:
-      type:
-      - integer
-      - 'null'
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
-      - 18
-      - 19
-      - 20
-      - 21
-      - 22
-      - 23
-      - 24
-      - 25
-      - 26
-      - 27
-      - 28
-      - 29
-      - 30
-      - 31
-      - 32
-      - 33
-      - 34
-      - 35
-      - 36
-      - 37
-      - 38
-      - 39
-      - 40
-      - 41
-      - 42
-      x-enumNames:
-      - None
-      - FailedVerification
-      - ExpiredDocument
-      - CloseAccountByUser
-      - Risk
-      - Chargeback
-      - AMLAccountClosed
-      - HRC
-      - Underage
-      - Deceased
-      - AML
-      - AMLreview
-      - OffMarketAbuse
-      - Overpayment
-      - RiskCheck
-      - ThirdParty
-      - PayPalInvestigation
-      - NOC_NOF_RFI
-      - WCHMatch
-      - Other
-      - RightToBeForgotten
-      - SelfService
-      - ByRequest
-      - ACHChargeback
-      - PWMBChargeback
-      - Abuse
-      - AffiliateAccount
-      - PendingDocs
-      - EmployeeAccount
-      - PIAccount
-      - CheckoutChargeback
-      - CheckoutRetrievel
-      - CheckoutCaptureDecline
-      - EToroMoneyRestriction
-      - AbusiveTrading
-      - HackedAccount
-      - PartnersAndPIs
-      - CS_ManagementDecision
-      - Deposits
-      - KYC
-      - AccountClosed
-      - Tax
-      - Corporate
-    PublicAggregatedInfoUiUserBio:
-      type: object
-      properties:
-        gcid:
-          type: integer
-        languageCode:
-          type:
-          - string
-          - 'null'
-        aboutMe:
-          type:
-          - string
-          - 'null'
-          description: User's full about me text
-        aboutMeShort:
-          type:
-          - string
-          - 'null'
-          description: Short summary of user's about me text
-        strategyID:
-          type:
-          - integer
-          - 'null'
-          description: ID of the user's trading strategy
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

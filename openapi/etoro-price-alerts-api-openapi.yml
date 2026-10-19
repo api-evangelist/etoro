@@ -1,20 +1,71 @@
 openapi: 3.2.0
 info:
   title: eToro Price Alerts API
-  version: v1.244.0
-  description: eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications.
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
 servers:
 - url: https://public-api.etoro.com
   description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
 tags:
 - name: Price Alerts
 paths:
   /api/v1/price-alerts:
     get:
+      operationId: getPriceAlerts
       tags:
       - Price Alerts
       summary: Get price alerts
-      description: Returns all active price alerts for the authenticated user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns all active price alerts for the authenticated user. Supports optional filtering by alertIds, instrumentIds, or symbols. The instrumentIds and symbols filters refer to the same dimension and are OR-combined with each other. The resulting instrument filter is AND-combined with alertIds. When no filters are provided, returns all active alerts.'
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: f6998ac7-1143-4271-a6ae-c1f0d2ab94a8
+        description: A unique request identifier.
+        example: f6998ac7-1143-4271-a6ae-c1f0d2ab94a8
+      - name: alertIds
+        in: query
+        required: false
+        description: Comma-separated list of alert IDs to filter by. AND-combined with the instrument filter when both are present.
+        schema:
+          type: string
+        example: a1b2c3d4-e5f6-7890-abcd-ef1234567890,b2c3d4e5-f6a7-8901-bcde-f12345678901
+      - name: instrumentIds
+        in: query
+        required: false
+        description: Comma-separated list of instrument IDs to filter by. Treated as the same dimension as symbols — results matching either instrumentIds or symbols are returned.
+        schema:
+          type: string
+        example: 1001,1002
+      - name: symbols
+        in: query
+        required: false
+        description: Comma-separated list of trading symbols to filter by. Treated as the same dimension as instrumentIds — results matching either symbols or instrumentIds are returned.
+        schema:
+          type: string
+        example: AAPL,TSLA
       responses:
         '200':
           description: Successfully retrieved price alerts
@@ -38,12 +89,43 @@ paths:
                   currentPrice: 265.1
                   createdAt: '2026-04-22T08:15:00Z'
                   updatedAt: '2026-04-22T08:15:00Z'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Invalid filter parameters (e.g. malformed alertIds, instrumentIds, or unknown symbol)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceAlertErrorResponse'
+              example:
+                success: false
+                error:
+                  code: INVALID_PARAMETER
+                  message: Invalid request parameters
+                  details: alertIds must be valid UUIDs
         '401':
           description: Unauthorized - missing or invalid authentication credentials
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -52,7 +134,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: InsufficientPermissions
                 errorMessage: Insufficient permissions to access this resource
@@ -61,50 +143,65 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
-      parameters:
-      - name: x-request-id
-        in: header
-        required: true
-        schema:
-          type: string
-          format: uuid
-          example: 818633f4-c4de-46d0-a3e6-a2f083c17659
-        description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      operationId: getPriceAlerts
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:price-alerts:read
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
     post:
+      operationId: postPriceAlerts
       tags:
       - Price Alerts
       summary: Create a price alert
-      description: Creates a new price alert for the authenticated user. The alert will fire when the market bid price reaches the target price. Provide a symbol to identify the instrument.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Creates a new price alert for the authenticated user. The alert will fire when the market bid price reaches the target price. Provide a symbol to identify the instrument.'
       requestBody:
         required: true
         content:
@@ -131,6 +228,25 @@ paths:
                   currentPrice: 182.3
                   createdAt: '2026-04-30T10:00:00Z'
                   updatedAt: '2026-04-30T10:00:00Z'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Invalid request parameters (e.g. missing symbol, invalid targetPrice)
           content:
@@ -149,7 +265,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -158,7 +274,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: InsufficientPermissions
                 errorMessage: Insufficient permissions to access this resource
@@ -191,19 +307,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:price-alerts:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
       parameters:
       - name: x-request-id
         in: header
@@ -211,31 +361,22 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 92d52d35-6930-4674-8ae4-24dd4d61c308
+          example: 93064707-9bb9-4e69-8ba8-3ae76c07a072
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
-      operationId: createAPriceAlert
+        example: 93064707-9bb9-4e69-8ba8-3ae76c07a072
   /api/v1/price-alerts/{alertId}:
     patch:
+      operationId: patchPriceAlertsByAlertId
       tags:
       - Price Alerts
       summary: Update a price alert
-      description: Updates the target price of an existing price alert.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Updates the target price of an existing price alert.'
       parameters:
       - name: x-request-id
         in: header
@@ -243,24 +384,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 40dfcdec-7eb4-4320-ace0-ae992727e33a
+          example: 8ef5d9bd-6047-4884-98b5-29ae588e8e59
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 8ef5d9bd-6047-4884-98b5-29ae588e8e59
       - name: alertId
         in: path
         required: true
@@ -294,6 +420,25 @@ paths:
                   currentPrice: 182.3
                   createdAt: '2026-04-20T10:00:00Z'
                   updatedAt: '2026-04-30T11:00:00Z'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '400':
           description: Invalid request parameters (e.g. invalid alertId format, missing targetPrice)
           content:
@@ -312,7 +457,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -321,7 +466,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: InsufficientPermissions
                 errorMessage: Insufficient permissions to access this resource
@@ -342,25 +487,65 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
-      operationId: updateAPriceAlert
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:price-alerts:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
     delete:
+      operationId: deletePriceAlertsByAlertId
       tags:
       - Price Alerts
       summary: Delete a price alert
-      description: Permanently deletes a price alert owned by the authenticated user.
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Permanently deletes a price alert owned by the authenticated user.'
       parameters:
       - name: x-request-id
         in: header
@@ -368,24 +553,9 @@ paths:
         schema:
           type: string
           format: uuid
-          example: 0b55b20a-a7d5-49f1-bd03-cdf552602a93
+          example: 70865f98-7a74-4a8e-926f-d58cca8372c2
         description: A unique request identifier.
-      - name: x-api-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663
-        description: API key for authentication.
-      - name: x-user-key
-        in: header
-        required: true
-        schema:
-          type: string
-          format: password
-          example: eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_
-        description: User-specific authentication key.
+        example: 70865f98-7a74-4a8e-926f-d58cca8372c2
       - name: alertId
         in: path
         required: true
@@ -405,12 +575,31 @@ paths:
                 success: true
                 data:
                   alertId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
         '401':
           description: Unauthorized - missing or invalid authentication credentials
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: Unauthorized
                 errorMessage: Unauthorized
@@ -419,7 +608,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: InsufficientPermissions
                 errorMessage: Insufficient permissions to access this resource
@@ -440,20 +629,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: TooManyRequests
                 errorMessage: Too many requests
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
         '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PublicErrorResponse'
+                $ref: '#/components/schemas/PriceAlertsApi_PublicErrorResponse'
               example:
                 errorCode: UnhandledException
                 errorMessage: Global Error
-      operationId: deleteAPriceAlert
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:price-alerts:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
 components:
   schemas:
     PriceAlert:
@@ -501,16 +723,58 @@ components:
           format: date-time
           description: Timestamp when the alert was last updated (ISO 8601 UTC)
           example: '2026-04-25T14:30:00Z'
-    PriceAlertMutationResponse:
+    DeletePriceAlertResponse:
       type: object
-      description: Response for price alert create and update operations
+      description: Response for price alert delete operation
       properties:
         success:
           type: boolean
           description: Indicates the operation completed successfully
           example: true
         data:
-          $ref: '#/components/schemas/PriceAlert'
+          type: object
+          properties:
+            alertId:
+              type: string
+              format: uuid
+              description: Unique identifier of the deleted price alert
+              example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    UpdatePriceAlertRequest:
+      type: object
+      description: Request body for updating an existing price alert
+      required:
+      - targetPrice
+      properties:
+        targetPrice:
+          type: number
+          format: decimal
+          description: New target price for the alert. Must be greater than 0.
+          example: 190.0
+          exclusiveMinimum: 0
+    PriceAlertCollectionResponse:
+      type: object
+      description: Collection of price alerts for the authenticated user
+      properties:
+        results:
+          type: array
+          description: List of price alerts matching the query criteria
+          items:
+            $ref: '#/components/schemas/PriceAlert'
+    PriceAlertsApi_PublicErrorResponse:
+      type: object
+      description: Standard error response from the public API gateway
+      required:
+      - errorCode
+      - errorMessage
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code
+          example: UnhandledException
+        errorMessage:
+          type: string
+          description: Human-readable error message
+          example: Global Error
     PriceAlertErrorResponse:
       type: object
       description: Error response from the price alerts service
@@ -544,49 +808,16 @@ components:
               type: string
               description: The specific field that caused the error (if applicable)
               example: targetPrice
-    UpdatePriceAlertRequest:
+    PriceAlertMutationResponse:
       type: object
-      description: Request body for updating an existing price alert
-      required:
-      - targetPrice
-      properties:
-        targetPrice:
-          type: number
-          format: decimal
-          description: New target price for the alert. Must be greater than 0.
-          example: 190.0
-          exclusiveMinimum: 0
-    DeletePriceAlertResponse:
-      type: object
-      description: Response for price alert delete operation
+      description: Response for price alert create and update operations
       properties:
         success:
           type: boolean
           description: Indicates the operation completed successfully
           example: true
         data:
-          type: object
-          properties:
-            alertId:
-              type: string
-              format: uuid
-              description: Unique identifier of the deleted price alert
-              example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
-    PublicErrorResponse:
-      type: object
-      description: Error response with code and message.
-      required:
-      - errorCode
-      - errorMessage
-      properties:
-        errorCode:
-          type: string
-          description: Machine-readable error code.
-          example: GeneralError
-        errorMessage:
-          type: string
-          description: Human-readable error message.
-          example: Internal server error. Please retry or contact support
+          $ref: '#/components/schemas/PriceAlert'
     CreatePriceAlertRequest:
       type: object
       description: Request body for creating a new price alert
@@ -604,12 +835,61 @@ components:
           description: Target price at which the alert should trigger. Must be greater than 0.
           example: 185.5
           exclusiveMinimum: 0
-    PriceAlertCollectionResponse:
-      type: object
-      description: Collection of price alerts for the authenticated user
-      properties:
-        results:
-          type: array
-          description: List of price alerts matching the query criteria
-          items:
-            $ref: '#/components/schemas/PriceAlert'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.

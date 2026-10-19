@@ -1,0 +1,824 @@
+openapi: 3.2.0
+info:
+  title: eToro SSO - Applications API
+  version: v1.395.0
+  description: 'eToro’s public API provides access to real-time financial data, trading insights, and account management features, allowing developers to integrate eToro’s services into their applications. With access to market prices, historical data, and social trading information, the API empowers users to enhance their trading strategies. Designed for security and scalability, the eToro API ensures smooth and reliable integration for a variety of financial applications.
+
+
+    For more details on integrating with eToro''s public WebSocket service, please refer to the dedicated WebSocket documentation.
+
+
+    ## Authentication
+
+
+    Every request must be authenticated with exactly one of two options: an OAuth 2.0 access token (`Authorization: Bearer `), or the non-interactive credential pair (`x-api-key` + `x-user-key` headers). The two options are mutually exclusive — a request carrying both is rejected. Each operation lists the OAuth scopes that grant access as alternative security requirements: a bearer token needs only ONE of them, and the same permissions govern the credential pair.'
+servers:
+- url: https://public-api.etoro.com
+  description: eToro Public API
+security:
+- apiKeyAuth: []
+  userKeyAuth: []
+- oauth2: []
+tags:
+- name: SSO - Applications
+paths:
+  /api/v1/sso/applications:
+    get:
+      tags:
+      - SSO - Applications
+      summary: List my OAuth applications
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Returns every OAuth application where the authenticated user (matched by GCID) is listed as an administrator. The `clientSecret` is never included in this response - it is revealed only when the application is created, or when it is replaced via `POST /api/v1/sso/applications/{clientId}/client-secret`.'
+      operationId: getApplications
+      responses:
+        '200':
+          description: Successfully retrieved the list of administered applications. May be empty if the caller administers no applications.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetApplicationsResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Missing or invalid STS access token.
+        '429':
+          description: Too Many Requests — the shared rate limit (60 requests / 60s) was exceeded.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:sso-applications:read
+      - oauth2:
+        - etoro-public:sso-applications:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: e4551fd0-f942-40e4-a33f-ef56489be0ad
+        description: A unique request identifier.
+        example: e4551fd0-f942-40e4-a33f-ef56489be0ad
+    post:
+      tags:
+      - SSO - Applications
+      summary: Register OAuth application
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Creates a new OAuth application. The authenticated user automatically becomes the application admin. Both `clientId` and `clientSecret` are auto-generated server-side. The `clientSecret` is returned **only in this response** (one-time reveal) - subsequent reads will never expose it again, so callers must store it securely. Auto-populated defaults (audience, applicationType, supported flows, token expirations) come from service configuration. Validation: `applicationName` max 100 chars, `applicationIconUrl` max 500 chars, each `redirectUri` max 500 chars and unique, each `scopeId` positive and recognized in the scope catalog.'
+      operationId: createApplications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApplicationBody'
+            example:
+              applicationName: My Trading App
+              applicationIconUrl: https://cdn.etoro.com/icons/my-app.png
+              scopes:
+              - scopeId: 224
+                isMandatory: true
+              - scopeId: 226
+                isMandatory: false
+              redirectUris:
+              - https://myapp.com/oauth/callback
+      responses:
+        '201':
+          description: Application created successfully. The `clientSecret` is included once and only once.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateApplicationResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation error - missing required field, malformed URL, duplicate redirect URI, unknown scope id, or duplicate scope ids.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+        '401':
+          description: Missing or invalid STS access token.
+        '500':
+          description: The request could not be completed. Try again.
+        '403':
+          description: The caller's SSO application allowance is zero - they may not create applications at all. Retrying cannot succeed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+        '429':
+          description: The caller is at their SSO application limit, or the service is temporarily unavailable. Carries `Retry-After` when a retry hint is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:sso-applications:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: b5652cc5-7a25-499b-b9db-c8309af7866b
+        description: A unique request identifier.
+        example: b5652cc5-7a25-499b-b9db-c8309af7866b
+  /api/v1/sso/applications/{clientId}:
+    put:
+      tags:
+      - SSO - Applications
+      summary: Update OAuth application
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Updates one or more modifiable fields of an existing OAuth application. Only the application''s admin (the caller''s GCID must be in `adminGcids`) can perform updates. Non-admins receive `404 Not Found` (opaque authorization - the gateway does not disclose whether the application exists). At least one field must be provided in the body; omitted fields are left unchanged. Uniqueness and length constraints match the create endpoint.'
+      operationId: updateApplicationsByClientId
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 3ce837a7-5e1c-4915-a45f-a510d03f036e
+        description: A unique request identifier.
+        example: 3ce837a7-5e1c-4915-a45f-a510d03f036e
+      - name: clientId
+        in: path
+        required: true
+        description: The OAuth `clientId` of the application to update.
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApplicationBody'
+            example:
+              applicationName: My Renamed Trading App
+              redirectUris:
+              - https://myapp.com/oauth/callback
+              - https://myapp.com/oauth/callback-staging
+      responses:
+        '200':
+          description: Application updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateApplicationResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+        '401':
+          description: Missing or invalid STS access token.
+        '404':
+          description: Application not found, or the caller is not an admin of the application.
+        '500':
+          description: The request could not be completed. Try again.
+        '429':
+          description: The caller is at their SSO application limit, or the service is temporarily unavailable. Carries `Retry-After` when a retry hint is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:sso-applications:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+    delete:
+      tags:
+      - SSO - Applications
+      summary: Delete OAuth application
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Permanently deletes an OAuth application. Only the application''s admin can delete it. Non-admins receive `404 Not Found` (opaque authorization). The application stops appearing in `GET /api/v1/sso/applications` within a few seconds.'
+      operationId: deleteApplicationsByClientId
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 1da3f001-6ad2-4c91-9d7e-2bce78483552
+        description: A unique request identifier.
+        example: 1da3f001-6ad2-4c91-9d7e-2bce78483552
+      - name: clientId
+        in: path
+        required: true
+        description: The OAuth `clientId` of the application to delete.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: Application deleted successfully. No content is returned.
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '401':
+          description: Missing or invalid STS access token.
+        '404':
+          description: Application not found, or the caller is not an admin of the application.
+        '500':
+          description: The request could not be completed. Try again.
+        '429':
+          description: The caller is at their SSO application limit, or the service is temporarily unavailable. Carries `Retry-After` when a retry hint is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:sso-applications:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+  /api/v1/sso/applications/{clientId}/client-secret:
+    post:
+      tags:
+      - SSO - Applications
+      summary: Replace OAuth client secret
+      description: '**Rate limit:** 60 requests per 60 seconds. This is the **default shared quota** — it is shared with every other endpoint that has no dedicated limit, so requests across those endpoints all draw from the same budget.
+
+
+        ---
+
+
+        Replaces the application''s `clientSecret` and returns the new one. Only the application''s admin (the caller''s GCID must be in `adminGcids`) can rotate. Non-admins receive `404 Not Found` (opaque authorization). **The current secret is not required** - ownership is proven by the access token and the application''s `adminGcids`, not by presenting the old secret, which may have been leaked; a leaked secret is the usual reason to rotate. **The previous secret stops working immediately** - there is no overlap window, so anything still using it fails as soon as this call returns. The new secret is returned **only in this response** (one-time reveal) and can never be read again, only replaced. Nothing else about the application changes. An application created moments earlier may briefly answer `404` while it propagates; retry.'
+      operationId: rotateApplicationsClientSecretByClientId
+      parameters:
+      - name: x-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: 34c4ce04-b2eb-425b-acfe-564138a382a2
+        description: A unique request identifier.
+        example: 34c4ce04-b2eb-425b-acfe-564138a382a2
+      - name: clientId
+        in: path
+        required: true
+        description: The OAuth `clientId` of the application whose secret should be replaced.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Secret replaced. The new `clientSecret` is included once and only once.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RotateClientSecretResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+        '400':
+          description: '`clientId` is not a valid GUID.'
+        '401':
+          description: Missing or invalid STS access token.
+        '404':
+          description: Application not found, or the caller is not an admin of the application.
+        '429':
+          description: Temporarily unavailable. Carries `Retry-After` when a retry hint is available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StsMetadataFrontApi_ErrorResponse'
+          headers:
+            RateLimit-Limit:
+              description: Maximum number of requests allowed per window. This is the default shared pool used by every endpoint without a dedicated limit, so it is NOT per-endpoint — requests across those endpoints all draw from this one budget.
+              schema:
+                type: integer
+              example: 60
+            RateLimit-Remaining:
+              description: Requests remaining in the current window for this quota.
+              schema:
+                type: integer
+            RateLimit-Reset:
+              description: Seconds until the current window resets.
+              schema:
+                type: integer
+            RateLimit-Policy:
+              description: Quota policy in the form `<limit>;w=<window-seconds>`.
+              schema:
+                type: string
+              example: 60;w=60
+            Retry-After:
+              description: Seconds to wait before retrying.
+              schema:
+                type: integer
+              example: 60
+        '500':
+          description: The request could not be completed. Try again.
+      security:
+      - apiKeyAuth: []
+        userKeyAuth: []
+      - oauth2:
+        - etoro-public:sso-applications:write
+      x-ratelimit:
+        limit: 60
+        window: 60
+        shared: true
+        defaultPool: true
+components:
+  schemas:
+    CreateApplicationBody:
+      type: object
+      required:
+      - applicationName
+      - applicationIconUrl
+      - scopes
+      - redirectUris
+      properties:
+        applicationName:
+          type: string
+          maxLength: 100
+          description: Display name shown to end users in the OAuth consent screen.
+          example: My Trading App
+        applicationIconUrl:
+          type: string
+          format: uri
+          maxLength: 500
+          description: Publicly reachable URL of the application icon. Format-validated only - the URL is not fetched by the service.
+          example: https://cdn.etoro.com/icons/my-app.png
+        scopes:
+          type: array
+          minItems: 1
+          description: Scopes that the application will request from end users. Each `scopeId` must be positive and present in the cached scope catalog. Duplicates are rejected.
+          items:
+            $ref: '#/components/schemas/ScopeItem'
+        redirectUris:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          description: OAuth redirect URIs registered for the application. Must be unique. Each URI is capped at 500 characters.
+          items:
+            type: string
+            format: uri
+            maxLength: 500
+          example:
+          - https://myapp.com/oauth/callback
+        allowedGcids:
+          type: array
+          uniqueItems: true
+          description: GCIDs permitted to use this application. Pass an empty array to clear.
+          items:
+            type: integer
+            format: int64
+    StsMetadataFrontApi_ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable error code (e.g. `ScopeIdInvalid`, `ScopeIdsDuplicateItems`).
+        errorMessage:
+          type: string
+          description: Human-readable error description.
+    UpdateApplicationResponse:
+      type: object
+      properties:
+        application:
+          $ref: '#/components/schemas/ApplicationItem'
+    RotateClientSecretResponse:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+          description: OAuth client identifier of the application whose secret was replaced. Unchanged by the rotation.
+        clientSecret:
+          type: string
+          format: uuid
+          description: The new OAuth client secret. Returned exactly once and never again - store it securely. The previous secret is already invalid.
+    ApplicationItem:
+      type: object
+      description: Full application record. The `clientSecret` is intentionally excluded.
+      properties:
+        applicationId:
+          type: integer
+          format: int64
+          description: Internal numeric identifier of the application.
+        applicationName:
+          type: string
+          description: Display name of the application.
+        applicationIconUrl:
+          type: string
+          format: uri
+          description: URL of the application icon.
+        clientId:
+          type: string
+          format: uuid
+          description: OAuth client identifier. Stable across the lifetime of the application.
+        audience:
+          type: string
+          description: OAuth audience claim issued for tokens minted for this application.
+        applicationType:
+          type: string
+          description: OAuth application type (e.g. `public`, `confidential`).
+        scopes:
+          type: array
+          description: Scopes assigned to the application, including which are mandatory at consent time.
+          items:
+            $ref: '#/components/schemas/ApplicationScopeItem'
+        redirectUris:
+          type: array
+          description: Registered OAuth redirect URIs.
+          items:
+            type: string
+        supportedFlows:
+          type: array
+          description: OAuth flows supported by the application (e.g. `authorization_code`, `refresh_token`).
+          items:
+            type: string
+        supportedCodeChallengeMethods:
+          type: array
+          description: PKCE code-challenge methods supported by the application (e.g. `S256`).
+          items:
+            type: string
+        ssoIdTokenExpirationInMinutes:
+          type: integer
+          description: Lifetime of issued SSO id tokens, in minutes.
+        ssoRefreshTokenExpirationInMinutes:
+          type: integer
+          description: Lifetime of issued SSO refresh tokens, in minutes.
+        ssoAccessTokenExpirationInMinutes:
+          type: integer
+          description: Lifetime of issued SSO access tokens, in minutes.
+        adminGcids:
+          type: array
+          description: GCIDs of users who can administer this application.
+          items:
+            type: integer
+            format: int64
+        applicationState:
+          type: string
+          description: Lifecycle state of the application (e.g. `InDev`, `Approved`).
+        allowedGcids:
+          type: array
+          uniqueItems: true
+          description: GCIDs permitted to use this application.
+          items:
+            type: integer
+            format: int64
+    GetApplicationsResponse:
+      type: object
+      properties:
+        applications:
+          type: array
+          description: Applications administered by the authenticated user. May be empty.
+          items:
+            $ref: '#/components/schemas/ApplicationItem'
+    ScopeItem:
+      type: object
+      required:
+      - scopeId
+      - isMandatory
+      properties:
+        scopeId:
+          type: integer
+          minimum: 1
+          description: Scope identifier. Must be a known scope from `GET /api/v1/sso/scopes`.
+        isMandatory:
+          type: boolean
+          description: When true, the user cannot deselect this scope on the consent screen.
+    UpdateApplicationBody:
+      type: object
+      description: At least one field must be provided. Omitted fields are left unchanged.
+      properties:
+        applicationName:
+          type: string
+          maxLength: 100
+          description: Updated display name.
+        applicationIconUrl:
+          type: string
+          format: uri
+          maxLength: 500
+          description: Updated icon URL.
+        scopes:
+          type: array
+          description: Replacement set of scopes. Each `scopeId` must be positive and present in the cached catalog; no duplicates.
+          items:
+            $ref: '#/components/schemas/ScopeItem'
+        redirectUris:
+          type: array
+          uniqueItems: true
+          description: Replacement set of redirect URIs.
+          items:
+            type: string
+            format: uri
+            maxLength: 500
+        allowedGcids:
+          type: array
+          uniqueItems: true
+          description: GCIDs permitted to use this application. Pass an empty array to clear.
+          items:
+            type: integer
+            format: int64
+    ApplicationScopeItem:
+      type: object
+      description: Scope entry as returned in application reads.
+      properties:
+        scopeId:
+          type: integer
+          description: Scope identifier.
+        isMandatory:
+          type: boolean
+          description: When true, the user cannot deselect this scope on the consent screen.
+    CreateApplicationResponse:
+      type: object
+      properties:
+        application:
+          $ref: '#/components/schemas/ApplicationItem'
+        clientSecret:
+          type: string
+          format: uuid
+          description: OAuth client secret. Returned exactly once at creation time and never again - store it securely.
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: 'API key of the application. Only valid together with the x-user-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it. The pair is granted the same permissions the operation''s OAuth scopes describe.
+
+
+        Demo credential for trying the API from these docs: `lhgfaslk21490FAScVPkdsb53F9dNkfHG4faZSG5vfjndfcfgdssdgsdHF4663`'
+    userKeyAuth:
+      type: apiKey
+      in: header
+      name: x-user-key
+      description: 'User-specific authentication key. Only valid together with the x-api-key header — the pair is an alternative to OAuth bearer authentication, never sent alongside it.
+
+
+        Demo credential for trying the API from these docs: `eyJlYW4iOiJVbnJlZ2lzdGVyZWRBcHBsaWNhdGlvbiIsImVrIjoiOE5sZ2cwcW5EUVdROUFNWGpXT2lmOWktZnpidG5KcUlqWGJ3WHJZZkpZcldrbG90ZEhvLVBjSWhQaU8xU1ZtMW84aU1WZGZqN2xWNzFjLXFxLmcybXE1dnh4Q1hUT25xaWRUaTFlcEhmVk1fIn0_`'
+    oauth2:
+      type: oauth2
+      description: 'eToro OAuth2 — send the access token as `Authorization: Bearer <token>`. Each operation lists the scopes that grant access as separate `security` requirements (OpenAPI OR semantics): the caller''s token only needs ONE of them — you do NOT need all of them. Mutually exclusive with the x-api-key/x-user-key credential pair: never send both.'
+      flows:
+        authorizationCode:
+          authorizationUrl: https://www.etoro.com/sso
+          tokenUrl: https://www.etoro.com/api/sso/v1/token
+          scopes:
+            etoro-public:agent-portfolio:read: Grants access to the 'etoro-public:agent-portfolio:read' scope.
+            etoro-public:agent-portfolio:write: Grants access to the 'etoro-public:agent-portfolio:write' scope.
+            etoro-public:club:read: Grants access to the 'etoro-public:club:read' scope.
+            etoro-public:demo:read: Grants access to the 'etoro-public:demo:read' scope.
+            etoro-public:demo:write: Grants access to the 'etoro-public:demo:write' scope.
+            etoro-public:feed:read: Grants access to the 'etoro-public:feed:read' scope.
+            etoro-public:feed:write: Grants access to the 'etoro-public:feed:write' scope.
+            etoro-public:market-data:read: Grants access to the 'etoro-public:market-data:read' scope.
+            etoro-public:money.balance:read: Grants access to the 'etoro-public:money.balance:read' scope.
+            etoro-public:money.cash-transactions:read: Grants access to the 'etoro-public:money.cash-transactions:read' scope.
+            etoro-public:money.transfer:read: Grants access to the 'etoro-public:money.transfer:read' scope.
+            etoro-public:money.transfer:write: Grants access to the 'etoro-public:money.transfer:write' scope.
+            etoro-public:money:transfer: Grants access to the 'etoro-public:money:transfer' scope.
+            etoro-public:notifications:read: Grants access to the 'etoro-public:notifications:read' scope.
+            etoro-public:notifications:write: Grants access to the 'etoro-public:notifications:write' scope.
+            etoro-public:pi-data:read: Grants access to the 'etoro-public:pi-data:read' scope.
+            etoro-public:price-alerts:read: Grants access to the 'etoro-public:price-alerts:read' scope.
+            etoro-public:price-alerts:write: Grants access to the 'etoro-public:price-alerts:write' scope.
+            etoro-public:real:read: Grants access to the 'etoro-public:real:read' scope.
+            etoro-public:real:write: Grants access to the 'etoro-public:real:write' scope.
+            etoro-public:sso-applications:read: Grants access to the 'etoro-public:sso-applications:read' scope.
+            etoro-public:sso-applications:write: Grants access to the 'etoro-public:sso-applications:write' scope.
+            etoro-public:sso-scopes:read: Grants access to the 'etoro-public:sso-scopes:read' scope.
+            etoro-public:sso-scopes:write: Grants access to the 'etoro-public:sso-scopes:write' scope.
+            etoro-public:sub-accounts:read: Grants access to the 'etoro-public:sub-accounts:read' scope.
+            etoro-public:sub-accounts:write: Grants access to the 'etoro-public:sub-accounts:write' scope.
+            etoro-public:trade.demo:read: Grants access to the 'etoro-public:trade.demo:read' scope.
+            etoro-public:trade.demo:write: Grants access to the 'etoro-public:trade.demo:write' scope.
+            etoro-public:trade.real:read: Grants access to the 'etoro-public:trade.real:read' scope.
+            etoro-public:trade.real:write: Grants access to the 'etoro-public:trade.real:write' scope.
+            etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
+            etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
+            etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.
