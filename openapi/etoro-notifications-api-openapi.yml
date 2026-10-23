@@ -338,3 +338,9 @@ components:
             etoro-public:user-info:read: Grants access to the 'etoro-public:user-info:read' scope.
             etoro-public:watchlist:read: Grants access to the 'etoro-public:watchlist:read' scope.
             etoro-public:watchlist:write: Grants access to the 'etoro-public:watchlist:write' scope.
+x-provenance:
+  method: harvested
+  publisher: eToro
+  source: https://builders.etoro.com/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
